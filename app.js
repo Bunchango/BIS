@@ -3,6 +3,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const checkinRoutes = require("./routes/checkin");
 
 // Load global vars
 dotenv.config({path: "./config/config.env"})
@@ -26,7 +27,7 @@ app.get("/", (req, res) => {
 })
 
 // Set up routers
-
+app.use("/checkin", checkinRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
