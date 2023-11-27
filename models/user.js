@@ -24,20 +24,17 @@ const userSchema = new mongoose.Schema({
     },
 })
 
+// Can only borrow books from   the same library
 const readerSchema = new mongoose.Schema({
     watchlist: [{
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Book"
     }], 
-    // When a book is new due date, or available of wishlist book is > 0, or librarian send message(rethink), or book is due, then create a new notification
-    notification: [{ 
-        type: String, 
-    }], 
     joinedOn: {
         type: Date, 
         default: Date.now, 
         required: true,
-    }
+    },
 })
 
 const librarianSchema = new mongoose.Schema({
