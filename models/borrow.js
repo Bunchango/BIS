@@ -33,7 +33,7 @@ const pickupSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        enum: ["Picked up", "Scheduled"],
+        enum: ["Completed", "Scheduled", "Canceled"],
     }
 })
 
@@ -46,7 +46,7 @@ const loanSchema = new mongoose.Schema({
     status: {
         type: String, 
         required: true, 
-        enum: ["Returned", "Ongoing", "Past Due"]
+        enum: ["Returned", "Ongoing", "Past Due", "Canceled"]
     }
 })
 
