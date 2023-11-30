@@ -1,16 +1,17 @@
 const mongoose = require("mongoose");
 
+// All users can login using google and facebook (although admin and librarian will have their account created using their own gmail first)
+// Librarian and admin will have to use accounts (gmail) that does not already exist in the system
 const userSchema = new mongoose.Schema({
     username: {
         type: String, 
-        unique: [true, "username already exists"],
         required: [true, "username is required"], 
         minlength: [5, "username must be at least 6 characters"],
         maxlength: [12, "username must be at most 12 characters"],
     }, 
     password: {
         type: String, 
-        required: [true, "password is required"],
+        required: function() {return !this.googleId && !this.facebookId},
         validate: [passwordValidator, "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"]
     }, 
     gmail: {
@@ -21,10 +22,17 @@ const userSchema = new mongoose.Schema({
     profilePicture: {
         data: Buffer,
         contentType: String,
+        url: String,
+    }, 
+    googleId: {
+        type: String,
+    },
+    facebookId: {
+        type: String,
     },
 })
 
-// Can only borrow books from   the same library
+// Can only borrow books from the same library
 const readerSchema = new mongoose.Schema({
     watchlist: [{
         type: mongoose.Schema.Types.ObjectId, 
@@ -33,7 +41,6 @@ const readerSchema = new mongoose.Schema({
     joinedOn: {
         type: Date, 
         default: Date.now, 
-        required: true,
     },
 })
 
