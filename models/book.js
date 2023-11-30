@@ -36,11 +36,6 @@ const bookSchema = new mongoose.Schema({
         ref: "Library",
         required: true,
     }, 
-    amount: { // Available books field will have the same initial value as amount
-        type: Number, 
-        required: true, 
-        default: 1,
-    },
     dateImported: { // When add more books ( import more books ) update date imported field 
         type: Date, 
         default: Date.now, 
@@ -48,18 +43,42 @@ const bookSchema = new mongoose.Schema({
     },
 })
 
+const physicalBookSchema = new mongoose.Schema({
+    amount: { // Available books field will have the same initial value as amount
+        type: Number, 
+        required: true, 
+        default: 1,
+    },
+})
+
 // When user borrow book ( or schedule borrow ) reduce available books by 1
 // When user return book, increment available books by 1
 // When librarian add more book (import more book) increment both availableBooks and amount
-bookSchema.pre("save", function(next) {
+physicalBookSchema.pre("save", function(next) {
     if (this.isNew) {
         this.available = this.amount;
     }
     next();
 })
 
+const ebookSchema = new mongoose.Schema({
+    drm: {
+        data: Buffer,
+        contentType: String, 
+        required: [true, "drm is required"],
+    }
+})
+
 function imageLimit(val) {
     return val.length <= 3;
 }
 
-module.exports = mongoose.model("Book", bookSchema);  
+const Book = mongoose.model("Book", bookSchema);
+const PhysicalBook = Book.discriminator("PhysicalBook", physicalBookSchema);
+const EBook = Book.discriminator("EBook", ebookSchema);
+
+module.exports = {
+    Book, 
+    PhysicalBook, 
+    EBook,
+}
