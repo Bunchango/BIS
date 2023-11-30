@@ -49,7 +49,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
-    res.render("index", {user: req.user});
+    res.render("reader/homepage", {user: req.user});
+})
+
+// Redirect to the homepage
+app.get("/home-page", (req, res) => {
+    res.redirect("/");
+});
+
+// Redirect to the login & register page
+app.get("/sign-in", (req,res) => {
+    res.render("checkin/login")
+})
+
+app.get("/register", (req,res) => {
+    res.render("checkin/register")
 })
 
 // Set up routers
