@@ -5,12 +5,15 @@
     padding: 0;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: black;
+    list-style: none;
+    text-decoration: none;
 }
 
 #header {
     color: black;
     display: flex;
-    justify-content: flex-end;
+    justify-content:space-around;
+    padding: 10px;
 }
 
 #logo {
@@ -19,6 +22,37 @@
 }
 
 #account {
-    width: fit-content;
+    width: 150px;
     height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.fa-regular.fa-bell {
+    width: 40px;
+    height: fit-content;
+    font-size: 20px;
+}
+
+.fa-regular.fa-bookmark {
+    width: 40px;
+    height: fit-content;
+    font-size: 20px;
+}
+
+#account_img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+@media only screen and (max-width:992px) {
+    #header {
+        justify-content:space-between;
+    }
+}
+
+@media (max-width:600px) {
+    
 }
