@@ -9,5 +9,19 @@
     <h1>Sign in</h1>
     <a class="button google" href="/checkin/google">Sign in with Google</a>
     <a class="button facebook" href="/checkin/facebook">Sign in with Facebook</a>
+
+   <form action="login" method="POST">
+       <label for="gmail">Gmail:</label>
+       <input type="email" id="gmail" name="gmail" required><br>
+
+       <label for="password">Password:</label>
+       <input type="password" id="password" name="password" required><br>
+
+       <input type="submit" value="Login">
+   </form>
+
+    <% if (messages.error) {%>
+        <%= messages.error %>
+    <% } %>
 </body>
 </html>

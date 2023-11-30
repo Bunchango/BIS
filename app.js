@@ -5,6 +5,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const passport = require('passport');
 const session = require("express-session");
+const flash = require("express-flash");
 require('./config/passport');
 
 const checkinRoutes = require('./routes/checkin');
@@ -31,6 +32,8 @@ app.use(
     },
   }),
 );
+
+app.use(flash());
 
 // Initialize passport
 app.use(passport.initialize());

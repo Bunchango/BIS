@@ -1,11 +1,15 @@
 const router = require("express").Router();
 const passport = require("passport");
+const bcrypt = require("bcrypt"); 
+const {Reader} = require("./../models/user");
+const validateRegistration = require("./../config/validator");
+const { validationResult } = require("express-validator");
 
 // TODO: Modify login redirect for different types of users
 
 function checkAuthenticated(req, res, next) {
   if (!req.isAuthenticated()) {
-    return next(); // If authenticated then move to the next task
+    return next(); // If not authenticated then move to the next task
   }
   // Redirect to home page if already authenticated
   res.redirect("/");
@@ -15,6 +19,13 @@ function checkAuthenticated(req, res, next) {
 router.get('/login', checkAuthenticated, (req, res) => {
     res.render("checkin/login")
 })
+
+// Local login
+router.post('/login', checkAuthenticated, passport.authenticate('local', {
+    successRedirect: "/", 
+    failureRedirect: '/checkin/login',
+    failureFlash: true,
+}))
 
 // Logout
 router.get('/logout', (req, res) => {
@@ -33,11 +44,45 @@ router.get('/google/redirect', passport.authenticate('google', {failureRedirect:
 })
 
 // Sign in with facebok
-router.get('/facebook', passport.authenticate('facebook', {scope: ["email"]}))
+router.get('/facebook', passport.authenticate('facebook', {scope: ['email']}))
 
 // Facebook callback route
 router.get('/facebook/redirect', passport.authenticate('facebook', {failureRedirect: '/checkin/login'}), (req, res) => {
     res.redirect('/');
+})
+
+// Register
+router.get('/register', checkAuthenticated, (req, res) => {
+    res.render('checkin/register', {});
+})
+
+router.post('/register', validateRegistration, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('checkin/register', {errors: errors.array()})
+    }
+
+    let {username, gmail, password} = req.body;
+    username = username.trim();
+    gmail = gmail.trim(); 
+    password = password.trim();
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        let reader =  new Reader({
+            username: username, 
+            gmail: gmail, 
+            password: hashedPassword,
+        })
+        await reader.save();
+        res.redirect('/checkin/login');
+    } catch(e) {
+        if (e.code === 11000 || e.code === 11001) {
+            res.render('checkin/register', {errors: [{msg: "Account already exists"}]});
+        } else {
+            res.status(400).json({ errors: e });
+        }
+    }
 })
 
 module.exports = router;

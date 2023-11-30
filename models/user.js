@@ -6,13 +6,10 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String, 
         required: [true, "username is required"], 
-        minlength: [5, "username must be at least 6 characters"],
-        maxlength: [12, "username must be at most 12 characters"],
     }, 
     password: {
         type: String, 
         required: function() {return !this.googleId && !this.facebookId},
-        validate: [passwordValidator, "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"]
     }, 
     gmail: {
         type: String, 
@@ -42,6 +39,13 @@ const readerSchema = new mongoose.Schema({
         type: Date, 
         default: Date.now, 
     },
+    notification: [{
+        message: String, 
+        createdOn: {
+            type: Date,
+            default: Date.now,
+        }
+    }],
 })
 
 const librarianSchema = new mongoose.Schema({
@@ -60,9 +64,9 @@ const adminSchema = new mongoose.Schema({
     }
 })
 
-function passwordValidator(val) {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(val);
-}
+const userVerificationSchema = new mongoose.Schema({
+    
+});
 
 const User = mongoose.model("User", userSchema);
 const Reader = User.discriminator("Reader", readerSchema);

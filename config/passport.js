@@ -3,6 +3,8 @@ const {Reader, User} = require("./../models/user");
 require('dotenv').config({path: "./config/config.env"});
 const GoogleStrategy = require("passport-google-oauth20");
 const FacebookStrategy = require('passport-facebook');
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcrypt");
 
 // Serialize
 passport.serializeUser((user, done) => {
@@ -51,8 +53,9 @@ passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_ID, 
     clientSecret: process.env.FACEBOOK_SECRET,
     callbackURL: "/checkin/facebook/redirect",
-    profileFields: ["id", "displayName", "emails"]
+    profileFields: ["id", "displayName", "email", "photos"]
 }, (accessToken, refreshToken, profile, done) => {
+    console.log(profile);
     User.findOne({gmail: profile.emails[0].value}).then((currentUser) => {
         if (currentUser) {
             done(null, currentUser);
@@ -62,7 +65,7 @@ passport.use(new FacebookStrategy({
                     username: profile.displayName,
                     gmail: profile.emails[0].value, 
                     facebookId: profile.id, 
-                    profilePicture: {url: `http://graph.facebook.com/${profile.id}/picture?type=small&redirect=true&width=200&height=200`}, 
+                    profilePicture: {url: profile.photos[0].value}, 
                 }).save().then((newReader) => {
                     done(null, newReader);
                 })
@@ -74,3 +77,23 @@ passport.use(new FacebookStrategy({
 }))
 
 // Local Strategy
+passport.use(new LocalStrategy({
+    usernameField: "gmail", 
+    passwordField: "password",
+}, async (gmail, password, done) => {
+    const user = await User.findOne({gmail: gmail})
+    
+    if (!user) {
+        return done(null, false, {message: "Password incorrect or user not found"});
+    }
+
+    try {
+        if (await bcrypt.compare(password, user.password)) {
+            return done(null, user);
+        } else {
+            return done(null, false, {message: "Password incorrect or user not found"})
+        }
+    } catch(e) {
+        return done(e);
+    }
+}))
