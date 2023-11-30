@@ -56,11 +56,11 @@ app.get("/home-page", (req, res) => {
 
 // Redirect to the login & register page
 app.get("/sign-in", (req,res) => {
-    res.render("checkin/register")
+    res.render("checkin/login")
 })
 
-app.get("/login", (req,res) => {
-    res.render("checkin/login")
+app.get("/register", (req,res) => {
+    res.render("checkin/register")
 })
 
 // Set up routers
