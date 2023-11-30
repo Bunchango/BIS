@@ -46,7 +46,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
-    res.render("reader/homepage");
+    res.render("index", {user: req.user});
 })
 
 // Set up routers

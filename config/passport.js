@@ -72,3 +72,5 @@ passport.use(new FacebookStrategy({
         }
     })
 }))
+
+// Local Strategy
