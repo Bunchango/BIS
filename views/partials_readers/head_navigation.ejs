@@ -2,7 +2,7 @@
 <div id="header">
 
     <div id="logo">
-        <a href="/home-page">
+        <a href="home-page">
             <h1>Public library</h1>
         </a>
         <!-- <img src="" alt=""> -->
@@ -17,9 +17,18 @@
             <i class="fa-regular fa-bell"></i>
         </a>
         
-        <a href="">
-            <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
-        </a>
+        <% if (user) { %>
+            <a href="">
+                <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
+            </a>
+        <% } else { %>
+            <a href="/sign-in"> 
+                <div id="sign-in">Sign in</div>
+            </a>
+            <a href="/login">
+                <div id="login">Login</div>
+            </a>
+        <% } %>
     </div>
 
 </div>

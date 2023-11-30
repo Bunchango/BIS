@@ -46,13 +46,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
-    res.render("index", {user: req.user});
+    res.render("reader/homepage", {user: req.user});
 })
 
 // Redirect to the homepage
 app.get("/home-page", (req, res) => {
     res.redirect("/");
 });
+
+// Redirect to the login & register page
+app.get("/sign-in", (req,res) => {
+    res.render("checkin/register")
+})
+
+app.get("/login", (req,res) => {
+    res.render("checkin/login")
+})
 
 // Set up routers
 app.use("/checkin", checkinRoutes);

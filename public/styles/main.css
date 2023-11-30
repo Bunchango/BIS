@@ -47,6 +47,41 @@
     border-radius: 50%;
 }
 
+#sign-in {
+    width: 70px;
+    height: fit-content;
+    padding: 5px;
+    margin: 5px;
+    border: 0.5px black solid;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #D0D4CA;
+
+}
+
+#sign-in:hover {
+    box-shadow: 1px 1px 1px black;
+}
+
+#login {
+    width: 70px;
+    margin: 5px;
+    height: fit-content;
+    padding: 5px;
+    border: 0.5px black solid;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #EE4E34;
+    color: white;
+}   
+
+#login:hover {
+    box-shadow: 1px 1px 1px black;
+}
+
+
 @media only screen and (max-width:992px) {
     #header {
         justify-content:space-between;
