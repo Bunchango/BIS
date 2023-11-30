@@ -42,8 +42,11 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
 
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
 app.get("/", (req, res) => {
-    res.render("index", {user: req.user});
+    res.render("reader/homepage");
 })
 
 // Set up routers
