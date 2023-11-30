@@ -1,30 +1,41 @@
 const router = require("express").Router();
+const passport = require("passport");
 
-// Auth login
-router.get("/login", (req, res) => {
-    res.render("login");
+function checkAuthenticated(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return next(); // If authenticated then move to the next task
+  }
+  // Redirect to home page if already authenticated
+  res.redirect("/");
+}
+
+// Login
+router.get('/login', checkAuthenticated, (req, res) => {
+    res.render("checkin/login")
 })
 
-// Auth logout, the routing will be used in profile
-router.post("/logout", (req, res) => {
-    res.send("Logging out")
+// Logout
+router.get('/logout', (req, res) => {
+    req.logout((err) => {
+      console.log(err);
+    })
+    res.redirect('/');
 })
 
-// Register
-router.get("/register", (req, res) => {
-    res.send("Rendering registration");
+// Signin with google
+router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}))
+
+// Callback route google
+router.get('/google/redirect', passport.authenticate('google', {failureRedirect: '/checkin/login'}), (req, res) => {
+    res.redirect('/');
 })
 
-// Create account
-router.post("/register", (req, res) => {
-    res.send("Creating an account");
-})
+// Sign in with facebok
+router.get('/facebook', passport.authenticate('facebook'))
 
-// Auth with google
-router.get("/google", (req, res) => {
-    // Handle with passport
-    res.send("Logging in with google");
+// Facebook callback route
+router.get('/facebook/redirect', passport.authenticate('facebook', {failureRedirect: '/checkin/login'}), (req, res) => {
+    res.redirect('/');
 })
-
 
 module.exports = router;

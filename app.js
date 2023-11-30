@@ -3,7 +3,11 @@ const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const checkinRoutes = require("./routes/checkin");
+const passport = require('passport');
+const session = require("express-session");
+require('./config/passport');
+
+const checkinRoutes = require('./routes/checkin');
 
 // Load global vars
 dotenv.config({path: "./config/config.env"})
@@ -17,13 +21,29 @@ connectDB();
 // Enable cors
 app.use(cors());
 
+app.use(
+  session({
+    secret: "SUPER Secret Password",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 3600000,
+    },
+  }),
+);
+
+// Initialize passport
+app.use(passport.initialize());
+
+app.use(passport.session());
+
 // View engine
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render("index", {user: req.user});
 })
 
 // Set up routers
