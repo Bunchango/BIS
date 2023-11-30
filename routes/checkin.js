@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const passport = require("passport");
 
+// TODO: Modify login redirect for different types of users
+
 function checkAuthenticated(req, res, next) {
   if (!req.isAuthenticated()) {
     return next(); // If authenticated then move to the next task
@@ -31,7 +33,7 @@ router.get('/google/redirect', passport.authenticate('google', {failureRedirect:
 })
 
 // Sign in with facebok
-router.get('/facebook', passport.authenticate('facebook'))
+router.get('/facebook', passport.authenticate('facebook', {scope: ["email"]}))
 
 // Facebook callback route
 router.get('/facebook/redirect', passport.authenticate('facebook', {failureRedirect: '/checkin/login'}), (req, res) => {
