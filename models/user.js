@@ -64,10 +64,6 @@ const adminSchema = new mongoose.Schema({
     }
 })
 
-const userVerificationSchema = new mongoose.Schema({
-    
-});
-
 const User = mongoose.model("User", userSchema);
 const Reader = User.discriminator("Reader", readerSchema);
 const Librarian = User.discriminator("Librarian", librarianSchema);
