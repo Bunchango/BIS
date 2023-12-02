@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="styles/slider.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <title>Home Page</title>
+    <title>Home page</title>
 </head>
 <body>
-    
+    <% if (user) { %>
+        <h1> HELLO <%= user.username %></h1>
+        <img src="<%= user.profilePicture.url %>" />
+        <a href="/checkin/logout">Log out</a>
+    <% } else { %>
+        <h1> HELLO Guest</h1>
+    <% } %>
 </body>
 </html>
