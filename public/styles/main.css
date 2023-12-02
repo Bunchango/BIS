@@ -1,0 +1,209 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities; 
+
+/* This css will apply for common style of the website */
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    list-style: none;
+    text-decoration: none;
+}
+
+#header {
+    color: black;
+    display: flex;
+    justify-content:space-around;
+    padding: 10px;
+}
+
+#logo {
+    height: 40px;
+    width: fit-content;
+}
+
+#account {
+    width:fit-content;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+/* pop up modal */
+.pop-up-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 100;
+    background-color: white;
+    width: 500px;
+    max-width: 800%;
+}
+
+.pop-up-modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* notification */
+.fa-regular.fa-bell {
+    width: 40px;
+    height: fit-content;
+    font-size: 20px;
+}
+
+#notification {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.notification-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.notification-header .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.notification-header .close-modal {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.notification-body {
+    padding: 10px 15px;
+}
+
+/* bookmark */
+.fa-regular.fa-bookmark {
+    width: 40px;
+    height: fit-content;
+    font-size: 20px;
+}
+
+#book-mark {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.bookmark-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.bookmark-header .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.bookmark-header .close-modal {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.bookmark-body {
+    padding: 10px 15px;
+}
+
+/* --------------------- */
+
+#overlay {
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#account_img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+#sign-in {
+    width: 70px;
+    height: fit-content;
+    padding: 5px;
+    margin: 5px;
+    border: 0.5px black solid;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #D0D4CA;
+
+}
+
+#sign-in:hover {
+    box-shadow: 1px 1px 1px black;
+}
+
+#login {
+    width: 70px;
+    margin: 5px;
+    height: fit-content;
+    padding: 5px;
+    border: 0.5px black solid;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #EE4E34;
+    color: white;
+}   
+
+#login:hover {
+    box-shadow: 1px 1px 1px black;
+}
+
+
+@media only screen and (max-width:992px) {
+    #header {
+        justify-content:space-between;
+    }
+    .fa-regular.fa-bookmark {
+        width: 20px;
+    }
+    
+    .fa-regular.fa-bell {
+        width: 20px;
+    }
+}
+
+@media (max-width:600px) {
+    
+}

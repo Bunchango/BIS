@@ -8,9 +8,17 @@
 </head>
 
 <body>
-    <h1> HELLO WORLD</h1>
-    <!--Testing search bar-->
-    <%- include('partials/search.ejs') %>
+    <% if (user) { %>
+        <h1> HELLO <%= user.username %>
+        </h1>
+        <img src="<%= user.profilePicture.url %>" />
+        <a href="/checkin/logout">Log out</a>
+        <% } else { %>
+            <h1> HELLO Guest</h1>
+            <% } %>
+                <h1> HELLO WORLD</h1>
+                <!--Testing search bar-->
+                <%- include('partials/search.ejs') %>
 </body>
 
 </html>

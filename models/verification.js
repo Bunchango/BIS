@@ -1,0 +1,1 @@
+// Only reader (who use register) and librarian needs to verify their account gmail 
