@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities; 
+
 /* This css will apply for common style of the website */
 
 * {

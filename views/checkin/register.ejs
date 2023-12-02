@@ -3,37 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration</title>
-    <!-- Add your CSS styling here -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>register page</title>
 </head>
-
 <body>
-    <h1>Registration Form</h1>
-    <label for="error">
-        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
-        <ul class="error-list">
-            <% errors.forEach(function(error) { %>
-            <li><%= error.msg %></li>
-            <% }); %>
-        </ul>
-        <% } %>
-    </label>
-
-    <form method="post" action="register">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-
-        <label for="gmail">Email:</label>
-        <input type="email" id="gmail" name="gmail" required>
-        <br>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-
-        <button type="submit">Register</button>
-    </form>
+    <div class="min-h-screen py-40" style="background-image: linear-gradient(115deg, #FCEDDA, #EE4E34)">
+        <div class="container mx-auto">
+          <div class="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
+            <div class="w-full lg:w-full py-16 px-12">
+              <h1 class="text-3xl mb-4">Register</h1>
+              <p class="mb-4">
+                Create your account. It’s free and only take a minute
+              </p>
+              <form action="#">
+                <div class="grid grid-cols-2 gap-5">
+                  <input type="text" placeholder="Firstname" class="border border-gray-400 py-1 px-2">
+                  <input type="text" placeholder="Lastname" class="border border-gray-400 py-1 px-2">
+                </div>
+                <div class="mt-5">
+                  <input type="text" placeholder="Email" class="border border-gray-400 py-1 px-2 w-full">
+                </div>
+                <div class="mt-5">
+                  <input type="password" placeholder="Password" class="border border-gray-400 py-1 px-2 w-full">
+                </div>
+                <div class="mt-5">
+                  <input type="password" placeholder="Confirm Password" class="border border-gray-400 py-1 px-2 w-full">
+                </div>
+                <div class="mt-5">
+                  <input type="checkbox" class="border border-gray-400">
+                  <span>
+                    I accept the <a href="#" class="text-black-500 font-semibold">Terms of Use</a> &  <a href="#" class="text-black-500 font-semibold">Privacy Policy</a> 
+                  </span>
+                </div>
+                <div class="mt-5">
+                  <button class="w-full bg-[#EE4E34] py-3 rounded-xl text-center text-white hover:scale-105 duration-300">Register Now</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
-
 </html>
