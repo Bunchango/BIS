@@ -115,6 +115,7 @@ router.post('/register-test', validateRegistration, async (req, res) => {
     }
 })
 
+// Verify page, when open automatically verify user
 router.get('/verify', checkAuthenticated, async (req, res) => {
     const email = req.query.email;
     const token = req.query.token;
