@@ -63,8 +63,10 @@ physicalBookSchema.pre("save", function (next) {
 
 const ebookSchema = new mongoose.Schema({
     drm: {
-        data: Buffer,
-        contentType: String,
+        type: [{
+            data: 'Buffer',
+            contentType: String,
+        }],
         required: [true, "drm is required"],
     }
 })
