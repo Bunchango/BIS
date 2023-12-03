@@ -5,20 +5,16 @@ const mongoose = require("mongoose");
 const userVerificationSchema = new mongoose.Schema({
     username: {
         type: String, 
-        required: [true, "username is required"], 
     }, 
     password: {
         type: String, 
-        required: function() {return !this.googleId && !this.facebookId},
     }, 
     gmail: {
         type: String, 
         unique: [true, "email already exists"], 
-        required: [true, "gmail is required"]
     }, 
     verificationCode: {
         type: String, 
-        required: true, 
     },
     createdAt: {
         type: Date, 

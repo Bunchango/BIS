@@ -165,4 +165,6 @@ router.get('/verify', checkAuthenticated, async (req, res) => {
     }
 })
 
+// Forgot password route
+
 module.exports = router;
