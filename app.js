@@ -60,11 +60,6 @@ app.get("/", (req, res) => {
     }
 })
 
-// Redirect to the homepage
-app.get("/home-page", (req, res) => {
-    res.redirect("/");
-});
-
 // Set up routers
 app.use("/checkin", checkinRoutes);
 app.use("/books", readerRoutes);
