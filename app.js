@@ -9,9 +9,10 @@ const flash = require("express-flash");
 require('./config/passport');
 
 const checkinRoutes = require('./routes/checkin');
+const bookRoutes = require('./routes/books');
 
 // Load global vars
-dotenv.config({path: "./config/config.env"})
+dotenv.config({ path: "./config/config.env" })
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -23,14 +24,14 @@ connectDB();
 app.use(cors());
 
 app.use(
-  session({
-    secret: "SUPER Secret Password",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 3600000,
-    },
-  }),
+    session({
+        secret: "SUPER Secret Password",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 3600000,
+        },
+    }),
 );
 
 app.use(flash());
@@ -49,7 +50,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
-    res.render("reader/homepage", {user: req.user});
+    res.render("reader/homepage", { user: req.user });
 })
 
 // Redirect to the homepage
@@ -58,16 +59,17 @@ app.get("/home-page", (req, res) => {
 });
 
 // Redirect to the login & register page
-app.get("/sign-in", (req,res) => {
+app.get("/sign-in", (req, res) => {
     res.render("checkin/login")
 })
 
-app.get("/register", (req,res) => {
+app.get("/register", (req, res) => {
     res.render("checkin/register")
 })
 
 // Set up routers
 app.use("/checkin", checkinRoutes);
+app.use("/books", bookRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);

@@ -1,5 +1,8 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const Book = require('./../models/book');
+
+// function to get an array of all tags in books collection
 
 async function getTags() {
   try {
@@ -10,7 +13,9 @@ async function getTags() {
   }
 };
 
-router.get('/books', async (req, res) => {
+// GET books for search function
+
+router.get('/', async (req, res) => {
   try {
     const page = parseInt(req.query.page) - 1 || 0;
     const limit = parseInt(req.query.limit) || 10;
@@ -18,11 +23,13 @@ router.get('/books', async (req, res) => {
     let sort = req.query.sort || "name";
     let tag = req.query.tag || "All";
 
-    if (tag === "All") {
-      tag = [...getTags()]
-    } else {
-      tag = req.query.tag.split(",");
-    }
+    tag === "All"
+      ? (tag = [...getTags()])
+      : (tag = req.query.tag.split(","));
+
+    req.query.sort
+      ? (sort = req.query.sort.split(","))
+      : (sort = [sort]);
 
     let sortBy = {};
     if (sort[1]) {
@@ -31,10 +38,36 @@ router.get('/books', async (req, res) => {
       sortBy[sort[0]] = "asc"
     };
 
-    const books = await Book.find({ name: { $regex: search, $options: "i" } });
+    const books = await Book.find({ name: { $regex: search, $options: "i" } })
+      .where("tags")
+      .in([...tag])
+      .sort(sortBy)
+      .skip(page * limit)
+      .limit(limit);
+
+    const count = await Book.countDocuments({
+      tag: { $in: [...tag] },
+      name: { $regex: search, $options: "i" },
+    });
+
+    // Pagination for search result
+
+    const result = {
+      error: false,
+      total,
+      page: page + 1,
+      limit,
+      tag: tags,
+      books,
+    };
+
+    // return a json result
+    // TODO: create frontend and hook up to this route
+    res.status(200).json(result);
+
   } catch (err) {
     console.log(err);
-    res.status(500).send("Server error");
+    res.redirect("/");
   }
 });
 
