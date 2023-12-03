@@ -4,8 +4,9 @@ const bcrypt = require("bcrypt");
 const {Reader, User, Librarian} = require("./../models/user");
 const Library = require("./../models/library");
 const {ReaderVerification, UserVerification} = require("./../models/verification");
+const RecoverAccount = require("./../models/recover");
 const validateRegistration = require("./../config/validator");
-const { validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 require('dotenv').config({path: "./../config/config.env"});
@@ -65,7 +66,7 @@ router.get('/facebook/redirect', passport.authenticate('facebook', {failureRedir
 
 // Register
 router.get('/register-test', checkAuthenticated, (req, res) => {
-    res.render('checkin/register-test', {});
+    res.render('checkin/register-test', {errors: null});
 })
 
 // Flow: Check if account already exists => create temporary account => Send verify email => User verify account then add account to database
@@ -75,10 +76,14 @@ router.post('/register-test', validateRegistration, async (req, res) => {
         return res.render('checkin/register-test', {errors: errors.array()})
     }
 
-    let {username, gmail, password} = req.body;
+    let {username, gmail, password, confirmPassword} = req.body;
     username = username.trim();
     gmail = gmail.trim(); 
     password = password.trim();
+
+    if (password !== confirmPassword) {
+        return res.render('checkin/register-test', {errors: [{msg: "Password different from confirm password"}]});
+    }
 
     // Check if account exist
     const account = await User.findOne({gmail: gmail});
@@ -101,7 +106,7 @@ router.post('/register-test', validateRegistration, async (req, res) => {
         await reader.save();
 
         // Send verification email
-        const url = `http://localhost:5000/checkin/verify?token=${token}?email=${gmail}`;
+        const url = `http://localhost:5000/checkin/verify?token=${token}&email=${gmail}`;
         transporter.sendMail({
             to: gmail, 
             subject: "VxNhe email verification",
@@ -121,7 +126,8 @@ router.get('/verify', checkAuthenticated, async (req, res) => {
     const token = req.query.token;
     
     try {
-        const verifyAccount = await UserVerification.findOne({email: email});
+        const verifyAccount = await UserVerification.findOne({gmail: email});
+
         if (verifyAccount) {
             // If verify on time then check if correct and create a new account based on account type and delete the verifying account
             if (token === verifyAccount.verificationCode) {
@@ -148,23 +154,113 @@ router.get('/verify', checkAuthenticated, async (req, res) => {
                     });
                 }
                 // Delete the record after verification
-                await verifyAccount.remove();
+                await UserVerification.deleteOne({gmail: email});
                 // Create a new record
                 await user.save();
-                res.render('/checkin/verify', {verified: true});
+                res.render('checkin/verify', {verified: true, msg: "Successful"});
             } else {
-                res.render('/checkin/verify', {verified: false});
+                res.render('checkin/verify', {verified: false, msg: "Invalid code"});
             }
         } else {
             // If not render the page showing no account
-            res.render('checkin/verify', {verified: false});
+            res.render('checkin/verify', {verified: false, msg: "Link expired"});
         }
     } catch(e) {
         // Show error
         res.status(400).json({ errors: e });
     }
-})
+}) 
 
 // Forgot password route
+router.get('/forgot-password', (req, res) => {
+    res.render('checkin/forgot-password', {error: null});
+})
+
+router.post('/forgot-password', async (req, res) => {
+    // Change password
+    let email = req.body.email;
+
+    try {
+        const account = await User.findOne({gmail: email, password: { $exists: true }}); 
+
+        if (!account) {
+            // If account does not exist, show error account does not exist
+            return res.render('checkin/forgot-password', {error: true, msg: "Account does not exist"})
+        } else {
+            // Send recover email to user's email if exist
+            const token =  crypto.randomBytes(20).toString("hex");
+
+            const recoverAccount = new RecoverAccount({
+                gmail: email, 
+                recoverCode: token,
+            })
+            await recoverAccount.save();
+
+            // Send email to user
+            const url = `http://localhost:5000/checkin/reset-password?token=${token}&email=${email}`;
+            transporter.sendMail({
+                to: email, 
+                subject: "VxNhe change password",
+                html: `Click <a href="${url}">here</a> to change your account's password`
+            })
+            res.redirect('/checkin/login');
+        }
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+router.get('/reset-password', async (req, res) => {
+    // Verify if the link has expired
+    const email = req.query.email;
+    const token = req.query.token;
+
+    try {
+        const account = await RecoverAccount.findOne({
+            gmail: email,
+        })
+        if (!account) {
+            res.render('checkin/reset-password', {error: true, msg: ["Reset password link expired"]});
+        } else {
+            if (account.recoverCode === token) {
+                // If correct shows no error and show the email and allow reset password form
+                // Delete the record
+                await RecoverAccount.deleteOne({gmail: email});
+                res.render('checkin/reset-password', {error: false, email: email});
+            } else {
+                res.render('checkin/reset-password', {error: true, msg: ["Invalid recover code"]});
+            }
+        }
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+router.post('/reset-password', 
+    body("password")
+    .isLength({ min: 8, max: 20 })
+    .withMessage("Password must be between 8 and 20 characters")
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/)
+    .withMessage("Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
+    ,async (req, res) => {
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('checkin/reset-password', {error: false, msg: errors.array(), email: email})
+    }
+
+    // Check if password suit condition
+    try {
+        const newPassword = await bcrypt.hash(password, 10);
+        // Change password  
+        await User.findOneAndUpdate({gmail: email}, {password: newPassword}, {new: true, runValidators: true});
+        res.redirect("/checkin/login");
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
 
 module.exports = router;

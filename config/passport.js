@@ -82,7 +82,6 @@ passport.use(new LocalStrategy({
     passwordField: "password",
 }, async (gmail, password, done) => {
     const user = await User.findOne({gmail: gmail})
-    
     if (!user) {
         return done(null, false, {message: "Password incorrect or user not found"});
     }
