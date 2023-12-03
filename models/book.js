@@ -4,7 +4,7 @@ const bookSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minlength: [5, "Book name must be at least 5 characters"], 
+        minlength: [5, "Book name must be at least 5 characters"],
         maxlength: [24, "Book name must be at most 24 characters"]
     },
     images: {
@@ -16,34 +16,34 @@ const bookSchema = new mongoose.Schema({
         validate: [imageLimit, "Images exceeds the limit of 3"],
     },
     author: {
-        type: String, 
-        required: true, 
-        minlength: [5, "Author name must be at least 5 characters"], 
+        type: String,
+        required: true,
+        minlength: [5, "Author name must be at least 5 characters"],
         maxlength: [24, "Author name must be at most 24 characters"]
-    }, 
+    },
     tags: {
         type: [{
-            type: String, 
+            type: String,
             enum: [
-                "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History", "Science", "Fantasy", "Sci-fi", 
+                "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History", "Science", "Fantasy", "Sci-fi",
                 "Horror", "Action", "Adventure", "Children's", "Comedy", "Poetry", "Philosophy", "Religion"
             ]
         }],
-        required: true, 
-    }, 
+        required: true,
+    },
     library: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Library",
         required: true,
-    }, 
+    },
     dateImported: { // When add more books ( import more books ) update date imported field 
-        type: Date, 
-        default: Date.now, 
+        type: Date,
+        default: Date.now,
         required: true,
     },
     amount: { // Available books field will have the same initial value as amount
-        type: Number, 
-        required: true, 
+        type: Number,
+        required: true,
         default: 1,
     },
 })
