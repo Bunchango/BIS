@@ -9,7 +9,7 @@ const flash = require("express-flash");
 require('./config/passport');
 
 const checkinRoutes = require('./routes/checkin');
-const bookRoutes = require('./routes/books');
+const readerRoutes = require('./routes/reader');
 
 // Load global vars
 dotenv.config({ path: "./config/config.env" })
@@ -67,7 +67,7 @@ app.get("/home-page", (req, res) => {
 
 // Set up routers
 app.use("/checkin", checkinRoutes);
-app.use("/books", bookRoutes);
+app.use("/books", readerRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);

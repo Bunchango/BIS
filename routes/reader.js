@@ -3,7 +3,6 @@ const router = express.Router();
 const Book = require('./../models/book');
 
 // function to get an array of all tags in books collection
-// TODO: Merge book routes with reader routes
 
 async function getTags() {
   try {
