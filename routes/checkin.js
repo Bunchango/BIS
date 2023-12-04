@@ -226,7 +226,8 @@ router.get('/reset-password', async (req, res) => {
                 // If correct shows no error and show the email and allow reset password form
                 // Delete the record
                 await RecoverAccount.deleteOne({gmail: email});
-                res.render('checkin/reset-password', {error: false, email: email});
+                req.session.email = email;
+                res.render('checkin/reset-password', {error: false, email: email, msg: undefined});
             } else {
                 res.render('checkin/reset-password', {error: true, msg: ["Invalid recover code"]});
             }
@@ -244,8 +245,13 @@ router.post('/reset-password',
     .withMessage("Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
     ,async (req, res) => {
 
-    const email = req.body.email;
+    const email = req.session.email;
     const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+
+    if (password !== confirmPassword) {
+        return res.render('checkin/reset-password', {error: false, msg: ["Confirm password and password are different"], email: email})
+    }
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -257,6 +263,7 @@ router.post('/reset-password',
         const newPassword = await bcrypt.hash(password, 10);
         // Change password  
         await User.findOneAndUpdate({gmail: email}, {password: newPassword}, {new: true, runValidators: true});
+
         res.redirect("/checkin/login");
     } catch(e) {
         res.status(400).json({ errors: e });
