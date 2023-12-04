@@ -53,7 +53,7 @@ router.get('/google', passport.authenticate('google', {scope: ['profile', 'email
 
 // Callback route google
 router.get('/google/redirect', passport.authenticate('google', {failureRedirect: '/checkin/login'}), (req, res) => {
-    res.redirect('/');
+    res.redirect('/homepage');
 })
 
 // Sign in with facebok
@@ -61,7 +61,7 @@ router.get('/facebook', passport.authenticate('facebook', {scope: ['email']}))
 
 // Facebook callback route
 router.get('/facebook/redirect', passport.authenticate('facebook', {failureRedirect: '/checkin/login'}), (req, res) => {
-    res.redirect('/');
+    res.redirect('/homepage');
 })
 
 // Register
