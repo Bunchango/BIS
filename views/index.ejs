@@ -2,22 +2,49 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Homepage</title>
 </head>
+<%- include('partials_readers/head_navigation.ejs') %>
+<body class="font-sans">
+  <section class="h-screen flex items-center justify-center bg-blue-500 text-white">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold">Slogan</h1>
+    </div>
+  </section>
+  <!-- Why Use Our Page Section -->
+  <section class="h-screen flex items-center justify-center bg-green-500 text-white">
+    <div class="text-center">
+      <h2 class="text-3xl font-semibold">Why Use Our Page</h2>
+      <p class="mt-4">Brief description of why users should choose this page.</p>
+    </div>
+  </section>
 
-<body>
-    <% if (user) { %>
-        <h1> HELLO <%= user.username %>
-        </h1>
-        <img src="<%= user.profilePicture.url %>" />
-        <a href="/checkin/logout">Log out</a>
-        <% } else { %>
-            <h1> HELLO Guest</h1>
-            <% } %>
+  <section class="h-screen flex items-center justify-center bg-yellow-500 text-white">
+    <div class="text-center">
+      <h2 class="text-3xl font-semibold">What We Are Made For</h2>
+      <p class="mt-4">Description of the purpose and goals of your page.</p>
+    </div>
+  </section>
 
-                <%- include('footer.ejs') %>
+  <!-- Our Summary Statistics Section -->
+  <section class="h-screen flex items-center justify-center bg-purple-500 text-white">
+    <div class="text-center">
+      <h2 class="text-3xl font-semibold">Our Summary Statistics</h2>
+      <p class="mt-4">Key statistics or achievements of your page.</p>
+    </div>
+  </section>
+
+  <!-- Join Us Now Section -->
+  <section class="h-screen flex items-center justify-center bg-red-500 text-white">
+    <div class="text-center">
+      <h2 class="text-3xl font-semibold">Join Us Now</h2>
+      <p class="mt-4">Encourage users to sign up or take action.</p>
+      <button class="bg-white text-red-500 px-4 py-2 mt-4 rounded-full">Sign Up</button>
+    </div>
+  </section>
+
 </body>
-
 </html>
