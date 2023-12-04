@@ -51,7 +51,7 @@ app.use(express.static('public'));
 
 app.get("/", (req, res) => {
     // If user has not login render reader's home page, if logged in render respective user's home page
-    res.render("index");
+    res.render("index", {user: req.user});
 })
 
 // TODO: Recheck later when done main pages 
