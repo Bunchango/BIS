@@ -4,7 +4,7 @@ const bookSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minlength: [5, "Book name must be at least 5 characters"], 
+        minlength: [5, "Book name must be at least 5 characters"],
         maxlength: [24, "Book name must be at most 24 characters"]
     },
     images: {
@@ -16,37 +16,34 @@ const bookSchema = new mongoose.Schema({
         validate: [imageLimit, "Images exceeds the limit of 3"],
     },
     author: {
-        type: String, 
-        required: true, 
-        minlength: [5, "Author name must be at least 5 characters"], 
+        type: String,
+        required: true,
+        minlength: [5, "Author name must be at least 5 characters"],
         maxlength: [24, "Author name must be at most 24 characters"]
-    }, 
+    },
     tags: {
         type: [{
-            type: String, 
+            type: String,
             enum: [
-                "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History", "Science", "Fantasy", "Sci-fi", 
+                "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History", "Science", "Fantasy", "Sci-fi",
                 "Horror", "Action", "Adventure", "Children's", "Comedy", "Poetry", "Philosophy", "Religion"
             ]
         }],
-        required: true, 
-    }, 
+        required: true,
+    },
     library: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Library",
         required: true,
-    }, 
+    },
     dateImported: { // When add more books ( import more books ) update date imported field 
-        type: Date, 
-        default: Date.now, 
+        type: Date,
+        default: Date.now,
         required: true,
     },
-})
-
-const physicalBookSchema = new mongoose.Schema({
     amount: { // Available books field will have the same initial value as amount
-        type: Number, 
-        required: true, 
+        type: Number,
+        required: true,
         default: 1,
     },
 })
@@ -54,19 +51,11 @@ const physicalBookSchema = new mongoose.Schema({
 // When user borrow book ( or schedule borrow ) reduce available books by 1
 // When user return book, increment available books by 1
 // When librarian add more book (import more book) increment both availableBooks and amount
-physicalBookSchema.pre("save", function(next) {
+bookSchema.pre("save", function(next) {
     if (this.isNew) {
         this.available = this.amount;
     }
     next();
-})
-
-const ebookSchema = new mongoose.Schema({
-    drm: {
-        data: Buffer,
-        contentType: String, 
-        required: [true, "drm is required"],
-    }
 })
 
 function imageLimit(val) {
@@ -74,11 +63,5 @@ function imageLimit(val) {
 }
 
 const Book = mongoose.model("Book", bookSchema);
-const PhysicalBook = Book.discriminator("PhysicalBook", physicalBookSchema);
-const EBook = Book.discriminator("EBook", ebookSchema);
 
-module.exports = {
-    Book, 
-    PhysicalBook, 
-    EBook,
-}
+module.exports = Book;

@@ -9,9 +9,10 @@ const flash = require("express-flash");
 require('./config/passport');
 
 const checkinRoutes = require('./routes/checkin');
+const readerRoutes = require('./routes/reader');
 
 // Load global vars
-dotenv.config({path: "./config/config.env"})
+dotenv.config({ path: "./config/config.env" })
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -23,14 +24,14 @@ connectDB();
 app.use(cors());
 
 app.use(
-  session({
-    secret: "SUPER Secret Password",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 3600000,
-    },
-  }),
+    session({
+        secret: "SUPER Secret Password",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 3600000,
+        },
+    }),
 );
 
 app.use(flash());
@@ -49,25 +50,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
-    res.render("reader/homepage", {user: req.user});
+    // If user has not login render reader's home page, if logged in render respective user's home page
+    res.render("index", {user: req.user});
 })
 
-// Redirect to the homepage
-app.get("/home-page", (req, res) => {
-    res.redirect("/");
-});
-
-// Redirect to the login & register page
-app.get("/sign-in", (req,res) => {
-    res.render("checkin/login")
-})
-
-app.get("/register", (req,res) => {
-    res.render("checkin/register")
+// TODO: Recheck later when done main pages 
+app.get("/homepage", (req, res) => {
+    // If user has not login render reader's home page, if logged in render respective user's home page
+    if (!req.user || req.user.__t === "Reader") {
+        res.render("reader/homepage", {user: req.user});
+    } else if (req.user && req.user.__t === "Librarian") {
+        res.render("librarian/library", {user: req.user});
+    } else if (req.user && req.user.__t === "Library") {
+        res.render("admin/library", {user: req.user});
+    } 
 })
 
 // Set up routers
 app.use("/checkin", checkinRoutes);
+app.use("/reader", readerRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);

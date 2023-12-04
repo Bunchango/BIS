@@ -55,7 +55,6 @@ passport.use(new FacebookStrategy({
     callbackURL: "/checkin/facebook/redirect",
     profileFields: ["id", "displayName", "email", "photos"]
 }, (accessToken, refreshToken, profile, done) => {
-    console.log(profile);
     User.findOne({gmail: profile.emails[0].value}).then((currentUser) => {
         if (currentUser) {
             done(null, currentUser);
@@ -82,7 +81,6 @@ passport.use(new LocalStrategy({
     passwordField: "password",
 }, async (gmail, password, done) => {
     const user = await User.findOne({gmail: gmail})
-    
     if (!user) {
         return done(null, false, {message: "Password incorrect or user not found"});
     }

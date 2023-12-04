@@ -19,8 +19,8 @@
                 <h2 class="font-bold text-2xl text-[#CAA064] ">Login</h2>
                 <p class="text-sm mt-4 text-[#CAA064]">Login and educate yourself for the greater good</p>
                 <form action="login" class="flex flex-col gap-4" method="POST">
-                    <input class="p-2 mt-8 rounded-x1 border" type="text" name="email" placeholder="Email" required>
-                    <input class="p-2 rounded-x1 border" type="password" name="password" placeholder="Password" required>
+                    <input class="p-2 mt-8 rounded-x1 border" type="text" name="gmail" placeholder="Email" required id="gmail">
+                    <input class="p-2 rounded-x1 border" type="password" name="password" placeholder="Password" required id="password">
                     <input type="submit" value="Login" class="bg-[#CAA064] rounded-xl text-white py-2 hover:scale-105 duration-300">
                 </form>
                 <% if (messages.error) {%>
@@ -45,19 +45,19 @@
                     Login with Facebook</a>
 
                     <div class="mt-5 text-xs border-b border-[#CAA064] py-4 text-[#CAA064]">
-                        <a href="#">Forgot your password?</a>
+                        <a href="/checkin/forgot-password">Forgot your password?</a>
                     </div>
 
                     <div class="mt-3 text-xs flex justify-between items-center text-[#CAA064]">
                         <p>Don't have an account?</p>
-                        <a href="/register" class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">Register</a>
+                        <a href="/checkin/register" class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">Register</a>
                     </div>
             </div>
 
             <!-- image -->
 
             <div class="md:block hidden w-1/2">
-                <img class="rounded-2x1" src="images/login.jpg" alt="Login Image">
+                <img class="rounded-2x1" src="/images/login.jpg" alt="Login Image">
             </div>
         </div>
     </section>
