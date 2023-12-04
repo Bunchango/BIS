@@ -34,6 +34,12 @@ app.use(
     }),
 );
 
+// Prevent users from going back
+app.use((req, res, next) => {
+    res.setHeader("Cache-Control", "no-store");
+    next();
+});
+
 app.use(flash());
 
 // Initialize passport
