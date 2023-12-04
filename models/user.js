@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 // All users can login using google and facebook (although admin and librarian will have their account created using their own gmail first)
 // Librarian and admin will have to use accounts (gmail) that does not already exist in the system
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String, 
@@ -56,22 +57,12 @@ const librarianSchema = new mongoose.Schema({
     }
 })
 
-const adminSchema = new mongoose.Schema({
-    library: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Library",
-        required: true
-    }
-})
-
 const User = mongoose.model("User", userSchema);
 const Reader = User.discriminator("Reader", readerSchema);
 const Librarian = User.discriminator("Librarian", librarianSchema);
-const Admin = User.discriminator("Admin", adminSchema);
 
 module.exports = {
   User,
   Reader,
   Librarian,
-  Admin,
 };
