@@ -15,6 +15,7 @@
               <p class="mb-4">
                 Create your account. It’s free and only take a minute
               </p>
+              
               <form action="#">
                 <div class="grid grid-cols-2 gap-5">
                   <input type="text" placeholder="Firstname" class="border border-gray-400 py-1 px-2">
@@ -39,6 +40,18 @@
                   <button class="w-full bg-[#EE4E34] py-3 rounded-xl text-center text-white hover:scale-105 duration-300">Register Now</button>
                 </div>
               </form>
+              <!-- ----------------- -->
+              <label for="error">
+                <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                <ul class="error-list">
+                    <% errors.forEach(function(error) { %>
+                    <li><%= error.msg %></li>
+                    <% }); %>
+                </ul>
+                <% } %>
+              </label>
+               <!-- ----------------- -->
+               
             </div>
           </div>
         </div>
