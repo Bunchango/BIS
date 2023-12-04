@@ -12,7 +12,22 @@
 
   <title>Homepage</title>
 </head>
-
+<header>    
+    <div id="account">
+        <% if (user) { %>
+            <a href="">
+                <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
+            </a>
+        <% } else { %>
+            <a href="checkin/login"> 
+                <div id="login">Login</div>
+            </a>
+            <a href="checkin/register">
+                <div id="register">Join</div>
+            </a>
+        <% } %>
+    </div>
+</header>
 <body class="font-sans">
   <section class="h-screen flex items-center justify-center bg-blue-500 text-white">
     <div class="text-center">
@@ -45,8 +60,8 @@
   <section class="h-screen flex items-center justify-center bg-red-500 text-white">
     <div class="text-center">
       <h2 class="text-3xl font-semibold">Join Us Now</h2>
-      <p class="mt-4">Encourage users to sign up or take action.</p>
-      <button class="bg-white text-red-500 px-4 py-2 mt-4 rounded-full">Sign Up</button>
+      <p class="mt-2 mb-2">Encourage users to sign up or take action.</p>
+      <a href="checkin/register" class="bg-white text-red-500 px-4 py-2 rounded-full ">Sign Up</a>
     </div>
   </section>
 

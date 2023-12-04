@@ -16,32 +16,39 @@
                 Create your account. It’s free and only take a minute
               </p>
               
-              <form action="#">
+              <form action="register" method="POST">
                 
                 <div class="mt-5">
-                  <input type="text" placeholder="Username" class="border border-gray-400 py-1 px-2 w-full">
+                  <input type="text" placeholder="Username" class="border border-gray-400 py-1 px-2 w-full" id="username" name="username">
                 </div>
                 <div class="mt-5">
-                  <input type="text" placeholder="Email" class="border border-gray-400 py-1 px-2 w-full">
+                  <input type="text" placeholder="Email" class="border border-gray-400 py-1 px-2 w-full" id="gmail" name="gmail">
                 </div>
                 <div class="mt-5">
-                  <input type="password" placeholder="Password" class="border border-gray-400 py-1 px-2 w-full">
+                  <input type="password" placeholder="Password" class="border border-gray-400 py-1 px-2 w-full" id="password" name="password">
                 </div>
                 <div class="mt-5">
-                  <input type="password" placeholder="Confirm Password" class="border border-gray-400 py-1 px-2 w-full">
+                  <input type="password" placeholder="Confirm Password" class="border border-gray-400 py-1 px-2 w-full" id="confirmPassword" name="confirmPassword">
                 </div>
                 <div class="mt-5">
-                  <input type="checkbox" class="border border-gray-400">
+                  <input type="checkbox" class="border border-gray-400" id="acceptTerms" name="acceptTerms">
                   <span>
                     I accept the <a href="#" class="text-black-500 font-semibold">Terms of Use</a> &  <a href="#" class="text-black-500 font-semibold">Privacy Policy</a> 
                   </span>
                 </div>
                 <div class="mt-5">
-                  <button class="w-full bg-[#EE4E34] py-3 rounded-xl text-center text-white hover:scale-105 duration-300">Register Now</button>
+                  <input class="w-full bg-[#EE4E34] py-3 rounded-xl text-center text-white hover:scale-105 duration-300" type="submit" value="Submit">
                 </div>
               </form>
               <!-- ----------------- -->
-              <!-- <ERROR WHEN REGISTER> -->
+              <% if (errors && errors.length > 0) { %>
+                <ul>
+                    <% errors.forEach(error => { %>
+                        <li><%= error.msg %></li>
+                    <% }); %>
+                </ul>
+             <% } %>
+              
               <!-- ----------------- -->
                
             </div>
