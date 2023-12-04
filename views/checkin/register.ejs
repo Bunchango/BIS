@@ -17,9 +17,9 @@
               </p>
               
               <form action="#">
-                <div class="grid grid-cols-2 gap-5">
-                  <input type="text" placeholder="Firstname" class="border border-gray-400 py-1 px-2">
-                  <input type="text" placeholder="Lastname" class="border border-gray-400 py-1 px-2">
+                
+                <div class="mt-5">
+                  <input type="text" placeholder="Username" class="border border-gray-400 py-1 px-2 w-full">
                 </div>
                 <div class="mt-5">
                   <input type="text" placeholder="Email" class="border border-gray-400 py-1 px-2 w-full">
@@ -41,16 +41,8 @@
                 </div>
               </form>
               <!-- ----------------- -->
-              <label for="error">
-                <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
-                <ul class="error-list">
-                    <% errors.forEach(function(error) { %>
-                    <li><%= error.msg %></li>
-                    <% }); %>
-                </ul>
-                <% } %>
-              </label>
-               <!-- ----------------- -->
+              
+              <!-- ----------------- -->
                
             </div>
           </div>

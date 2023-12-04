@@ -157,7 +157,7 @@
     border-radius: 50%;
 }
 
-#sign-in {
+#login {
     width: 70px;
     height: fit-content;
     padding: 5px;
@@ -170,11 +170,11 @@
 
 }
 
-#sign-in:hover {
+#login:hover {
     box-shadow: 1px 1px 1px black;
 }
 
-#login {
+#register {
     width: 70px;
     margin: 5px;
     height: fit-content;
@@ -187,7 +187,7 @@
     color: white;
 }   
 
-#login:hover {
+#register:hover {
     box-shadow: 1px 1px 1px black;
 }
 

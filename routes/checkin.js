@@ -65,15 +65,15 @@ router.get('/facebook/redirect', passport.authenticate('facebook', {failureRedir
 })
 
 // Register
-router.get('/register-test', checkAuthenticated, (req, res) => {
-    res.render('checkin/register-test', {errors: null});
+router.get('/register', checkAuthenticated, (req, res) => {
+    res.render('checkin/register', {errors: null});
 })
 
 // Flow: Check if account already exists => create temporary account => Send verify email => User verify account then add account to database
-router.post('/register-test', validateRegistration, async (req, res) => {
+router.post('/register', validateRegistration, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('checkin/register-test', {errors: errors.array()})
+        return res.render('checkin/register', {errors: errors.array()})
     }
 
     let {username, gmail, password, confirmPassword} = req.body;
@@ -82,13 +82,13 @@ router.post('/register-test', validateRegistration, async (req, res) => {
     password = password.trim();
 
     if (password !== confirmPassword) {
-        return res.render('checkin/register-test', {errors: [{msg: "Password different from confirm password"}]});
+        return res.render('checkin/register', {errors: [{msg: "Password different from confirm password"}]});
     }
 
     // Check if account exist
     const account = await User.findOne({gmail: gmail});
     if (account) {
-        return res.render('checkin/register-test', {errors: [{msg: "Account already exists"}]});
+        return res.render('checkin/register', {errors: [{msg: "Account already exists"}]});
     }
 
     // Generate verification token for email verification
