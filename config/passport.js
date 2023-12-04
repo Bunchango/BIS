@@ -55,7 +55,6 @@ passport.use(new FacebookStrategy({
     callbackURL: "/checkin/facebook/redirect",
     profileFields: ["id", "displayName", "email", "photos"]
 }, (accessToken, refreshToken, profile, done) => {
-    console.log(profile);
     User.findOne({gmail: profile.emails[0].value}).then((currentUser) => {
         if (currentUser) {
             done(null, currentUser);
