@@ -35,7 +35,7 @@ router.get('/login', checkAuthenticated, (req, res) => {
 
 // Local login
 router.post('/login', checkAuthenticated, passport.authenticate('local', {
-    successRedirect: "/", 
+    successRedirect: "/homepage", 
     failureRedirect: '/checkin/login',
     failureFlash: true,
 }))

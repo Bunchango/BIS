@@ -8,16 +8,9 @@
 </head>
 
 <body>
-    <% if (user) { %>
-        <h1> HELLO <%= user.username %>
-        </h1>
-        <img src="<%= user.profilePicture.url %>" />
-        <a href="/checkin/logout">Log out</a>
-        <% } else { %>
-            <h1> HELLO Guest</h1>
-            <% } %>
-
-                <%- include('footer.ejs') %>
+    <h1>This is main page</h1>
+    <a href="homepage">Try it</a>
+    <%- include('footer.ejs') %>
 </body>
 
 </html>

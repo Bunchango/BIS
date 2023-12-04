@@ -51,6 +51,12 @@ app.use(express.static('public'));
 
 app.get("/", (req, res) => {
     // If user has not login render reader's home page, if logged in render respective user's home page
+    res.render("index");
+})
+
+// TODO: Recheck later when done main pages 
+app.get("/homepage", (req, res) => {
+    // If user has not login render reader's home page, if logged in render respective user's home page
     if (!req.user || req.user.__t === "Reader") {
         res.render("reader/homepage", {user: req.user});
     } else if (req.user.__t === "Librarian") {
@@ -62,7 +68,7 @@ app.get("/", (req, res) => {
 
 // Set up routers
 app.use("/checkin", checkinRoutes);
-app.use("/books", readerRoutes);
+app.use("/reader", readerRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
