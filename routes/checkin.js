@@ -114,7 +114,7 @@ router.post('/register', validateRegistration, async (req, res) => {
         transporter.sendMail({
             to: gmail, 
             subject: "VxNhe email verification",
-            html: `Click <a href="${url}">here</a> to verify your email.`
+            html: `Please click <a href="${url}">here</a> to verify your email. This link will expire after 1 day, if you don't verify in 1 day your account will be deleted`
         })
 
         // Redirect to login page
@@ -205,7 +205,7 @@ router.post('/forgot-password', async (req, res) => {
             transporter.sendMail({
                 to: email, 
                 subject: "VxNhe change password",
-                html: `Click <a href="${url}">here</a> to change your account's password`
+                html: `Please click <a href="${url}">here</a> to change your account's password. If you did not make this request, don't click this link. This link will expire after 1 hour`
             })
             res.redirect('/checkin/login');
         }
