@@ -12,7 +12,22 @@
 
   <title>Homepage</title>
 </head>
-
+<header>    
+    <div id="account">
+        <% if (user) { %>
+            <a href="">
+                <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
+            </a>
+        <% } else { %>
+            <a href="checkin/login"> 
+                <div id="login">Login</div>
+            </a>
+            <a href="checkin/register">
+                <div id="register">Join</div>
+            </a>
+        <% } %>
+    </div>
+</header>
 <body class="font-sans">
   <section class="h-screen flex items-center justify-center bg-blue-500 text-white">
     <div class="text-center">
