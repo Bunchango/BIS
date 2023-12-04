@@ -76,13 +76,17 @@ router.post('/register', validateRegistration, async (req, res) => {
         return res.render('checkin/register', {errors: errors.array()})
     }
 
-    let {username, gmail, password, confirmPassword} = req.body;
+    let {username, gmail, password, confirmPassword, acceptTerms} = req.body;
     username = username.trim();
     gmail = gmail.trim(); 
     password = password.trim();
 
     if (password !== confirmPassword) {
         return res.render('checkin/register', {errors: [{msg: "Password different from confirm password"}]});
+    }
+
+    if (!acceptTerms) {
+        return res.render('checkin/register', {errors: [{msg: "You must accept terms and conditions"}]});
     }
 
     // Check if account exist
