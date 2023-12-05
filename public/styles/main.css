@@ -13,16 +13,30 @@
     text-decoration: none;
 }
 
+:root {
+    --theme-color-peach: #FCEDDA; 
+    --theme-color-orange: #EE4E34;
+}
+
 #header {
     color: black;
     display: flex;
     justify-content:space-around;
+    align-items: center;
     padding: 10px;
+    position: fixed;
+    z-index: 1000;
+    height: 60px;
+    width: 100vw;
+    background-color: #ffffff;
 }
 
 #logo {
-    height: 40px;
+    height: fit-content;
     width: fit-content;
+    font-size: 40px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
 }
 
 #account {
@@ -152,8 +166,8 @@
 }
 
 #account_img {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
@@ -162,16 +176,16 @@
     height: fit-content;
     padding: 5px;
     margin: 5px;
-    border: 0.5px black solid;
+    border: 0.5px rgb(145, 143, 143) solid;
     border-radius: 5px;
     font-size: 20px;
     text-align: center;
-    background-color: #D0D4CA;
+    background-color: var(--theme-color-peach);
 
 }
 
 #login:hover {
-    box-shadow: 1px 1px 1px black;
+    box-shadow: 0.5px 0.5px 3px black;
 }
 
 #register {
@@ -179,7 +193,7 @@
     margin: 5px;
     height: fit-content;
     padding: 5px;
-    border: 0.5px black solid;
+    border: 0.5px rgb(145, 143, 143) solid;
     border-radius: 5px;
     font-size: 20px;
     text-align: center;

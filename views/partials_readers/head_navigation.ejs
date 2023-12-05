@@ -1,12 +1,9 @@
 
 <div id="header">
 
-    <div id="logo">
-        <a href="/homepage">
-            <h1>Public library</h1>
-        </a>
-        <!-- <img src="" alt=""> -->
-    </div>
+    <a href="/homepage" id="logo">
+        <h1>VXNHE</h1>
+    </a>
     
     <div id="account">
         <button data-modal-target="#pop-up-bookmark" id="book-mark">
@@ -40,9 +37,14 @@
         
         
         <% if (user) { %>
-            <a href="">
+            <div>
                 <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
-            </a>
+                <div id="account-hovering">
+                    
+                </div>
+            </div>
+            
+
         <% } else { %>
             <a href="checkin/login"> 
                 <div id="login">Login</div>
