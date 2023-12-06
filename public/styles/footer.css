@@ -89,7 +89,7 @@ body{
     margin-top: 50px;
 }
 
-.footer-wave-box {
+/* .footer-wave-box {
     height: 5%;
     width:100%;
     position:absolute;
@@ -130,4 +130,13 @@ body{
     50% {
       transform: translate3d(0,5px,0);
     }
+} */
+
+.wave{
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: #EE4E34 url(wave.png);
 }
