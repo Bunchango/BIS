@@ -1,27 +1,27 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
 
 /* This css will apply for common style of the website */
 
 * {
     margin: 0;
     padding: 0;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: black;
     list-style: none;
     text-decoration: none;
 }
 
 :root {
-    --theme-color-peach: #FCEDDA; 
+    --theme-color-peach: #FCEDDA;
     --theme-color-orange: #EE4E34;
 }
 
 #header {
     color: black;
     display: flex;
-    justify-content:space-around;
+    justify-content: space-around;
     align-items: center;
     padding: 10px;
     position: fixed;
@@ -40,12 +40,13 @@
 }
 
 #account {
-    width:fit-content;
+    width: fit-content;
     height: fit-content;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
+
 /* pop up modal */
 .pop-up-modal {
     position: fixed;
@@ -145,6 +146,7 @@
     padding: 10px 15px;
 }
 
+
 /* --------------------- */
 
 #overlay {
@@ -199,7 +201,7 @@
     text-align: center;
     background-color: #EE4E34;
     color: white;
-}   
+}
 
 #register:hover {
     box-shadow: 1px 1px 1px black;
@@ -208,18 +210,16 @@
 
 @media only screen and (max-width:992px) {
     #header {
-        justify-content:space-between;
+        justify-content: space-between;
     }
-    
+
     .fa-regular.fa-bookmark {
         width: 20px;
     }
-    
+
     .fa-regular.fa-bell {
         width: 20px;
     }
 }
 
-@media (max-width:600px) {
-    
-}
+@media (max-width:600px) {}

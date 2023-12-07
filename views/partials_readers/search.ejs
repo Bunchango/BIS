@@ -1,5 +1,53 @@
-<form action="/search" method="GET" class="search-form">
-    <input type="text" name="book-query" placeholder="Search book" class="search-input">
-    <button type="submit" class="search-button"> Search
-    </button>
-</form>
+<div id="search" class="bg-white p-8 rounded-lg shadow-md max-w-full">
+    <h2 class="text-2xl font-semibold mb-4">Search for Something</h2>
+    <div class="flex items-center">
+        <input type="text" placeholder="Enter your search" class="border p-2 flex-1 rounded-md">
+        <button data-modal-target="#search-filter-popup" id="search-filter"
+            class="bg-white hover:bg-gray-50 text-black border mx-2 p-2 rounded-md">Filter</button>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded-md">Search</button>
+
+        <!-- search filter popup -->
+        <div class="pop-up-modal" id="search-filter-popup">
+            <div class="search-filter-header">
+                <div class="title">Advanced Search</div>
+                <button data-close-button class="close-modal">&times;</button>
+            </div>
+            <div class="search-filter-body">
+                <form action="/search" method="get">
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" id="title">
+
+                    <br>
+
+                    <label for="publishedbefore">Published Before:</label>
+                    <input type="date" name="publishedbefore" id="publishedbefore">
+
+                    <label for="publishedafter">Published After:</label>
+                    <input type="date" name="publishedafter" id="publishedafter">
+
+                    <br>
+
+                    <label>Category:</label>
+                    <input type="checkbox" name="category" value="Mystery"> Mystery
+                    <input type="checkbox" name="category" value="Thriller"> Thriller
+                    <input type="checkbox" name="category" value="Romance"> Romance
+                    <input type="checkbox" name="category" value="Biography"> Biography
+                    <input type="checkbox" name="category" value="Memoir"> Memoir
+                    <input type="checkbox" name="category" value="Self-Help"> Self-Help
+                    <input type="checkbox" name="category" value="History"> History
+                    <!-- Add more checkboxes for other categories -->
+
+                    <br>
+
+                    <label for="available">Available:</label>
+                    <input type="checkbox" name="available" id="available">
+
+                    <br>
+
+                    <button type="submit">Search</button>
+                </form>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

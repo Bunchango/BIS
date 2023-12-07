@@ -1,0 +1,30 @@
+/* search filter */
+#search-filter-popup {
+    width: auto;
+}
+
+.search-filter-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.search-filter-header .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.search-filter-header .close-modal {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.search-filter-body {
+    padding: 10px 15px;
+}
