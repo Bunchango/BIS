@@ -10,7 +10,7 @@ const bookSchema = new mongoose.Schema({
         minlength: [5, "Book name must be at least 5 characters"],
         maxlength: [24, "Book name must be at most 24 characters"]
     },
-    images: {
+    coverImages: {
         type: String,
         required: true,
         validate: [imageLimit, "Images exceeds the limit of 3"],
