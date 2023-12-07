@@ -89,7 +89,7 @@ body{
     left: 10%;
     border-radius: 20px;
     background-color: #000000;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 #slide, #slide1{
