@@ -18,9 +18,7 @@ const userSchema = new mongoose.Schema({
         required: [true, "gmail is required"]
     }, 
     profilePicture: {
-        data: Buffer,
-        contentType: String,
-        url: String,
+        type: String,
     }, 
     googleId: {
         type: String,

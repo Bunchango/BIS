@@ -10,6 +10,7 @@ require('./config/passport');
 
 const checkinRoutes = require('./routes/checkin');
 const readerRoutes = require('./routes/reader');
+const libraryRoutes = require('./routes/library');
 
 // Load global vars
 dotenv.config({ path: "./config/config.env" })
@@ -60,6 +61,8 @@ app.get("/", (req, res) => {
     res.render("index", {user: req.user});
 })
 
+app.use("/uploads", express.static("uploads"));
+
 // TODO: Recheck later when done main pages 
 app.get("/homepage", (req, res) => {
     // If user has not login render reader's home page, if logged in render respective user's home page
@@ -75,6 +78,7 @@ app.get("/homepage", (req, res) => {
 // Set up routers
 app.use("/checkin", checkinRoutes);
 app.use("/reader", readerRoutes);
+app.use("/library", libraryRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);

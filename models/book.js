@@ -8,12 +8,12 @@ const bookSchema = new mongoose.Schema({
         maxlength: [24, "Book name must be at most 24 characters"]
     },
     images: {
-        type: [{
-            data: Buffer,
-            contentType: String,
-        }],
+        type: String,
         required: true,
         validate: [imageLimit, "Images exceeds the limit of 3"],
+    },
+    backgroundImage: {
+        type: String,
     },
     author: {
         type: String,
