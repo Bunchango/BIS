@@ -166,6 +166,10 @@
     .single-footer:first-child {
       width: 100%;
     }
+
+    .copy p {
+        padding: 20px;
+    }
   }
 /* footer .footer-wave-box .wave{
     position: absolute;
