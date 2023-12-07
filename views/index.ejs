@@ -4,15 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles/main.css">
+
+  <link rel="stylesheet" href="styles/index.css">
   <link rel="stylesheet" href="styles/slider.css">
-  <link rel="stylesheet" href="styles/footer.css"/>
+  <link rel="stylesheet" href="styles/footer.css"/> 
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <title>Homepage</title>
 </head>
-<header>    
+<header> 
+    <input type="checkbox" id="check">
+    <label for="check" class="checkbtn">
+      <i class="fas fa-bars"></i>
+    </label>
+
+    <a href="/" class="logo"> 
+      <h1>VXNHE</h1> 
+    </a> 
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#goal">Goals</a></li>
+      <li><a href="#statistics">Statistics</a></li>
+      <li><a href="#service">Service</a></li>
+    </ul> 
     <div id="account">
         <% if (user) { %>
             <a href="">
@@ -20,10 +35,10 @@
             </a>
         <% } else { %>
             <a href="checkin/login"> 
-                <div id="login">Login</div>
+                <div id="login_index">Login</div>
             </a>
             <a href="checkin/register">
-                <div id="register">Join</div>
+                <div id="register_index">Join</div>
             </a>
         <% } %>
     </div>
@@ -35,13 +50,13 @@
     </div>
   </section>
   <!-- Why Use Our Page Section -->
-  <section class="h-screen flex items-center justify-center bg-green-500 text-white">
+  <section class="h-screen flex items-center justify-center bg-green-500 text-white" id="about">
     <div class="text-center">
       <h2 class="text-3xl font-semibold">Why Use Our Page</h2>
       <p class="mt-4">Brief description of why users should choose this page.</p>
     </div>
   </section>
-  <section class="h-screen flex items-center justify-center bg-yellow-500 text-white">
+  <section class="h-screen flex items-center justify-center bg-yellow-500 text-white" id="goal">
     <div class="text-center">
       <h2 class="text-3xl font-semibold">What We Are Made For</h2>
       <p class="mt-4">Description of the purpose and goals of your page.</p>
@@ -49,7 +64,7 @@
   </section>
 
   <!-- Our Summary Statistics Section -->
-  <section class="h-screen flex items-center justify-center bg-purple-500 text-white">
+  <section class="h-screen flex items-center justify-center bg-purple-500 text-white" id="statistics">
     <div class="text-center">
       <h2 class="text-3xl font-semibold">Our Summary Statistics</h2>
       <p class="mt-4">Key statistics or achievements of your page.</p>
@@ -57,7 +72,7 @@
   </section>
 
   <!-- Join Us Now Section -->
-  <section class="h-screen flex items-center justify-center bg-red-500 text-white">
+  <section class="h-screen flex items-center justify-center bg-red-500 text-white" id="service">
     <div class="text-center">
       <h2 class="text-3xl font-semibold">Join Us Now</h2>
       <p class="mt-2 mb-2">Encourage users to sign up or take action.</p>
@@ -67,4 +82,6 @@
 
   <%- include("partials_readers/footer.ejs") %>
 </body>
+<script type="text/javascript" src="js/index.js"></script>
+<script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
 </html>

@@ -32,6 +32,9 @@ const librarySchema = new mongoose.Schema({
             default: Date.now,
         }
     }],
+    banner: {
+        type: String,
+    },
 })
 
 const Library = User.discriminator("Library", librarySchema);
