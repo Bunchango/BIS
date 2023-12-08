@@ -1,52 +1,53 @@
 <div id="search" class="bg-white p-8 rounded-lg shadow-md max-w-full">
     <h2 class="text-2xl font-semibold mb-4">Search for Something</h2>
-    <div class="flex items-center">
-        <input type="text" placeholder="Enter your search" class="border p-2 flex-1 rounded-md">
-        <button data-modal-target="#search-filter-popup" id="search-filter"
-            class="bg-white hover:bg-gray-50 text-black border mx-2 p-2 rounded-md">Filter</button>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded-md">Search</button>
+    <div class="search flex">
+        <form action="reader/search" method="get" class="flex w-full">
+            <input type="text" name="title" id="title" placeholder="Enter your search"
+                class="border p-2 w-4/5 rounded-md">
+            <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white p-2 w-1/5 mx-2 rounded-md">Search</button>
+        </form>
+        <button data-modal-target="#search-filter-popup"
+            class="bg-gray-200 hover:bg-gray-600 text-black hover:text-white border border-black px-2 rounded-md w-1/5">Filter</button>
+    </div>
+    <!-- search filter popup -->
+    <div class="pop-up-modal" id="search-filter-popup">
+        <div class="search-filter-header">
+            <div class="title">Advanced Search</div>
+            <button data-close-button class="close-modal">&times;</button>
+        </div>
+        <div class="search-filter-body">
+            <form action="reader/search" method="get">
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title">
 
-        <!-- search filter popup -->
-        <div class="pop-up-modal" id="search-filter-popup">
-            <div class="search-filter-header">
-                <div class="title">Advanced Search</div>
-                <button data-close-button class="close-modal">&times;</button>
-            </div>
-            <div class="search-filter-body">
-                <form action="/search" method="get">
-                    <label for="title">Title:</label>
-                    <input type="text" name="title" id="title">
+                <br>
 
-                    <br>
+                <label for="publishedBefore">Published Before:</label>
+                <input type="date" name="publishedBefore" id="publishedBefore">
 
-                    <label for="publishedBefore">Published Before:</label>
-                    <input type="date" name="publishedBefore" id="publishedBefore">
+                <label for="publishedAfter">Published After:</label>
+                <input type="date" name="publishedAfter" id="publishedAfter">
 
-                    <label for="publishedAfter">Published After:</label>
-                    <input type="date" name="publishedAfter" id="publishedAfter">
+                <br>
 
-                    <br>
+                <label>Categories:</label>
+                <% categories.forEach(category=> { %>
+                    <label>
+                        <input type="checkbox" name="category" value="<%= category %>">
+                        <%= category %>
+                    </label>
+                    <% }); %>
 
-                    <label>Category:</label>
-                    <input type="checkbox" name="category" value="Mystery"> Mystery
-                    <input type="checkbox" name="category" value="Thriller"> Thriller
-                    <input type="checkbox" name="category" value="Romance"> Romance
-                    <input type="checkbox" name="category" value="Biography"> Biography
-                    <input type="checkbox" name="category" value="Memoir"> Memoir
-                    <input type="checkbox" name="category" value="Self-Help"> Self-Help
-                    <input type="checkbox" name="category" value="History"> History
-                    <!-- Add more checkboxes for other categories -->
+                        <br>
 
-                    <br>
+                        <label for="available">Available:</label>
+                        <input type="checkbox" name="available" id="available">
 
-                    <label for="available">Available:</label>
-                    <input type="checkbox" name="available" id="available">
+                        <br>
 
-                    <br>
-
-                    <button type="submit">Search</button>
-                </form>
-            </div>
+                        <button type="submit">Search</button>
+            </form>
         </div>
     </div>
 </div>

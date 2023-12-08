@@ -6,11 +6,13 @@ const connectDB = require('./config/db');
 const passport = require('passport');
 const session = require("express-session");
 const flash = require("express-flash");
+const { categoriesArray } = require('./models/book');
 require('./config/passport');
 
 const checkinRoutes = require('./routes/checkin');
 const readerRoutes = require('./routes/reader');
 const libraryRoutes = require('./routes/library');
+const { type } = require('os');
 
 // Load global vars
 dotenv.config({ path: "./config/config.env" })
@@ -67,7 +69,7 @@ app.use("/uploads", express.static("uploads"));
 app.get("/homepage", (req, res) => {
     // If user has not login render reader's home page, if logged in render respective user's home page
     if (!req.user || req.user.__t === "Reader") {
-        res.render("reader/homepage", { user: req.user });
+        res.render("reader/homepage", { user: req.user, categories: categoriesArray });
     } else if (req.user && req.user.__t === "Librarian") {
         res.render("librarian/library", { user: req.user });
     } else if (req.user && req.user.__t === "Library") {

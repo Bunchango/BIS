@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const path = require('path');
 
 const coverImageBasePath = 'upload/bookCovers';
+const categoriesArray = [
+    "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History", "Science", "Fantasy", "Sci-fi",
+    "Horror", "Action", "Adventure", "Children's", "Comedy", "Poetry", "Philosophy", "Religion", "Other"
+]
 
 const bookSchema = new mongoose.Schema({
     title: {
@@ -25,13 +29,8 @@ const bookSchema = new mongoose.Schema({
         maxlength: [24, "Author name must be at most 24 characters"]
     },
     category: {
-        type: [{
-            type: String,
-            enum: [
-                "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History", "Science", "Fantasy", "Sci-fi",
-                "Horror", "Action", "Adventure", "Children's", "Comedy", "Poetry", "Philosophy", "Religion", "Other"
-            ]
-        }],
+        type: String,
+        enum: categoriesArray,
         required: true,
     },
     description: {
@@ -74,5 +73,5 @@ function imageLimit(val) {
 
 const Book = mongoose.model("Book", bookSchema);
 
-module.exports = Book;
+module.exports = { Book, categoriesArray };
 module.exports.coverImageBasePath = coverImageBasePath;
