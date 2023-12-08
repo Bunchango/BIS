@@ -58,7 +58,7 @@ app.use(express.static('public'));
 
 app.get("/", (req, res) => {
     // If user has not login render reader's home page, if logged in render respective user's home page
-    res.render("index", {user: req.user});
+    res.render("index", { user: req.user });
 })
 
 app.use("/uploads", express.static("uploads"));
@@ -67,18 +67,31 @@ app.use("/uploads", express.static("uploads"));
 app.get("/homepage", (req, res) => {
     // If user has not login render reader's home page, if logged in render respective user's home page
     if (!req.user || req.user.__t === "Reader") {
-        res.render("reader/homepage", {user: req.user});
+        res.render("reader/homepage", { user: req.user });
     } else if (req.user && req.user.__t === "Librarian") {
-        res.render("librarian/library", {user: req.user});
+        res.render("librarian/library", { user: req.user });
     } else if (req.user && req.user.__t === "Library") {
-        res.render("admin/library", {user: req.user});
-    } 
+        res.render("admin/library", { user: req.user });
+    }
 })
+
+// Route for terms and conditions
+app.get("/terms", (req, res) => {
+    res.render("reader/terms", { user: req.user });
+})
+
 
 // Set up routers
 app.use("/checkin", checkinRoutes);
 app.use("/reader", readerRoutes);
 app.use("/library", libraryRoutes);
+
+
+// Route for 404 page
+// TODO: Create a 404 page front end
+app.get("*", (req, res) => {
+    res.status(404).send("404 Page Not Found");
+})
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
