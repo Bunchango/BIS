@@ -19,9 +19,6 @@ const bookSchema = new mongoose.Schema({
         required: true,
         validate: [imageLimit, "Images exceeds the limit of 3"],
     },
-    backgroundImage: {
-        type: String,
-    },
     author: {
         type: String,
         required: true,
