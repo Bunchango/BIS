@@ -37,6 +37,7 @@
     font-size: 40px;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
+    justify-self: start;
 }
 
 #account {
@@ -207,6 +208,11 @@
     box-shadow: 1px 1px 1px black;
 }
 
+#header-btns {
+    display: flex;
+    justify-self: end;
+    align-items: end;
+}
 
 @media only screen and (max-width:992px) {
     #header {

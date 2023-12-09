@@ -1,60 +1,62 @@
-
 <div id="header">
-
     <a href="/homepage" id="logo">
         <h1>VXNHE</h1>
     </a>
-    
-    <div id="account">
-        <button data-modal-target="#pop-up-bookmark" id="book-mark">
-            <i class="fa-regular fa-bookmark"></i>
-        </button>
-        <!-- pop up window for bookmark -->
-        <div class="pop-up-modal" id="pop-up-bookmark">
-            <div class="bookmark-header">
-                <div class="title">Example BookMark</div>
-                <button data-close-button class="close-modal">&times;</button>
-            </div>
-            <div class="bookmark-body">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim exercitationem aspernatur dicta labore, ipsam eos repudiandae a non reiciendis dolorem inventore nam cumque architecto velit.
-            </div>
-        </div>
-        <div id="overlay"></div>
 
-        <button data-modal-target="#pop-up-notification" id="notification">
-            <i class="fa-regular fa-bell"></i>
-        </button>
-        <!-- pop up window for notification -->
-        <div class="pop-up-modal" id="pop-up-notification">
-            <div class="notification-header">
-                <div class="title">Example Notification</div>
-                <button data-close-button class="close-modal">&times;</button>
+    <% if (user) { %>
+        <div id="account">
+            <button data-modal-target="#pop-up-bookmark" id="book-mark">
+                <i class="fa-regular fa-bookmark"></i>
+            </button>
+            <!-- pop up window for bookmark -->
+            <div class="pop-up-modal" id="pop-up-bookmark">
+                <div class="bookmark-header">
+                    <div class="title">Example BookMark</div>
+                    <button data-close-button class="close-modal">&times;</button>
+                </div>
+                <div class="bookmark-body">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
+                    exercitationem aspernatur dicta labore, ipsam eos repudiandae a non reiciendis dolorem inventore nam
+                    cumque architecto velit.
+                </div>
             </div>
-            <div class="notification-body">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim exercitationem aspernatur dicta labore, ipsam eos repudiandae a non reiciendis dolorem inventore nam cumque architecto velit.
+            <div id="overlay"></div>
+
+            <button data-modal-target="#pop-up-notification" id="notification">
+                <i class="fa-regular fa-bell"></i>
+            </button>
+            <!-- pop up window for notification -->
+            <div class="pop-up-modal" id="pop-up-notification">
+                <div class="notification-header">
+                    <div class="title">Example Notification</div>
+                    <button data-close-button class="close-modal">&times;</button>
+                </div>
+                <div class="notification-body">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
+                    exercitationem aspernatur dicta labore, ipsam eos repudiandae a non reiciendis dolorem inventore nam
+                    cumque architecto velit.
+                </div>
             </div>
-        </div>
-        
-        
-        <% if (user) { %>
+
+
             <div>
                 <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
                 <div id="account-hovering">
-                    
+
                 </div>
             </div>
-            
 
-        <% } else { %>
-            <a href="checkin/login"> 
-                <div id="login">Login</div>
-            </a>
-            <a href="checkin/register">
-                <div id="register">Join</div>
-            </a>
-        <% } %>
-    </div>
+
+            <% } else { %>
+                <div id="header-btns">
+                    <a href="checkin/login">
+                        <div id="login">Login</div>
+                    </a>
+                    <a href="checkin/register">
+                        <div id="register">Join</div>
+                    </a>
+                </div>
+                <% } %>
+        </div>
 
 </div>
-
-    
