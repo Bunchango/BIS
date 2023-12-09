@@ -68,6 +68,27 @@
                         </li>
                         <% }); %>
                 </ul>
+
+                <!-- Pagination Controls -->
+                <!-- TODO: Test this after populating database with books -->
+                <div class="pagination">
+                    <% if (books.previous) { %>
+                        <a href="?page=<%= books.previous.page %>&limit=<%= limit %>">Previous</a>
+                        <% } %>
+
+                            <!-- Page Buttons -->
+                            <% for (let i=1; i <=totalPages; i++) { %>
+                                <a href="?page=<%= i %>&limit=<%= limit %>"
+                                    class="<%= i === currentPage ? 'active' : '' %>">
+                                    <%= i %>
+                                </a>
+                                <% } %>
+
+                                    <% if (books.next) { %>
+                                        <a href="?page=<%= books.next.page %>&limit=<%= limit %>">Next</a>
+                                        <% } %>
+                </div>
+
                 <% } else { %>
                     <p>No books found.</p>
                     <% } %>

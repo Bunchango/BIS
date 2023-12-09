@@ -8,13 +8,21 @@ router.get('/search', async (req, res) => {
   let query = Book.find();
   query = searchBooks(req, query);
 
+  const page = parseInt(req.query.page) || 1
+  const limit = parseInt(req.query.limit) || 12
+
   try {
-    const books = await query.exec();
+    let books = await query.exec();
+    books = paginatedResults(books, page, limit);
     res.render('reader/search_result', {
       user: req.user,
       books: books,
       categories: categoriesArray,
-      searchOptions: req.query
+      searchOptions: req.query,
+      limit: limit,
+      currentPage: page,
+      totalResults: books.length,
+      totalPages: Math.ceil(books.length / limit)
     });
   } catch (error) {
     console.error(error);
@@ -23,6 +31,7 @@ router.get('/search', async (req, res) => {
 });
 
 
+// Advanced search function
 function searchBooks(req, query) {
   if (req.query.title != null && req.query.title != '') {
     query = query.regex('title', new RegExp(req.query.title, 'i'));
@@ -44,5 +53,28 @@ function searchBooks(req, query) {
   return query;
 }
 
+// Pagination middleware for search result
+// Not sure if this works, need to test with actual data in database
+function paginatedResults(model, page, limit) {
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
+  const results = {}
+
+  if (endIndex < model.length) {
+    results.next = {
+      page: page + 1,
+      limit: limit
+    }
+  }
+
+  if (startIndex > 0) {
+    results.previous = {
+      page: page - 1,
+      limit: limit
+    }
+  }
+  results.results = model.slice(startIndex, endIndex)
+  return results
+}
 
 module.exports = router;
