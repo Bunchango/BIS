@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
-const path = require('path');
 
-const coverImageBasePath = 'upload/bookCovers';
 const categoriesArray = [
     "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History", "Science", "Fantasy", "Sci-fi",
     "Horror", "Action", "Adventure", "Children's", "Comedy", "Poetry", "Philosophy", "Religion", "Other"
@@ -14,11 +12,9 @@ const bookSchema = new mongoose.Schema({
         minlength: [5, "Book name must be at least 5 characters"],
         maxlength: [24, "Book name must be at most 24 characters"]
     },
-    coverImages: {
+    coverImages: [{
         type: String,
-        required: true,
-        validate: [imageLimit, "Images exceeds the limit of 3"],
-    },
+    }],
     author: {
         type: String,
         required: true,
@@ -32,6 +28,7 @@ const bookSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        minlength: [10, "Description must be at least 10 characters"],
     },
     publishDate: {
         type: Date,
@@ -42,7 +39,7 @@ const bookSchema = new mongoose.Schema({
         ref: "Library",
         required: true,
     },
-    dateImported: { // When add more books ( import more books ) update date imported field 
+    dateImported: { 
         type: Date,
         default: Date.now,
         required: true,
@@ -64,11 +61,7 @@ bookSchema.pre("save", function (next) {
     next();
 })
 
-function imageLimit(val) {
-    return val.length <= 3;
-}
 
 const Book = mongoose.model("Book", bookSchema);
 
 module.exports = { Book, categoriesArray };
-module.exports.coverImageBasePath = coverImageBasePath;

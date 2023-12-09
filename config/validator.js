@@ -20,4 +20,24 @@ const validateRegistration = [
     .withMessage("Please provide a valid email address"),
 ]
 
-module.exports = validateRegistration
+const validateBookCreation = [
+  body("title")
+  .isAlphanumeric()
+  .withMessage("Title must contain only letters and numbers")
+  .isLength({min: 5, max: 24})
+  .withMessage("Title must be between 5 and 24 characters"),
+
+  body("author")
+  .isAlpha()
+  .withMessage("Author's name must contain only letters")
+  .isLength({min: 5, max: 24})
+  .withMessage("Author's name must be between 5 and 24 characters"),
+
+  body("description")
+  .isAlphanumeric()
+  .withMessage("Description must contain only letters and numbers")
+  .isLength({min: 5})
+  .withMessage("Description must be at least 5 characters"),
+]
+
+module.exports = {validateRegistration, validateBookCreation}

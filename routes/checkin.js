@@ -5,7 +5,7 @@ const {Reader, User, Librarian} = require("./../models/user");
 const Library = require("./../models/library");
 const {ReaderVerification, UserVerification} = require("./../models/verification");
 const RecoverAccount = require("./../models/recover");
-const validateRegistration = require("./../config/validator");
+const {validateRegistration} = require("./../config/validator");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
@@ -161,13 +161,13 @@ router.get('/verify', checkAuthenticated, async (req, res) => {
                 await UserVerification.deleteOne({gmail: email});
                 // Create a new record
                 await user.save();
-                res.render('checkin/verify', {verified: true, msg: "Successful"});
+                res.render('checkin/verify', {verified: true, msg: "Successful", user: req.user});
             } else {
-                res.render('checkin/verify', {verified: false, msg: "Invalid code"});
+                res.render('checkin/verify', {verified: false, msg: "Invalid code", user: req.user});
             }
         } else {
             // If not render the page showing no account
-            res.render('checkin/verify', {verified: false, msg: "Link expired"});
+            res.render('checkin/verify', {verified: false, msg: "Link expired", user: req.user});
         }
     } catch(e) {
         // Show error
@@ -177,7 +177,7 @@ router.get('/verify', checkAuthenticated, async (req, res) => {
 
 // Forgot password route
 router.get('/forgot-password', (req, res) => {
-    res.render('checkin/forgot-password', {error: null});
+    res.render('checkin/forgot-password', {error: null, user: req.user});
 })
 
 router.post('/forgot-password', async (req, res) => {
@@ -189,7 +189,7 @@ router.post('/forgot-password', async (req, res) => {
 
         if (!account) {
             // If account does not exist, show error account does not exist
-            return res.render('checkin/forgot-password', {error: true, msg: "Account does not exist"})
+            return res.render('checkin/forgot-password', {error: true, msg: "Account does not exist", user: req.user})
         } else {
             // Send recover email to user's email if exist
             const token =  crypto.randomBytes(20).toString("hex");
@@ -224,16 +224,16 @@ router.get('/reset-password', async (req, res) => {
             gmail: email,
         })
         if (!account) {
-            res.render('checkin/reset-password', {error: true, msg: ["Reset password link expired"]});
+            res.render('checkin/reset-password', {error: true, msg: ["Reset password link expired"], user: req.user});
         } else {
             if (account.recoverCode === token) {
                 // If correct shows no error and show the email and allow reset password form
                 // Delete the record
                 await RecoverAccount.deleteOne({gmail: email});
                 req.session.email = email;
-                res.render('checkin/reset-password', {error: false, email: email, msg: undefined});
+                res.render('checkin/reset-password', {error: false, email: email, msg: undefined, user: req.user});
             } else {
-                res.render('checkin/reset-password', {error: true, msg: ["Invalid recover code"]});
+                res.render('checkin/reset-password', {error: true, msg: ["Invalid recover code"], user: req.user});
             }
         }
     } catch(e) {

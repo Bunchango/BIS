@@ -12,7 +12,7 @@ require('./config/passport');
 const checkinRoutes = require('./routes/checkin');
 const readerRoutes = require('./routes/reader');
 const libraryRoutes = require('./routes/library');
-const { type } = require('os');
+const librarianRoutes = require('./routes/librarian');
 
 // Load global vars
 dotenv.config({ path: "./config/config.env" })
@@ -87,7 +87,7 @@ app.get("/terms", (req, res) => {
 app.use("/checkin", checkinRoutes);
 app.use("/reader", readerRoutes);
 app.use("/library", libraryRoutes);
-
+app.use("/librarian", librarianRoutes);
 
 // Route for 404 page
 // TODO: Create a 404 page front end
