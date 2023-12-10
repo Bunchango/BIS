@@ -1,0 +1,56 @@
+body {
+    overflow-x: hidden;
+  }
+.card {
+    font-size: 3rem;
+    font-weight: bold;
+    border-radius: 1rem;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: perspective(500px) rotateY(var(--rotateX)) rotateX(var(--rotateY));
+}
+/* flash card */
+.card {
+    max-width: none;
+    height: 300px;
+    perspective: 1000px;
+}
+.card__inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+}
+.card__inner.is-flipped {
+    transform: rotateY(180deg);
+}
+.card__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 16px;
+}
+.card__face--front {
+    background-color: aqua;
+    display: flex;
+}
+.card__face--back {
+    transform: rotateY(180deg);
+    background-color: aquamarine;
+}
+.list-cards {
+    margin: 200px;
+    display: grid;
+    background-color: brown;
+    border-radius: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust the minimum and maximum width as needed */
+    gap: 50px; /* Adjust the gap between cards as needed */
+}
+.cont {
+    padding: 50px;
+}
