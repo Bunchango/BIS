@@ -112,31 +112,46 @@ router.get("/customer", isLibrarian, async (req, res) => {
     // Render all people who are borrowing the book and book pickups
     try {
         const borrows = await Borrow.find({library: req.user.library}).populate("reader").populate("book");
-
+        const pickups = await Pickup.find({library: req.user.library}).populate("reader").populate("books");
+        res.render("librarian/customer", {borrows: borrows, pickups: pickups});
     } catch(e) {
         res.status(400).json({ errors: e });
     }
 })
 
-router.get("/pickup_detail/:id", isLibrarian, (req, res) => {
+router.get("/pickup/:id", isLibrarian, async (req, res) => {
     // Render pickup detail
+    try {
+        const pickup = await Pickup.findById(req.params.id);
+        if (pickup.library !== req.user.library) return res.redirect("/librarian/customer");
+        return res.render("librarian/pickup", {pickup: pickup});
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 })
 
-router.post("/pickup_detail/:id", (req, res) => {
+router.post("/pickup/:id", (req, res) => {
     // confirm, or cancel, or mark as finished
 })
 
-router.get("/borrow/:id", (req, res) =>{
-
+router.get("/borrow/:id", isLibrarian, async (req, res) =>{
+    // Borrow detail 
+    try {
+        const borrow = await Borrow.findById(req.params.id);
+        if (borrow.library !== req.user.library) return res.redirect("/librarian/customer");
+        return res.render("librarian/borrow", {borrow: borrow});
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 })
 
 router.post("/borrow/:id", (req, res) => {
-
+    // Mark as returned, or canceled
 })
 
-// Post route to send emails to readers
-router.post("", (req, res) => {
-    
+// Post route to send emails to readers in borrow or pickup page
+router.post("/message", (req, res) => {
+
 })
 
 // Dashboard 
