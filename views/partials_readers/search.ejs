@@ -17,37 +17,43 @@
             <div class="title">Advanced Search</div>
             <button data-close-button class="close-modal">&times;</button>
         </div>
-        <div class="search-filter-body">
+        <div class="search-filter-body" id="search-filter-home">
             <form action="reader/search" method="get">
-                <label for="title">Title:</label>
-                <input type="text" name="title" id="title">
+                <div class="search-option">
+                    <label for="title" class="search-option-label">Title:</label>
+                    <input type="text" name="title" id="title" class="search-title-input">
+                </div>
 
-                <br>
+                <div class="search-option">
+                    <label for="publishedBefore" class="search-option-label">Published Before:</label>
+                    <input type="date" name="publishedBefore" id="publishedBefore">
+                </div>
 
-                <label for="publishedBefore">Published Before:</label>
-                <input type="date" name="publishedBefore" id="publishedBefore">
+                <div class="search-option">
+                    <label for="publishedAfter" class="search-option-label">Published After:</label>
+                    <input type="date" name="publishedAfter" id="publishedAfter">
+                </div>
 
-                <label for="publishedAfter">Published After:</label>
-                <input type="date" name="publishedAfter" id="publishedAfter">
 
-                <br>
+                <div class="search-option">
+                    <label class="search-option-label">Categories:</label>
+                    <div class="categories-select">
+                        <% categories.forEach(category=> { %>
+                        <label for="category">
+                            <input type="checkbox" name="category" value="<%= category %>">
+                            <%= category %>
+                        </label>
+                        <% }); %>
+                    </div>
+                </div>
 
-                <label>Categories:</label>
-                <% categories.forEach(category=> { %>
-                <label>
-                    <input type="checkbox" name="category" value="<%= category %>">
-                    <%= category %>
-                </label>
-                <% }); %>
 
-                <br>
-
-                <label for="available">Available:</label>
+                <label for="available" class="search-option-label">Available:</label>
                 <input type="checkbox" name="available" id="available">
 
                 <br>
 
-                <button type="submit">Search</button>
+                <button type="submit" class="search-btn mt-3">Search</button>
             </form>
         </div>
     </div>

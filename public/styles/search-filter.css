@@ -35,10 +35,22 @@ aside.search-filter {
 }
 
 .search-filter-body {
-    padding: 10px 15px;
+    padding: 10px 10px;
 }
 
-.search-filter-body #update-search-btn {
+#search-filter-home {
+    width: 500px;
+    margin: 5px 20px 5px;
+}
+
+.search-title-input {
+    width: 100%;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+}
+
+.search-filter-body .search-btn {
     padding: 10px 15px;
     border-radius: 10px;
     border: none;
@@ -88,4 +100,10 @@ aside.search-filter {
     font-weight: bold;
     margin-bottom: 1rem;
     color: #EE4E34;
+}
+
+@media (max-width: 600px) {
+    #search-filter-home {
+        width: 300px;
+    }
 }
