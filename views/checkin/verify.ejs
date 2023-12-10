@@ -3,13 +3,19 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="styles/verify.css"/>
    <title>Document</title>
 </head>
 <body>
-   <% if (verified) { %>
-       <h1>VERIFIED</h1>
-   <% } else { %>
-       <h1>NOT VERIFIED</h1>
-   <% } %>
-</body>
+    <div class="container">
+       <div class="message">
+          <% if (verified) { %>
+              <h1>An email has been sent to your mail. Please check to verify your account!</h1>
+          <% } else { %>
+              <h1>NOT VERIFIED</h1>
+              <h1>Please register again!</h1>
+          <% } %>
+       </div>
+    </div>
+ </body>
 </html>
