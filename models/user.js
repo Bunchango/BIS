@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     }, 
     profilePicture: {
         type: String,
+        default: "uploads/default_profile.jpg",
     }, 
     googleId: {
         type: String,
@@ -55,12 +56,16 @@ const librarianSchema = new mongoose.Schema({
     }
 })
 
+const adminSchema = new mongoose.Schema({})
+
 const User = mongoose.model("User", userSchema);
 const Reader = User.discriminator("Reader", readerSchema);
 const Librarian = User.discriminator("Librarian", librarianSchema);
+const Admin = User.discriminator("Admin", adminSchema);
 
 module.exports = {
   User,
   Reader,
   Librarian,
+  Admin,
 };

@@ -3,6 +3,7 @@ const Library = require("./../models/library");
 const {Librarian} = require("./../models/user");
 const {LibrarianVerification} = require("./../models/verification");
 const upload = require("./../config/multer");
+const nodemailer = require("nodemailer");
 
 // Only library admin can access this page
 function isLibraryAdmin(req, res, next) {
@@ -12,6 +13,14 @@ function isLibraryAdmin(req, res, next) {
     }
     res.redirect("/homepage");
 }
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.AUTH_EMAIL,
+        pass: process.env.AUTH_PASS,
+    }
+})
 
 router.get("/manage", isLibraryAdmin, async (req, res) => {
     // Get all current librarians under the library, and get librarian who hasn't verify (creating)

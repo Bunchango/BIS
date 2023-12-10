@@ -154,7 +154,7 @@ router.get('/verify', checkAuthenticated, async (req, res) => {
                         username: verifyAccount.username,
                         password: verifyAccount.password,
                         gmail: verifyAccount.gmail,
-                        location: verifyAccount.location,
+                        address: verifyAccount.address,
                     });
                 }
                 // Delete the record after verification

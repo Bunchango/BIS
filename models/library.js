@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 const {User} = require("./user");
+const geocoder = require("./../config/geocoder");
 
 const librarySchema = new mongoose.Schema({
+    address: {
+        type: String,
+        required: true,
+    },
     location: {
         type: {
             type: String,
@@ -34,7 +39,20 @@ const librarySchema = new mongoose.Schema({
     }],
     banner: {
         type: String,
+        default: "uploads/default_banner.jpg",
     },
+})
+
+librarySchema.pre("save", async function(next) {
+    const location = await geocoder(this.address);
+    this.location = {
+        type: "Point", 
+        coordinates: [location[0].longtitude, location[0].latitude],
+        formattedAddress: location[0].formattedAddress
+    }
+    // Don't save address
+    this.address = undefined; 
+    next();
 })
 
 const Library = User.discriminator("Library", librarySchema);
