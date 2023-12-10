@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     }, 
     profilePicture: {
         type: String,
-        default: "uploads/default_profile.jpg",
+        default: "uploads/default_ava.png",
     }, 
     googleId: {
         type: String,
