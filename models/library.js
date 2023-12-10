@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const {User} = require("./user");
-const geocoder = require("./../config/geocoder");
+// const geocoder = require("./../config/geocoder");
 
 const librarySchema = new mongoose.Schema({
     address: {
