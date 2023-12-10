@@ -43,17 +43,17 @@ const librarySchema = new mongoose.Schema({
     },
 })
 
-librarySchema.pre("save", async function(next) {
-    const location = await geocoder(this.address);
-    this.location = {
-        type: "Point", 
-        coordinates: [location[0].longtitude, location[0].latitude],
-        formattedAddress: location[0].formattedAddress
-    }
-    // Don't save address
-    this.address = undefined; 
-    next();
-})
+// librarySchema.pre("save", async function(next) {
+//     const location = await geocoder(this.address);
+//     this.location = {
+//         type: "Point", 
+//         coordinates: [location[0].longtitude, location[0].latitude],
+//         formattedAddress: location[0].formattedAddress
+//     }
+//     // Don't save address
+//     this.address = undefined; 
+//     next();
+// })
 
 const Library = User.discriminator("Library", librarySchema);
 
