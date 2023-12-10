@@ -34,17 +34,9 @@ const librarianVerifcationSchema = new mongoose.Schema({
 })
 
 const libraryVerificationSchema = new mongoose.Schema({
-    location: {
-        type: {
-            type: String,
-            enum: ["Point"],
-            default: "Point",
-        }, 
-        coordinates: {
-            type: [Number],
-            index: "2dsphere", // Might have to switch this location
-        }, 
-        formattedAddress: String,
+    address: {
+        type: String,
+        required: true,
     },
 })
 

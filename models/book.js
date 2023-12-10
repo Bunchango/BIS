@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const categoriesArray = [
-    "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History", "Science", "Fantasy", "Sci-fi",
-    "Horror", "Action", "Adventure", "Children's", "Comedy", "Poetry", "Philosophy", "Religion", "Other"
+    "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History",
+    "Science", "Fantasy", "Sci-fi", "Horror", "Action", "Adventure", "Children's",
+    "Comedy", "Poetry", "Philosophy", "Science", "Religion", "Text-book", "Journal", "Other"
 ]
 
 const bookSchema = new mongoose.Schema({
@@ -39,7 +40,7 @@ const bookSchema = new mongoose.Schema({
         ref: "Library",
         required: true,
     },
-    dateImported: { 
+    dateImported: {
         type: Date,
         default: Date.now,
         required: true,

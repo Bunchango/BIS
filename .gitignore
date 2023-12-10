@@ -1,2 +1,4 @@
 node_modules
 .vscode
+# MacOS
+.DS_Store
