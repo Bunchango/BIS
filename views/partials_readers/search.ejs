@@ -11,6 +11,7 @@
             class="bg-gray-200 hover:bg-gray-600 text-black hover:text-white border border-black px-2 rounded-md w-1/5">Filter</button>
     </div>
     <!-- search filter popup -->
+    <div id="overlay"></div>
     <div class="pop-up-modal" id="search-filter-popup">
         <div class="search-filter-header">
             <div class="title">Advanced Search</div>
@@ -33,20 +34,20 @@
 
                 <label>Categories:</label>
                 <% categories.forEach(category=> { %>
-                    <label>
-                        <input type="checkbox" name="category" value="<%= category %>">
-                        <%= category %>
-                    </label>
-                    <% }); %>
+                <label>
+                    <input type="checkbox" name="category" value="<%= category %>">
+                    <%= category %>
+                </label>
+                <% }); %>
 
-                        <br>
+                <br>
 
-                        <label for="available">Available:</label>
-                        <input type="checkbox" name="available" id="available">
+                <label for="available">Available:</label>
+                <input type="checkbox" name="available" id="available">
 
-                        <br>
+                <br>
 
-                        <button type="submit">Search</button>
+                <button type="submit">Search</button>
             </form>
         </div>
     </div>

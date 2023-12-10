@@ -1,6 +1,7 @@
 /* search filter */
 #search-filter-popup {
     width: auto;
+    z-index: 1000;
 }
 
 .search-filter-header {
