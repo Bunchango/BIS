@@ -120,7 +120,7 @@ router.get("/customer", isLibrarian, async (req, res) => {
 })
 
 router.get("/pickup/:id", isLibrarian, async (req, res) => {
-    // Render pickup detail
+    // Render pickup detail and change date
     try {
         const pickup = await Pickup.findById(req.params.id);
         if (pickup.library !== req.user.library) return res.redirect("/librarian/customer");
@@ -135,7 +135,7 @@ router.post("/pickup/:id", (req, res) => {
 })
 
 router.get("/borrow/:id", isLibrarian, async (req, res) =>{
-    // Borrow detail 
+    // Borrow detail and change date
     try {
         const borrow = await Borrow.findById(req.params.id);
         if (borrow.library !== req.user.library) return res.redirect("/librarian/customer");
