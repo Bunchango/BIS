@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Create Library</h2>
+    <form action="create_library" method="post">
+        <!-- Username -->
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+    
+        <!-- Password -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirmPassword">Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+    
+        <!-- Gmail -->
+        <label for="gmail">Gmail:</label>
+        <input type="email" id="gmail" name="gmail" required>
+    
+        <!-- Location -->
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" required>
+
+        <input type="checkbox" class="border border-gray-400" id="acceptTerms" name="acceptTerms">
+    
+        <!-- Submit Button -->
+        <button type="submit">Create Library</button>
+    </form>
+</body>
+</html>
