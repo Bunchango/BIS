@@ -4,7 +4,7 @@
     border-radius: 1rem;
     position: relative;
     transform-style: preserve-3d;
-    transform: perspective(500px) rotateY(var(--rotateX)) rotateX(var(--rotateY));
+    transform: perspective(2000px) rotateY(var(--rotateX)) rotateX(var(--rotateY));
 }
 /* flash card */
 .card-cont {
