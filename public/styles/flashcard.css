@@ -1,8 +1,5 @@
-body {
-    overflow-x: hidden;
-  }
-.card {
-    font-size: 3rem;
+.card-cont {
+    font-size: 1rem;
     font-weight: bold;
     border-radius: 1rem;
     position: relative;
@@ -10,9 +7,9 @@ body {
     transform: perspective(500px) rotateY(var(--rotateX)) rotateX(var(--rotateY));
 }
 /* flash card */
-.card {
+.card-cont {
     max-width: none;
-    height: 300px;
+    height: 40vh;
     perspective: 1000px;
 }
 .card__inner {
@@ -36,12 +33,22 @@ body {
     border-radius: 16px;
 }
 .card__face--front {
-    background-color: aqua;
+    background-color: #EE4E34;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #f9e4c8;
+    box-shadow: 10px 14px 18px rgba(0, 0, 0, 0.6);
+    text-align: center;
 }
 .card__face--back {
     transform: rotateY(180deg);
-    background-color: aquamarine;
+    background-color: #f9e4c8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 10px 14px 18px rgba(0, 0, 0, 0.6);
 }
 .list-cards {
     margin: 200px;
@@ -49,8 +56,17 @@ body {
     background-color: brown;
     border-radius: 20px;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust the minimum and maximum width as needed */
-    gap: 50px; /* Adjust the gap between cards as needed */
+    gap: 10px; /* Adjust the gap between cards as needed */
 }
 .cont {
     padding: 50px;
+}
+#ad-number {
+    font-size: 3rem;
+
+}
+
+#short-des {
+    font-size: 2rem;
+    padding: 20px;
 }
