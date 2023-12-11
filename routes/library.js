@@ -111,28 +111,6 @@ router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), a
     }
 })
 
-// Need to check if from same library
-router.get("/librarian/:id", isLibraryAdmin, async (req, res) => {
-    // Show librarian information
-    try {
-        const librarian = await Librarian.findById(req.params.id);
-        if (librarian) {
-            // Check if from the same library
-            if (librarian.library !== req.user.__id) {
-                res.redirect("library/manage");
-            }
-            else {
-                res.render("library/librarian-detail");
-            }
-        } else {
-            // If does not exist then redirect to manage page
-            res.redirect("library/manage");
-        }
-    } catch(e) {
-        res.status(400).json({ errors: e });
-    }
-})
-
 router.post("/librarian/:id", async (req, res) => {
     // Delete an existing librarian
     try {
