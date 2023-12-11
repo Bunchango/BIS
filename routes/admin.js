@@ -4,6 +4,8 @@ const nodemailer = require("nodemailer");
 const {User} = require("./../models/user");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
+const {validateRegistration} = require("./../config/validator");
+const { validationResult } = require("express-validator");
 
 function isWebsiteAdmin(req, res, next) {
     // If is library admin then move to the next task
@@ -22,10 +24,15 @@ const transporter = nodemailer.createTransport({
 })
 
 router.get("/create_library", isWebsiteAdmin, (req, res) => {
-    res.render("admin/create_library");
+    res.render("admin/create_library", {errors: []});
 })
 
-router.post("/create_library", async (req, res) => {
+router.post("/create_library", validateRegistration, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('admin/create_library', { errors: errors.array() })
+    }
+
     let {username, gmail, password, confirmPassword, acceptTerms, address} = req.body;
     username = username.trim();
     gmail = gmail.trim(); 

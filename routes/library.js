@@ -1,9 +1,13 @@
 const router = require("express").Router();
 const Library = require("./../models/library");
-const {Librarian} = require("./../models/user");
+const {Librarian, User} = require("./../models/user");
 const {LibrarianVerification} = require("./../models/verification");
 const upload = require("./../config/multer");
 const nodemailer = require("nodemailer");
+const {validateRegistration} = require("./../config/validator");
+const { validationResult } = require("express-validator");
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 // Only library admin can access this page
 function isLibraryAdmin(req, res, next) {
@@ -34,7 +38,16 @@ router.get("/manage", isLibraryAdmin, async (req, res) => {
     }
 }) 
 
-router.post("/manage", isLibraryAdmin, async (req, res) => {
+router.get("/create_librarian", isLibraryAdmin, (req, res) => {
+    res.render("library/create_librarian", {errors: []})
+})
+
+router.post("/create_librarian", isLibraryAdmin, validateRegistration, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('library/create_librarian', { errors: errors.array() })
+    }
+
     // Create a new librarian, send an email to verify
     let {username, gmail, password, confirmPassword, acceptTerms} = req.body;
     username = username.trim();
@@ -42,16 +55,16 @@ router.post("/manage", isLibraryAdmin, async (req, res) => {
     password = password.trim();
 
     if (password !== confirmPassword) {
-        return res.render('library/manage', {errors: [{msg: "Password different from confirm password"}]});
+        return res.render('library/create_librarian', {errors: [{msg: "Password different from confirm password"}]});
     }
 
     if (!acceptTerms) {
-        return res.render('library/manage', {errors: [{msg: "You must accept terms and conditions"}]});
+        return res.render('library/create_librarian', {errors: [{msg: "You must accept terms and conditions"}]});
     }
 
     const account = await User.findOne({gmail: gmail});
     if (account) {
-        return res.render('checkin/register', {errors: [{msg: "Account already exists"}]});
+        return res.render('library/create_librarian', {errors: [{msg: "Account already exists"}]});
     }
 
     const token =  crypto.randomBytes(20).toString("hex"); 
@@ -63,7 +76,7 @@ router.post("/manage", isLibraryAdmin, async (req, res) => {
             password: hashedPassword, 
             gmail: gmail, 
             verificationCode: token,
-            library: req.user.__t,
+            library: req.user._id,
         })
 
         await librarian.save();
@@ -77,7 +90,7 @@ router.post("/manage", isLibraryAdmin, async (req, res) => {
         })
 
         // Redirect to create page
-        res.redirect("library/manage");
+        res.redirect("/library/manage");
 
     } catch(e) {
         res.status(400).json({ errors: e });
@@ -106,28 +119,6 @@ router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), a
 
         await Library.findOneAndUpdate({id: req.user.__id}, updateFields); 
         res.redirect("library/manage");
-    } catch(e) {
-        res.status(400).json({ errors: e });
-    }
-})
-
-// Need to check if from same library
-router.get("/librarian/:id", isLibraryAdmin, async (req, res) => {
-    // Show librarian information
-    try {
-        const librarian = await Librarian.findById(req.params.id);
-        if (librarian) {
-            // Check if from the same library
-            if (librarian.library !== req.user.__id) {
-                res.redirect("library/manage");
-            }
-            else {
-                res.render("library/librarian-detail");
-            }
-        } else {
-            // If does not exist then redirect to manage page
-            res.redirect("library/manage");
-        }
     } catch(e) {
         res.status(400).json({ errors: e });
     }

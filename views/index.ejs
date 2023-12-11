@@ -7,7 +7,8 @@
 
   <link rel="stylesheet" href="styles/index.css">
   <link rel="stylesheet" href="styles/flashcard.css">
-  <link rel="stylesheet" href="styles/footer.css"/> 
+  <link rel="stylesheet" href="styles/footer.css"/>
+  <link rel="icon" href="images/vxnhe-icon.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -30,9 +31,10 @@
     </ul> 
     <div id="account">
         <% if (user) { %>
-            <a href="">
-                <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
-            </a>
+            <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
+            <div id="account-hovering">
+              <h3><%=user.username%></h3>   
+            </div>
         <% } else { %>
             <a href="checkin/login"> 
                 <div id="login_index">Login</div>
@@ -57,7 +59,7 @@
       <div class="header-text">
         Unlocking Worlds, One Library at a Time
       </div>
-      <a class="button button-simple" href="/homepage"> Join Now </a>
+      <a class="button button-simple" href="/homepage"> Try Now </a>
     </div>
   </section>
 
@@ -73,10 +75,10 @@
             <div class="card__inner">
               <div class="card__face card__face--front">
                 <h2 id="ad-number">1</h2>
-                <span id="short-des">Short Description</span>
+                <span id="short-des">Centralized Information</span>
               </div>
               <div class="card__face card__face--back">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, accusamus soluta. Ex earum dolore quasi beatae maxime aspernatur expedita, labore cum eum sunt sapiente quis eius, dolor autem deserunt cumque.</p>
+                <p>Having a centralized platform provides a single source of information for users looking to find books and libraries. This can help streamline the search process, making it more convenient for users to access the information they need without having to visit multiple sources.</p>
               </div>
             </div>
           </div>
@@ -86,10 +88,10 @@
             <div class="card__inner">
               <div class="card__face card__face--front">
                 <h2 id="ad-number">2</h2>
-                <span id="short-des">Short Description</span>
+                <span id="short-des">Comprehensive Database</span>
               </div>
               <div class="card__face card__face--back">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, accusamus soluta. Ex earum dolore quasi beatae maxime aspernatur expedita, labore cum eum sunt sapiente quis eius, dolor autem deserunt cumque.</p>
+                <p>A centralized system can maintain a comprehensive database of books and libraries. This can include details such as book titles, authors, genres, available copies, and library locations. Users can access a wealth of information in one place, enhancing their ability to find relevant resources.</p>
               </div>
             </div>
           </div>
@@ -99,10 +101,10 @@
             <div class="card__inner">
               <div class="card__face card__face--front">
                 <h2 id="ad-number">3</h2>
-                <span id="short-des">Short Description</span>
+                <span id="short-des">Efficient Search Functionality</span>
               </div>
               <div class="card__face card__face--back">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, accusamus soluta. Ex earum dolore quasi beatae maxime aspernatur expedita, labore cum eum sunt sapiente quis eius, dolor autem deserunt cumque.</p>
+                <p> Centralized websites often implement powerful search algorithms and filters, enabling users to perform efficient searches based on various criteria such as book title, author, genre, location, and availability. This helps users quickly locate the information they are seeking.</p>
               </div>
             </div>
           </div>
@@ -112,15 +114,15 @@
             <div class="card__inner">
               <div class="card__face card__face--front">
                 <h2 id="ad-number">4</h2>
-                <span id="short-des">Short Description</span>
+                <span id="short-des">Integration with Libraries</span>
               </div>
               <div class="card__face card__face--back">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, accusamus soluta. Ex earum dolore quasi beatae maxime aspernatur expedita, labore cum eum sunt sapiente quis eius, dolor autem deserunt cumque.</p>
+                <p>A centralized platform can integrate with different libraries, allowing users to access information about books available in multiple locations. This integration may include real-time updates on book availability, library hours, and other relevant details.</p>
               </div>
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </div>
 
     <!-- What -->
@@ -206,7 +208,7 @@
     <div class="join-now">
       <h2 class="join-now-header">Join Us Now</h2>
       <p class="subtitle">Get Ready to Embark on a Literary Adventure</p>
-      <a class="button3"  href="/developer-portal/"> Join Now </a>
+      <a class="button3"  href="/checkin/login"> Join Now </a>
     </div>
     <!-- Go Up -->
     <div class="goup">

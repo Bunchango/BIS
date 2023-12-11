@@ -44,10 +44,10 @@ const librarySchema = new mongoose.Schema({
 })
 
 librarySchema.pre("save", async function(next) {
-    const location = await geocoder(this.address);
+    const location = await geocoder.geocode(this.address);
     this.location = {
         type: "Point", 
-        coordinates: [location[0].longtitude, location[0].latitude],
+        coordinates: [location[0].longitude, location[0].latitude],
         formattedAddress: location[0].formattedAddress
     }
     // Don't save address

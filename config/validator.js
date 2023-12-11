@@ -40,4 +40,8 @@ const validateBookCreation = [
   .withMessage("Description must be at least 5 characters"),
 ]
 
+const valdiateLibraryCreation = [
+
+]
+
 module.exports = {validateRegistration, validateBookCreation}
