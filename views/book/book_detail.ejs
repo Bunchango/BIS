@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= book.title %> by <%= book.author %></title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/slider.css" />
+    <link rel="stylesheet" href="styles/footer.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="js/homepage.js"></script>
+</head>
+
+<body>
+    <header>
+        <%- include('../partials_readers/head_navigation.ejs') %>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="book-cover">
+                <% if (book.coverImages && book.coverImages.length > 0) { %>
+                <img src="<%= book.coverImages[0] %>" alt="<%= book.title %> Cover">
+                <% } else { %>
+                <img src="/images/default-book-cover.jpg" alt="Default Cover Image">
+                <% } %>
+            </div>
+
+            <div class="book-detail">
+                <h1 id="book-title"><%= book.title %></h1>
+                <h2 id="author"><%= book.author %></h2>
+
+                <div class="book-info">
+                    <p class="category">Category: <%= book.category %></p>
+                    <p class="publish-date">Publish Date: <%= book.publishDate.toLocaleDateString() %></p>
+                    <% if (book.description) { %>
+                    <p class="description"><strong>Description:</strong> <%= book.description %></p>
+                    <% } %>
+
+                </div>
+                <% if (user instanceof Reader) { %>
+                <!-- Reader-specific content -->
+                <div class="reader-buttons">
+                    <button id="borrow-btn">Borrow</button>
+                    <button id="wishlist-btn">Add to wishlist</button>
+                </div>
+
+                <% } else if (user instanceof Librarian) { %>
+                <!-- Librarian-specific content -->
+                <div class="librarian-buttons">
+                    <button id="edit-btn">Edit</button>
+                    <button id="delete-btn">Delete</button>
+                </div>
+
+                <% } else { %>
+                <!-- Default content for other roles or unauthenticated users -->
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <%- include('../partials_readers/footer.ejs') %>
+    </footer>
+</body>
+
+</html>
