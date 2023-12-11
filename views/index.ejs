@@ -44,7 +44,7 @@
     </div>
 </header>
 <body class="font-sans">
-  <section class="custom">
+  <section class="custom" id="start">
     <video class="video" autoplay loop muted plays-inline>
       <source
         src="/images/pexels_videos_2268807 (1080p).mp4"
@@ -52,18 +52,19 @@
       />
     </video>
 
-    <div class="container"  id="start">
+    <div class="container"  id="welcome-text">
       <h1 class="custom-text">Vx Nhe</h1>
       <div class="header-text">
         Unlocking Worlds, One Library at a Time
       </div>
-      <a class="button button-simple" href="/developer-portal/"> Join Now </a>
+      <a class="button button-simple" href="/homepage"> Join Now </a>
     </div>
   </section>
 
   <!-- Main ( removed class main in section )-->
   <section > 
     <!-- Why -->
+    <div id="about"></div>
     <div class="why-content">
       <h2 class="text-center why-header">Why Use Our Page</h2>
       <div class="grid-container">
@@ -107,6 +108,7 @@
     </div>
 
     <!-- What -->
+    <div id="goal"></div>
     <div class="what-content">
       <h2 class="what-header">What We Are Made For</h2>
       
@@ -127,6 +129,7 @@
     </div>
 
     <!-- Summary Statistics -->
+    <div id="statistics"></div>
     <div class="statistics">
       <h2 class="statistics-header">Our Summary Statistics</h2>
       <div class="statistics-content">
@@ -183,6 +186,7 @@
     </div>
 
     <!-- Join Now -->
+    <div id="service"></div>
     <div class="join-now">
       <h2 class="join-now-header">Join Us Now</h2>
       <p class="subtitle">Get Ready to Embark on a Literary Adventure</p>
@@ -193,7 +197,7 @@
       <a class="button2" href="#start"> Back To Top</a>
     </div>
   </section>
-
+  
   <%- include("partials_readers/footer.ejs") %>
 </body>
 <script type="text/javascript" src="js/index.js"></script>

@@ -3,9 +3,9 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
     font-family: 'Poppins', sans-serif;
     scroll-behavior: smooth;
+    text-decoration: none;
   }
 :root {
     --theme-color-peach: #FCEDDA; 
@@ -27,6 +27,10 @@ header {
     transition: 0.6s;
     padding:  40px 100px;
     z-index: 10000;
+}
+
+body,section {
+  overflow-x: hidden;
 }
 
 .sticky {
@@ -60,12 +64,11 @@ header ul li a {
     color: var(--theme-color-peach);
     letter-spacing: 2px;
     font-weight: 700px;
-
     transition: 0.6s;
 }
 
 header ul li a:hover {
-    color: #000;
+    color: var(--theme-color-orange);
 }
 
 #account {
@@ -83,7 +86,7 @@ header ul li a:hover {
 }
 
 #login_index:hover {
-    color: #000;
+    color: var(--theme-color-orange);
     transition: 0.6s;
 }
 
@@ -93,7 +96,7 @@ header ul li a:hover {
 }
 
 #register_index:hover {
-    color: #000;
+    color: var(--theme-color-orange);
     transition: 0.6s;
 }
 
@@ -107,7 +110,11 @@ header ul li a:hover {
 .sticky #account,
 .sticky .checkbtn,
 .sticky ul li a {
-    color: #000;
+    color: var(--theme-color-orange);
+}
+
+.sticky ul li a:hover {
+  color: white;
 }
 
 .checkbtn {
@@ -122,90 +129,6 @@ header ul li a:hover {
 
 #check {
     display: none;
-}
-
-@media only screen and (max-width:992px) {
-    header {
-        padding:  5px 50px;
-    }
-
-    label.logo {
-        font-size: 30px;
-        padding-left: 50px;
-    }
-
-    header ul li a {
-        font-size: 16px;
-    }
-
-    header ul li {
-        display: block; 
-        margin: 0px;
-        line-height: 30px;
-    }
-
-
-    #login_index {
-        font-size: 20px;
-    }
-
-    #register_index {
-        font-size: 20px;
-    }
-}
-
-@media (max-width:800px) {
-    .sticky {
-        padding: 5px 30px;
-    }
-
-    .checkbtn {
-        display: block;
-    }
-
-    header ul {
-        position: fixed;
-        display: block;
-        width: 100%;
-        height: 100vh;
-        background: var(--theme-color-orange);
-        top: 80px;
-        left: -100%;
-        text-align: center;
-        transition: all .5s;
-    }
-
-    header ul li {
-        display: flex; 
-        justify-content: center;
-        align-items: center;
-        margin: 0px;
-        height: 150px;
-        line-height: 30px;
-    }
-
-    header ul li a {
-        font-size: 30px;
-        color: #fff;
-    }
-
-    .sticky ul li a {
-        font-size: 30px;
-        color: #fff;
-    }
- 
-    header ul li:hover a {
-        color: #000;
-    }
-    
-    header ul li:hover {
-        background: var(--theme-color-peach);
-        transition: all 0.6s;
-    }
-
-    #check:checked ~ ul {
-        left: 0;
-    }
 }
 
 /* EM CHAU'S PART */
@@ -228,9 +151,16 @@ header ul li a:hover {
 }
 /* Custom */
 .custom {
-  aspect-ratio: 16/9;
+  min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  z-index: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--white);
+  padding: 50px;
+  overflow-x: hidden;
 }
 
 .main::-webkit-scrollbar {
@@ -253,10 +183,21 @@ header ul li a:hover {
     scroll no-repeat bottom transparent;
 }
 
+.custom #welcome-text{
+  z-index: 900;
+  color: var(--white);
+  width: 70%;
+  margin-top: 50px;
+}
+
 .custom .video {
   right: 0;
   bottom: 0;
-  z-index: -999;
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .container {
@@ -267,7 +208,7 @@ header ul li a:hover {
 
 
 
-.header-text {
+.container .header-text {
   /* color: #ee4e34;
   max-width: 770px;
   font-size: 17px;
@@ -365,6 +306,7 @@ header ul li a:hover {
   color: black;
   padding: 40px 120px 120px 120px ;
   background:#FCEDDA;
+  overflow-x: hidden;
 }
 
 .why-header {
@@ -410,6 +352,7 @@ header ul li a:hover {
 .what-content {
   padding: 120px;
   background-color: #ee4e34;
+  overflow-x: hidden;
 }
 
 .what-header {
@@ -463,14 +406,6 @@ header ul li a:hover {
 .title ul li {
   margin-bottom: 25px;
   padding-left: 25px;
-}
-
-li::before {
-  content: "\2022";
-  font-weight: bold;
-  font-size: 1.25em;
-  margin-right: 5px;
-  margin-top: 5px;
 }
 
 /* Statistics */
@@ -589,48 +524,140 @@ li::before {
 }
 
 @media (max-width: 1120px) {
-  .custom {
-    aspect-ratio: 15/9;
-  }
 
   .container {
-    top: 0;
+    bottom: 10;
   }
 }
 
-@media (max-width: 992px) {
-  .custom {
-    aspect-ratio: 14/9;
-  }
+@media only screen and (max-width:992px) {
+    .custom {
+      padding: 10px;
+    }
+    .container {
+      margin-top: 50px;
+    }
 
-  .container {
-    top: 20px;
-  }
+    .container .custom-text {
+      font-size: 6em;
+    }
 
-  .header-text {
-    margin-bottom: 20px;
-   
-  }
+    .container .header-text{
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
 
-  .grid-container {
-    grid-template-columns: auto;
-    grid-template-rows: auto auto auto auto;
-    row-gap: 1.5rem;
-  }
+    header {
+        padding:  5px 50px;
+    }
 
-  .about {
-    grid-template-columns: auto;
-    margin-top: 3rem;
-    row-gap: 1.5rem;
-    grid-template-rows: auto auto;
-  }
+    label.logo {
+        font-size: 30px;
+        padding-left: 50px;
+    }
 
-  .card-item img {
-    width: 100%;
-  }
+    header ul li a {
+        font-size: 16px;
+    }
 
-  .join-now-card {
-    grid-template-columns: auto;
-    row-gap: 1.5rem;
-  }
+    header ul li {
+        display: block; 
+        margin: 0px;
+        line-height: 30px;
+    }
+
+
+    #login_index {
+        font-size: 20px;
+    }
+
+    #register_index {
+        font-size: 20px;
+    }
+
+    .grid-container {
+      grid-template-columns: auto;
+      grid-template-rows: auto auto auto auto;
+      row-gap: 1.5rem;
+    }
+  
+    .about {
+      grid-template-columns: auto;
+      margin-top: 3rem;
+      row-gap: 1.5rem;
+      grid-template-rows: auto auto;
+    }
+  
+    .card-item img {
+      width: 100%;
+    }
+  
+    .join-now-card {
+      grid-template-columns: auto;
+      row-gap: 1.5rem;
+    }
 }
+
+@media (max-width:800px) {
+    header {
+      padding: 5px 30px;
+    }
+
+    .sticky {
+        padding: 5px 30px;
+    }
+
+    .checkbtn {
+        display: block;
+    }
+
+    header ul {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 100vh;
+        background: var(--theme-color-orange);
+        top: 80px;
+        left: -100%;
+        text-align: center;
+        transition: all .5s;
+    }
+
+    header ul li {
+        display: flex; 
+        justify-content: center;
+        align-items: center;
+        margin: 0px;
+        height: 150px;
+        line-height: 30px;
+    }
+
+    header ul li a {
+        font-size: 30px;
+        color: #fff;
+    }
+
+    .sticky ul li a {
+        font-size: 30px;
+        color: #fff;
+    }
+ 
+    header ul li:hover a {
+        color: #000;
+    }
+    
+    header ul li:hover {
+        background: var(--theme-color-peach);
+        transition: all 0.6s;
+    }
+
+    #check:checked ~ ul {
+        left: 0;
+    }
+}
+
+
+
+
+
+
