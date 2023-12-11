@@ -90,12 +90,10 @@ router.post("/add_book", upload.array("images", 3), validateBookCreation, async 
     }
 })
 
-router.get("/book_detail/:id", isLibrarian, async (req, res) => {
+router.get("/book_detail/:id", async (req, res) => {
     // View book detail
     try {
         const book = await Book.findById(req.params.id);
-        // Check if book is from same library
-        if (book.library !== req.user.library) return res.redirect("/librarian/inventory");
 
         res.render("librarian/book_detail", {book: book});
     } catch(e) {
@@ -103,8 +101,9 @@ router.get("/book_detail/:id", isLibrarian, async (req, res) => {
     }
 })
 
-router.post("/book_detail/:id", (req, res) => {
+router.post("/book_detail/:id", isLibrarian, (req, res) => {
     // Change book detail
+    
 })
 
 // Pickup and borrow
