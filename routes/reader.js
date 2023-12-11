@@ -31,10 +31,15 @@ router.get('/search', async (req, res) => {
 });
 
 // Book Detail Route
-router.get('book/:id', async (req, res) => {
-
+router.get('/book_detail/:id', async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    res.render('book/book_detail', { book: book, user: req.user });
+  } catch (error) {
+    console.error(error);
+    res.redirect('/homepage');
+  }
 });
-
 
 // Advanced search function
 function searchBooks(req, query) {
