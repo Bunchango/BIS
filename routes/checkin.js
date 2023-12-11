@@ -157,10 +157,10 @@ router.get('/verify', checkAuthenticated, async (req, res) => {
                         address: verifyAccount.address,
                     });
                 }
-                // Delete the record after verification
-                await UserVerification.deleteOne({ gmail: email });
                 // Create a new record
                 await user.save();
+                // Delete the record after verification
+                await UserVerification.deleteOne({ gmail: email });
                 res.render('checkin/verify', {verified: true, msg: "Successful", user: req.user});
             } else {
                 res.render('checkin/verify', {verified: false, msg: "Invalid code", user: req.user});

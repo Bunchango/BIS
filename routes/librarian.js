@@ -3,6 +3,7 @@ const {Book, categoriesArray} = require("../models/book");
 const {Borrow, Pickup} = require("../models/borrow");
 const {validateBookCreation} = require("../config/validator");
 const upload = require("./../config/multer");
+const { validationResult } = require("express-validator");
 
 const router = require("express").Router();
 
@@ -155,7 +156,7 @@ router.post("/message", (req, res) => {
 
 // Dashboard 
 router.get("/dashboard", isLibrarian, (req, res) => {
-
+    res.render("librarian/dashboard");
 })
 
 module.exports = router;

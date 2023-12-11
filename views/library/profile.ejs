@@ -3,21 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Library Profile</title>
 </head>
 <body>
+    <h1>Library Profile</h1>
     <form action="profile" method="POST" enctype="multipart/form-data">
         <div>
-            <input type="file" name="logo" id="logo">
-            <br>
-            <label for="logo">Choose Profile picture</label>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="<%= admin.username %>">
         </div>
         <div>
-            <input type="file" name="banner" id="banner">
-            <br>
-            <label for="banner">Choose Banner</label>
+            <label for="gmail">Gmail:</label>
+            <p><%= admin.gmail %></p>
         </div>
-        <br>
+        <div>
+            <label for="location">Location:</label>
+            <p><%= admin.location.formattedAddress %></p>
+        </div>
+        <div>
+            <label for="joinedAt">Joined At:</label>
+            <p><%= admin.joinedAt.toDateString() %></p>
+        </div>
+        <div>
+            <label for="logo">Profile Picture:</label>
+            <img src="<%= admin.profilePicture %>" alt="Profile Picture">
+            <input type="file" id="logo" name="logo">
+        </div>
+        <div>
+            <label for="banner">Banner:</label>
+            <img src="<%= admin.banner %>" alt="Banner">
+            <input type="file" id="banner" name="banner">
+        </div>
+        <div>
+            <input type="checkbox" id="confirm" name="confirm">
+            <label for="confirm">Confirm Changes</label>
+        </div>
         <input type="submit" value="Submit">
     </form>
 </body>
