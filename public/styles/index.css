@@ -200,6 +200,17 @@ header ul li a:hover {
   object-fit: cover;
 }
 
+.custom::before{
+  z-index: 101;
+  content: '';
+  position: absolute;
+  background: rgba(231, 7, 7, 0.07);
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+}
+
 .container {
   position: absolute;
   top: 100px;
@@ -520,7 +531,7 @@ header ul li a:hover {
 /* Go up */
 .goup{
   padding: 90px ;
-  background:#FCEDDA;
+  background:#eaeaea;
 }
 
 @media (max-width: 1120px) {
