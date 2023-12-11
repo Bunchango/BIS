@@ -6,6 +6,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --theme-color-peach: #FCEDDA; 
+  --theme-color-orange: #EE4E34;
+} 
+
 .footer-area {
   font-family: 'Poppins', sans-serif;
   margin-top: -2px;
@@ -37,7 +42,7 @@
 .logo_footer {
   margin-bottom: 10px;
   font-family: "Arial", sans-serif;
-  color: white;
+  color: var(--theme-color-orange);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
