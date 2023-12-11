@@ -81,7 +81,7 @@ app.get("/homepage", (req, res) => {
 })
 
 // Route for terms and conditions
-app.get("/terms", (req, res) => { 
+app.get("/terms", (req, res) => {
     res.render("reader/terms", { user: req.user });
 })
 
@@ -99,10 +99,10 @@ app.get("*", (req, res) => {
 })
 
 async function createAdmin() {
-    const {Admin} = require("./models/user");
+    const { Admin } = require("./models/user");
     const bcrypt = require("bcrypt");
     const admin = new Admin({
-        username: "system_admin", 
+        username: "system_admin",
         password: await bcrypt.hash("system_admin", 10),
         gmail: "system_admin",
     })
@@ -111,7 +111,7 @@ async function createAdmin() {
 }
 
 // createAdmin();
- 
+
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 })

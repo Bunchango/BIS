@@ -30,6 +30,11 @@ router.get('/search', async (req, res) => {
   }
 });
 
+// Book Detail Route
+router.get('book/:id', async (req, res) => {
+
+});
+
 
 // Advanced search function
 function searchBooks(req, query) {

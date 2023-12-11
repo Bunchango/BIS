@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const { libraryVerification } = require("../models/verification");
 const nodemailer = require("nodemailer");
+const {User} = require("./../models/user");
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 function isWebsiteAdmin(req, res, next) {
     // If is library admin then move to the next task
@@ -65,7 +68,7 @@ router.post("/create_library", async (req, res) => {
         })
 
         // Redirect to create page
-        res.redirect("admin/create_library");
+        res.redirect("/admin/create_library");
     } catch(e) {
         res.status(400).json({ errors: e });
     }

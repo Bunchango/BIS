@@ -2,3 +2,7 @@ node_modules
 .vscode
 # MacOS
 .DS_Store
+*/.DS_Store
+# HTTP requests for debugging
+*.http
+*.rest
