@@ -1,0 +1,45 @@
+.hot {
+    position: relative;
+    height: 100vh;
+    overflow-x: hidden;
+    margin-top: 100px;
+}
+
+.hot-book{
+    position: absolute;
+    margin-top: 100px;
+    text-align: justify;
+    background-color: #EE4E34;
+    border-radius: 10px;
+    padding: 20px;
+    color: #f9e4c8;
+    transition: 0.5s;
+    left: calc(50% - 150px);
+    top: 0;
+}
+#next-hot, #prev-hot{
+    position: absolute;
+    top: 40%;
+    color: #000000;
+    background-color: transparent;
+    border: none;
+    font-size: xxx-large;
+    font-family: monospace;
+    font-weight: bold;
+    left: 400px;
+    z-index: 100;
+}
+#next-hot{
+    left: unset;
+    right: 400px;
+}
+
+.hot-book {
+    height: 50%;
+    width: 300px;
+}
+
+#hot-title {
+    font-size: 50px;
+    text-align: center;
+}
