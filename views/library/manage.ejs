@@ -6,6 +6,25 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>Librarians</h1>
+    <ul>
+        <% librarians.forEach(function(librarian) { %>
+            <li>
+                <p>Name: <%= librarian.username %></p>
+                <p>Email: <%= librarian.gmail %></p>
+                <p>Profile Picture: <img src="<%= librarian.profilePicture %>" alt="<%= librarian.username %>"></p>
+            </li>
+        <% }); %>
+    </ul>
+
+    <h1>Verifying Librarians</h1>
+    <ul>
+        <% verifyingLibrarians.forEach(function(librarian) { %>
+            <li>
+                <p>Name: <%= librarian.username %></p>
+                <p>Email: <%= librarian.gmail %></p>
+            </li>
+        <% }); %>
+    </ul>
 </body>
 </html>

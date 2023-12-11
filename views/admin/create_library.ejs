@@ -7,7 +7,17 @@
 </head>
 <body>
     <h2>Create Library</h2>
+    
+    <% if (errors && errors.length > 0) { %>
+        <div style="color: red;">
+            <% errors.forEach(error => { %>
+                <p><%= error.msg %></p>
+            <% }); %>
+        </div>
+    <% } %>
+
     <form action="create_library" method="post">
+        
         <!-- Username -->
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
