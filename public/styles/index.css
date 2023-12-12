@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -7,6 +8,7 @@
     scroll-behavior: smooth;
     text-decoration: none;
   }
+
 :root {
     --theme-color-peach: #FCEDDA; 
     --theme-color-orange: #EE4E34;
@@ -164,7 +166,7 @@ header ul li a:hover {
   text-transform: uppercase;
   font-size: 10em;
   font-weight: 900;
-  margin-top: 40px;
+  margin-top: 0px;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -206,7 +208,7 @@ header ul li a:hover {
 .custom #welcome-text{
   z-index: 900;
   color: var(--white);
-  width: 70%;
+  width: 90%;
   margin-top: 10px;
 }
 
@@ -248,7 +250,7 @@ header ul li a:hover {
   line-height: 26px;
   margin-bottom: 50px;
    */
-   font-size: 50px;
+   font-size: 40px;
    font-weight: 1000;
    text-transform: uppercase;
    letter-spacing: 1px;
@@ -353,7 +355,7 @@ header ul li a:hover {
 .grid-container {
   display: grid;
   grid-template-rows: repeat(auto-fit);
-  grid-template-columns: repeat(auto-fit, minmax(340px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(300px, auto));
  
   height: 100%;
   width: 100%;
