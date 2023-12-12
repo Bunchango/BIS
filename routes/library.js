@@ -134,4 +134,14 @@ router.post("/librarian/:id", async (req, res) => {
     }
 })
 
+router.post("/verifying_librarian/:id", async (req, res) => {
+    // Delete a verifying librarian
+    try {
+        await LibrarianVerification.findByIdAndDelete(req.params.id);
+        res.redirect("/library/manage");
+    } catch(e) {
+        res.status(400).json({errors: e});
+    }
+})
+
 module.exports = router;
