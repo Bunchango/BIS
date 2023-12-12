@@ -114,11 +114,11 @@ router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), a
 
         const updateFields = {};
         if (req.body.username) updateFields.username = req.body.username; 
-        if (req.body.logo) updateFields.profilePicture = req.body.logo;
-        if (req.body.banner) updateFields.banner = req.body.banner;
+        if (req.files.logo) updateFields.profilePicture = req.files.logo[0].path;
+        if (req.files.banner) updateFields.banner = req.files.banner[0].path;
 
         await Library.findOneAndUpdate({id: req.user.__id}, updateFields); 
-        res.redirect("library/manage");
+        res.redirect("/library/manage");
     } catch(e) {
         res.status(400).json({ errors: e });
     }

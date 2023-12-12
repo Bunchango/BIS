@@ -180,6 +180,7 @@ header ul li a:hover {
   background: var(--white);
   padding: 50px;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .main::-webkit-scrollbar {
@@ -206,7 +207,7 @@ header ul li a:hover {
   z-index: 900;
   color: var(--white);
   width: 70%;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .custom .video {
@@ -247,7 +248,7 @@ header ul li a:hover {
   line-height: 26px;
   margin-bottom: 50px;
    */
-   font-size: 3em;
+   font-size: 50px;
    font-weight: 1000;
    text-transform: uppercase;
    letter-spacing: 1px;
@@ -335,7 +336,7 @@ header ul li a:hover {
 /* Why */
 .why-content {
   color: black;
-  padding: 40px 120px 120px 120px ;
+  padding: 40px 40px 80px 40px ;
   background:#FCEDDA;
   overflow-x: hidden;
 }
@@ -563,6 +564,10 @@ header ul li a:hover {
     .custom {
       padding: 10px;
     }
+
+    .custom #welcome-text {
+      margin-top: 200px;
+    }
   
     .container {
       top: 70px;
@@ -570,11 +575,11 @@ header ul li a:hover {
     }
 
     .container .custom-text {
-      font-size: 6em;
+      font-size: 100px;
     }
 
     .container .header-text{
-      font-size: 2em;
+      font-size: 50px;
       margin-bottom: 20px;
     }
 
@@ -639,6 +644,13 @@ header ul li a:hover {
 @media (max-width:800px) {
     header {
       padding: 5px 30px;
+    }
+    .custom #welcome-text {
+      margin-top: 100px;
+    }
+    .container .header-text{
+      font-size: 30px;
+      margin-bottom: 0px;
     }
 
     .why-content {
