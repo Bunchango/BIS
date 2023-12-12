@@ -21,9 +21,17 @@
     </header>
 
     <main>
-        <!-- get books from wishlist -->
-        <% for (const book of wishList) { %>
-        <h3><% book.title %></h3>
+        <% for (const borrow of borrows) { %>
+        <h3>Loan ID: <%= borrow._id %></h3>
+        <p>Due Date: <%= borrow.dueDate %></p>
+
+        <!-- Access the books associated with the borrow -->
+        <ul>
+            <% for (const book of borrow.books) { %>
+            <li><%= book.title %></li>
+            <% } %>
+        </ul>
+
         <% } %>
     </main>
 

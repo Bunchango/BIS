@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Book, categoriesArray } = require('./../models/book');
+const { Borrow } = require('./../models/borrow');
+const { Reader } = require('./../models/user');
 
 // GET Books Route for search
 
@@ -24,8 +26,8 @@ router.get('/search', async (req, res) => {
       totalResults: books.length,
       totalPages: Math.ceil(books.length / limit)
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    res.status(400).json({ errors: err });
     res.redirect('/reader/search');
   }
 });
@@ -35,11 +37,49 @@ router.get('/book_detail/:id', async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     res.render('book/book_detail', { book: book, user: req.user });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    res.status(400).json({ errors: err });
     res.redirect('/homepage');
   }
 });
+
+//My loan route
+router.get('/my_loan/', isReader, async (req, res) => {
+  try {
+    const borrows = await Borrow.find({ reader: req.user._id })
+      .populate('books')
+      .populate('library');
+    res.render('reader/my_loan', { borrows: borrows, user: req.user });
+  } catch (err) {
+    res.status(400).json({ errors: err });
+    res.redirect('/homepage');
+  }
+});
+
+// My wishlist route
+router.get('/my_wishlist', isReader, async (req, res) => {
+  try {
+    const reader = await Reader.findOne({ _id: req.user._id }).populate('wishList');
+
+    if (!reader) {
+      return res.status(404).json({ error: 'Reader not found' });
+    }
+    const wishList = reader.wishList;
+
+    res.render('reader/my_wishlist', { wishList: wishList, user: req.user });
+  } catch (err) {
+    res.status(400).json({ errors: err });
+  }
+});
+
+
+function isReader(req, res, next) {
+  // If is librarian then move to the next task
+  if (req.isAuthenticated && req.user && req.user.__t === "Reader") {
+    return next();
+  }
+  res.redirect("/homepage");
+}
 
 // Advanced search function
 function searchBooks(req, query) {
