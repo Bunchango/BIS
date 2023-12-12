@@ -1,9 +1,11 @@
 const Library = require("../models/library");
 const {Book, categoriesArray} = require("../models/book");
 const {Borrow, Pickup} = require("../models/borrow");
-const {validateBookCreation} = require("../config/validator");
+const {validateBookCreation, validateUsername} = require("../config/validator");
 const upload = require("./../config/multer");
 const { validationResult } = require("express-validator");
+const { response } = require("express");
+const { Librarian } = require("../models/user");
 
 const router = require("express").Router();
 
@@ -27,14 +29,28 @@ router.get("/profile", isLibrarian, async (req, res) => {
     try {
         const library = await Library.findById(req.user.library); 
 
-        res.render("librarian/profile", {user: req.user, library: library});
+        res.render("librarian/profile", {user: req.user, library: library, errors: []});
     } catch(e) {
         res.status(400).json({ errors: e });
     }
 })
 
-router.post("/profile", async (req, res) => {
-    // Change account info
+router.post("/profile", validateUsername, async (req, res) => {
+    // Change account info (only allow changing username)
+    try {
+        const library = await Library.findById(req.user.library); 
+        
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.render('librarian/profile', {user: req.user, library: library, errors: errors.array()})
+        }
+        
+        await Librarian.findByIdAndUpdate(req.user._id, {username: req.body.username});
+
+        res.render("librarian/profile", {user: req.user, library: library, errors: []})
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 })
 
 // Inventory

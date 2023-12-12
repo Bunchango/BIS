@@ -7,6 +7,15 @@
 </head>
 <body>
     <h1>Library Profile</h1>
+    
+    <% if (errors && errors.length > 0) { %>
+        <div style="color: red;">
+            <% errors.forEach(error => { %>
+                <p><%= error.msg %></p>
+            <% }); %>
+        </div>
+    <% } %>
+
     <form action="profile" method="POST" enctype="multipart/form-data">
         <div>
             <label for="username">Username:</label>

@@ -40,8 +40,12 @@ const validateBookCreation = [
   .withMessage("Description must be at least 5 characters"),
 ]
 
-const valdiateLibraryCreation = [
-
+const validateUsername = [
+  body("username")
+  .isAlphanumeric()
+  .withMessage("Username must contain only digits and letters")
+  .isLength({ min: 8, max: 15 })
+  .withMessage("Username must be between 8 and 15 characters"),
 ]
 
-module.exports = {validateRegistration, validateBookCreation}
+module.exports = {validateRegistration, validateBookCreation, validateUsername}

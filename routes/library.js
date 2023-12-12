@@ -4,7 +4,7 @@ const {Librarian, User} = require("./../models/user");
 const {LibrarianVerification} = require("./../models/verification");
 const upload = require("./../config/multer");
 const nodemailer = require("nodemailer");
-const {validateRegistration} = require("./../config/validator");
+const {validateRegistration, validateUsername} = require("./../config/validator");
 const { validationResult } = require("express-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
@@ -102,14 +102,19 @@ router.get("/profile", isLibraryAdmin, (req, res) => {
     res.render("library/profile", {admin: req.user});
 })
 
-router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), async (req, res) => {
-    // Pre render the fields with original values
+router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), 
+validateUsername, async (req, res) => {
     // TODO: Make location changable
     // Change library information: username, profile picture, location, banner
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('library/profile', {admin: req.user, errors: errors.array()})
+    }
+
     try {
         if (!req.body.confirm) {
             // Show error must confrim to change 
-            res.render("library/profile", {admin: req.user, msg: "You must confirm the changes"})
+            res.render("library/profile", {admin: req.user, errors: [{msg: "You must confirm the changes"}]})
         }
 
         const updateFields = {};
