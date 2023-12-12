@@ -22,11 +22,10 @@ const bookSchema = new mongoose.Schema({
         minlength: [5, "Author name must be at least 5 characters"],
         maxlength: [24, "Author name must be at most 24 characters"]
     },
-    category: {
+    category: [{
         type: String,
         enum: categoriesArray,
-        required: true,
-    },
+    }],
     description: {
         type: String,
         minlength: [10, "Description must be at least 10 characters"],

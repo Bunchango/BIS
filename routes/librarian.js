@@ -91,6 +91,7 @@ router.post("/add_book", upload.array("images", 3), validateBookCreation, async 
     }
 })
 
+// Route shared by librarian and reader
 router.get("/book_detail/:id", async (req, res) => {
     // View book detail
     try {
