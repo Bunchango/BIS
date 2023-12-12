@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickup detail</title>
+</head>
+<body>
+    <form action="update/pickup/<%= pickup._id %>" method="POST">
+        <h2><%= pickup.reader.gmail %></h2>
+
+        <h2>Books to be pickup</h2>
+        <% pickup.books.forEach(book => { %>
+            <p><%= book.title %></p>
+            <p><%= book.author %></p>
+            <!-- Other book details here -->
+         <% }) %>
+
+        <p><%= pickup.status %></p>
+
+        <p><%= pickup.createdOn %></p>
+        <input type="date" id="takeDate" name="takeDate" value="<%= pickup.takeDate.toISOString().split('T')[0] %>">
+
+        <select id="status" name="status">
+            <option value="Completed" <% if (pickup.status === 'Completed') { %>selected<% } %>>Completed</option>
+            <option value="Scheduled" <% if (pickup.status === 'Scheduled') { %>selected<% } %>>Scheduled</option>
+            <option value="Canceled" <% if (pickup.status === 'Canceled') { %>selected<% } %>>Canceled</option>
+        </select>
+
+        <input type="submit" value="Update Status">
+    </form>
+</body>
+</html>

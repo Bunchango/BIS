@@ -40,6 +40,7 @@ const readerSchema = new mongoose.Schema({
         default: Date.now,
     },
     notification: [{
+        title: String,
         message: String,
         createdOn: {
             type: Date,

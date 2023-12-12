@@ -5,7 +5,8 @@ const {validateBookCreation, validateUsername} = require("../config/validator");
 const upload = require("./../config/multer");
 const { validationResult } = require("express-validator");
 const { response } = require("express");
-const { Librarian } = require("../models/user");
+const { Librarian, Reader } = require("../models/user");
+const nodemailer = require("nodemailer");
 
 const router = require("express").Router();
 
@@ -139,7 +140,7 @@ router.get("/customer", isLibrarian, async (req, res) => {
 router.get("/pickup/:id", isLibrarian, async (req, res) => {
     // Render pickup detail and change date
     try {
-        const pickup = await Pickup.findById(req.params.id);
+        const pickup = await Pickup.findById(req.params.id).populate("reader").populate("books");
         if (pickup.library !== req.user.library) return res.redirect("/librarian/customer");
         return res.render("librarian/pickup", {pickup: pickup});
     } catch(e) {
@@ -147,14 +148,20 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
     }
 })
 
-router.post("/pickup/:id", (req, res) => {
-    // confirm, or cancel, or mark as finished
+router.post("/update/pickup/:id", async (req, res) => {
+    // confirm, or cancel, or finished
+    try {
+        await Pickup.findByIdAndUpdate(req.params.id, {status: req.body.status, takeDate: req.body.takeDate});
+        res.redirect("/librarian/customer");
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 })
 
 router.get("/borrow/:id", isLibrarian, async (req, res) =>{
     // Borrow detail and change date
     try {
-        const borrow = await Borrow.findById(req.params.id);
+        const borrow = await Borrow.findById(req.params.id).populate("reader").populate("books");
         if (borrow.library !== req.user.library) return res.redirect("/librarian/customer");
         return res.render("librarian/borrow", {borrow: borrow});
     } catch(e) {
@@ -162,13 +169,43 @@ router.get("/borrow/:id", isLibrarian, async (req, res) =>{
     }
 })
 
-router.post("/borrow/:id", (req, res) => {
+router.post("/update/borrow/:id", async (req, res) => {
     // Mark as returned, or canceled
+    try {
+        await Borrow.findByIdAndUpdate(req.params.id, {status: req.body.status, dueDate: req.body.dueDate});
+        res.redirect("/librarian/customer");
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.AUTH_EMAIL,
+        pass: process.env.AUTH_PASS,
+    }
 })
 
 // Post route to send emails to readers in borrow or pickup page
-router.post("/message", (req, res) => {
+router.post("/message/:gmail", isLibrarian, async (req, res) => {
+    try {
+        transporter.sendMail({
+            to: req.params.gmail,
+            subject: `${req.user.username} sent you a message`, 
+            html: req.body.message,
+        });
 
+        // Create a notification
+        const reader = await Reader.findOne({gmail: req.params.gmail});
+        reader.notification.push({
+            message: req.body.message, 
+            title: `Librarian ${username} sent you a message`
+        })
+        await reader.save();
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 })
 
 // Dashboard 
