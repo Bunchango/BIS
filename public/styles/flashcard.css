@@ -58,14 +58,15 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust the minimum and maximum width as needed */
     gap: 10px; /* Adjust the gap between cards as needed */
 }
+
 .cont {
     padding: 50px;
 }
+
 #ad-number {
     font-size: 3rem;
 
 }
-
 #short-des {
     font-size: 2rem;
     padding: 20px;
