@@ -40,9 +40,13 @@
 
 
         <div>
-            <img src="/images/default-ava.png" alt="Reader Avatar" id="account_img">
+            <% if (user.profilePicture) { %>
+            <img src="<%= user.profilePicture %>" alt="Reader Avatar" id="account_img">
+            <% } else { %>
+            <img src="/images/default-ava.png" alt="Default Avatar" id="account_img">
+            <% } %>
             <div id="account-hovering">
-                
+
             </div>
         </div>
 
