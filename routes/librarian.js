@@ -148,13 +148,48 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
     }
 })
 
-router.post("/update/pickup/:id", async (req, res) => {
-    // TODO: When Scheduled, remove 1 to available, if canceled, add 1 to available. If Completed, create a borrow
+router.post("/pickup/update_status/:id", async (req, res) => {
     // Pending as default, do nothing
     try {
-        await Pickup.findByIdAndUpdate(req.params.id, { status: req.body.status, takeDate: req.body.takeDate });
+        const pickup = await Pickup.findById(req.params.id).populate("books");
+        const newStatus = req.body.status; 
+
+        if (newStatus === "Completed") {
+            const borrow = new Borrow({
+                reader: pickup.reader, 
+                books: pickup.books, 
+                library: pickup.library, 
+                takeDate: req.body.takeDate
+            });
+
+            await borrow.save();
+        } else if (newStatus === "Scheduled") {
+            pickup.books.forEach(async (book) => {
+                book.available -= 1;
+                await book.save();
+            })
+        } else if (newStatus === "Canceled") {
+            pickup.books.forEach(async (book) => {
+                book.available += 1;
+                await book.save();
+            })
+        }
+
+        // Update the pickup
+        await Pickup.findByIdAndUpdate(req.params.id, {
+            status: newStatus
+        });
+        res.redirect("/librarian/customer")
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+router.post("/pickup/update_date/:id", async (req, res) => {
+    try {
+        await Pickup.findByIdAndUpdate(req.params.id, {takeDate: req.body.takeDate});
         res.redirect("/librarian/customer");
-    } catch (e) {
+    } catch(e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -169,13 +204,22 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
     }
 })
 
-router.post("/update/borrow/:id", async (req, res) => {
+router.post("/borrow/update_status/:id", async (req, res) => {
     // Mark as returned, or canceled
     // TODO: When marked as returned, add 1 to available, if canceled, remove 1 to amount
+    // TODO: Think of the situation when reader return the book after the librarian canceled the borrow
     try {
-        await Borrow.findByIdAndUpdate(req.params.id, { status: req.body.status, dueDate: req.body.dueDate });
+        
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+router.post("/borrow/update_date/:id", async (req, res) => {
+    try {
+        await Borrow.findByIdAndUpdate(req.params.id, {dueDate: req.body.dueDate});
         res.redirect("/librarian/customer");
-    } catch (e) {
+    } catch(e) {
         res.status(400).json({ errors: e });
     }
 })

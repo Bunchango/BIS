@@ -30,7 +30,8 @@ const borrowSchema = new mongoose.Schema({
     status: {
         type: String, 
         required: true, 
-        enum: ["Returned", "Ongoing", "Canceled"]
+        enum: ["Returned", "Ongoing", "Overdue"],
+        default: "Ongoing",
     }
 });
 
@@ -66,6 +67,7 @@ const pickupSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: ["Completed", "Scheduled", "Canceled", "Pending"],
+        default: "Pending",
     }
 })
 
