@@ -65,7 +65,7 @@ const pickupSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        enum: ["Completed", "Scheduled", "Canceled"],
+        enum: ["Completed", "Scheduled", "Canceled", "Pending"],
     }
 })
 

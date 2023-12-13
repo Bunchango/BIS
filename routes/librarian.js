@@ -149,7 +149,8 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
 })
 
 router.post("/update/pickup/:id", async (req, res) => {
-    // confirm, or cancel, or finished
+    // TODO: When Scheduled, remove 1 to available, if canceled, add 1 to available. If Completed, create a borrow
+    // Pending as default, do nothing
     try {
         await Pickup.findByIdAndUpdate(req.params.id, {status: req.body.status, takeDate: req.body.takeDate});
         res.redirect("/librarian/customer");
@@ -158,8 +159,7 @@ router.post("/update/pickup/:id", async (req, res) => {
     }
 })
 
-router.get("/borrow/:id", isLibrarian, async (req, res) =>{
-    // Borrow detail and change date
+router.get("/borrow/:id", isLibrarian, async (req, res) => {
     try {
         const borrow = await Borrow.findById(req.params.id).populate("reader").populate("books");
         if (borrow.library !== req.user.library) return res.redirect("/librarian/customer");
@@ -171,6 +171,7 @@ router.get("/borrow/:id", isLibrarian, async (req, res) =>{
 
 router.post("/update/borrow/:id", async (req, res) => {
     // Mark as returned, or canceled
+    // TODO: When marked as returned, add 1 to available, if canceled, remove 1 to amount
     try {
         await Borrow.findByIdAndUpdate(req.params.id, {status: req.body.status, dueDate: req.body.dueDate});
         res.redirect("/librarian/customer");
