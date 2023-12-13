@@ -6,7 +6,7 @@
     <title>Pickup detail</title>
 </head>
 <body>
-    <form action="update/pickup/<%= pickup._id %>" method="POST">
+    <form action="pickup/update_date/<%= pickup._id %>" method="POST">
         <h2><%= pickup.reader.gmail %></h2>
 
         <h2>Books to be pickup</h2>
@@ -21,13 +21,24 @@
         <p><%= pickup.createdOn %></p>
         <input type="date" id="takeDate" name="takeDate" value="<%= pickup.takeDate.toISOString().split('T')[0] %>">
 
-        <select id="status" name="status">
-            <option value="Completed" <% if (pickup.status === 'Completed') { %>selected<% } %>>Completed</option>
-            <option value="Scheduled" <% if (pickup.status === 'Scheduled') { %>selected<% } %>>Scheduled</option>
-            <option value="Canceled" <% if (pickup.status === 'Canceled') { %>selected<% } %>>Canceled</option>
-        </select>
+        <input type="submit" value="Update Date">
+    </form>
 
-        <input type="submit" value="Update Status">
+    <form action="pickup/update_status/<%= pickup._id %>" method="POST">
+        <!-- Change input into a pop up  -->
+        <% if (pickup.status === "Scheduled") { %>
+            <label for="dueDate">Enter date if mark as completed</label>
+            <input type="date" id="dueDate" name="dueDate" required>
+            <button type="submit" name="status" value="Completed">Mark as Completed</button>
+        <% } %>
+            
+        <% if (pickup.status === "Pending") { %>
+            <button type="submit" name="status" value="Scheduled">Mark as Scheduled</button>
+        <% } %>
+    
+        <% if (pickup.status === "Scheduled") { %>
+            <button type="submit" name="status" value="Canceled">Mark as Canceled</button>
+        <% } %>
     </form>
 </body>
 </html>
