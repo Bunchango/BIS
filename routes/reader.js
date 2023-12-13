@@ -110,9 +110,9 @@ router.post('/my_loan/:bookId', isReader, async (req, res) => {
       return res.status(400).json({ error: 'Book is already in your loan list' });
     }
 
-    // get current date
     const date = new Date();
 
+    // Fix this after adding cart model
     const newBorrow = new Borrow({
       reader: req.user._id,
       books: [bookId],
@@ -236,17 +236,17 @@ router.get('/profile', isReader, async (req, res) => {
 });
 
 // Change username route
-router.post('/profile/change_username', isReader, validateUsername, async (req, res) => {
+router.put('/profile/change_username', isReader, validateUsername, async (req, res) => {
 
 });
 
 // Change password route
-router.post('/profile/change_password', isReader, validatePassword, async (req, res) => {
+router.put('/profile/change_password', isReader, validatePassword, async (req, res) => {
 
 });
 
 // Change profile picture route
-router.post('/profile/change_profile_picture', isReader, async (req, res) => {
+router.put('/profile/change_profile_picture', isReader, async (req, res) => {
 
 });
 
