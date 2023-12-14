@@ -6,39 +6,6 @@
     <title>Pickup detail</title>
 </head>
 <body>
-    <form action="pickup/update_date/<%= pickup._id %>" method="POST">
-        <h2><%= pickup.reader.gmail %></h2>
 
-        <h2>Books to be pickup</h2>
-        <% pickup.books.forEach(book => { %>
-            <p><%= book.title %></p>
-            <p><%= book.author %></p>
-            <!-- Other book details here -->
-         <% }) %>
-
-        <p><%= pickup.status %></p>
-
-        <p><%= pickup.createdOn %></p>
-        <input type="date" id="takeDate" name="takeDate" value="<%= pickup.takeDate.toISOString().split('T')[0] %>">
-
-        <input type="submit" value="Update Date">
-    </form>
-
-    <form action="pickup/update_status/<%= pickup._id %>" method="POST">
-        <!-- Change input into a pop up  -->
-        <% if (pickup.status === "Scheduled") { %>
-            <label for="dueDate">Enter date if mark as completed</label>
-            <input type="date" id="dueDate" name="dueDate" required>
-            <button type="submit" name="status" value="Completed">Mark as Completed</button>
-        <% } %>
-            
-        <% if (pickup.status === "Pending") { %>
-            <button type="submit" name="status" value="Scheduled">Mark as Scheduled</button>
-        <% } %>
-    
-        <% if (pickup.status === "Scheduled") { %>
-            <button type="submit" name="status" value="Canceled">Mark as Canceled</button>
-        <% } %>
-    </form>
 </body>
 </html>

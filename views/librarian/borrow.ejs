@@ -6,28 +6,6 @@
     <title>Borrow Details</title>
 </head>
 <body>
-    <form action="update/borrow/<%= borrow._id %>" method="POST">
-        <h2><%= borrow.reader.gmail %></h2>
 
-        <h2>Books to be borrowed</h2>
-        <% borrow.books.forEach(book => { %>
-            <p><%= book.title %></p>
-            <p><%= book.author %></p>
-            <!-- Other book details here -->
-         <% }) %>
-
-        <p><%= borrow.status %></p>
-
-        <p><%= borrow.createdOn %></p>
-        <input type="date" id="dueDate" name="dueDate" value="<%= borrow.dueDate.toISOString().split('T')[0] %>">
-
-        <select id="status" name="status">
-            <option value="Returned" <% if (borrow.status === 'Returned') { %>selected<% } %>>Returned</option>
-            <option value="Ongoing" <% if (borrow.status === 'Ongoing') { %>selected<% } %>>Ongoing</option>
-            <option value="Canceled" <% if (borrow.status === 'Canceled') { %>selected<% } %>>Canceled</option>
-        </select>
-
-        <input type="submit" value="Update Status">
-    </form>
 </body>
 </html>

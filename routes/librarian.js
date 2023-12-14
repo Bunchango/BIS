@@ -4,17 +4,25 @@ const { Borrow, Pickup } = require("../models/borrow");
 const { validateBookCreation, validateUsername } = require("../config/validator");
 const upload = require("./../config/multer");
 const { validationResult } = require("express-validator");
-const { response } = require("express");
 const { Librarian, Reader } = require("../models/user");
 const nodemailer = require("nodemailer");
 
+// Flow: Librarian confirm the pickup request created by the user or decline it. 
+// Librarian decides on the pickup date, determine which book to let the reader borrow
+// User go to the library and pickup the books then librarian create a borrow record
+// After some time the reader return the book
+// The librarian determine if the books are returned and confirm the return
+// TODO: Create a schema for pickup request, modify borrow schemas, send email when changing information of the record
+
 const router = require("express").Router();
 
-// Librarian can add, modify, delete books 
-// Librarian can check who is borrowing the books, who have not returned the books, who is going to come borrow the books
-// Librarian can confirm, or cancel, or mark schedule pickup as finished
-// Librarian can send messages to readers 
-// Both user and librarian can view their dashboard
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.AUTH_EMAIL,
+        pass: process.env.AUTH_PASS,
+    }
+})
 
 function isLibrarian(req, res, next) {
     // If is librarian then move to the next task
@@ -121,87 +129,40 @@ router.get("/book_detail/:id", async (req, res) => {
 })
 
 router.post("/book_detail/:id", isLibrarian, (req, res) => {
-    // Change book detail
-    // changing the amount also change the availability, the minimum amount is 0  
+    // Change book detail (when changing amount, only allow reducing the amount at most by the available amount)
+
 })
 
 // Pickup and borrow
 router.get("/customer", isLibrarian, async (req, res) => {
-    // Render all people who are borrowing the book and book pickups
-    try {
-        const borrows = await Borrow.find({ library: req.user.library }).populate("reader").populate("book");
-        const pickups = await Pickup.find({ library: req.user.library }).populate("reader").populate("books");
-        res.render("librarian/customer", { borrows: borrows, pickups: pickups });
-    } catch (e) {
-        res.status(400).json({ errors: e });
-    }
+
 })
 
 router.get("/pickup/:id", isLibrarian, async (req, res) => {
-    // Render pickup detail
-    try {
-        const pickup = await Pickup.findById(req.params.id).populate("reader").populate("books");
-        if (pickup.library !== req.user.library) return res.redirect("/librarian/customer");
-        return res.render("librarian/pickup", { pickup: pickup });
-    } catch (e) {
-        res.status(400).json({ errors: e });
-    }
+
 })
 
 router.post("/pickup/update_status/:id", async (req, res) => {
-    // Pending as default, do nothing
 
 })
 
 router.post("/pickup/update_date/:id", async (req, res) => {
-    try {
-        await Pickup.findByIdAndUpdate(req.params.id, {takeDate: req.body.takeDate});
-        res.redirect("/librarian/customer");
-    } catch(e) {
-        res.status(400).json({ errors: e });
-    }
+
 })
 
 router.get("/borrow/:id", isLibrarian, async (req, res) => {
-    try {
-        const borrow = await Borrow.findById(req.params.id).populate("reader").populate("books");
-        if (borrow.library !== req.user.library) return res.redirect("/librarian/customer");
-        return res.render("librarian/borrow", { borrow: borrow });
-    } catch (e) {
-        res.status(400).json({ errors: e });
-    }
+
 })
 
 router.post("/borrow/update_status/:id", async (req, res) => {
-    // Mark as returned, or canceled
-    // TODO: When marked as returned, add 1 to available, if canceled, remove 1 to amount
-    // TODO: Think of the situation when reader return the book after the librarian canceled the borrow: Modify directly the book amount (changing the 
-    // amount also change the availability  )
-    try {
-        
-    } catch(e) {
-        res.status(400).json({ errors: e });
-    }
+
 })
 
 router.post("/borrow/update_date/:id", async (req, res) => {
-    try {
-        await Borrow.findByIdAndUpdate(req.params.id, {dueDate: req.body.dueDate});
-        res.redirect("/librarian/customer");
-    } catch(e) {
-        res.status(400).json({ errors: e });
-    }
+
 })
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.AUTH_EMAIL,
-        pass: process.env.AUTH_PASS,
-    }
-})
-
-// TODO: Librarian can send real time messages to readers
+// TODO: Librarian can chat real time with readers
 
 // Dashboard 
 router.get("/dashboard", isLibrarian, (req, res) => {
