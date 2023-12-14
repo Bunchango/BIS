@@ -17,24 +17,20 @@
 </head>
 
 <body>
-    <%- include('../partials_readers/head_navigation.ejs') %>
-
+    <header class="pb-14 mb-14">
+        <%- include('../partials_readers/head_navigation.ejs') %>
+    </header>
     <main>
-        <h1 class="p-14">Hello, <%= user.username %></h1>
-
-        <div class="profile-picture">
-            <img src="<%= user.profilePicture %>" alt="<%= user.username %>'s profile picture">
-            <a href="/reader/profile/change_profile_picture">Change profile picture</a>
-        </div>
-
-
         <div class="change-username">
             <p>Username: <%= user.username %></p>
-            <a href="/reader/profile/change_username">Change username</a>
+            <form action="/reader/change_username" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <label for="username">New username</label>
+                <input type="text" name="username" id="username">
+                <button type="submit">Submit</button>
+            </form>
         </div>
     </main>
-
-    <!-- TODO: Change password -->
 
     <%- include('../partials_readers/footer.ejs') %>
 </body>
