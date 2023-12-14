@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const passport = require('passport');
 const session = require("express-session");
 const flash = require("express-flash");
+const methodOverride = require('method-override');
 const { categoriesArray } = require('./models/book');
 require('./config/passport');
 
@@ -58,6 +59,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
+
+// Method override for PUT and DELETE requests from forms
+app.use(methodOverride('_method'));
 
 app.get("/", (req, res) => {
     // If user has not login render reader's home page, if logged in render respective user's home page
