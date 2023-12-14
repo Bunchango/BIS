@@ -122,7 +122,7 @@ router.get("/book_detail/:id", async (req, res) => {
 
 router.post("/book_detail/:id", isLibrarian, (req, res) => {
     // Change book detail
-
+    // changing the amount also change the availability, the minimum amount is 0  
 })
 
 // Pickup and borrow
@@ -138,7 +138,7 @@ router.get("/customer", isLibrarian, async (req, res) => {
 })
 
 router.get("/pickup/:id", isLibrarian, async (req, res) => {
-    // Render pickup detail and change date
+    // Render pickup detail
     try {
         const pickup = await Pickup.findById(req.params.id).populate("reader").populate("books");
         if (pickup.library !== req.user.library) return res.redirect("/librarian/customer");
@@ -150,39 +150,7 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
 
 router.post("/pickup/update_status/:id", async (req, res) => {
     // Pending as default, do nothing
-    try {
-        const pickup = await Pickup.findById(req.params.id).populate("books");
-        const newStatus = req.body.status; 
 
-        if (newStatus === "Completed") {
-            const borrow = new Borrow({
-                reader: pickup.reader, 
-                books: pickup.books, 
-                library: pickup.library, 
-                takeDate: req.body.takeDate
-            });
-
-            await borrow.save();
-        } else if (newStatus === "Scheduled") {
-            pickup.books.forEach(async (book) => {
-                book.available -= 1;
-                await book.save();
-            })
-        } else if (newStatus === "Canceled") {
-            pickup.books.forEach(async (book) => {
-                book.available += 1;
-                await book.save();
-            })
-        }
-
-        // Update the pickup
-        await Pickup.findByIdAndUpdate(req.params.id, {
-            status: newStatus
-        });
-        res.redirect("/librarian/customer")
-    } catch(e) {
-        res.status(400).json({ errors: e });
-    }
 })
 
 router.post("/pickup/update_date/:id", async (req, res) => {
@@ -207,7 +175,8 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
 router.post("/borrow/update_status/:id", async (req, res) => {
     // Mark as returned, or canceled
     // TODO: When marked as returned, add 1 to available, if canceled, remove 1 to amount
-    // TODO: Think of the situation when reader return the book after the librarian canceled the borrow
+    // TODO: Think of the situation when reader return the book after the librarian canceled the borrow: Modify directly the book amount (changing the 
+    // amount also change the availability  )
     try {
         
     } catch(e) {
@@ -232,26 +201,7 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-// Post route to send emails to readers in borrow or pickup page
-router.post("/message/:gmail", isLibrarian, async (req, res) => {
-    try {
-        transporter.sendMail({
-            to: req.params.gmail,
-            subject: `${req.user.username} sent you a message`,
-            html: req.body.message,
-        });
-
-        // Create a notification
-        const reader = await Reader.findOne({ gmail: req.params.gmail });
-        reader.notification.push({
-            message: req.body.message,
-            title: `Librarian ${username} sent you a message`
-        })
-        await reader.save();
-    } catch (e) {
-        res.status(400).json({ errors: e });
-    }
-})
+// TODO: Librarian can send real time messages to readers
 
 // Dashboard 
 router.get("/dashboard", isLibrarian, (req, res) => {
