@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        #datePicker {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+    </style>
+    <title>Request page</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Request details</h1>
+        <p><%= request.reader.gmail %></p>
+        <p><%= request.createdOn %></p>
+        <p><%= request.status %></p>
+        <h2>Books</h2>
+        <ul>
+            <% request.books.forEach(book => { %>
+                <li>
+                    <input type="checkbox" name="approved" id="approved" value="<%= book._id %>">
+                    <!-- Add the correct link -->
+                    <label onclick="window.location.href='/book/detail/<%= book._id %>'">
+                        <p>Title: <%= book.title %></p>
+                        <p>Author: <%= book.author %></p>
+                        <!-- Add more details as needed -->
+                    </label>
+                </li>
+            <% }); %>
+        </ul>
+
+        <button id="acceptBtn" class="btn btn-success">Accept</button>
+
+        <form action="request/decline/<%= request._id %>" method="POST">
+            <button id="declineBtn" class="btn btn-danger">Decline</button>
+        </form>
+
+        <form action="request/accept/<%= request._id %>" method="POST" id="datePicker">
+            <button type="button" id="closeBtn" style="float: right;">X</button>
+            <label for="takeDate">Choose a date:</label>
+            <input type="date" id="takeDate" name="takeDate">
+            <button id="confirmDateBtn" class="btn btn-primary">Confirm creation</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("acceptBtn").addEventListener("click", function(event){
+            // Prevent the form from being submitted
+            event.preventDefault();
+
+            // Display the datePicker div
+            document.getElementById("datePicker").style.display = "block";
+        });
+
+        document.getElementById("closeBtn").addEventListener("click", function() {
+        // Hide the datePicker div
+            document.getElementById("datePicker").style.display = "none";
+        });
+    </script>
+</body>
+</html>
