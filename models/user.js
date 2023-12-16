@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
     },
 })
 
-// Can only borrow books from the same library
 const readerSchema = new mongoose.Schema({
     wishList: [{
         type: mongoose.Schema.Types.ObjectId,
