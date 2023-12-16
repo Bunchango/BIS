@@ -249,8 +249,34 @@ router.get('/profile/change_username', isReader, async (req, res) => {
 
 
 router.put('/profile/change_username', isReader, validateUsername, async (req, res) => {
-
+   
 });
+
+router.post('/profile/update-username', isReader, validateUsername, async (req, res) => {
+    try {
+        const reader = await Reader.findById(req.user._id); // Just pass the user ID directly
+
+        if (!reader) {
+            // Handle case where user is not found
+            res.status(404).json({ error: 'User not found' });
+            return;
+        }
+
+        let updatedUsername = req.body.newUsername;
+
+        // Update the username property
+        reader.username = updatedUsername;
+
+        // Save the changes to the database
+        await reader.save();
+
+        console.log('Document updated');
+        res.redirect("/homepage");
+    } catch (err) {
+        res.status(400).json({error: err})
+        console.log(err)
+    }
+})
 
 // Change profile picture route
 router.get('/profile/change_profile_picture', isReader, async (req, res) => {
