@@ -17,27 +17,26 @@
 </head>
 
 <body>
+    <%- include('../partials_readers/head_navigation.ejs') %>
     <div class="whole-upper">
         <div class="upper">
-            <img class="background" src="https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/306617021_2171711069669424_8169603055746406665_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=783fdb&_nc_eui2=AeFp5_0X8IrUhwehRzNfJPGjkAZqWV3BqBuQBmpZXcGoGzyNk-jPGglrNweWZs23__eRJMdeiXy5tr-ENYMmFb7H&_nc_ohc=LB_I7Il7MPsAX-uHGoq&_nc_ht=scontent.fhan14-3.fna&oh=00_AfC7gMhW1kzcHceX7cIoE5jINvmmaI66i7RdODjs4RaA4Q&oe=657D52B2" alt="background">
+            <img class="background" src="<%= user.background%>" alt="background">
             <div class="user-info">
                 <div class="profile-option">
-                    <img class="avatar" src="https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-6/394275952_2487959094711285_3158376096054710887_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeGVHqioXDXFrebWPaaywlR_KfSuAo5N_XMp9K4Cjk39c-aWHFgLGPV1i0n1DEzvIkx8S-6eMo5cbIxu3G8Nqmvt&_nc_ohc=ijBYQEpelzQAX-zmd9-&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAhrq_0i4_SAg60nFk3cdOfj2KjI5tzqyT91AfDlj0EGg&oe=657DBAC6" alt="avatar">
-                    <div class="name">Lê Nguyễn Mỹ Châu</div>
+                    <img class="avatar" src="<%= user.profilePicture %>" alt="<%= user.username %>'s avatar">
+                    <div class="name"><%= user.username %></div>
                 </div>
-                
+                  
                 <div class="buttons">
-                    <button>Change Profile Picture</button>
-                    <button>Edit Personal Details</button>
+                    <button>Edit Profile</button>
                 </div>
+            </div>
 
-                <div class="menu-list">
-                    <hr class="horizontal-line">
-                    <div class="tab">
-                        <button class="tablinks" onclick="openCity(event, 'London')">My Account Details</button>
-                        <button class="tablinks" onclick="openCity(event, 'Paris')">My Loan</button>
-                        <button class="tablinks" onclick="openCity(event, 'Tokyo')">My Watchlist</button>
-                    </div>
+            <div class="menu-list">
+                <div class="tab">
+                    <button class="tablinks" onclick="openCity(event, 'London')">My Account Details</button>
+                    <button class="tablinks" onclick="openCity(event, 'Paris')">My Loan</button>
+                    <button class="tablinks" onclick="openCity(event, 'Tokyo')">My Watchlist</button>
                 </div>
             </div>
         </div>
@@ -76,9 +75,9 @@
           document.getElementById(cityName).style.display = "block";
           evt.currentTarget.className += " active";
         }
-        </script>
+    </script>
 
     <%- include('../partials_readers/footer.ejs') %>
 </body>
-
-</html>
+<script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
+</html> 

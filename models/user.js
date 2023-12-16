@@ -48,7 +48,7 @@ const readerSchema = new mongoose.Schema({
     }],
     background: {
         type: String, 
-        default: "uploads/default_bg.png",
+        default: "uploads/default_bg.jpeg",
     }
 })
 

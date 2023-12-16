@@ -230,7 +230,7 @@ router.get('/profile', isReader, async (req, res) => {
 
         const reader = await Reader.findOne({ _id: req.user._id });
 
-        res.render('reader/profile', {
+        res.render('reader/reader-profile', {
             reader: reader,
             user: req.user,
             loanCount: loanCount,
