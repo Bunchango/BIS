@@ -46,6 +46,10 @@ const readerSchema = new mongoose.Schema({
             default: Date.now,
         }
     }],
+    background: {
+        type: String, 
+        default: "uploads/default_bg.png",
+    }
 })
 
 const librarianSchema = new mongoose.Schema({

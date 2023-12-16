@@ -179,6 +179,14 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
     }
 })
 
+router.post("", (req, res) => {
+
+})
+
+router.post("", (req, res) => {
+
+}) 
+
 router.get("/pickup/:id", isLibrarian, async (req, res) => {
     // Display pickup information
     try {
