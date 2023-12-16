@@ -144,6 +144,17 @@ router.post("/book_detail/:id", isLibrarian, (req, res) => {
 })
 
 // Request, Pickup and Borrow management
+async function notify(readerID, title, message) {
+    // Function to send notification to reader
+    const notification = {
+        title: title,
+        message: message,
+        createdOn: Date.now(),
+    }
+
+    await Reader.findByIdAndUpdate(readerID, {$push: {notification: notification}});
+}
+
 router.get("/customer", isLibrarian, async (req, res) => {
     // Show all pickups, borrows, and requests of a library
     try {
@@ -152,6 +163,17 @@ router.get("/customer", isLibrarian, async (req, res) => {
         const borrows = await Borrow.find({library: req.user.library});
 
         res.render("librarian/customer", {requests: requests, pickups: pickups, borrows: borrows});
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+router.get("/borrow/:id", isLibrarian, async (req, res) => {
+    // Display borrow information
+    try {
+        const borrow = await Borrow.findById(req.params.id);
+        if (borrow.library !== req.user.library) return res.redirect("/librarian/customer");
+        res.render("librarian/borrow", {borrow: borrow});
     } catch(e) {
         res.status(400).json({ errors: e });
     }
@@ -168,12 +190,98 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
     }
 })
 
-router.get("/borrow/:id", isLibrarian, async (req, res) => {
-    // Display borrow information
+router.post("/pickup/update_date/:id", async (req, res) => {
+    // Update date of pickup, only able to set date that are after or is today
     try {
-        const borrow = await Borrow.findById(req.params.id);
-        if (borrow.library !== req.user.library) return res.redirect("/librarian/customer");
-        res.render("librarian/borrow", {borrow: borrow});
+        const {takeDate} = req.body;
+        const pickup = await Pickup.findByIdAndUpdate(req.params.id, {takeDate: takeDate}).populate("reader"); 
+
+        // Send notification email
+        transporter.sendMail({
+            to: pickup.reader.gmail, 
+            subject: "VxNhe Pickup pickup date modified",
+            // Modify the content of emails later (Maybe add library's name, list of accepted books)
+            html: `Your pickup's take date has been pushed to ${takeDate}`,
+        })
+
+        await notify(pickup.reader._id, "Update pickup date", `Your pickup's take date has been pushed to ${takeDate}`);
+
+        res.redirect("/librarian/customer");
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+router.post("/pickup/cancel/:id", async (req, res) => {
+    // Change status to canceled, increment available of all books by 1. Can't change status from canceled to anything else
+    try {
+        const pickup = await Pickup.findByIdAndUpdate(req.params.id, {status: "Canceled"}, {new: true}).populate("reader");
+
+        // Send notification email
+        transporter.sendMail({
+            to: pickup.reader.gmail, 
+            subject: "VxNhe Pickup pickup modified",
+            // Add more detail (reason for cancel)
+            html: `Your pickup has been canceled`,
+        })
+
+        await notify(pickup.reader._id, "Update pickup status", `Your pickup has been canceled`);
+
+        // Increment available of books by 1. If the previous available is 0, then notify user's who wishlisted the books
+        for (let book of pickup.books) {
+            const bookRecord = await Book.findById(book._id);
+
+            if (bookRecord.available === 0) {
+                // Notify readers
+                const readers = await Reader.find({wishlist: bookRecord._id});
+
+                for (let reader of readers) {
+                    await notify(reader._id, `${bookRecord.title} available`, `The ${bookRecord.title} is now available to borrow`)
+                }
+            }
+
+            await Book.findByIdAndUpdate(book._id, { $inc: { available: 1 } });
+        }
+
+        res.redirect("/librarian/customer");
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+router.post("/pickup/complete/:id", async (req, res) => {
+    // Change status to completed, create a borrow record
+    try {
+        const {dueDate} = req.body;
+        const pickup = await Pickup.findByIdAndUpdate(req.params.id, {status: "Completed"}, {new: true}).populate("reader");
+
+        // Send notification email
+        transporter.sendMail({
+            to: pickup.reader.gmail, 
+            subject: "VxNhe Pickup pickup modified",
+            // Add more detail (reason for cancel)
+            html: `Your pickup has been completed`,
+        })
+
+        // Create borrow record
+        const borrow = new Borrow({
+            reader: pickup.reader._id, 
+            books: pickup.books, 
+            library: pickup.library,
+            dueDate: dueDate,
+        });
+
+        await borrow.save();
+
+        // Send email
+        transporter.sendMail({
+            to: pickup.reader.gmail, 
+            subject: "VxNhe Pickup borrow created",
+            // Change messages, add more detail later
+            html: `A borrow has been created`,
+        });
+
+        await notify(pickup.reader._id, "Created borrow", `A borrow has been created`);
     } catch(e) {
         res.status(400).json({ errors: e });
     }
@@ -198,7 +306,7 @@ router.post("/request/accept/:id", async (req, res) => {
         const {approved, takeDate} = req.body;
 
         // Change request status to accept
-        const request = await Request.findByIdAndUpdate(req.params.id, {status: "Accepted"}, {new: true});
+        const request = await Request.findByIdAndUpdate(req.params.id, {status: "Accepted"}, {new: true}).populate("reader");
 
         // Create pickup
         const pickup = new Pickup({
@@ -209,10 +317,20 @@ router.post("/request/accept/:id", async (req, res) => {
         })
 
         await pickup.save();
+
+        // Send notification email
+        transporter.sendMail({
+            to: request.reader.gmail, 
+            subject: "VxNhe Pickup request accepted",
+            // Modify the content of emails later (Maybe add library's name, list of accepted books)
+            html: `Your request has been accepted`
+        })
+
+        await notify(request.reader._id, "Request accepted", `Your borrow request has been accepted`);
         
         // Decrease by 1 for all books
         for (let book of pickup.books) {
-            await Book.findByIdAndUpdate(book._id, { available: { $inc: -1 } });
+            await Book.findByIdAndUpdate(book._id, { $inc: { available: 1 } });
         }
 
         // Redirect to customer page
@@ -225,7 +343,18 @@ router.post("/request/accept/:id", async (req, res) => {
 router.post("/request/decline/:id", async (req, res) => {
     // Decline a request
     try {
-        await Request.findByIdAndUpdate(req.params.id, {status: "Declined"});
+        const request = await Request.findByIdAndUpdate(req.params.id, {status: "Declined"}, {new: true}).populate("reader");
+
+        // Send notification email
+        transporter.sendMail({
+            to: request.reader.gmail, 
+            subject: "VxNhe Pickup request declined",
+            // Add more content (reason for the decline)
+            html: `Your request has been declined`
+        })
+
+        await notify(request.reader._id, "Request declined", `Your borrow request has been declined`);
+
         res.redirect("/librarian/customer");
     } catch(e) {
         res.status(400).json({ errors: e });
