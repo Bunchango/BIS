@@ -232,7 +232,6 @@ router.get('/reset-password', async (req, res) => {
                 // If correct shows no error and show the email and allow reset password form
                 // Delete the record
                 await RecoverAccount.deleteOne({ gmail: email });
-                req.session.email = email;
                 res.render('checkin/reset-password', {error: false, email: email, msg: undefined, user: req.user});
             } else {
                 res.render('checkin/reset-password', {error: true, msg: ["Invalid recover code"], user: req.user});
@@ -243,7 +242,7 @@ router.get('/reset-password', async (req, res) => {
     }
 })
 
-router.post('/reset-password',
+router.post('/reset-password/:email',
     body("password")
         .isLength({ min: 8, max: 20 })
         .withMessage("Password must be between 8 and 20 characters")
@@ -251,17 +250,17 @@ router.post('/reset-password',
         .withMessage("Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
     , async (req, res) => {
 
-        const email = req.session.email;
+        const email = req.params.email;
         const password = req.body.password;
         const confirmPassword = req.body.confirmPassword;
 
         if (password !== confirmPassword) {
-            return res.render('checkin/reset-password', { error: false, msg: ["Confirm password and password are different"], email: email })
+            return res.render('checkin/reset-password', { error: false, msg: ["Confirm password and password are different"], email: email, user: req.user })
         }
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.render('checkin/reset-password', { error: false, msg: errors.array(), email: email })
+            return res.render('checkin/reset-password', { error: false, msg: errors.array(), email: email, user: req.user })
         }
 
         // Check if password suit condition
