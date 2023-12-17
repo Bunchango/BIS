@@ -118,9 +118,45 @@ header ul li a:hover {
   z-index: 50;
   background-color: #fff;
   color: #000;
-  width: 200px;
-  height: 300px;
-  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.6);;
+  width: 250px;
+  height: fit-content;
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.8);
+  border-radius: 1%;
+}
+
+#account-hovering #content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding: 5px 10px;
+}
+
+#account-hovering #content #account-name {
+  height: fit-content;
+  margin: 5px 0px;
+  font-size: 20px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  
+}
+
+#account-hovering #content #my-account,
+#account-hovering #content #logout,
+#account-hovering #content #my-loan {
+  font-size: 15px;
+  padding: 5px 0px;
+}
+
+#account-hovering #content #my-account:hover,
+#account-hovering #content #logout:hover,
+#account-hovering #content #my-loan:hover {
+  background-color: #5f5e5e73;
+}
+
+
+#account-hovering #content #logout {
+  border-top: 0.5px solid rgba(0, 0, 0, 0.5);
 }
 
 .sticky .logo,
@@ -242,14 +278,6 @@ header ul li a:hover {
 
 
 .container .header-text {
-  /* color: #ee4e34;
-  max-width: 770px;
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: 0.22px;
-  line-height: 26px;
-  margin-bottom: 50px;
-   */
    font-size: 40px;
    font-weight: 1000;
    text-transform: uppercase;
@@ -303,8 +331,7 @@ header ul li a:hover {
   justify-content: center;
   align-items: center;
   padding: 10px 10px;
-  margin-left: 40%;
-  margin-right: 40%;
+  width: fit-content;
   text-decoration: none;
   font-size: 16px;
   border-radius: 5px;
@@ -319,21 +346,7 @@ header ul li a:hover {
   color: #ee4e34;
   border: 2px solid #f37f51;
 }
-/* Main */
-/* .main {
-  background-image: linear-gradient(
-    to left bottom,
-    #fcedde,
-    #f9cba7,
-    #f6a778,
-    #f37f51,
-    #ee4e34
-  );
-  padding: 46px;
-  padding-top: 0;
-  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.2);
-  background: none;
-} */
+
 
 /* Why */
 .why-content {
@@ -527,6 +540,10 @@ header ul li a:hover {
 .join-now {
   padding: 120px;
   background-color: #ee4e34;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .join-now-header {
@@ -558,172 +575,196 @@ header ul li a:hover {
   background:#eaeaea;
 }
 
-@media (max-width: 1120px) {
-
+@media (max-width: 1300px) {
+  .card__face.card__face--front #short-des{
+    font-size: 1.5rem;
+    padding: 5px;
+  }
+  .card__face .card__face--back p{
+    font-size: 14px;
+  }
 }
 
 @media only screen and (max-width:992px) {
-    .custom {
-      padding: 10px;
-    }
+  .custom {
+    padding: 10px;
+  }
 
-    .custom #welcome-text {
-      margin-top: 200px;
-    }
-  
-    .container {
-      top: 70px;
-      left: 20px;
-    }
+  .custom #welcome-text {
+    margin-top: 200px;
+  }
 
-    .container .custom-text {
-      font-size: 100px;
-    }
+  .container {
+    top: 70px;
+    left: 20px;
+  }
 
-    .container .header-text{
-      font-size: 50px;
-      margin-bottom: 20px;
-    }
+  .container .custom-text {
+    font-size: 100px;
+  }
 
-    header {
-        padding:  5px 50px;
-    }
+  .container .header-text{
+    font-size: 50px;
+    margin-bottom: 20px;
+  }
 
-    label.logo {
-        font-size: 30px;
-        padding-left: 50px;
-    }
+  header {
+      padding:  5px 50px;
+  }
 
-    header ul li a {
-        font-size: 16px;
-    }
+  label.logo {
+      font-size: 30px;
+      padding-left: 50px;
+  }
 
-    header ul li {
-        display: block; 
-        margin: 0px;
-        line-height: 30px;
-    }
+  header ul li a {
+      font-size: 16px;
+  }
 
-    #account-hovering {
-      top:50px;
-      right: 10px;
-    }
-    .sticky #account-hovering {
-      right: 40px;
-    }
+  header ul li {
+      display: block; 
+      margin: 0px;
+      line-height: 30px;
+  }
 
-    #login_index {
-        font-size: 20px;
-    }
+  #account-hovering {
+    top:50px;
+    right: 10px;
+  }
+  .sticky #account-hovering {
+    right: 40px;
+  }
 
-    #register_index {
-        font-size: 20px;
-    }
+  #login_index {
+    font-size: 20px;
+  }
 
-    .grid-container {
-      grid-template-columns: auto;
-      grid-template-rows: auto auto auto auto;
-      row-gap: 1.5rem;
-    }
-  
-    .about {
-      grid-template-columns: auto;
-      margin-top: 3rem;
-      row-gap: 1.5rem;
-      grid-template-rows: auto auto;
-    }
-  
-    .card-item img {
-      width: 100%;
-    }
-  
-    .join-now-card {
-      grid-template-columns: auto;
-      row-gap: 1.5rem;
-    }
+  #register_index {
+    font-size: 20px;
+  }
+
+  .about {
+    grid-template-columns: auto;
+    margin-top: 3rem;
+    row-gap: 1.5rem;
+    grid-template-rows: auto auto;
+  }
+
+  .card-item img {
+    width: 100%;
+  }
+
+  .join-now-card {
+    grid-template-columns: auto;
+    row-gap: 1.5rem;
+  }
 }
 
 @media (max-width:800px) {
-    header {
+  header {
+    padding: 5px 30px;
+  }
+  .custom #welcome-text {
+    margin-top: 100px;
+  }
+  .container .header-text{
+    font-size: 30px;
+    margin-bottom: 0px;
+  }
+
+  .why-content {
+    padding: 20px;
+  }
+
+  .sticky {
       padding: 5px 30px;
-    }
-    .custom #welcome-text {
-      margin-top: 100px;
-    }
-    .container .header-text{
-      font-size: 30px;
-      margin-bottom: 0px;
-    }
+  }
 
-    .why-content {
-      padding: 20px;
-    }
-
-    .sticky {
-        padding: 5px 30px;
-    }
-
-    #account-hovering {
-      top:70px;
-      right: 10px;
-    }
-    .sticky #account-hovering {
-      transition: 0.3s;
-      right: 10px;
-      top:70px;
-    }
-
-    .checkbtn {
-        display: block;
-    }
-
-    header ul {
-        position: fixed;
-        display: block;
-        width: 100%;
-        height: 100vh;
-        background: var(--theme-color-orange);
-        top: 80px;
-        left: -100%;
-        text-align: center;
-        transition: all .5s;
-    }
-
-    header ul li {
-        display: flex; 
-        justify-content: center;
-        align-items: center;
-        margin: 0px;
-        height: 150px;
-        line-height: 30px;
-    }
-
-    header ul li a {
-        font-size: 30px;
-        color: #fff;
-    }
-
-    .sticky ul li a {
-        font-size: 30px;
-        color: #fff;
-    }
  
-    header ul li:hover a {
-        color: #000;
-    }
-    
-    header ul li:hover {
-        background: var(--theme-color-peach);
-        transition: all 0.6s;
-    }
 
-    #check:checked ~ ul {
-        left: 0;
-    }
+  .checkbtn {
+      display: block;
+  }
+
+  header ul {
+      position: fixed;
+      display: block;
+      width: 100%;
+      height: 100vh;
+      background: var(--theme-color-orange);
+      top: 80px;
+      left: -100%;
+      text-align: center;
+      transition: all .5s;
+  }
+
+  header ul li {
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+      margin: 0px;
+      height: 150px;
+      line-height: 30px;
+  }
+
+  header ul li a {
+      font-size: 30px;
+      color: #fff;
+  }
+
+  .sticky ul li a {
+      font-size: 30px;
+      color: #fff;
+  }
+
+  header ul li:hover a {
+      color: #000;
+  }
+  
+  header ul li:hover {
+      background: var(--theme-color-peach);
+      transition: all 0.6s;
+  }
+
+  #check:checked ~ ul {
+      left: 0;
+  }
+
+  .what-content {
+    padding: 20px 7px 5px;
+  }
+
+  .statistics {
+    padding: 10px;
+  }
+
+  .join-now {
+    padding: 20px;
+  }
+
+  .goup {
+    padding: 20px;
+  }
+
+  #account-hovering {
+    top:70px;
+    right: 0px;
+    width: 100%;
+    height: fit-content;
+  }
+
+  .sticky #account-hovering {
+    transition: 0.3s; 
+    right: 0px;
+    top:70px;
+    width: 100%;
+    height: fit-content; 
+  }
+ 
 }
 
 
 
-
+  
 
 

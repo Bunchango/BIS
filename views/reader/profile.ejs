@@ -20,18 +20,44 @@
     <%- include('../partials_readers/head_navigation.ejs') %>
 
     <main>
-        <h1 class="p-14">Hello, <%= user.username %></h1>
-
         <div class="profile-picture">
             <img src="<%= user.profilePicture %>" alt="<%= user.username %>'s profile picture">
+            <button data-modal-target="#pop-up-bookmark" id="book-mark">
+                <i class="fa-regular fa-bookmark"></i>
+            </button>
             <a href="/reader/profile/change_profile_picture">Change profile picture</a>
         </div>
 
+        <h1 class="p-14">Hello, <%= user.username %></h1>
+        <button data-modal-target="#pop-up-bookmark" id="book-mark">
+            <i class="fa-regular fa-bookmark"></i>
+        </button>
 
-        <div class="change-username">
-            <p>Username: <%= user.username %></p>
-            <a href="/reader/profile/change_username">Change username</a>
+        
+
+        
+        <div id="overlay"></div>
+        <!-- pop up window for bookmark -->
+        <div class="pop-up-modal" id="pop-up-bookmark">
+            <div class="bookmark-header">
+                <div class="title">Example BookMark</div>
+                <button data-close-button class="close-modal">&times;</button>
+            </div>
+            <div class="bookmark-body">
+                <div id="popup-change-username">
+                    <form action="/reader/profile/update-username" method="POST">
+                        <label for="newUsername">New Username:</label>
+                        <input type="text" id="newUsername" name="newUsername" required>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>  
+            <div class="change-username">
+                <!-- <a href="/reader/profile/change_username">Change username</a> -->
+                
+            </div>
         </div>
+
     </main>
 
     <!-- TODO: Change password -->

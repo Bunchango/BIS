@@ -42,8 +42,11 @@
 .logo_footer {
   margin-bottom: 10px;
   font-family: "Arial", sans-serif;
-  color: var(--theme-color-orange);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.logo_footer a b {
+  color: var(--theme-color-orange);
 }
 
 .single-footer {
