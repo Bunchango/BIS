@@ -12,13 +12,65 @@
         <!-- pop up window for bookmark -->
         <div class="pop-up-modal" id="pop-up-bookmark">
             <div class="bookmark-header">
-                <div class="title">Example BookMark</div>
+                <div class="title">BookMark</div>
                 <button data-close-button class="close-modal">&times;</button>
             </div>
-            <div class="bookmark-body">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                exercitationem aspernatur dicta labore, ipsam eos repudiandae a non reiciendis dolorem inventore nam
-                cumque architecto velit.
+            <div class="list">
+                <div class="item" data-key="1">
+                    <div class="img">
+                        <img src="/images/test-bookmark.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="title">THE DIARY OF A YOUNG GIRL</div>
+                        <div class="des">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
+                            exercitationem aspernatur dicta labore
+                        </div>
+                        <button class="remove"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+
+                <div class="item" data-key="2">
+                    <div class="img">
+                        <img src="/images/test-bookmark.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="title">THE DIARY OF A YOUNG GIRL</div>
+                        <div class="des">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
+                            exercitationem aspernatur dicta labore
+                        </div>
+                        <button class="remove"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+
+                <div class="item" data-key="3">
+                    <div class="img">
+                        <img src="/images/test-bookmark.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="title">THE DIARY OF A YOUNG GIRL</div>
+                        <div class="des">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
+                            exercitationem aspernatur dicta labore
+                        </div>
+                        <button class="remove"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+
+                <div class="item" data-key="4">
+                    <div class="img">
+                        <img src="/images/test-bookmark.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="title">THE DIARY OF A YOUNG GIRL</div>
+                        <div class="des">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
+                            exercitationem aspernatur dicta labore
+                        </div>
+                        <button class="remove"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -28,7 +80,7 @@
         <!-- pop up window for notification -->
         <div class="pop-up-modal" id="pop-up-notification">
             <div class="notification-header">
-                <div class="title">Example Notification</div>
+                <div class="title">Notification</div>
                 <button data-close-button class="close-modal">&times;</button>
             </div>
             <div class="notification-body">
@@ -41,17 +93,12 @@
 
         <div>
             <% if (user.profilePicture) { %>
-                <img src="<%= user.profilePicture %>" alt="Reader Avatar" id="account_img">
-            <%} else {%>
-                <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
+            <img src="<%= user.profilePicture %>" alt="Reader Avatar" id="account_img">
+            <% } else { %>
+            <img src="/images/default-ava.png" alt="Default Avatar" id="account_img">
             <% } %>
             <div id="account-hovering">
-                <div id="content">
-                    <h3 id="account-name">Hello, <%=user.username%></h3> 
-                    <a href="/reader/profile" id="my-account">My Account</a>
-                    <a href="" id="my-loan">My loan</a>
-                    <a href="/checkin/logout" id="logout">Logout</a> 
-                </div>             
+
             </div>
         </div>
 
