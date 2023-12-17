@@ -1,33 +1,33 @@
 
 
 :root {
-    --theme-color-peach: #FCEDDA; 
-    --theme-color-orange: #EE4E34;
+  --theme-color-peach: #FCEDDA; 
+  --theme-color-orange: #EE4E34;
 } 
 
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-    text-decoration: none;
-  }
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  text-decoration: none;
+}
 
 .whole-upper {
-    height: 630px;
-    box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2); 
-    position: sticky;
-    background-color: var(--theme-color-peach);
+  height: 690px;
+  box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2); 
+ 
+  background-color: #f7f3ee;
+  box-shadow: 1px 1px 10px var(--theme-color-orange);
 }
 
 .upper{
-    margin: 0 110px;
-    height: 50vh;
-    position: relative;
+  margin: 0 110px;
+  height: 50vh;
+  position: relative;
 }
 
 .background {
-  position: absolute;
   object-fit: cover;
   width: 100%;
   height: 50vh;
@@ -36,42 +36,63 @@
 }
 
 .user-info {
-    position: absolute;
-    bottom: -150px;
-    left: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 93%;
+  position: absolute;
+  bottom: -150px;
+  left: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 93%;
 }
 
 .profile-option {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+}
+
+.profile-option img {
+  margin-right: 7px;
 }
 
 .avatar {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: white;
-    padding: 5px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 5px;
 }
 
 .name {
-    padding-top: 20px;
-    font-size: 25px;
+  padding-top: 20px;
+  font-size: 25px;
 }
 
-.menu-list {
-    /* position: absolute;
-    bottom: -65px; */
-    width: 100%;
+.edit-profile {
+  background-color: var(--theme-color-orange);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 100px;
 }
 
-.horizontal-line {
-    border-top: 1px solid #cccfd3;
-    width: 100%;
+.edit-profile:hover {
+  box-shadow: 0px 0px 3px black;
+}
+
+#pop-up-edit {
+  z-index: 11;
+}
+
+.menu-list { 
+  position: absolute;
+  bottom: -200px;
+  left: 0px;
+  
+  border-top: 1px solid black;
+  height: 50px;
+  width: 100%;
 }
 
 .tab {
@@ -94,7 +115,8 @@
 }
 
 .tab button.active {
-  background-color: #ccc;
+  background-color: #e2e2e2;
+  border-bottom: 3px solid var(--theme-color-orange);
 }
 
 .tabcontent {
@@ -106,19 +128,110 @@
 .tabcontent:nth-child(1) {
   display: block;
 }
+
 /* Lower */
 .whole-lower {
-    background-color: var(--theme-color-orange);
-    z-index: -1;
-    height: 100vh;
-    padding-top: 16px;
+  background-color: #eaeaea;
+  z-index: -1;
+  height: 100vh;
+  padding-top: 16px;
 }
 
 .lower {
-    background-color: var(--theme-color-peach);
-    margin: 0 auto;
-    height: 80%;
-    width: 80%;
-    border-radius: 10px;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  background-color: #f7f3ee ;
+  margin: 0 auto;
+  height: 80%;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: -2px -2px 4px var(--theme-color-orange);
+}
+
+#pop-up-edit {
+  width: 50%;
+  z-index: 1000;
+  height: 80%;
+  overflow-y: scroll;
+}
+
+/* Edit Profile */
+.edit-header {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.edit-header .title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.edit-header .close-modal {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.edit-body {
+  padding: 10px 15px;
+
+}
+
+
+@media only screen and (max-width:1000px) {
+  .whole-upper {
+    height:700px;
   }
+
+  .upper{
+    margin: 0 50px;
+    height: 50vh;
+    position: relative;
+  } 
+
+  .user-info {
+    position: absolute;
+    bottom: -200px;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  #reader-name-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  #reader-name-box .name {
+    padding-top: 5px;
+  }
+
+  .profile-option img {
+    margin-right: 0px;
+  }
+
+  .avatar {
+    width: 170px;
+    height: 170px;
+  }
+
+  .profile-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu-list { 
+    bottom: -265px; 
+  }
+}
+

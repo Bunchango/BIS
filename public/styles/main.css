@@ -55,9 +55,8 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    border: 1px solid black;
-    border-radius: 10px;
-    z-index: 100;
+    border-radius: 5px;
+    z-index: 1000;
     background-color: white;
     width: 500px;
     max-width: 800%;
@@ -147,7 +146,6 @@
     padding: 10px 15px;
 }
 
-
 /* --------------------- */
 
 #overlay {
@@ -185,7 +183,6 @@
     font-size: 20px;
     text-align: center;
     background-color: var(--theme-color-peach);
-
 }
 
 #login:hover {

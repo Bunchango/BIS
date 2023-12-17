@@ -5,7 +5,7 @@ const { validateUsername, validatePassword } = require('./../config/validator');
 const { validationResult } = require('express-validator');
 const { Borrow } = require('./../models/borrow');
 const { Reader } = require('./../models/user');
-
+const uploads = require('../config/multer')
 // TODO: Add model and routes for cart, add routes for changing username, password and profile pic      
 
 function isReader(req, res, next) {
@@ -252,7 +252,7 @@ router.put('/profile/change_username', isReader, validateUsername, async (req, r
    
 });
 
-router.post('/profile/update-username', isReader, validateUsername, async (req, res) => {
+router.post('', isReader, validateUsername, async (req, res) => {
     try {
         const reader = await Reader.findById(req.user._id); // Just pass the user ID directly
 
@@ -273,10 +273,42 @@ router.post('/profile/update-username', isReader, validateUsername, async (req, 
         console.log('Document updated');
         res.redirect("/homepage");
     } catch (err) {
-        res.status(400).json({error: err})
-        console.log(err)
+        res.status(400).json({ error: err.message });
+        console.error(err);
     }
 })
+
+router.post('/profile/edit-profile', isReader, validateUsername, uploads.fields([{ name: 'background', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), async (req, res) => {
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //     return res.render('reader/profile', { errors: errors.array() })
+    // }
+    try {
+        // if (!req.body.confirm) {
+        //     // Show error must confrim to change 
+        //     res.render("reader/profile", {user: req.user, errors: [{msg: "You must confirm the changes"}]})
+        // }
+
+        const UpdateProfile ={}
+        // Update username if it's changed
+        if (req.body.username && req.body.username !== user.username) UpdateProfile.username = req.body.username;
+        // Update background image if it's changed
+        if (req.files.background) UpdateProfile.background = req.files.background[0].path;
+        // Update avatar if it's changed
+        if (req.files.avatar) UpdateProfile.profilePicture = req.files.avatar[0].path;
+
+        // Save the changes to the database
+        await Reader.findOneAndUpdate({id: req.user._id}, UpdateProfile);
+
+        console.log('Document updated');
+        res.render('reader/profile', { user: req.user, errors: errors.array() });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message || 'Internal Server Error' });
+    }
+})
+
+
 
 // Change profile picture route
 router.get('/profile/change_profile_picture', isReader, async (req, res) => {
