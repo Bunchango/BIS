@@ -191,6 +191,8 @@ router.post('/forgot-password', async (req, res) => {
             // If account does not exist, show error account does not exist
             return res.render('checkin/forgot-password', {error: true, msg: "Account does not exist", user: req.user})
         } else {
+            // Only send to accounts that have password
+            if (!account.password) return res.render('checkin/forgot-password', {error: true, msg: "Account does not have a password", user: req.user})
             // Send recover email to user's email if exist
             const token = crypto.randomBytes(20).toString("hex");
 
