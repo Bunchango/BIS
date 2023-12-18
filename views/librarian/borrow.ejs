@@ -3,43 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borrow Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Borrow details</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <link rel="stylesheet" href="borrow.css">
 </head>
-<body class="bg-gray-100">
-    <nav class="bg-gray-800 text-white p-4">
-        <div class="flex justify-between items-center">
-            <div class="text-2xl font-bold">VXNHE</div>
-            <div class="flex space-x-4">
-                <a href="#section1" class="hover:text-gray-300">Dashboard</a>
-                <a href="#section2" class="hover:text-gray-300">Customer management</a>
-                <a href="#section3" class="hover:text-gray-300">Inventory management</a>
+<body>
+    <div>
+        <!-- Profile Information Section -->
+        <div class="profile-section">
+            <!-- Profile Image -->
+            <img src="img/Screenshot 2023-10-14 231723.png" alt="Profile Image" class="profile-image">
+
+            <!-- Profile Details (2 Column) -->
+            <div class="profile-details">
+                <h1 class="profile-name">E Duc</h1>
+                <p class="profile-role">Web Developer</p>
             </div>
         </div>
-    </nav>
-<div class="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-md">
-    <!-- Profile Information Section -->
-    <div class="flex justify-around p-10">
-        <!-- Profile Image -->
-        <img src="img/Screenshot 2023-10-14 231723.png" alt="Profile Image" class="rounded-full mr-4 h-80">
-
-        <!-- Profile Details (2 Column) -->
-        <div class="flex flex-col items-center justify-center">
-            <h1 class="text-2xl font-semibold">E Duc</h1>
-            <p class="text-gray-600">Web Developer</p>
+        <!-- Extra Description Section -->
+        <div class="extra-description">
+            <h2 class="section-title">About Me</h2>
+            <p class="section-content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                Sed cursus ante dapibus diam.
+            </p>
         </div>
-        
     </div>
-
-    <!-- Extra Description Section -->
-    <div class="mt-8">
-        <h2 class="text-xl font-semibold mb-4">About Me</h2>
-        <p class="text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
-            Sed cursus ante dapibus diam.
-        </p>
-    </div>
+    <h1 id="borrow-header">Borrwing books</h1>
+    <div class="general-slider-container">
+        <div class="general-slider-wrapper">
+          <button id="general-prev-slide" class="general-slide-button material-symbols-rounded">
+            chevron_left
+          </button>
+          <ul class="general-image-list">
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-1" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-2" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-3" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-4" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-5" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-6" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-7" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-8" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-9" />
+            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-10" />
+          </ul>
+          <button id="general-next-slide" class="general-slide-button material-symbols-rounded">
+            chevron_right
+          </button>
+        </div>
+        <div class="general-slider-scrollbar">
+          <div class="general-scrollbar-track">
+            <div class="general-scrollbar-thumb"></div>
+          </div>
+        </div>
+      </div>
 </div>
-
+<script src="borrow.js"></script>
 </body>
 </html>
