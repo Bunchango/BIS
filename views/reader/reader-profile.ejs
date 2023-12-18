@@ -71,16 +71,33 @@
 
                             <button type="submit">Submit</button>
                         </form> -->
-                        <form action="/reader/profile/edit-profile" method="POST">
-                            <label for="username">New Username:</label>
-                            <input type="text" id="username" name="username" >
+                        <form action="/reader/profile/edit-profile" method="POST" enctype="multipart/form-data">
+                            <% if (errors && errors.length) { %>
+                                <ul class="error-messages">
+                                    <% errors.forEach(error => { %>
+                                        <li><%= error.msg %></li>
+                                    <% }); %>
+                                </ul>
+                            <% } %>
 
-                            <label for="background-pic">Upload New Background Image:</label>
-                            <input type="file" name="background" accept="image/*" id="background-pic" >
-
-                            <label for="avatar-pic">Upload New Avatar:</label>
-                            <input type="file"  name="avatar" accept="image/*" id="avatar-pic">
-
+                            <div class="form-group">
+                                <label for="username">New Username:</label>
+                                <input type="text" id="username" name="username">
+                                
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="background-pic">Upload New Background Image:</label>
+                                <input type="file" name="background" accept="image/*" id="background-pic">
+                                
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="avatar-pic">Upload New Avatar:</label>
+                                <input type="file" name="avatar" accept="image/*" id="avatar-pic">
+                                
+                            </div>
+                        
                             <button type="submit">Submit</button>
                         </form>
                     </div>
