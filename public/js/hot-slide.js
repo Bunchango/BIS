@@ -5,7 +5,7 @@ let hotItem = document.querySelectorAll('.hot-books .hot-book');
     let activeHot = 3;
     function loadShow(){
         let stt = 0;
-        hotItem[activeHot].style.transform = `none`;
+        hotItem[activeHot].style.transform = `scale(1.5)`;
         hotItem[activeHot].style.zIndex = 1;
         hotItem[activeHot].style.filter = 'none';
         hotItem[activeHot].style.opacity = 1;

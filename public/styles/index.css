@@ -470,15 +470,9 @@ header ul li a:hover {
   padding-bottom: 0.5rem;
   text-align: center;
   color: #ee4e34;
+  margin-bottom: 50px;
 }
 
-.statistics-content {
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
-  gap: 25px;
-  margin-top: 48px;
-}
 
 .card-box {
   border: 1px solid #ccc;
