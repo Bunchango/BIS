@@ -40,6 +40,11 @@
 }
 
 #hot-title {
-    font-size: 50px;
+    font-size: 62px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 74px;
+    padding-bottom: 0.5rem;
+    color: #ee4e34;
     text-align: center;
 }
