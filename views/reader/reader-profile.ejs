@@ -28,16 +28,16 @@
                         <div class="name"><%= user.username %></div>
                         <div id="email"><%= user.gmail %></div>
                     </div>
-                    
+
                 </div>
-                  
+
                 <div class="edit-profile">
                     <button data-modal-target="#pop-up-edit" id="edit">Edit Profile</button>
-                </div> 
-                
+                </div>
+
                 <div class="pop-up-modal" id="pop-up-edit">
                     <div class="edit-header">
-                        <div class="title">Edit BookMark</div>
+                        <div class="title">Edit Profile</div>
                         <button data-close-button class="close-modal">&times;</button>
                     </div>
                     <div class="edit-body">
@@ -71,88 +71,85 @@
 
                             <button type="submit">Submit</button>
                         </form> -->
-                        <form action="/reader/profile/edit-profile" method="POST" enctype="multipart/form-data">
-                            <% if (errors && errors.length) { %>
-                                <ul class="error-messages">
-                                    <% errors.forEach(error => { %>
-                                        <li><%= error.msg %></li>
-                                    <% }); %>
-                                </ul>
+                        <form action="/profile/edit-profile" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="_method" value="PATCH">
+
+                            <% if (errors && errors.length > 0) { %>
+                            <div class="error-messages">
+                                <% errors.forEach(error => { %>
+                                <p><%= error.msg %></p>
+                                <% }); %>
+                            </div>
                             <% } %>
 
-                            <div class="form-group">
-                                <label for="username">New Username:</label>
-                                <input type="text" id="username" name="username">
-                                
-                            </div>
-                        
-                            <div class="form-group">
-                                <label for="background-pic">Upload New Background Image:</label>
-                                <input type="file" name="background" accept="image/*" id="background-pic">
-                                
-                            </div>
-                        
-                            <div class="form-group">
-                                <label for="avatar-pic">Upload New Avatar:</label>
-                                <input type="file" name="avatar" accept="image/*" id="avatar-pic">
-                                
-                            </div>
-                        
-                            <button type="submit">Submit</button>
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" value="<%= user.username %>" required>
+
+                            <label for="background">Background Image:</label>
+                            <input type="file" id="background" name="background">
+
+                            <label for="avatar">Avatar:</label>
+                            <input type="file" id="avatar" name="avatar">
+
+                            <label for="confirm">Confirm Changes:</label>
+                            <input type="checkbox" id="confirm" name="confirm" required>
+
+                            <button type="submit">Update Profile</button>
                         </form>
                     </div>
                 </div>
                 <!-- pop up window for Edit profile -->
-                
+
 
             </div>
 
             <div class="menu-list">
                 <div class="tab">
                     <button class="tablinks" onclick="openCity(event, 'Paris')">My Loan</button>
-                    <button class="tablinks" onclick="openCity(event, 'Tokyo')">My Watchlist</button>
+                    <button class="tablinks" onclick="openCity(event, 'Tokyo')">My Wishlist</button>
                 </div>
             </div>
 
         </div>
     </div>
-    
+
     <div class="whole-lower">
         <div class="lower">
             <div id="London" class="tabcontent">
                 <h3>Lon Don</h3>
                 <p>London is the capital city of England.</p>
-                </div>
-                
-                <div id="Paris" class="tabcontent">
+            </div>
+
+            <div id="Paris" class="tabcontent">
                 <h3>Paris</h3>
-                <p>Paris is the capital of France.</p> 
-                </div>
-                
-                <div id="Tokyo" class="tabcontent">
+                <p>Paris is the capital of France.</p>
+            </div>
+
+            <div id="Tokyo" class="tabcontent">
                 <h3>Tokyo</h3>
                 <p>Tokyo is the capital of Japan.</p>
-                </div>
+            </div>
         </div>
     </div>
 
     <script>
         function openCity(evt, cityName) {
-          var i, tabcontent, tablinks;
-          tabcontent = document.getElementsByClassName("tabcontent");
-          for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-          }
-          tablinks = document.getElementsByClassName("tablinks");
-          for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-          }
-          document.getElementById(cityName).style.display = "block";
-          evt.currentTarget.className += " active";
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
         }
     </script>
 
     <%- include('../partials_readers/footer.ejs') %>
 </body>
 <script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
-</html> 
+
+</html>

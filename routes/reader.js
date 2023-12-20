@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { Book, categoriesArray } = require('./../models/book');
 const Cart = require('./../models/cart');
-const { Request } = require('./../models/borrow');
+const { Borrow, Request, Pickup } = require('./../models/borrow');
+const { Reader } = require('./../models/user');
 const { validateUsername, validatePassword } = require('./../config/validator');
 const { validationResult } = require('express-validator');
-const { Borrow } = require('./../models/borrow');
-const { Reader } = require('./../models/user');
-const uploads = require('../config/multer')
+const uploads = require('../config/multer');
+const { notify, transporter } = require('./librarian');
 // TODO: Add model and routes for cart, add routes for changing username, password and profile pic      
 
 function isReader(req, res, next) {
@@ -127,7 +127,6 @@ router.post('/cart/:id', isReader, async (req, res) => {
         const newCart = new Cart({
             reader: req.user._id,
             books: [{ book: bookId }],
-            library: req.user.library,
             createdOn: date,
         });
 
@@ -165,6 +164,7 @@ router.delete('/cart/:id', isReader, async (req, res) => {
 router.post('/cart/request', isReader, async (req, res) => {
     try {
         const cart = await Cart.findOne({ reader: req.user._id }).populate('books.book');
+        const library = req.body.library;
 
         if (!cart) {
             return res.status(404).json({ error: 'Cart not found' });
@@ -175,7 +175,7 @@ router.post('/cart/request', isReader, async (req, res) => {
         const newRequest = new Request({
             reader: req.user._id,
             books: cart.books.map(book => book.book),
-            library: req.user.library,
+            library: library,
             createdOn: date,
         });
 
@@ -183,9 +183,98 @@ router.post('/cart/request', isReader, async (req, res) => {
 
         await Cart.deleteOne({ reader: req.user._id });
 
+        // Notification
+        await notify(
+            req.user._id,
+            "Request sent",
+            `Request ${request._id} has been sent.`
+        );
+
         res.status(201).json({ message: 'Request sent successfully', request: newRequest });
     } catch (err) {
         console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// View request route
+router.get('/my-request', isReader, async (req, res) => {
+    try {
+
+        const readerRequests = await Request.find({ reader: req.user._id })
+            .populate('books', 'title')
+            .populate('library', 'name')
+            .exec();
+
+        const formattedRequests = await Promise.all(readerRequests.map(async request => {
+            const pickup = await Pickup.findOne({ request: request._id });
+
+            return {
+                _id: request._id,
+                books: request.books,
+                library: request.library,
+                createdOn: request.createdOn,
+                status: request.status,
+                pickupDate: pickup ? pickup.pickupDate : null,
+            };
+        }));
+
+        res.render('reader/my-requests', { requests: formattedRequests });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Cancel request route
+router.patch("/request/cancel/:id", isReader, async (req, res) => {
+    try {
+        // Find the request by ID and populate necessary fields
+        const request = await Request
+            .findById(req.params.id)
+            .populate("reader")
+            .populate("books")
+            .populate("library")
+            .exec();
+
+        if (!request) {
+            return res.status(404).json({ error: 'Request not found' });
+        }
+        if (request.status === 'Accepted' || request.status === 'Declined') {
+            return res.status(400).json({ error: 'Cannot cancel an accepted or declined request' });
+        }
+        const updatedRequest = await Request.findByIdAndUpdate(
+            req.params.id,
+            { $set: { status: 'Canceled' } },
+            { new: true }
+        );
+
+        const pickup = await Pickup.findOne({ request: req.params.id });
+        if (pickup) {
+            await Pickup.findByIdAndUpdate(pickup._id, { $set: { status: 'Canceled' } });
+        }
+
+        // Increase book availability
+        for (const book of request.books) {
+            await Book.findByIdAndUpdate(book._id, { $inc: { amount: 1 } });
+        }
+
+        // Send notification and email to the reader about the cancellation
+        await notify(
+            req.user._id,
+            "Request cancelled",
+            `Request ${request._id} has been cancelled.`
+        );
+
+        transporter.sendMail({
+            to: request.reader.gmail,
+            subject: "VxNhe request cancelled",
+            html: `<p>Your request ${request._id} has been cancelled</p>`
+        })
+
+        res.status(200).json(updatedRequest);
+    } catch (e) {
+        console.error('Error:', e);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -202,63 +291,6 @@ router.get('/my_loan/', isReader, async (req, res) => {
         res.redirect('/homepage');
     }
 });
-
-// Add book to loan list route
-router.post('/my_loan/:bookId', isReader, async (req, res) => {
-    try {
-        const bookId = req.params.bookId;
-
-        // Check if the book is already in the user's loan list
-        const existingBorrow = await Borrow.findOne({ reader: req.user._id, books: bookId });
-
-        if (existingBorrow) {
-            return res.status(400).json({ error: 'Book is already in your loan list' });
-        }
-
-        const date = new Date();
-
-        // Fix this after adding cart model
-        const newBorrow = new Borrow({
-            reader: req.user._id,
-            books: [bookId],
-            // library: ,
-            createdOn: date,
-            dueDate: new Date().setDate(date.getDate() + 7), // reader to pick up books within 7 days
-            status: 'Ongoing',
-        });
-
-        await newBorrow.save();
-
-        res.status(201).json({ message: 'Book added to loan list successfully', borrow: newBorrow });
-    } catch (err) {
-        console.error('Error:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-// Remove book from loan list route
-router.delete('/my_loan/:bookId', isReader, async (req, res) => {
-    try {
-        const bookId = req.params.bookId;
-
-        // Check if the book is already in the user's loan list
-        const existingBorrow = await Borrow.findOne({ reader: req.user._id, books: bookId });
-
-        if (!existingBorrow) {
-            return res.status(400).json({ error: 'Book is not in your loan list' });
-        }
-
-        await Borrow.deleteOne({ reader: req.user._id, books: bookId });
-
-        res.status(200).json({ message: 'Book removed from loan list successfully' });
-        res.render('reader/my_loan', { borrows: borrows, user: req.user });
-    } catch (err) {
-        console.error('Error:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-        res.render('reader/my_loan', { borrows: borrows, user: req.user });
-    }
-});
-
 
 // My wishlist route
 router.get('/wishlist', isReader, async (req, res) => {
@@ -285,11 +317,21 @@ router.post('/wishlist/:id', isReader, async (req, res) => {
             return res.status(404).json({ error: 'Reader not found' });
         }
 
-        if (reader.wishList.includes(req.params.id)) {
+        const book = await Book.findOne({ _id: req.params.id });
+
+        if (reader.wishList.includes(book)) {
             return res.status(400).json({ error: 'Book already in wishlist' });
         }
 
-        reader.wishList.push(req.params.id);
+        reader.wishList.push(book);
+
+        // Notification
+        await notify(
+            req.user._id,
+            "Added to wishlist",
+            `${book.title} has been added to your wishlist.`
+        );
+
         await reader.save();
     } catch (err) {
         res.status(400).json({ errors: err });
@@ -305,13 +347,23 @@ router.delete('/wishlist/:id', isReader, async (req, res) => {
             return res.status(404).json({ error: 'Reader not found' });
         }
 
-        if (!reader.wishList.includes(req.params.id)) {
+        const book = await Book.findOne({ _id: req.params.id });
+
+        if (!reader.wishList.includes(book)) {
             return res.status(400).json({ error: 'Book not in wishlist' });
         }
 
-        reader.wishList.pull(req.params.id);
+        reader.wishList.pull(book);
         await reader.save();
         res.render('reader/wishlist', { wishList: wishList, user: req.user });
+
+        // Notification
+        await notify(
+            req.user._id,
+            "Removed from wishlist",
+            `${book.title} has been removed from your wishlist.`
+        );
+
     } catch (err) {
         res.status(400).json({ errors: err });
         res.render('reader/wishlist', { wishList: wishList, user: req.user });
@@ -341,62 +393,49 @@ router.get('/profile', isReader, async (req, res) => {
     }
 });
 
-router.post('', isReader, validateUsername, async (req, res) => {
-    try {
-        const reader = await Reader.findById(req.user._id); // Just pass the user ID directly
 
-        if (!reader) {
-            // Handle case where user is not found
-            res.status(404).json({ error: 'User not found' });
-            return;
-        }
-
-        let updatedUsername = req.body.newUsername;
-
-        // Update the username property
-        reader.username = updatedUsername;
-
-        // Save the changes to the database
-        await reader.save();
-
-        console.log('Document updated');
-        res.redirect("/homepage");
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-        console.error(err);
-    }
-})
-
-router.post('/profile/edit-profile', isReader, validateUsername, uploads.fields([{ name: 'background', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), async (req, res) => {
+// Update profile route
+router.patch('/profile/edit-profile', isReader, validateUsername, uploads.fields([{ name: 'background', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), async (req, res) => {
     const errors = validationResult(req);
 
     console.log('req.files:', req.files);
     console.log('req.body:', req.body);
-    if (!errors.isEmpty()) {
 
-        // If it's a regular form submission, render the page with errors
+    if (!errors.isEmpty()) {
+        // If there are validation errors, render the page with errors
         return res.render('reader/reader-profile', { user: req.user, errors: errors.array() });
     }
+
     try {
         if (!req.body.confirm) {
-            // Show error must confrim to change 
-            res.render("reader/reader-profile", { user: req.user, errors: [{ msg: "You must confirm the changes" }] })
+            // Show error must confirm to change 
+            return res.render("reader/reader-profile", { user: req.user, errors: [{ msg: "You must confirm the changes" }] });
         }
 
-        const UpdateProfile = {}
+        const updateProfile = {};
+
         // Update username if it's changed
-        if (req.body.username && req.body.username !== req.user.username) UpdateProfile.username = req.body.username;
+        if (req.body.username && req.body.username !== req.user.username) {
+            updateProfile.username = req.body.username;
+        }
+
         // Update background image if it's changed
-        if (req.files.background) UpdateProfile.background = req.files.background[0].path;
+        if (req.files.background) {
+            updateProfile.background = req.files.background[0].path;
+        }
+
         // Update avatar if it's changed
-        if (req.files.avatar) UpdateProfile.profilePicture = req.files.avatar[0].path;
+        if (req.files.avatar) {
+            updateProfile.profilePicture = req.files.avatar[0].path;
+        }
 
         // Save the changes to the database
         const updatedReader = await Reader.findOneAndUpdate(
             { _id: req.user._id }, // Query condition
-            UpdateProfile,          // Update object
-            { new: true }           // Options: Return the modified document
-        ).then('Update Success');
+            { $set: updateProfile }, // Use $set to only update specified fields
+            { new: true } // Options: Return the modified document
+        );
+
         if (!updatedReader) {
             console.log('Reader not found or not updated');
             return res.status(404).json({ error: 'Reader not found or not updated' });
@@ -408,6 +447,7 @@ router.post('/profile/edit-profile', isReader, validateUsername, uploads.fields(
         console.log('Error:', err);
         res.status(500).json({ error: err.message || 'Internal Server Error' });
     }
-})
+});
+
 
 module.exports = router;

@@ -152,18 +152,18 @@ async function notify(readerID, title, message) {
         createdOn: Date.now(),
     }
 
-    await Reader.findByIdAndUpdate(readerID, {$push: {notification: notification}});
+    await Reader.findByIdAndUpdate(readerID, { $push: { notification: notification } });
 }
 
 router.get("/customer", isLibrarian, async (req, res) => {
     // Show all pickups, borrows, and requests of a library
     try {
-        const requests = await Request.find({library: req.user.library}); 
-        const pickups = await Pickup.find({library: req.user.library});
-        const borrows = await Borrow.find({library: req.user.library});
+        const requests = await Request.find({ library: req.user.library });
+        const pickups = await Pickup.find({ library: req.user.library });
+        const borrows = await Borrow.find({ library: req.user.library });
 
-        res.render("librarian/customer", {requests: requests, pickups: pickups, borrows: borrows});
-    } catch(e) {
+        res.render("librarian/customer", { requests: requests, pickups: pickups, borrows: borrows });
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -173,8 +173,8 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
     try {
         const borrow = await Borrow.findById(req.params.id);
         if (borrow.library !== req.user.library) return res.redirect("/librarian/customer");
-        res.render("librarian/borrow", {borrow: borrow});
-    } catch(e) {
+        res.render("librarian/borrow", { borrow: borrow });
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -185,7 +185,7 @@ router.post("/borrow/update_date/:id", (req, res) => {
 
 router.post("/borrow/return/:id", (req, res) => {
 
-}) 
+})
 
 router.post("/borrow/overdue/:id", (req, res) => {
 
@@ -200,8 +200,8 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
     try {
         const pickup = await Pickup.findById(req.params.id).populate("reader").populate("books");
         if (pickup.library !== req.user.library) return res.redirect("/librarian/customer");
-        res.render("librarian/pickup", {pickup: pickup});
-    } catch(e) {
+        res.render("librarian/pickup", { pickup: pickup });
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -209,12 +209,12 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
 router.post("/pickup/update_date/:id", async (req, res) => {
     // Update date of pickup, only able to set date that are after or is today
     try {
-        const {takeDate} = req.body;
-        const pickup = await Pickup.findByIdAndUpdate(req.params.id, {takeDate: takeDate}).populate("reader"); 
+        const { takeDate } = req.body;
+        const pickup = await Pickup.findByIdAndUpdate(req.params.id, { takeDate: takeDate }).populate("reader");
 
         // Send notification email
         transporter.sendMail({
-            to: pickup.reader.gmail, 
+            to: pickup.reader.gmail,
             subject: "VxNhe Pickup pickup date modified",
             // Modify the content of emails later (Maybe add library's name, list of accepted books)
             html: `Your pickup's take date has been pushed to ${takeDate}`,
@@ -223,7 +223,7 @@ router.post("/pickup/update_date/:id", async (req, res) => {
         await notify(pickup.reader._id, "Update pickup date", `Your pickup's take date has been pushed to ${takeDate}`);
 
         res.redirect("/librarian/customer");
-    } catch(e) {
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -231,12 +231,12 @@ router.post("/pickup/update_date/:id", async (req, res) => {
 router.post("/pickup/cancel/:id", async (req, res) => {
     // Change status to canceled, increment available of all books by 1. Can't change status from canceled to anything else
     try {
-        const {cancelReason} = req.body; 
-        const pickup = await Pickup.findByIdAndUpdate(req.params.id, {status: "Canceled"}, {new: true}).populate("reader");
+        const { cancelReason } = req.body;
+        const pickup = await Pickup.findByIdAndUpdate(req.params.id, { status: "Canceled" }, { new: true }).populate("reader");
 
         // Send notification email
         transporter.sendMail({
-            to: pickup.reader.gmail, 
+            to: pickup.reader.gmail,
             subject: "VxNhe Pickup pickup modified",
             // Add more detail (reason for cancel)
             html: `Your pickup has been canceled for ${cancelReason}`,
@@ -250,7 +250,7 @@ router.post("/pickup/cancel/:id", async (req, res) => {
 
             if (bookRecord.available === 0) {
                 // Notify readers
-                const readers = await Reader.find({wishlist: bookRecord._id});
+                const readers = await Reader.find({ wishlist: bookRecord._id });
 
                 for (let reader of readers) {
                     await notify(reader._id, `${bookRecord.title} available`, `The ${bookRecord.title} is now available to borrow`)
@@ -261,7 +261,7 @@ router.post("/pickup/cancel/:id", async (req, res) => {
         }
 
         res.redirect("/librarian/customer");
-    } catch(e) {
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -269,12 +269,12 @@ router.post("/pickup/cancel/:id", async (req, res) => {
 router.post("/pickup/complete/:id", async (req, res) => {
     // Change status to completed, create a borrow record
     try {
-        const {dueDate} = req.body;
-        const pickup = await Pickup.findByIdAndUpdate(req.params.id, {status: "Completed"}, {new: true}).populate("reader");
+        const { dueDate } = req.body;
+        const pickup = await Pickup.findByIdAndUpdate(req.params.id, { status: "Completed" }, { new: true }).populate("reader");
 
         // Send notification email
         transporter.sendMail({
-            to: pickup.reader.gmail, 
+            to: pickup.reader.gmail,
             subject: "VxNhe Pickup pickup modified",
             // Add more detail (reason for cancel)
             html: `Your pickup has been completed. The due date for your loan is ${dueDate}`,
@@ -282,8 +282,8 @@ router.post("/pickup/complete/:id", async (req, res) => {
 
         // Create borrow record
         const borrow = new Borrow({
-            reader: pickup.reader._id, 
-            books: pickup.books, 
+            reader: pickup.reader._id,
+            books: pickup.books,
             library: pickup.library,
             dueDate: dueDate,
         });
@@ -292,14 +292,14 @@ router.post("/pickup/complete/:id", async (req, res) => {
 
         // Send email
         transporter.sendMail({
-            to: pickup.reader.gmail, 
+            to: pickup.reader.gmail,
             subject: "VxNhe Pickup borrow created",
             // Change messages, add more detail later
             html: `A borrow has been created`,
         });
 
         await notify(pickup.reader._id, "Created borrow", `A borrow has been created. The due date for your loan is ${dueDate}`);
-    } catch(e) {
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -311,8 +311,8 @@ router.get("/request/:id", isLibrarian, async (req, res) => {
     try {
         const request = await Request.findById(req.params.id).populate("reader").populate("books");
         if (request.library !== req.user.library) return res.redirect("/librarian/customer");
-        res.render("librarian/request", {request: request});
-    } catch(e) {
+        res.render("librarian/request", { request: request });
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -320,17 +320,23 @@ router.get("/request/:id", isLibrarian, async (req, res) => {
 router.post("/request/accept/:id", async (req, res) => {
     // Accept a request and create a pickup record
     try {
-        const {approved, takeDate} = req.body;
+        const { approved, takeDate } = req.body;
 
         // Change request status to accept
-        const request = await Request.findByIdAndUpdate(req.params.id, {status: "Accepted"}, {new: true}).populate("reader").populate("books");
+        const request = await Request
+            .findByIdAndUpdate(req.params.id, { status: "Accepted" }, { new: true })
+            .populate("reader")
+            .populate("books")
+            .populate("library")
+            .exec();
 
         // Create pickup
         const pickup = new Pickup({
             reader: request.reader,
-            books: approved, 
+            books: approved,
             library: request.library,
             takeDate: takeDate,
+            request: request._id,
         })
 
         await pickup.save();
@@ -338,7 +344,7 @@ router.post("/request/accept/:id", async (req, res) => {
         // Send notification email
         const bookListHTML = request.books.map(book => `<li>${book.title}</li>`).join('');
         transporter.sendMail({
-            to: request.reader.gmail, 
+            to: request.reader.gmail,
             subject: "VxNhe Pickup request accepted",
             // Modify the content of emails later (Maybe add library's name, list of accepted books)
             html: `<p>Your request has been accepted. Come and pickup your books on ${takeDate}</p>
@@ -347,7 +353,7 @@ router.post("/request/accept/:id", async (req, res) => {
         })
 
         await notify(request.reader._id, "Request accepted", `Your borrow request has been accepted. See the details of the pickup in your email`);
-        
+
         // Decrease by 1 for all books
         for (let book of pickup.books) {
             await Book.findByIdAndUpdate(book._id, { $inc: { available: 1 } });
@@ -355,7 +361,7 @@ router.post("/request/accept/:id", async (req, res) => {
 
         // Redirect to customer page
         res.redirect("/librarian/customer");
-    } catch(e) {
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -363,12 +369,12 @@ router.post("/request/accept/:id", async (req, res) => {
 router.post("/request/decline/:id", async (req, res) => {
     // Decline a request
     try {
-        const {declineReason} = req.body;
-        const request = await Request.findByIdAndUpdate(req.params.id, {status: "Declined"}, {new: true}).populate("reader");
+        const { declineReason } = req.body;
+        const request = await Request.findByIdAndUpdate(req.params.id, { status: "Declined" }, { new: true }).populate("reader");
 
         // Send notification email
         transporter.sendMail({
-            to: request.reader.gmail, 
+            to: request.reader.gmail,
             subject: "VxNhe Pickup request declined",
             // Add more content (reason for the decline)
             html: `Your request has been declined for ${declineReason}`
@@ -377,7 +383,7 @@ router.post("/request/decline/:id", async (req, res) => {
         await notify(request.reader._id, "Request declined", `Your borrow request has been declined for ${declineReason}`);
 
         res.redirect("/librarian/customer");
-    } catch(e) {
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
@@ -387,4 +393,5 @@ router.get("/dashboard", isLibrarian, (req, res) => {
     res.render("librarian/dashboard");
 })
 
+module.exports = { notify, transporter };
 module.exports = router;
