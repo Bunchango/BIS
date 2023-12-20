@@ -6,6 +6,7 @@ const { validationResult } = require('express-validator');
 const { Borrow } = require('./../models/borrow');
 const { Reader } = require('./../models/user');
 const uploads = require('../config/multer')
+const multer = require('multer');
 // TODO: Add model and routes for cart, add routes for changing username, password and profile pic      
 
 function isReader(req, res, next) {
@@ -243,52 +244,14 @@ router.get('/profile', isReader, async (req, res) => {
     }
 });
 
-// Change username route
-router.get('/profile/change_username', isReader, async (req, res) => {
-    res.render('reader/change_username', { user: req.user });
-});
-
-
-router.put('/profile/change_username', isReader, validateUsername, async (req, res) => {
-   
-});
-
-router.post('', isReader, validateUsername, async (req, res) => {
-    try {
-        const reader = await Reader.findById(req.user._id); // Just pass the user ID directly
-
-        if (!reader) {
-            // Handle case where user is not found
-            res.status(404).json({ error: 'User not found' });
-            return;
-        }
-
-        let updatedUsername = req.body.newUsername;
-
-        // Update the username property
-        reader.username = updatedUsername;
-
-        // Save the changes to the database
-        await reader.save();
-
-        console.log('Document updated');
-        res.redirect("/homepage");
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-        console.error(err);
-    }
-})
-
-router.post('/profile/edit-profile', isReader, validateUsername, uploads.fields([{ name: 'background', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), async (req, res) => {
+// Change username, BackGround picture and Avatar picture route
+router.post('/profile/edit-profile', isReader, uploads.fields([{ name: 'background', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), validateUsername, async (req, res) => {
     const errors = validationResult(req);
-    
-    console.log('req.files:', req.files);
-    console.log('req.body:', req.body);
     if (!errors.isEmpty()) {
-
         // If it's a regular form submission, render the page with errors
-        return res.render('reader/reader-profile', { user: req.user, errors: errors.array()});
+        return res.render('reader/reader-profile', { user: req.user, errors: errors.array() });
     }
+
     try {
         if (!req.body.confirm) {
             // Show error must confrim to change 
@@ -297,49 +260,91 @@ router.post('/profile/edit-profile', isReader, validateUsername, uploads.fields(
          
         const UpdateProfile ={}
         // Update username if it's changed
-        if (req.body.username && req.body.username !== req.user.username) UpdateProfile.username = req.body.username;
+        if (req.body.username && req.body.username !== req.user.username) {
+            UpdateProfile.username = req.body.username;
+        }
+        
         // Update background image if it's changed
-        if (req.files.background) UpdateProfile.background = req.files.background[0].path;
+        if (req.files.background) {
+            UpdateProfile.background = req.files.background[0].path;
+        } 
         // Update avatar if it's changed
-        if (req.files.avatar) UpdateProfile.profilePicture = req.files.avatar[0].path;
+        if (req.files.avatar) {
+            UpdateProfile.profilePicture = req.files.avatar[0].path;
+        }
 
         // Save the changes to the database
         const updatedReader = await Reader.findOneAndUpdate(
             { _id: req.user._id }, // Query condition
             UpdateProfile,          // Update object
             { new: true }           // Options: Return the modified document
-        ).then('Update Success');
+        )
+        
+
         if (!updatedReader) {
             console.log('Reader not found or not updated');
-            return res.status(404).json({ error: 'Reader not found or not updated' });
+            return res.render('reader/reader-profile', {
+                user: req.user,
+                errors: [{msg: 'Reader not found or not updated' }]
+            });
         }
 
         console.log('Document updated');
         res.redirect('/homepage');
     } catch (err) {
         console.log('Error:', err);
-        res.status(500).json({ error: err.message || 'Internal Server Error' });
+        return res.render('reader/reader-profile', {
+            user: req.user,
+            errors: [{ msg: 'Internal Server Error' }]
+        });
+    }
+},  (error, req, res, next) => {
+    if (error instanceof multer.MulterError) {
+      if (error.code === 'LIMIT_FILE_SIZE') {
+        res.render('reader/reader-profile', { user: req.user, errors: [{ msg: 'File Too Large: Please upload an image smaller than 2MB' }] });
+      }
+    } else {
+      next(error);
     }
 })
 
 
+// Set default for user profile
+router.post('/profile/set-default', isReader, async (req, res) => {
+    try {
+        let defaultSetting = {};
+        console.log(req.user)
+        
+        defaultSetting.username = 'Bibliophile';
+        defaultSetting.profilePicture = "uploads/default_ava.png";
+        defaultSetting.background = "uploads/default_bg.jpeg";
 
-// Change profile picture route
-router.get('/profile/change_profile_picture', isReader, async (req, res) => {
-    res.render('reader/change_profile_picture', { user: req.user });
-});
+         // Update the user's profile with the default settings
+         const updatedReader = await Reader.findOneAndUpdate(
+            { _id: req.user._id }, // Query condition
+            defaultSetting, // Update object
+            { new: true }  // Options: Return the modified document
+        );
 
-router.put('/profile/change_profile_picture', isReader, async (req, res) => {
+        if (!updatedReader) {
+            console.log('Reader not found or not updated');
+            return res.render('reader/reader-profile', {
+                user: req.user,
+                errors: [{msg: 'Reader not found or not updated' }]
+            });
+        }
+        console.log('Default profile set');
+        res.redirect('/homepage');
 
-});
+    } catch (error) {
+        console.log('Error:', error);
+        return res.render('reader/reader-profile', {
+            user: req.user,
+            errors: [{ msg: 'Internal Server Error' }]
+        });
+    }
+})
 
-// Change password route
-router.get('/profile/change_password', isReader, async (req, res) => {
-    res.render('reader/change_password', { user: req.user });
-});
 
-router.put('/profile/change_password', isReader, validatePassword, async (req, res) => {
-
-});
 
 module.exports = router;
