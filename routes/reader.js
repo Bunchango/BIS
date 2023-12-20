@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Book, categoriesArray } = require('./../models/book');
+const Cart = require('./../models/cart');
+const { Request } = require('./../models/borrow');
 const { validateUsername, validatePassword } = require('./../config/validator');
 const { validationResult } = require('express-validator');
 const { Borrow } = require('./../models/borrow');
@@ -90,6 +92,102 @@ router.get('/book_detail/:id', async (req, res) => {
     } catch (err) {
         res.status(400).json({ errors: err });
         res.redirect('/homepage');
+    }
+});
+
+// Show cart route
+router.get('/cart', isReader, async (req, res) => {
+    try {
+        const cart = await Cart.findOne({ reader: req.user._id }).populate('books.book');
+
+        if (!cart) {
+            return res.status(404).json({ error: 'Cart not found' });
+        }
+
+        res.render('reader/cart', { cart: cart, user: req.user });
+    } catch (err) {
+        res.status(400).json({ errors: err });
+        res.redirect('/homepage');
+    }
+});
+
+// Add book to cart route
+router.post('/cart/:id', isReader, async (req, res) => {
+    try {
+        const bookId = req.params.id;
+
+        // Check if the book is already in the user's cart
+        const existingCart = await Cart.findOne({ reader: req.user._id, 'books.book': bookId });
+
+        if (existingCart) {
+            return res.status(400).json({ error: 'Book is already in your cart' });
+        }
+
+        const date = new Date();
+
+        const newCart = new Cart({
+            reader: req.user._id,
+            books: [{ book: bookId }],
+            library: req.user.library,
+            createdOn: date,
+        });
+
+        await newCart.save();
+
+        res.status(201).json({ message: 'Book added to cart successfully', cart: newCart });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Remove book from cart route
+router.delete('/cart/:id', isReader, async (req, res) => {
+    try {
+        const bookId = req.params.id;
+
+        // Check if the book is already in the user's cart
+        const existingCart = await Cart.findOne({ reader: req.user._id, 'books.book': bookId });
+
+        if (!existingCart) {
+            return res.status(400).json({ error: 'Book is not in your cart' });
+        }
+
+        await Cart.deleteOne({ reader: req.user._id, 'books.book': bookId });
+
+        res.status(200).json({ message: 'Book removed from cart successfully' });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Send book request from cart route
+router.post('/cart/request', isReader, async (req, res) => {
+    try {
+        const cart = await Cart.findOne({ reader: req.user._id }).populate('books.book');
+
+        if (!cart) {
+            return res.status(404).json({ error: 'Cart not found' });
+        }
+
+        const date = new Date();
+
+        const newRequest = new Request({
+            reader: req.user._id,
+            books: cart.books.map(book => book.book),
+            library: req.user.library,
+            createdOn: date,
+        });
+
+        await newRequest.save();
+
+        await Cart.deleteOne({ reader: req.user._id });
+
+        res.status(201).json({ message: 'Request sent successfully', request: newRequest });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
@@ -255,10 +353,10 @@ router.post('/profile/edit-profile', isReader, uploads.fields([{ name: 'backgrou
     try {
         if (!req.body.confirm) {
             // Show error must confrim to change 
-            res.render("reader/reader-profile", {user: req.user, errors: [{msg: "You must confirm the changes"}]})
+            res.render("reader/reader-profile", { user: req.user, errors: [{ msg: "You must confirm the changes" }] })
         }
-         
-        const UpdateProfile ={}
+
+        const UpdateProfile = {}
         // Update username if it's changed
         if (req.body.username && req.body.username !== req.user.username) {
             UpdateProfile.username = req.body.username;
