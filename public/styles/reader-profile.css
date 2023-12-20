@@ -260,3 +260,44 @@
   }
 }
 
+#edit-username-box .title, #edit-background-box .title, #edit-ava-box .title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  color: #EE4E34;
+  margin-bottom: 1rem;
+}
+
+.layer-two {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.layer-two #name {
+  margin-bottom: 1rem;
+}
+.layer-two input, .layer-two label {
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-weight: 400;
+}
+
+.layer-two input {
+  width: 220px;
+}
+
+#confirm-change-box {
+  display: flex;
+  justify-content: space-around;
+}
+
+.submit-button {
+  background-color: var(--theme-color-orange);
+  color: var(--theme-color-peach);
+  border-radius: 7px;
+
+  height: 40px;
+  width: 100px;
+}
