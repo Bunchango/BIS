@@ -103,6 +103,20 @@
     padding: 10px 15px;
 }
 
+.item .content .check {
+    padding: 5px;
+    border: 2px solid transparent; 
+    margin-top: 5px;
+    border-radius: 10px;
+    transition: border-color 0.3s, color 0.3s; 
+    cursor: pointer;
+}
+
+.item .content .check:hover {
+    border-color: #EE4E34;
+    color: #EE4E34; 
+}
+
 /* bookmark */
 
 :root{
@@ -160,6 +174,7 @@
 
 .item {
     background-color: var(--white);
+    padding: 10px;
     margin-top: 20px;
     margin-bottom: 10px; 
     border-radius: 20px;
