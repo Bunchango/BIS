@@ -42,7 +42,8 @@ const validateBookCreation = [
 
 const validateUsername = [
   body("username")
-    .isAlphanumeric()
+    .optional({ checkFalsy: true })
+    .isAlpha()
     .withMessage("Username must contain only digits and letters")
     .isLength({ min: 8, max: 15 })
     .withMessage("Username must be between 8 and 15 characters"),

@@ -30,7 +30,7 @@
                             <button class="remove"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
-    
+
                     <div class="item" data-key="2">
                         <div class="img">
                             <img src="/images/test-bookmark.jpg" alt="">
@@ -44,7 +44,7 @@
                             <button class="remove"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
-    
+
                     <div class="item" data-key="3">
                         <div class="img">
                             <img src="/images/test-bookmark.jpg" alt="">
@@ -58,7 +58,7 @@
                             <button class="remove"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
-    
+
                     <div class="item" data-key="4">
                         <div class="img">
                             <img src="/images/test-bookmark.jpg" alt="">
@@ -85,27 +85,39 @@
                 <div class="title">Notification</div>
                 <button data-close-button class="close-modal">&times;</button>
             </div>
-            <div class="notification-body">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                exercitationem aspernatur dicta labore, ipsam eos repudiandae a non reiciendis dolorem inventore nam
-                cumque architecto velit.
+            <div class="center">
+                <div class="list">
+                    <div class="item">
+                        <div class="img">
+                            <img src="" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="title">THE DIARY OF A YOUNG GIRL has just been added</div>
+                            <button class="check"><i class="fa-solid fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
 
         <div>
             <% if (user.profilePicture) { %>
-            <img src="<%= user.profilePicture %>" alt="Reader Avatar" id="account_img">
-            <% } else { %>
-            <img src="/images/default-ava.png" alt="Default Avatar" id="account_img">
+                <img src="/<%= user.profilePicture %>" alt="Reader Avatar" id="account_img">
+            <%} else {%>
+            <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
             <% } %>
             <div id="account-hovering">
-
+                <div id="content">
+                    <h3 id="account-name">Hello, <%=user.username%></h3>
+                    <a href="/reader/profile" id="my-account">My Account</a>
+                    <a href="/checkin/logout" id="logout">Logout</a>
+                </div>
             </div>
         </div>
 
 
-    <% } else { %>
+        <% } else { %>
         <div id="header-btns">
             <a href="/checkin/login">
                 <div id="login">Login</div>
@@ -114,7 +126,7 @@
                 <div id="register">Join</div>
             </a>
         </div>
-    <% } %>
+        <% } %>
     </div>
 
 </div>

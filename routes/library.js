@@ -122,7 +122,7 @@ validateUsername, async (req, res) => {
         if (req.files.logo) updateFields.profilePicture = req.files.logo[0].path;
         if (req.files.banner) updateFields.banner = req.files.banner[0].path;
 
-        await Library.findOneAndUpdate({id: req.user.__id}, updateFields); 
+        await Library.findOneAndUpdate({_id: req.user.__id}, updateFields); 
         res.redirect("/library/manage");
     } catch(e) {
         res.status(400).json({ errors: e });
