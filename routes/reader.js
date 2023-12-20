@@ -406,6 +406,7 @@ router.patch('/profile/edit-profile', isReader, validateUsername, uploads.fields
         return res.render('reader/reader-profile', { user: req.user, errors: errors.array() });
     }
 
+
     try {
         if (!req.body.confirm) {
             // Show error must confirm to change 
@@ -438,14 +439,65 @@ router.patch('/profile/edit-profile', isReader, validateUsername, uploads.fields
 
         if (!updatedReader) {
             console.log('Reader not found or not updated');
-            return res.status(404).json({ error: 'Reader not found or not updated' });
+            return res.render('reader/reader-profile', {
+                user: req.user,
+                errors: [{ msg: 'Reader not found or not updated' }]
+            });
         }
 
         console.log('Document updated');
         res.redirect('/homepage');
     } catch (err) {
         console.log('Error:', err);
-        res.status(500).json({ error: err.message || 'Internal Server Error' });
+        return res.render('reader/reader-profile', {
+            user: req.user,
+            errors: [{ msg: 'Internal Server Error' }]
+        });
+    }
+}, (error, req, res, next) => {
+    if (error instanceof multer.MulterError) {
+        if (error.code === 'LIMIT_FILE_SIZE') {
+            res.render('reader/reader-profile', { user: req.user, errors: [{ msg: 'File Too Large: Please upload an image smaller than 2MB' }] });
+        }
+    } else {
+        next(error);
+    }
+})
+
+
+// Set default for user profile
+router.post('/profile/set-default', isReader, async (req, res) => {
+    try {
+        let defaultSetting = {};
+        console.log(req.user)
+
+        defaultSetting.username = 'Bibliophile';
+        defaultSetting.profilePicture = "uploads/default_ava.png";
+        defaultSetting.background = "uploads/default_bg.jpeg";
+
+        // Update the user's profile with the default settings
+        const updatedReader = await Reader.findOneAndUpdate(
+            { _id: req.user._id }, // Query condition
+            defaultSetting, // Update object
+            { new: true }  // Options: Return the modified document
+        );
+
+        if (!updatedReader) {
+            console.log('Reader not found or not updated');
+            return res.render('reader/reader-profile', {
+                user: req.user,
+                errors: [{ msg: 'Reader not found or not updated' }]
+            });
+        }
+        console.log('Default profile set');
+        res.redirect('/homepage');
+
+    } catch (error) {
+        console.log('Error:', error);
+        return res.render('reader/reader-profile', {
+            user: req.user,
+            errors: [{ msg: 'Internal Server Error' }]
+        });
     }
 });
 
