@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="styles/search-filter.css"/>
     <link rel="stylesheet" href="styles/hot-slide.css">
     <link rel="stylesheet" href="styles/flashcard.css">
-
     <link rel="stylesheet" href="styles/general-slider.css">
     <link
       rel="stylesheet"
@@ -54,8 +53,44 @@
         </div>
         <%- include('../partials_readers/search.ejs') %>
     </section>
-    <div id="overlay"></div>
+    <section class="hot">
+        <h1 id="hot-title">This month's hottest</h1>
+        <div class="hot-books">
+            <div class="hot-book">
+                <h1>Slide 1</h1>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
+            </div>
+            <div class="hot-book">
+                <h1>Slide 2</h1>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
+            </div>
+            <div class="hot-book">
+                <h1>Slide 3</h1>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
+            </div>
+            <div class="hot-book">
+                <h1>Slide 4</h1>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
+            </div>
+            <div class="hot-book">
+                <h1>Slide 5</h1>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
+            </div>
+            <div class="hot-book">
+                <h1>Slide 6</h1>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
+            </div>
+            <div class="hot-book">
+                <h1>Slide 7</h1>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
+            </div>
+            <button id="next-hot">></button>
+            <button id="prev-hot"><</button>
+        </div>
+    </section>
     <!-- Card Section -->
+    <section class="lib-sect">
+        <h1 id="lib-title">Our Partner Libraries</h1>
     <div class="container1">
         <div id="slide">
             <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
@@ -118,43 +153,9 @@
             </div>
         </div>
     </div>
-    <section class="hot">
-        <h1 id="hot-title">This month's hottest</h1>
-        <div class="hot-books">
-            <div class="hot-book">
-                <h1>Slide 1</h1>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
-            </div>
-            <div class="hot-book">
-                <h1>Slide 2</h1>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
-            </div>
-            <div class="hot-book">
-                <h1>Slide 3</h1>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
-            </div>
-            <div class="hot-book">
-                <h1>Slide 4</h1>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
-            </div>
-            <div class="hot-book">
-                <h1>Slide 5</h1>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
-            </div>
-            <div class="hot-book">
-                <h1>Slide 6</h1>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
-            </div>
-            <div class="hot-book">
-                <h1>Slide 7</h1>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magni magnam unde ipsam repudiandae explicabo expedita labore, sequi minus neque beatae voluptatum, quasi accusamus quia quis voluptas laborum ad! Ab totam doloribus, excepturi possimus rem vel quia fugit molestiae officiis!
-            </div>
-            <button id="next-hot">></button>
-            <button id="prev-hot"><</button>
-        </div>
-    </section>
+</section>
     <section>
-      <h1 id="hot-title">Award Winning Books</h1>
+      <h1 id="award-title">Award Winning Books</h1>
       <div class="container swiper">
         <div class="slide-container">
           <div class="card-wrapper swiper-wrapper">

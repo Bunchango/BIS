@@ -49,7 +49,7 @@
                 
                 <div class="pop-up-modal" id="pop-up-edit">
                     <div class="edit-header">
-                        <div class="title">Edit BookMark</div>
+                        <div class="title">Edit Profile</div>
                         <button data-close-button class="close-modal">&times;</button>
                     </div>
                     <div class="edit-body">
@@ -63,11 +63,13 @@
                                 </ul>
                             <% } %>
                             <div id="edit-username-box">
-                                <div class="title">Edit Username</div>
+                                <div class="title">Username</div>
                                 <div class="layer-two">
                                     <div id="name">Current Username: <%= user.username%></div>
-                                    <label for="username">New User Name</label>
-                                    <input type="text" id="username" name="username">
+                                    <div class="edit-file-cont">
+                                        <label for="username">New User Name:</label>
+                                        <input type="text" id="username" name="username">
+                                    </div>
                                 </div>
                             </div>
 
@@ -75,25 +77,33 @@
                                 <div class="title">Background Image</div>
                                 <div class="layer-two">
                                     <img class="background" src="/<%= user.background%>" alt="background">
-                                    <label for="background-pic">Upload New Background Image:</label>
-                                    <input type="file" name="background" accept="image/*" id="background-pic" >
+                                    <div class="edit-file-cont">
+                                        <label for="background-pic">Upload:</label>
+                                        <input type="file" name="background" accept="image/*" id="background-pic" >
+                                    </div>
                                 </div>
                             </div>
 
                             <div id="edit-ava-box">
-                                <div class="title">Avatar profile</div>
+                                <div class="title">Avatar</div>
                                 <div class="layer-two">
-                                    <img class="avatar" src="/<%= user.profilePicture %>" alt="<%= user.username %>'s avatar" >
-                                    <label for="avatar-pic">Upload New Avatar:</label>
-                                    <input type="file"  name="avatar" accept="image/*" id="avatar-pic">
+                                    <div class="ava-edit-cont">
+                                        <img class="avatar" src="/<%= user.profilePicture %>" alt="<%= user.username %>'s avatar" >
+                                    </div>
+                                    <div class="edit-file-cont">
+                                        <label for="avatar-pic">Upload:</label>
+                                        <input type="file"  name="avatar" accept="image/*" id="avatar-pic">
+                                    </div>
                                 </div>
                             </div>
                             <div id="confirm-change-box">
-                                <label for="confirm">Confirm Change:</label>
+                                <div>
+                                    
+                                <label for="confirm">Confirm Changes:</label>
                                 <input type="checkbox" name="confirm" id="confirm">
+                                </div>
+                                <button type="submit" class="submit-button">Submit</button>
                             </div>
-
-                            <button type="submit">Submit</button>
                         </form>
                         
                     </div>
