@@ -28,10 +28,10 @@
                         <div class="name"><%= user.username %></div>
                         <div id="email"><%= user.gmail %></div>
                     </div>
-                    
+
                 </div>
-                
-                <div id="set-buttons">  
+
+                <div id="set-buttons">
                     <div class="set-default">
                         <form action="profile/set-default" method="POST">
                             <button type="submit" id="set-default">Set Default</button>
@@ -40,34 +40,38 @@
 
                     <div class="edit-profile">
                         <% if (errors  && errors.length > 0) { %>
-                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        <i class="fa-solid fa-triangle-exclamation"></i>
                         <% } %>
                         <button data-modal-target="#pop-up-edit" id="edit">Edit Profile</button>
-                    </div> 
+                    </div>
                 </div>
-                
-                
+
+
                 <div class="pop-up-modal" id="pop-up-edit">
                     <div class="edit-header">
-                        <div class="title">Edit BookMark</div>
+                        <div class="title">Edit Profile</div>
+                        <div class="title">Edit Profile</div>
                         <button data-close-button class="close-modal">&times;</button>
                     </div>
                     <div class="edit-body">
                         <form action="/reader/profile/edit-profile" method="POST" enctype="multipart/form-data">
+
                             <% if (errors && errors.length > 0) { %>
-                                <h3>Errors</h3>
-                                <ul class="error-messages">
-                                    <% errors.forEach(error => { %>
-                                        <li><%= error.msg %></li>
-                                    <% }); %>
-                                </ul>
+                            <h3>Errors</h3>
+                            <ul class="error-messages">
+                                <% errors.forEach(error => { %>
+                                <li><%= error.msg %></li>
+                                <% }); %>
+                            </ul>
                             <% } %>
                             <div id="edit-username-box">
-                                <div class="title">Edit Username</div>
+                                <div class="title">Username</div>
                                 <div class="layer-two">
                                     <div id="name">Current Username: <%= user.username%></div>
-                                    <label for="username">New User Name</label>
-                                    <input type="text" id="username" name="username">
+                                    <div class="edit-file-cont">
+                                        <label for="username">New User Name:</label>
+                                        <input type="text" id="username" name="username">
+                                    </div>
                                 </div>
                             </div>
 
@@ -75,80 +79,88 @@
                                 <div class="title">Background Image</div>
                                 <div class="layer-two">
                                     <img class="background" src="/<%= user.background%>" alt="background">
-                                    <label for="background-pic">Upload New Background Image:</label>
-                                    <input type="file" name="background" accept="image/*" id="background-pic" >
+                                    <div class="edit-file-cont">
+                                        <label for="background-pic">Upload:</label>
+                                        <input type="file" name="background" accept="image/*" id="background-pic" >
+                                    </div>
                                 </div>
                             </div>
 
                             <div id="edit-ava-box">
-                                <div class="title">Avatar profile</div>
+                                <div class="title">Avatar</div>
                                 <div class="layer-two">
-                                    <img class="avatar" src="/<%= user.profilePicture %>" alt="<%= user.username %>'s avatar" >
-                                    <label for="avatar-pic">Upload New Avatar:</label>
-                                    <input type="file"  name="avatar" accept="image/*" id="avatar-pic">
+                                    <div class="ava-edit-cont">
+                                        <img class="avatar" src="/<%= user.profilePicture %>" alt="<%= user.username %>'s avatar" >
+                                    </div>
+                                    <div class="edit-file-cont">
+                                        <label for="avatar-pic">Upload:</label>
+                                        <input type="file"  name="avatar" accept="image/*" id="avatar-pic">
+                                    </div>
                                 </div>
                             </div>
                             <div id="confirm-change-box">
-                                <label for="confirm">Confirm Change:</label>
+                                <div>
+                                    
+                                <label for="confirm">Confirm Changes:</label>
                                 <input type="checkbox" name="confirm" id="confirm">
+                                </div>
+                                <button type="submit" class="submit-button">Submit</button>
                             </div>
-
-                            <button type="submit">Submit</button>
                         </form>
-                        
+
                     </div>
                 </div>
                 <!-- pop up window for Edit profile -->
-                
+
 
             </div>
 
             <div class="menu-list">
                 <div class="tab">
-                    <button class="tablinks" onclick="openCity(event, 'Paris')">My Loan</button>
-                    <button class="tablinks" onclick="openCity(event, 'Tokyo')">My Watchlist</button>
+                    <button class="tablinks" onclick="openCity(event, 'my-requests')">My Requests</button>
+                    <button class="tablinks" onclick="openCity(event, 'my-loans')">My Loan</button>
+                    <button class="tablinks" onclick="openCity(event, 'my-wishlist')">My Wishlist</button>
                 </div>
             </div>
 
         </div>
     </div>
-    
+
     <div class="whole-lower">
         <div class="lower">
-            <div id="London" class="tabcontent">
-                <h3>Lon Don</h3>
-                <p>London is the capital city of England.</p>
-                </div>
-                
-                <div id="Paris" class="tabcontent">
-                <h3>Paris</h3>
-                <p>Paris is the capital of France.</p> 
-                </div>
-                
-                <div id="Tokyo" class="tabcontent">
-                <h3>Tokyo</h3>
-                <p>Tokyo is the capital of Japan.</p>
-                </div>
+            <!-- TODO: Replace My requests, My loans and My wishlist pages with these tabs -->
+            <div id="my-requests" class="tabcontent">
+                <h3>My Requests</h3>
+            </div>
+
+            <div id="my-loans" class="tabcontent">
+                <h3>My Loans</h3>
+            </div>
+
+            <div id="my-wishlist" class="tabcontent">
+                <h3>My Wishlist</h3>
+            </div>
         </div>
     </div>
 
     <script>
         function openCity(evt, cityName) {
-          var i, tabcontent, tablinks;
-          tabcontent = document.getElementsByClassName("tabcontent");
-          for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-          }
-          tablinks = document.getElementsByClassName("tablinks");
-          for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-          }
-          document.getElementById(cityName).style.display = "block";
-          evt.currentTarget.className += " active";
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
         }
     </script>
 
     <%- include('../partials_readers/footer.ejs') %>
 </body>
 <script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
-</html> 
+
+</html>

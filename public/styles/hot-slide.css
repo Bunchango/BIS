@@ -39,7 +39,7 @@
     width: 300px;
 }
 
-#hot-title {
+#hot-title, #award-title, #lib-title {
     font-size: 62px;
     font-weight: 700;
     letter-spacing: 0.2px;
@@ -47,4 +47,13 @@
     padding-bottom: 0.5rem;
     color: #ee4e34;
     text-align: center;
+}
+
+#award-title {
+    margin-top: 100px;
+}
+
+#lib-title {
+    color: #f9e4c8;
+    padding-bottom: 50px;
 }

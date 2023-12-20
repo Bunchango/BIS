@@ -13,11 +13,6 @@ const cartSchema = new mongoose.Schema({
             required: true,
         }
     }],
-    library: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Library",
-        required: true,
-    },
     createdOn: {
         type: Date,
         default: Date.now,

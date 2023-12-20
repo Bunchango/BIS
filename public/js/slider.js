@@ -31,6 +31,7 @@ dots.forEach((li, key) => {
          reloadSlider();
     })
 })
+
 window.onresize = function(event) {
     reloadSlider();
 };
@@ -40,8 +41,8 @@ document.getElementById('next1').onclick = function(){
     document.getElementById('slide').appendChild(lists[0]);
     let lists1 = document.querySelectorAll('.item1');
     document.getElementById('slide1').appendChild(lists1[0]);
-
 }
+
 document.getElementById('prev1').onclick = function(){
     let lists = document.querySelectorAll('.item2');
     document.getElementById('slide').prepend(lists[lists.length - 1]);

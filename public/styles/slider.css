@@ -85,14 +85,43 @@ body{
 }
 .container1{
     position: relative;
-    height: 80vh;
-    width: 80vw;
-    left: 10%;
-    border-radius: 20px;
+    height: 100vh;
+    width: 100vw;
     background-color: #000000;
     overflow: hidden;
 }
-
+.container1::before {
+    content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  z-index: 10;
+    background: linear-gradient(
+        #ee4e34,
+        rgb(252, 237, 218, 0)
+        
+         )
+     
+         scroll no-repeat bottom transparent;
+}
+.container1::after {
+    content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+    background: linear-gradient(
+        rgb(252, 237, 218, 0),
+        #FCEDDA
+         )
+     
+         scroll no-repeat bottom transparent;
+}
 #slide, #slide1{
     width:max-content;
 }
@@ -223,4 +252,20 @@ button{
     background-color: #eaeaea;
 }.buttons1 button:hover{
     background-color: #bac383;
+}
+
+.slider::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+      background: linear-gradient(
+          rgba(250, 205, 146, 0),
+          #FCEDDA
+           )
+       
+           scroll no-repeat bottom transparent;
 }

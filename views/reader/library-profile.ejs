@@ -15,6 +15,23 @@
     <title>Library Profile</title>
 </head>
 <body>
-    
+    <%- include('../partials_readers/head_navigation.ejs'), { user: user } %>
+    <a href="/library-profile/>"></a>
+    <div id="upper">
+        <div id="banner"><%= library.banner %></div>
+        <div id="lib-ava"> <img src="/<%= library.profilePicture %>" alt="<%= library.username %>'s Picture Profile"></div>
+        <div id="lib-info">
+            <div id="lib-username"><%= library.username %></div>
+            <div id="lib-address"><%= library.address %></div>
+            <div id="lib-email"><%= library.gmail %></div>
+        </div>
+    </div>
+    <div id="lower">
+        <div id="notice-board"> <img src="/<%= library.noticeBoard %>" atl="<%= library.username %>'s Notice Board"></div>
+        <div id="book-container">
+            <div class="book-card"></div>
+        </div>
+    </div>
+    <%- include('../partials_readers/footer.ejs') %>
 </body>
 </html>

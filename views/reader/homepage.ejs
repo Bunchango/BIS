@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/vxnhe-icon.png" type="image/x-icon">
     <title>Document</title>
+    <link rel="stylesheet" href="styles/swiper-bundle.min.css">    
     <link rel="stylesheet" href="styles/main.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <link rel="stylesheet" href="styles/slider.css" />
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="styles/search-filter.css"/>
     <link rel="stylesheet" href="styles/hot-slide.css">
     <link rel="stylesheet" href="styles/flashcard.css">
+    <link rel="stylesheet" href="styles/general-slider.css">
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"
@@ -51,70 +53,6 @@
         </div>
         <%- include('../partials_readers/search.ejs') %>
     </section>
-    <div id="overlay"></div>
-    <!-- Card Section -->
-    <div class="container1">
-        <div id="slide">
-            <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib1.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib2.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib1.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib2.jpg);"></div>
-        </div>
-        <div class="buttons1">
-            <button id="prev1">< </button>
-            <button id="next1">></button>
-        </div>
-        <div id="slide1">
-            <div class="item1" style="background-image: url(images/lib2.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">Tinh ru anh di chay pho, chua kip chay pho thi anhchay mat tieu</div>
-                    <button>See more</button>
-                </div>
-            </div>
-            <div class="item1" style="background-image: url(images/lib3.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">Tinh ru anh di chay pho, chua kip chay pho thi anhchay mat tieu</div>
-                    <button>See more</button>
-                </div>
-            </div>
-            <div class="item1"
-                style="background-image: url(images/lib1.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">Tinh ru anh di chay pho, chua kip chay pho thi anhchay mat tieu</div>
-                    <button>See more</button>
-                </div>
-            </div>
-            <div class="item1"
-                style="background-image: url(images/lib2.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">Tinh ru anh di chay pho, chua kip chay pho thi anhchay mat tieu</div>
-                    <button>See more</button>
-                </div>
-            </div>
-            <div class="item1"
-                style="background-image: url(images/lib3.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">Tinh ru anh di chay pho, chua kip chay pho thi anhchay mat tieu</div>
-                    <button>See more</button>
-                </div>
-            </div>
-            <div class="item1"
-                style="background-image: url(images/lib1.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">Tinh ru anh di chay pho, chua kip chay pho thi anhchay mat tieu</div>
-                    <button>See more</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <section class="hot">
         <h1 id="hot-title">This month's hottest</h1>
         <div class="hot-books">
@@ -150,13 +88,133 @@
             <button id="prev-hot"><</button>
         </div>
     </section>
+    <!-- Card Section -->
+    <section class="lib-sect">
+        <h1 id="lib-title">Our Partner Libraries</h1>
+    <div class="container1">
+        <!-- small pic -->
+        <div id="slide"> 
+            <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
+            <div class="item2" style="background-image: url(images/lib1.jpg);"></div>
+            <div class="item2" style="background-image: url(images/lib2.jpg);"></div>
+            <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
+            <div class="item2" style="background-image: url(images/lib1.jpg);"></div>
+            <div class="item2" style="background-image: url(images/lib2.jpg);"></div>
+        </div>
+        <div class="buttons1">
+            <button id="prev1">< </button>
+            <button id="next1">></button>
+        </div>
+        <!-- Big picture -->
+        <div id="slide1">
+            
+            <div class="item1"
+                style="background-image: url(images/lib2.jpg);">
+                <div class="content">
+                    <div class="name">VXNHE</div>
+                    <div class="des">thu vien thu 4</div>
+                    <button>See more</button>
+                </div>
+            </div>
+            
+            <div class="item1"
+                style="background-image: url(images/lib3.jpg);">
+                <div class="content">
+                    <div class="name">VXNHE</div>
+                    <div class="des">thu vien thu 5 </div>
+                    <button>See more</button>
+                </div>
+            </div>
+            <div class="item1"
+                style="background-image: url(images/lib1.jpg);">
+                <div class="content">
+                    <div class="name">VXNHE</div>
+                    <div class="des">thu vien thu 6</div>
+                    <button>See more</button>
+                </div>
+            </div>
+            <div class="item1" style="background-image: url(images/lib2.jpg);">
+                <div class="content">
+                    <div class="name">VXNHE</div>
+                    <div class="des">thu vien thu 1</div>
+                    <button>See more</button>
+                </div>
+            </div>
+            <div class="item1" style="background-image: url(images/lib3.jpg);">
+                <div class="content">
+                    <div class="name">VXNHE</div>
+                    <div class="des">thu vien thu 2</div>
+                    <button>See more</button>
+                </div>
+            </div>
+            <div class="item1"
+                style="background-image: url(images/lib1.jpg);">
+                <div class="content">
+                    <div class="name">VXNHE</div>
+                    <div class="des">thu vien thu 3</div>
+                    <button>See more</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
     <section>
-      <h1 id="hot-title">Award Winning Books</h1>
-      
+      <h1 id="award-title">Award Winning Books</h1>
+      <div class="container swiper">
+        <div class="slide-container">
+          <div class="card-wrapper swiper-wrapper">
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="images/lib1.jpg" alt="" />
+              </div>
+              <div class="profile-details">
+  
+              </div>
+            </div>
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="images/lib1.jpg" alt="" />
+              </div>
+              <div class="profile-details">
+                
+              </div>
+            </div>
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="images/lib1.jpg" alt="" />
+              </div>
+              <div class="profile-details">
+                
+              </div>
+            </div>
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="images/lib1.jpg" alt="" />
+              </div>
+              <div class="profile-details">
+                
+              </div>
+            </div>
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="images/lib1.jpg" alt="" />
+              </div>
+              <div class="profile-details">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-next swiper-navBtn"></div>
+        <div class="swiper-button-prev swiper-navBtn"></div>
+        <div class="swiper-pagination"></div>
+      </div>
     </section>
+    <script src="js/swiper-bundle.min.js"></script>
     <script src="js/hot-slide.js"></script>
     <script src="js/slider.js"></script>
     <script src="js/flashcard.js"></script>
+    <script src="js/general-slider.js"></script>
 </body>
 <%- include('../partials_readers/footer.ejs') %>
 <!-- setup the icon -->
