@@ -49,11 +49,13 @@
 
                 <div class="pop-up-modal" id="pop-up-edit">
                     <div class="edit-header">
-                        <div class="title">Edit BookMark</div>
+                        <div class="title">Edit Profile</div>
                         <button data-close-button class="close-modal">&times;</button>
                     </div>
                     <div class="edit-body">
                         <form action="/reader/profile/edit-profile" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_method" value="PATCH">
+
                             <% if (errors && errors.length > 0) { %>
                             <h3>Errors</h3>
                             <ul class="error-messages">
@@ -106,8 +108,9 @@
 
             <div class="menu-list">
                 <div class="tab">
-                    <button class="tablinks" onclick="openCity(event, 'Paris')">My Loan</button>
-                    <button class="tablinks" onclick="openCity(event, 'Tokyo')">My Watchlist</button>
+                    <button class="tablinks" onclick="openCity(event, 'my-requests')">My Requests</button>
+                    <button class="tablinks" onclick="openCity(event, 'my-loans')">My Loan</button>
+                    <button class="tablinks" onclick="openCity(event, 'my-wishlist')">My Wishlist</button>
                 </div>
             </div>
 
@@ -116,19 +119,17 @@
 
     <div class="whole-lower">
         <div class="lower">
-            <div id="London" class="tabcontent">
-                <h3>Lon Don</h3>
-                <p>London is the capital city of England.</p>
+            <!-- TODO: Replace My requests, My loans and My wishlist pages with these tabs -->
+            <div id="my-requests" class="tabcontent">
+                <h3>My Requests</h3>
             </div>
 
-            <div id="Paris" class="tabcontent">
-                <h3>Paris</h3>
-                <p>Paris is the capital of France.</p>
+            <div id="my-loans" class="tabcontent">
+                <h3>My Loans</h3>
             </div>
 
-            <div id="Tokyo" class="tabcontent">
-                <h3>Tokyo</h3>
-                <p>Tokyo is the capital of Japan.</p>
+            <div id="my-wishlist" class="tabcontent">
+                <h3>My Wishlist</h3>
             </div>
         </div>
     </div>

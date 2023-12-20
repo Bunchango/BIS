@@ -1,9 +1,7 @@
-
-
 :root {
-  --theme-color-peach: #FCEDDA; 
+  --theme-color-peach: #FCEDDA;
   --theme-color-orange: #EE4E34;
-} 
+}
 
 * {
   padding: 0;
@@ -15,12 +13,12 @@
 
 .whole-upper {
   height: fit-content;
-  box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2); 
+  box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2);
   background-color: #f7f3ee;
   box-shadow: 1px 1px 10px var(--theme-color-orange);
 }
 
-.whole-upper .upper{
+.whole-upper .upper {
   margin: 0 110px;
   height: fit-content;
   position: relative;
@@ -68,7 +66,8 @@
 #set-buttons {
   display: flex;
   justify-content: space-between;
-  width: 230px;
+  width: 210px;
+  margin-top: 20px;
 }
 
 .edit-profile {
@@ -96,6 +95,7 @@
 .edit-profile:hover {
   box-shadow: 0px 0px 3px black;
 }
+
 .set-default:hover {
   box-shadow: 0px 0px 3px black;
 }
@@ -104,7 +104,7 @@
   z-index: 11;
 }
 
-.menu-list { 
+.menu-list {
   margin-top: 150px;
   border-top: 1px solid black;
   height: 50px;
@@ -154,7 +154,7 @@
 }
 
 .lower {
-  background-color: #f7f3ee ;
+  background-color: #f7f3ee;
   margin: 0 auto;
   height: 80%;
   width: 80%;
@@ -200,14 +200,14 @@
 
 @media only screen and (max-width:1000px) {
   .whole-upper {
-    height:700px;
+    height: 700px;
   }
 
-  .upper{
+  .upper {
     margin: 0 50px;
     height: 50vh;
     position: relative;
-  } 
+  }
 
   .user-info {
     position: absolute;
@@ -246,8 +246,7 @@
     align-items: center;
   }
 
-  .menu-list { 
-    bottom: -265px; 
+  .menu-list {
+    bottom: -265px;
   }
 }
-
