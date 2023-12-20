@@ -14,7 +14,7 @@
 .whole-upper {
   height: fit-content;
   box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2); 
-  background-color: #f7f3ee;
+  background-color: var(--theme-color-peach);
   box-shadow: 1px 1px 10px var(--theme-color-orange);
 }
 
@@ -210,7 +210,7 @@
 
 @media only screen and (max-width:1000px) {
   .whole-upper {
-    height:700px;
+    height:500px;
   }
 
   .upper {
