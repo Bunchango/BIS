@@ -179,20 +179,47 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
     }
 })
 
-router.post("/borrow/update_date/:id", (req, res) => {
+router.post("/borrow/update_date/:id", async (req, res) => {
+    // Update return date of pickup, only able to set date that are after or is today
+    try {
+        const {dueDate} = req.body; 
+        const borrow = await Borrow.findByIdAndUpdate(req.params.id, {dueDate: dueDate}, {new: true}).populate("reader");
 
+        // Send notification email
+        transporter.sendMail({
+            to: borrow.reader.gmail, 
+            subject: "VxNhe Pickup borrow due date modified",
+            // Modify the content of emails later (Maybe add library's name, list of accepted books)
+            html: `Your borrow's due date has been pushed to ${dueDate}`,
+        })
+
+        await notify(borrow.reader._id, "Update borrow date", `Your borrow's due date has been pushed to ${dueDate}`);
+
+        res.redirect("/librarian/customer");
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 })
 
-router.post("/borrow/return/:id", (req, res) => {
+router.post("/borrow/return/:id", async (req, res) => {
+    // Return the book, increment available of books by 1
+    // Librarian detemine which book is returned, if not all book is returned, librarian can set book returned as true
+    // If all book us returned, set borrow as returned
+    try {
+        const {returned} = req.body;
 
+
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 }) 
 
-router.post("/borrow/overdue/:id", (req, res) => {
-
+router.post("/borrow/overdue/:id", async (req, res) => {
+    // Mark borrow as overdue
 })
 
-router.post("/borrow/canceled/:id", (req, res) => {
-
+router.post("/borrow/cancel/:id", async (req, res) => {
+    // Mark borrow as canceled, decrease amount by 1
 })
 
 router.get("/pickup/:id", isLibrarian, async (req, res) => {
@@ -207,9 +234,11 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
 })
 
 router.post("/pickup/update_date/:id", async (req, res) => {
-    // Update date of pickup, only able to set date that are after or is today
+    // Update date of pickup, only able to set date that are after or is today. 
+    // Only able to change date of scheduled pickups
     try {
         const {takeDate} = req.body;
+        // Preventing changing scheduled pickups directly in the frontend
         const pickup = await Pickup.findByIdAndUpdate(req.params.id, {takeDate: takeDate}).populate("reader"); 
 
         // Send notification email

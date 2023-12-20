@@ -11,6 +11,11 @@ const borrowSchema = new mongoose.Schema({
     books: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Book", 
+        status: {
+            type: "String",
+            default: "outstanding",
+            enum: ["outstanding", "returned", "lost"],
+        }
     }], 
     library: {
         type: mongoose.Schema.Types.ObjectId,
