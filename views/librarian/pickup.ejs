@@ -43,6 +43,12 @@
         </ul>
         <p><strong>Created On:</strong> <%= pickup.createdOn %></p>
         <p><strong>Take Date:</strong> <%= pickup.takeDate %></p>
+
+        <% if(pickup.status !== 'scheduled') { %>
+            <!-- Button display form to change date -->
+            <button onclick="showForm('changeDateForm')">Change Pickup Date</button> 
+        <% } %>
+        
         <p><strong>Status:</strong> <%= pickup.status %></p>
     </div>
 
@@ -55,7 +61,7 @@
     <!-- Complete button -->
     <div id="completeForm" class="popup-form">
         <span class="close-button" onclick="hideForm('completeForm')">&times;</span>
-        <form action="pickup/complete/<%= pickup._id %>" method="POST" onsubmit="return validateDate()">
+        <form action="pickup/complete/<%= pickup._id %>" method="POST" onsubmit="return validateDate('dueDate')">
             <input type="date" name="dueDate" id="dueDate" required>
             <button type="submit">Confirm</button>
         </form>
@@ -66,6 +72,14 @@
         <span class="close-button" onclick="hideForm('cancelForm')">&times;</span>
         <form action="pickup/cancel/<%= pickup._id %>" method="POST">
             <textarea name="cancelReason" id="cancelReason" cols="30" rows="10" required></textarea>
+            <button type="submit">Confirm</button>
+        </form>
+    </div>
+
+    <div id="changeDateForm" class="popup-form">
+        <span class="close-button" onclick="hideForm('changeDateForm')">&times;</span>
+        <form action="pickup/update_date/<%= pickup._id %>" method="POST" onsubmit="return validateDate('takeDate')">
+            <input type="date" name="takeDate" id="takeDate" required>
             <button type="submit">Confirm</button>
         </form>
     </div>
@@ -88,12 +102,12 @@
             document.getElementById(formId).style.display = 'none';
         }
 
-        function validateDate() {
-            var selectedDate = document.getElementById('dueDate').value;
+        function validateDate(id) {
+            var selectedDate = document.getElementById(id).value;
             var today = new Date().toISOString().split('T')[0]; // Get today's date in the 'YYYY-MM-DD' format
 
             if (selectedDate < today) {
-                alert("Please select a date that is today or in the future.");
+                  alert("Please select a date that is today or in the future.");
                 return false;
             }
             return true;

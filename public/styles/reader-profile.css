@@ -1,9 +1,7 @@
-
-
 :root {
-  --theme-color-peach: #FCEDDA; 
+  --theme-color-peach: #FCEDDA;
   --theme-color-orange: #EE4E34;
-} 
+}
 
 * {
   padding: 0;
@@ -16,11 +14,11 @@
 .whole-upper {
   height: fit-content;
   box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2); 
-  background-color: var(--theme-color-peach);
+  background-color: #f7f3ee;
   box-shadow: 1px 1px 10px var(--theme-color-orange);
 }
 
-.whole-upper .upper{
+.whole-upper .upper {
   margin: 0 110px;
   height: fit-content;
   position: relative;
@@ -71,7 +69,8 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  width: 230px;
+  width: 210px;
+  margin-top: 20px;
 }
 
 .edit-profile {
@@ -104,6 +103,7 @@
 .edit-profile:hover {
   box-shadow: 0px 0px 3px black;
 }
+
 .set-default:hover {
   box-shadow: 0px 0px 3px black;
 }
@@ -114,7 +114,7 @@
 }
 
 .menu-list { 
-  margin-top: 170px;
+  margin-top: 150px;
   border-top: 1px solid black;
   height: 25px;
   width: 100%;
@@ -163,7 +163,7 @@
 }
 
 .lower {
-  background-color: #f7f3ee ;
+  background-color: #f7f3ee;
   margin: 0 auto;
   height: 80%;
   width: 80%;
@@ -209,12 +209,15 @@
 
 
 @media only screen and (max-width:1000px) {
+  .whole-upper {
+    height:700px;
+  }
 
-  .upper{
+  .upper {
     margin: 0 50px;
     height: 50vh;
     position: relative;
-  } 
+  }
 
   .user-info {
     position: absolute;
@@ -253,53 +256,8 @@
     align-items: center;
   }
 
-  .menu-list { 
-    bottom: -265px; 
+  .menu-list {
+    bottom: -265px;
   }
 }
 
-#edit-username-box .title, #edit-background-box .title, #edit-ava-box .title {
-  font-size: 30px;
-  font-weight: 600;
-  padding-bottom: 1rem;
-  text-align: center;
-  color: #EE4E34;
-}
-
-.layer-two {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.layer-two div {
-  margin-bottom: 1rem;
-}
-
-.edit-file-cont {
-  display: flex;
-}
-
-.layer-two input {
-  margin-left: 1rem;
-  width: 220px;
-}
-.layer-two label {
-  margin-left: 2rem;
-}
-
-#confirm-change-box {
-  text-align: center;
-  display: flex;
-  justify-content: space-around;
-}
-
-.submit-button {
-  background-color: var(--theme-color-orange);
-  color: var(--theme-color-peach);
-  border-radius: 7px;
-  height: 40px;
-  width: 100px;
-}
