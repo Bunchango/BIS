@@ -8,6 +8,7 @@ const { validateUsername, validatePassword } = require('./../config/validator');
 const { validationResult } = require('express-validator');
 const uploads = require('../config/multer');
 const { notify, transporter } = require('./librarian');
+const Library = require('../models/library');
 // TODO: Add model and routes for cart, add routes for changing username, password and profile pic      
 
 function isReader(req, res, next) {
@@ -140,7 +141,7 @@ router.post('/cart/:id', isReader, async (req, res) => {
 });
 
 // Remove book from cart route
-router.delete('/cart/:id', isReader, async (req, res) => {
+router.post('/cart/:id', isReader, async (req, res) => {
     try {
         const bookId = req.params.id;
 
@@ -181,7 +182,7 @@ router.post('/cart/request', isReader, async (req, res) => {
 
         await newRequest.save();
 
-        await Cart.deleteOne({ reader: req.user._id });
+        await Cart.deleteMany({ reader: req.user._id });
 
         // Notification
         await notify(
@@ -227,7 +228,7 @@ router.get('/my-request', isReader, async (req, res) => {
 });
 
 // Cancel request route
-router.patch("/request/cancel/:id", isReader, async (req, res) => {
+router.post("/request/cancel/:id", isReader, async (req, res) => {
     try {
         // Find the request by ID and populate necessary fields
         const request = await Request
@@ -339,7 +340,7 @@ router.post('/wishlist/:id', isReader, async (req, res) => {
 });
 
 // Remove book from wishlist route
-router.delete('/wishlist/:id', isReader, async (req, res) => {
+router.post('/wishlist/:id', isReader, async (req, res) => {
     try {
         const reader = await Reader.findOne({ _id: req.user._id });
 
@@ -395,7 +396,7 @@ router.get('/profile', isReader, async (req, res) => {
 
 
 // Update profile route
-router.patch('/profile/edit-profile', isReader, validateUsername, uploads.fields([{ name: 'background', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), async (req, res) => {
+router.post('/profile/edit-profile', isReader, validateUsername, uploads.fields([{ name: 'background', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), async (req, res) => {
     const errors = validationResult(req);
 
     console.log('req.files:', req.files);
@@ -500,6 +501,22 @@ router.post('/profile/set-default', isReader, async (req, res) => {
         });
     }
 });
+
+
+// Get Library Profile
+// Dont need to login
+router.get("/library-profile/:id", async (req, res) => {
+    try {
+        const library = await Library.findById(req.params.id);
+        res.render('reader/library-profile', {
+            library : library,
+            user: req.user
+        })
+    } catch (errors) {
+        console.log('Error:', errors);
+        res.redirect('/homepage')
+    }
+ })
 
 
 module.exports = router;

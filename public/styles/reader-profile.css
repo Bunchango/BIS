@@ -1,9 +1,7 @@
-
-
 :root {
-  --theme-color-peach: #FCEDDA; 
+  --theme-color-peach: #FCEDDA;
   --theme-color-orange: #EE4E34;
-} 
+}
 
 * {
   padding: 0;
@@ -16,11 +14,11 @@
 .whole-upper {
   height: fit-content;
   box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2); 
-  background-color: #f7f3ee;
+  background-color: var(--theme-color-peach);
   box-shadow: 1px 1px 10px var(--theme-color-orange);
 }
 
-.whole-upper .upper{
+.whole-upper .upper {
   margin: 0 110px;
   height: fit-content;
   position: relative;
@@ -32,11 +30,12 @@
   height: 40vh;
   z-index: -1;
   border-radius: 0 0 10px 10px;
+  margin-bottom: 1rem;
 }
 
 .upper .user-info {
   position: absolute;
-  bottom: 80px;
+  bottom: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -56,8 +55,9 @@
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color: #f7f3ee;
+  background-color: var(--theme-color-peach);
   padding: 5px;
+  text-align: center;
 }
 
 .name {
@@ -66,48 +66,57 @@
 }
 
 #set-buttons {
+  position: relative;
   display: flex;
   justify-content: space-between;
-  width: 230px;
+  width: 210px;
+  margin-top: 20px;
 }
 
 .edit-profile {
   background-color: var(--theme-color-orange);
   color: var(--theme-color-peach);
   border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  left: 52%;
   height: 40px;
   width: 100px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
 }
 
 .set-default {
   border: 1px solid var(--theme-color-orange);
   color: var(--theme-color-orange);
   border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
   height: 40px;
   width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
+.set-default button {
+  color: #EE4E34;
+}
 .edit-profile:hover {
   box-shadow: 0px 0px 3px black;
 }
+
 .set-default:hover {
   box-shadow: 0px 0px 3px black;
 }
 
 #pop-up-edit {
   z-index: 11;
+  background-color: var(--theme-color-peach);
 }
 
 .menu-list { 
   margin-top: 150px;
   border-top: 1px solid black;
-  height: 50px;
+  height: 25px;
   width: 100%;
 }
 
@@ -131,7 +140,7 @@
 }
 
 .tab button.active {
-  background-color: #e2e2e2;
+  background-color: #ffe0bb;
   border-bottom: 3px solid var(--theme-color-orange);
 }
 
@@ -147,14 +156,14 @@
 
 /* Lower */
 .whole-lower {
-  background-color: #eaeaea;
+  background-color: var(--theme-color-peach);
   z-index: -1;
   height: 100vh;
-  padding-top: 16px;
+  padding-top: 50px;
 }
 
 .lower {
-  background-color: #f7f3ee ;
+  background-color: #f7f3ee;
   margin: 0 auto;
   height: 80%;
   width: 80%;
@@ -181,6 +190,7 @@
 .edit-header .title {
   font-size: 1.25rem;
   font-weight: bold;
+  color: #EE4E34;
 }
 
 .edit-header .close-modal {
@@ -200,26 +210,25 @@
 
 @media only screen and (max-width:1000px) {
   .whole-upper {
-    height:700px;
+    height:550px;
   }
 
-  .upper{
+  .upper {
     margin: 0 50px;
     height: 50vh;
     position: relative;
-  } 
-
-  .user-info {
-    position: absolute;
-    bottom: -200px;
-    left: 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
   }
 
+  .user-info {
+    flex-direction: column;
+  }
+  .edit-profile, .set-default {
+    position: relative;
+    left: 0;
+  }
+  .background {
+    height: 30vh;
+  }
   #reader-name-box {
     display: flex;
     flex-direction: column;
@@ -246,8 +255,49 @@
     align-items: center;
   }
 
-  .menu-list { 
-    bottom: -265px; 
+  .menu-list {
+    margin-top: 230px;
   }
 }
 
+#edit-username-box .title, #edit-background-box .title, #edit-ava-box .title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  color: #EE4E34;
+  margin-bottom: 1rem;
+}
+
+.layer-two {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.layer-two #name {
+  margin-bottom: 1rem;
+}
+.layer-two input, .layer-two label {
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-weight: 400;
+}
+
+.layer-two input {
+  width: 220px;
+}
+
+#confirm-change-box {
+  display: flex;
+  justify-content: space-around;
+}
+
+.submit-button {
+  background-color: var(--theme-color-orange);
+  color: var(--theme-color-peach);
+  border-radius: 7px;
+
+  height: 40px;
+  width: 100px;
+}

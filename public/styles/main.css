@@ -16,7 +16,6 @@
 }
 
 #header {
-    color: black;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -25,7 +24,7 @@
     z-index: 1000;
     height: 60px;
     width: 100vw;
-    background-color: #ffffff;
+    background-color: #FCEDDA;
 }
 
 #logo {
@@ -36,7 +35,10 @@
     font-weight: 500;
     justify-self: start;
 }
-
+#logo h1 {
+    color: #EE4E34;
+    font-weight: 600;
+}
 #account {
     width: fit-content;
     height: fit-content;
@@ -45,6 +47,9 @@
     justify-content: space-around;
 }
 
+#account i{
+    color: #EE4E34;
+}
 /* pop up modal */
 .pop-up-modal {
     position: fixed;
@@ -172,8 +177,9 @@
     max-height: 500px; 
 }
 
-.item {
+.center .item {
     background-color: var(--white);
+    padding: 10px;
     margin-top: 20px;
     margin-bottom: 10px; 
     border-radius: 20px;
@@ -376,4 +382,9 @@
         width: 100%;
         transition: 0.2s;
     }
+}
+
+.lib-sect {
+    background-color: #EE4E34;
+    padding-top: 100px;
 }
