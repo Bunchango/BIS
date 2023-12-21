@@ -88,21 +88,6 @@ app.get("/homepage", async (req, res) => {
     }
 })
 
-// Get Library Profile
-// Dont need to login
-app.get("/reader/library-profile/:id", async (req, res) => {
-    try {
-        const library = await Library.findById(req.params.id);
-        res.render('reader/library-profile', {
-            library : library,
-            user: req.user
-        })
-    } catch (errors) {
-        console.log('Error:', errors);
-        res.redirect('/homepage')
-    }
- })
-
 // Route for terms and conditions
 app.get("/terms", (req, res) => {
     res.render("reader/terms", { user: req.user });

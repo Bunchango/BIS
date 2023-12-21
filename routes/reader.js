@@ -503,6 +503,20 @@ router.post('/profile/set-default', isReader, async (req, res) => {
 });
 
 
+// Get Library Profile
+// Dont need to login
+router.get("/library-profile/:id", async (req, res) => {
+    try {
+        const library = await Library.findById(req.params.id);
+        res.render('reader/library-profile', {
+            library : library,
+            user: req.user
+        })
+    } catch (errors) {
+        console.log('Error:', errors);
+        res.redirect('/homepage')
+    }
+ })
 
 
 module.exports = router;
