@@ -92,13 +92,13 @@ body{
 }
 .container1::before {
     content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50px;
-  z-index: 10;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    z-index: 10;
     background: linear-gradient(
         #ee4e34,
         rgb(252, 237, 218, 0)
@@ -140,7 +140,7 @@ body{
     box-shadow:  0 30px 50px #505050;
 }
 .item2:nth-child(1),
-.item2:nth-child(2){
+.item2:nth-child(2) {
     left:0;
     top:50;
     position: absolute;

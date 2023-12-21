@@ -92,28 +92,40 @@
     <section class="lib-sect">
         <h1 id="lib-title">Our Partner Libraries</h1>
     <div class="container1">
-        <!-- small pic -->
+        <!-- Small picture -->
         <div id="slide"> 
+            <% libraries.forEach(library => { %>
+                <div class="item2" style="background-image: url('<%= library.banner %>');"></div>
+            <% }); %>
+            <!-- <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
+            <div class="item2" style="background-image: url(images/lib1.jpg);"></div> -->
+            <!-- start -->
+            <!-- <div class="item2" style="background-image: url(images/lib2.jpg);"></div>
             <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
             <div class="item2" style="background-image: url(images/lib1.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib2.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib1.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib2.jpg);"></div>
+            <div class="item2" style="background-image: url(images/lib2.jpg);"></div> -->
         </div>
         <div class="buttons1">
-            <button id="prev1">< </button>
+            <button id="prev1"><</button>
             <button id="next1">></button>
         </div>
         <!-- Big picture -->
         <div id="slide1">
-            
-            <div class="item1"
+            <% libraries.forEach(library => { %>
+                <div class="item1" style="background-image: url('<%= library.banner %>');">
+                    <div class="content">
+                        <div class="name"><%= library.username %></div>
+                        <div class="des">A new library</div>
+                        <a href="/reader/library-profile/<%= library._id %>">See more</a>
+                    </div>
+                </div>
+            <% }); %>
+            <!-- <div class="item1"
                 style="background-image: url(images/lib2.jpg);">
                 <div class="content">
                     <div class="name">VXNHE</div>
                     <div class="des">thu vien thu 4</div>
-                    <button>See more</button>
+                    <a href="">See more</a>
                 </div>
             </div>
             
@@ -122,7 +134,7 @@
                 <div class="content">
                     <div class="name">VXNHE</div>
                     <div class="des">thu vien thu 5 </div>
-                    <button>See more</button>
+                    <a href="">See more</a>
                 </div>
             </div>
             <div class="item1"
@@ -130,21 +142,22 @@
                 <div class="content">
                     <div class="name">VXNHE</div>
                     <div class="des">thu vien thu 6</div>
-                    <button>See more</button>
+                    <a href="">See more</a>
                 </div>
-            </div>
-            <div class="item1" style="background-image: url(images/lib2.jpg);">
+            </div> -->
+            <!-- start -->
+            <!-- <div class="item1" style="background-image: url(images/lib2.jpg);">
                 <div class="content">
                     <div class="name">VXNHE</div>
                     <div class="des">thu vien thu 1</div>
-                    <button>See more</button>
+                    <a href="">See more</a>
                 </div>
             </div>
             <div class="item1" style="background-image: url(images/lib3.jpg);">
                 <div class="content">
                     <div class="name">VXNHE</div>
                     <div class="des">thu vien thu 2</div>
-                    <button>See more</button>
+                    <a href="">See more</a>
                 </div>
             </div>
             <div class="item1"
@@ -152,9 +165,9 @@
                 <div class="content">
                     <div class="name">VXNHE</div>
                     <div class="des">thu vien thu 3</div>
-                    <button>See more</button>
+                    <a href="">See more</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>

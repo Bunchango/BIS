@@ -15,6 +15,7 @@ const readerRoutes = require('./routes/reader');
 const libraryRoutes = require('./routes/library');
 const librarianRoutes = require('./routes/librarian');
 const adminRoutes = require('./routes/admin');
+const Library = require('./models/library');
 
 // Load global vars
 dotenv.config({ path: "./config/config.env" })
@@ -71,10 +72,13 @@ app.get("/", (req, res) => {
 app.use("/uploads", express.static("uploads"));
 
 // TODO: Change reader to redirect
-app.get("/homepage", (req, res) => {
+// TODO: Query more data from library to display in the homepage for Reader role
+app.get("/homepage", async (req, res) => {
     // If user has not login render reader's home page, if logged in render respective user's home page
     if (!req.user || req.user.__t === "Reader") {
-        res.render("reader/homepage", { user: req.user, categories: categoriesArray });
+        // Query data of 6 libraries
+        const libraries = await Library.find().limit(6);
+        res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries });
     } else if (req.user && req.user.__t === "Librarian") {
         res.redirect("/librarian/dashboard");
     } else if (req.user && req.user.__t === "Library") {
@@ -83,6 +87,21 @@ app.get("/homepage", (req, res) => {
         res.redirect("/admin/create_library");
     }
 })
+
+// Get Library Profile
+// Dont need to login
+app.get("/reader/library-profile/:id", async (req, res) => {
+    try {
+        const library = await Library.findById(req.params.id);
+        res.render('reader/library-profile', {
+            library : library,
+            user: req.user
+        })
+    } catch (errors) {
+        console.log('Error:', errors);
+        res.redirect('/homepage')
+    }
+ })
 
 // Route for terms and conditions
 app.get("/terms", (req, res) => {
@@ -97,7 +116,7 @@ app.use("/librarian", librarianRoutes);
 app.use("/admin", adminRoutes);
 
 // Route for 404 page
-// TODO: Create a 404 page front end
+//TODO: Create a 404 page front end
 app.get("*", (req, res) => {
     res.status(404).send("404 Page Not Found");
 })

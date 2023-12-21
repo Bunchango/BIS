@@ -27,9 +27,9 @@
         </div>
     </div>
     <div id="lower">
-        <% if(library.noticeBoard) { %>
+        <% if(library.noticeBoard && library.noticeBoard.length > 0) { %>
         <div id="notice-board">
-            <img src="/<%= library.noticeBoard %>" atl="<%= library.username %>'s Notice Board">
+            <img src="/<%= library.noticeBoard.image %>" atl="<%= library.username %>'s Notice Board">
         </div>
         <% } %>
         <div id="book-container">

@@ -8,6 +8,7 @@ const { validateUsername, validatePassword } = require('./../config/validator');
 const { validationResult } = require('express-validator');
 const uploads = require('../config/multer');
 const { notify, transporter } = require('./librarian');
+const Library = require('../models/library');
 // TODO: Add model and routes for cart, add routes for changing username, password and profile pic      
 
 function isReader(req, res, next) {
@@ -501,10 +502,7 @@ router.post('/profile/set-default', isReader, async (req, res) => {
     }
 });
 
-// Get Library Profile
-router.get("/library-profile/:id", isReader, async (req, res) => {
-    
-})
+
 
 
 module.exports = router;
