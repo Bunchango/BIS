@@ -202,24 +202,95 @@ router.post("/borrow/update_date/:id", async (req, res) => {
 })
 
 router.post("/borrow/return/:id", async (req, res) => {
-    // Return the book, increment available of books by 1
-    // Librarian detemine which book is returned, if not all book is returned, librarian can set book returned as true
-    // If all book us returned, set borrow as returned
-    try {
-        const {returned} = req.body;
+    // Librarian determines which book is returned or lost
+    // If a book is set as lost, automatically decrease the amount by 1
+    // If a book is set as returned, automatically increase availability by 1
+    // If all books are not outstanding, set the borrow as completed
+    let session; // Declare the session variable outside the try block
 
+    try {
+        const { returned, lost } = req.body;
+
+        // Use a transaction for atomicity
+        session = await mongoose.startSession();
+        session.startTransaction();
+
+        // Change books states and increment/decrease
+        await Borrow.updateOne(
+            { _id: req.params.id, "books": { $in: returned } },
+            { $set: { "books.$[].status": "returned" } },
+            { session }
+        );
+
+        await Borrow.updateOne(
+            { _id: req.params.id, "books": { $in: lost } },
+            { $set: { "books.$[].status": "lost" } },
+            { session }
+        );
+
+        // Update available and amount for returned and lost books
+        await Book.updateMany(
+            { _id: { $in: [...returned, ...lost] } },
+            {
+                $inc: {
+                    available: returned ? 1 : 0,
+                    amount: lost ? -1 : 0
+                }
+            },
+            { session }
+        );
+
+        // Check if all books are not outstanding
+        const allBooksReturnedOrLost = await Borrow.findOne({
+            _id: req.params.id,
+            "books.status": { $ne: "outstanding" }
+        }).session(session);
+
+        if (allBooksReturnedOrLost) {
+            // Update the borrow record status to "Completed"
+            const borrow = await Borrow.findByIdAndUpdate(req.params.id, { status: "Completed" }, { session });
+            // Send notfications
+            transporter.sendMail({
+                to: borrow.reader.gmail,
+                subject: "VxNhe Borrow completed",
+                // Add library of the borrow, add links, etc
+                html: `Your borrow record has been set to completed`,
+            })
+
+            await notify(borrow.reader._id, "Borrow completed", `Your borrow record is completed`);
+        }
+
+        // TODO: Send notifications to all users who are book marking the returned books
+
+        await session.commitTransaction();
+
+        res.redirect("/librarian/customer");
+    } catch (e) {
+        // Check if session is defined before using it
+        if (session) {
+            await session.abortTransaction();
+            session.endSession();
+        }
+        res.status(400).json({ errors: e });
+    }
+});
+
+router.post("/borrow/overdue/:id", async (req, res) => {
+    // Mark borrow as overdue and send notifications
+    try {
+        
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+router.post("/borrow/cancel/:id", async (req, res) => {
+    // Mark borrow as canceled, decrease amount by 1 and send notifications
+    try {
 
     } catch(e) {
         res.status(400).json({ errors: e });
     }
-}) 
-
-router.post("/borrow/overdue/:id", async (req, res) => {
-    // Mark borrow as overdue
-})
-
-router.post("/borrow/cancel/:id", async (req, res) => {
-    // Mark borrow as canceled, decrease amount by 1
 })
 
 router.get("/pickup/:id", isLibrarian, async (req, res) => {
@@ -312,7 +383,7 @@ router.post("/pickup/complete/:id", async (req, res) => {
         // Create borrow record
         const borrow = new Borrow({
             reader: pickup.reader._id,
-            books: pickup.books,
+            books: pickup.books.map(id => ({_id: id, status: "outstanding"})),
             library: pickup.library,
             dueDate: dueDate,
         });
