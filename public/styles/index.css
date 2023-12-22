@@ -19,16 +19,16 @@ html {
 }
 
 header {
-    position: fixed;  
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: 0.6s;
-    padding:  40px 100px;
-    z-index: 10000;
+  position: fixed;  
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.6s;
+  padding:  40px 100px;
+  z-index: 10000;
 }
 
 body,section {
@@ -36,37 +36,37 @@ body,section {
 }
 
 .sticky {
-    padding: 5px 100px;
-    background: rgba(252, 237, 217, 0.85);
-    backdrop-filter: blur(10px);
+  padding: 5px 100px;
+  background: rgba(252, 237, 217, 0.85);
+  backdrop-filter: blur(10px);
 }
 
 .logo {
-    position: relative;
-    font-weight: 700;
-    color: var(--theme-color-peach);
-    text-decoration: none;
-    font-size: 2em;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: 0.6s;
+  position: relative;
+  font-weight: 700;
+  color: var(--theme-color-peach);
+  text-decoration: none;
+  font-size: 2em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: 0.6s;
 }
 
 header ul {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 header ul li a {
-    position: inherit;
-    margin: 0 15px;
-    text-decoration: none;
-    color: var(--theme-color-peach);
-    letter-spacing: 2px;
-    font-weight: 700px;
-    transition: 0.6s;
+  position: inherit;
+  margin: 0 15px;
+  text-decoration: none;
+  color: var(--theme-color-peach);
+  letter-spacing: 2px;
+  font-weight: 700px;
+  transition: 0.6s;
 }
 
 header ul li a:hover {
@@ -74,39 +74,39 @@ header ul li a:hover {
 }
 
 #account {
-    width: fit-content;
-    color: var(--theme-color-peach);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  width: fit-content;
+  color: var(--theme-color-peach);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 #login_index {
-    margin-right: 20px;
-    font-weight: 500px;
-    font-size: 1.5em;
+  margin-right: 20px;
+  font-weight: 500px;
+  font-size: 1.5em;
 }
 
 #login_index:hover {
-    color: var(--theme-color-orange);
-    transition: 0.6s;
+  color: var(--theme-color-orange);
+  transition: 0.6s;
 }
 
 #register_index {
-    font-weight: 500px;
-    font-size: 1.5em;
+  font-weight: 500px;
+  font-size: 1.5em;
 }
 
 #register_index:hover {
-    color: var(--theme-color-orange);
-    transition: 0.6s;
+  color: var(--theme-color-orange);
+  transition: 0.6s;
 }
 
 #account_img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 #account-hovering {
@@ -175,13 +175,13 @@ header ul li a:hover {
 }
 
 .checkbtn {
-    font-size: 30px;
-    color: var(--theme-color-peach);
-    float: right;
-    line-height: 80px;
-    margin-right: 40px;
-    cursor: pointer;
-    display: none;  
+  font-size: 30px;
+  color: var(--theme-color-peach);
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: pointer;
+  display: none;  
 }
 
 #check {

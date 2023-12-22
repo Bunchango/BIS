@@ -18,32 +18,44 @@
 </head>
 <body>
     <%- include('./partials_library/navigation.ejs') %>
-    <h1>Librarians</h1>
-    <ul>
-        <% librarians.forEach(function(librarian) { %>
-            <li>
-                <p>Name: <%= librarian.username %></p>
-                <p>Email: <%= librarian.gmail %></p>
-                <p>Profile Picture: <img src="<%= librarian.profilePicture %>" alt="<%= librarian.username %>"></p>
-                <form action="librarian/<%= librarian._id %>" method="POST">
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        <% }); %>
-     </ul>
-
-    <h1>Verifying Librarians</h1>
-    <ul>
-        <% verifyingLibrarians.forEach(function(librarian) { %>
-            <li>
-                <p>Name: <%= librarian.username %></p>
-                <p>Email: <%= librarian.gmail %></p>
-                <form action="verifying_librarian/<%= librarian._id %>" method="POST">
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        <% }); %>
-     </ul>  
+    <div id="main">
+        <div id="chart-container"></div>
+        <div id="lower-container">
+            <div id="librarians-container">
+                <h1>Librarians</h1>
+                <ul>
+                    <% librarians.forEach(function(librarian) { %>
+                        <li>
+                            <p>Name: <%= librarian.username %></p>
+                            <p>Email: <%= librarian.gmail %></p>
+                            <p>Profile Picture: <img src="<%= librarian.profilePicture %>" alt="<%= librarian.username %>"></p>
+                            <form action="librarian/<%= librarian._id %>" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+            
+            <div id="verifying-container">
+                <h1>Verifying Librarians</h1>
+                <ul>
+                    <% verifyingLibrarians.forEach(function(librarian) { %>
+                        <li>
+                            <p>Name: <%= librarian.username %></p>
+                            <p>Email: <%= librarian.gmail %></p>
+                            <form action="verifying_librarian/<%= librarian._id %>" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </li>
+                    <% }); %>
+                </ul>  
+            </div>
+        </div>
+        
+        
+    </div>
+    
      
     <%- include('../partials_readers/footer.ejs') %>
     <script defer src="/js/library.js"></script>

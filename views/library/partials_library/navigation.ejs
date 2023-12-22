@@ -1,7 +1,7 @@
 <nav>
-    <a id="logo">VxNhe</a>
+    <a href="/" id="logo">VxNhe</a>
     <ul id="list">
-        <li><a href="">Manage Librarians</a></li>
+        <li><a href="/library/manage">Manage Librarians</a></li>
         <!-- Pop creating librarians button -->
         <li><button data-modal-target="#pop-up-createLibrarians" id="create-librarians">
                 Create Librarians
@@ -11,6 +11,16 @@
         <%- include('./create_librarian.ejs'); %>
     </ul>
     <div id="profile">
-        <img src="">
+        <% if (admin.profilePicture) {%>
+            <img src="/<%= admin.profilePicture %>" alt="Reader Avatar" id="account_img">
+        <%} else {%>
+            <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
+        <% } %>
     </div>
+    <div id="account-hovering">
+        <div id="content">
+          <h3 id="account-name">Hello, <%= admin.username%></h3> 
+          <a href="/library/profile" id="my-account">My Account</a>
+          <a href="/checkin/logout" id="logout">Logout</a> 
+    </div>  
 </nav>

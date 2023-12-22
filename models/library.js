@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const {User} = require("./user");
 const geocoder = require("./../config/geocoder");
 
+// TODO: add description attribute
 const librarySchema = new mongoose.Schema({
     address: {
         type: String,
@@ -27,6 +28,11 @@ const librarySchema = new mongoose.Schema({
         type: String,
         default: "uploads/default_banner.jpg",
     },
+    description: {
+        type: String,
+        minlength: [10, "Description must be at least 10 characters"],
+        default: "This is a brand new library",
+    }
 })
 
 librarySchema.pre("save", async function(next) {

@@ -1,3 +1,148 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+    text-decoration: none;
+} 
+
+:root {
+    --theme-color-peach: #FCEDDA; 
+    --theme-color-orange: #EE4E34;
+} 
+
+html {
+    scroll-behavior: smooth;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 30px 10px;
+
+    position: fixed;  
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    transition: 0.6s;
+    z-index: 100;
+}
+
+#logo {
+    position: relative;
+    font-weight: 700;
+    color: var(--theme-color-orange);
+    text-decoration: none;
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: 0.6s;
+}
+
+.sticky {
+    padding: 5px 100px;
+    background: rgba(252, 237, 217, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+
+
+nav #list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+}
+
+nav #list li {
+    width: fit-content;
+    font-size: 20px;
+}
+
+nav #list li #create-librarians {
+    width: fit-content;
+    font-size: 20px;
+}
+
+#account_img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#account-hovering {
+  transition: 0.6s;
+  position: absolute;
+  display: none;
+  top:85px;
+  right: 70px;
+  z-index: 50;
+  background-color: #fff;
+  color: #000;
+  width: 250px;
+  height: fit-content;
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.8);
+  border-radius: 1%;
+}
+
+#account-hovering #content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding: 5px 10px;
+}
+
+#account-hovering #content #account-name {
+  height: fit-content;
+  margin: 5px 0px;
+  font-size: 20px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  
+}
+
+#account-hovering #content #my-account,
+#account-hovering #content #logout,
+#account-hovering #content #my-loan {
+  font-size: 15px;
+  padding: 5px 0px;
+}
+
+#account-hovering #content #my-account:hover,
+#account-hovering #content #logout:hover,
+#account-hovering #content #my-loan:hover {
+  background-color: #5f5e5e73;
+}
+
+
+#account-hovering #content #logout {
+  border-top: 0.5px solid rgba(0, 0, 0, 0.5);
+}
+
+.sticky #logo,
+.sticky #account,
+.sticky .checkbtn,
+.sticky button,
+.sticky ul li a {
+    color: var(--theme-color-orange);
+}
+
+.sticky #account-hovering {
+  top:50px;
+}
+
+.sticky ul li a:hover,
+.sticky button:hover {
+  color: white;
+}
 /* pop up modal */
 .pop-up-modal {
     position: fixed;
@@ -14,6 +159,7 @@
 
 .pop-up-modal.active {
     transform: translate(-50%, -50%) scale(1);
+    background-color: white;
 }
 
 
@@ -24,8 +170,7 @@ nav #list li button {
     font-size: 20px;
 }
 
-#pop-up-createLibrarians {
-
+#create-librarians {
     cursor: pointer;
     border: none;
     outline: none;
@@ -75,4 +220,38 @@ nav #list li button {
 #overlay.active {
     opacity: 1;
     pointer-events: all;
+}
+
+/*   Body    */
+#main {
+    margin-top: 100px;
+}
+
+#chart-container {
+    width: 100%;
+    height: 30vh;
+    border: 1px solid black;
+    margin: 30px;
+}
+
+#lower-container {
+    margin: 30px;
+    display: grid;
+    grid-template-rows: repeat(auto-fit);
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+    gap: 10px;
+}
+
+#librarians-container {
+    width: auto;
+    height: 450px;
+    border: 1px solid black;
+    overflow-y: scroll;
+}
+
+#verifying-container {
+    width: auto;
+    height: 450px;
+    border: 1px solid black;
+    overflow-y: scroll;
 }

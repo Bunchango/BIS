@@ -16,7 +16,7 @@
     <title>Library Profile</title>
 </head>
 <body>
-
+    <%- include('./partials_library/navigation.ejs') %>
     <h1>Library Profile</h1>
     
     <% if (errors && errors.length > 0) { %>
@@ -60,6 +60,8 @@
         </div>
         <input type="submit" value="Submit">
     </form>
-    
+    <%- include('../partials_readers/footer.ejs') %>
+    <script defer src="/js/library.js"></script>
+    <script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
 </body>
 </html>
