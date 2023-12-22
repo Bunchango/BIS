@@ -80,7 +80,7 @@
                                     <img class="background" src="/<%= user.background%>" alt="background">
                                     <div class="edit-file-cont">
                                         <label for="background-pic">Upload:</label>
-                                        <input type="file" name="background" accept="image/*" id="background-pic" >
+                                        <input type="file" name="background" accept="image/*" id="background-pic">
                                     </div>
                                 </div>
                             </div>
@@ -89,11 +89,12 @@
                                 <div class="title">Avatar</div>
                                 <div class="layer-two">
                                     <div class="ava-edit-cont">
-                                        <img class="avatar" src="/<%= user.profilePicture %>" alt="<%= user.username %>'s avatar" >
+                                        <img class="avatar" src="/<%= user.profilePicture %>"
+                                            alt="<%= user.username %>'s avatar">
                                     </div>
                                     <div class="edit-file-cont">
                                         <label for="avatar-pic">Upload:</label>
-                                        <input type="file"  name="avatar" accept="image/*" id="avatar-pic">
+                                        <input type="file" name="avatar" accept="image/*" id="avatar-pic">
                                     </div>
                                 </div>
                             </div>
@@ -126,17 +127,48 @@
 
     <div class="whole-lower">
         <div class="lower">
-            <!-- TODO: Replace My requests, My loans and My wishlist pages with these tabs -->
             <div id="my-requests" class="tabcontent">
                 <h3>My Requests</h3>
+                <ul>
+                    <% formattedRequests.forEach(request => { %>
+                    <li>
+                        <p><strong>Library:</strong> <%= request.library.name %></p>
+                        <p><strong>Status:</strong> <%= request.status %></p>
+                        <p><strong>Pickup Date:</strong>
+                            <%= request.pickupDate ? request.pickupDate.toLocaleDateString() : 'N/A' %></p>
+                        <ul>
+                            <% request.books.forEach(book => { %>
+                            <li><%= book.title %></li>
+                            <% }); %>
+                        </ul>
+                    </li>
+                    <% }); %>
+                </ul>
             </div>
 
             <div id="my-loans" class="tabcontent">
                 <h3>My Loans</h3>
+                <ul>
+                    <% loans.forEach(loan => { %>
+                    <li>
+                        <p><strong>Library:</strong> <%= loan.library.name %></p>
+                        <ul>
+                            <% loan.books.forEach(book => { %>
+                            <li><%= book.title %></li>
+                            <% }); %>
+                        </ul>
+                    </li>
+                    <% }); %>
+                </ul>
             </div>
 
             <div id="my-wishlist" class="tabcontent">
                 <h3>My Wishlist</h3>
+                <ul>
+                    <% wishlist.forEach(book => { %>
+                    <li><%= book.title %></li>
+                    <% }); %>
+                </ul>
             </div>
         </div>
     </div>
