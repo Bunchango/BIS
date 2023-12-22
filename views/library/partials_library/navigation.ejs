@@ -1,0 +1,16 @@
+<nav>
+    <a id="logo">VxNhe</a>
+    <ul id="list">
+        <li><a href="">Manage Librarians</a></li>
+        <!-- Pop creating librarians button -->
+        <li><button data-modal-target="#pop-up-createLibrarians" id="create-librarians">
+                Create Librarians
+            </button>
+        </li>
+        <div id="overlay"></div>
+        <%- include('./create_librarian.ejs'); %>
+    </ul>
+    <div id="profile">
+        <img src="">
+    </div>
+</nav>

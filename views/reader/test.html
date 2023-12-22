@@ -1,9 +1,0 @@
-            <% libraries.forEach(library => { %>
-                <div class="item1" style="background-image: url('<%= library.banner %>');">
-                    <div class="content">
-                        <div class="name"><%= library.name %></div>
-                        <div class="des"><%= library.description %></div>
-                        <a href="/reader/library-profile/<%= library._id %>">See more</a>
-                    </div>
-                </div>
-            <% }); %>

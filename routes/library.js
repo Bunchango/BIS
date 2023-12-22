@@ -32,7 +32,7 @@ router.get("/manage", isLibraryAdmin, async (req, res) => {
         const librarians = await Librarian.find({library: req.user.id}); 
         const verifyingLibrarians = await LibrarianVerification.find({library: req.user.id});
 
-        res.render("library/manage", {librarians: librarians, verifyingLibrarians: verifyingLibrarians});
+        res.render("library/manage", {librarians: librarians, verifyingLibrarians: verifyingLibrarians, errors: []});
     } catch(e) {
         res.status(400).json({ errors: e });
     }
@@ -99,7 +99,7 @@ router.post("/create_librarian", isLibraryAdmin, validateRegistration, async (re
 
 router.get("/profile", isLibraryAdmin, (req, res) => {
     // Show library information
-    res.render("library/profile", {admin: req.user});
+    res.render("library/profile", {admin: req.user, errors: []});
 })
 
 router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), 
