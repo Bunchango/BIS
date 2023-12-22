@@ -7,8 +7,8 @@
                 Create Librarians
             </button>
         </li>
-        <div id="overlay"></div>
-        <%- include('./create_librarian.ejs'); %>
+        
+        
     </ul>
     <div id="profile">
         <% if (admin.profilePicture) {%>
@@ -24,3 +24,4 @@
           <a href="/checkin/logout" id="logout">Logout</a> 
     </div>  
 </nav>
+<%- include('./create_librarian.ejs'); %>

@@ -109,12 +109,12 @@ body{
 }
 .container1::after {
     content: "";
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
     background: linear-gradient(
         rgb(252, 237, 218, 0),
         #FCEDDA
@@ -206,14 +206,14 @@ body{
     position: absolute;
     display: block;
 }
-.name{
+.item1:nth-child(4) .content .name{
     font-size: 40px;
     color:#eee;
     font-weight: bold;
     opacity: 0;
     animation:showcontent 1s ease-in-out 1 forwards
 }
-.des{
+.item1:nth-child(4) .content .des{
     margin:20px 0;
     opacity: 0;
     color:#eee;

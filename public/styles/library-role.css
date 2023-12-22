@@ -31,7 +31,7 @@ nav {
     display: flex;
     align-items: center;
     transition: 0.6s;
-    z-index: 100;
+    z-index: 99;
 }
 
 #logo {
@@ -151,7 +151,7 @@ nav #list li #create-librarians {
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
     border-radius: 5px;
-    z-index: 1000;
+    z-index: 1002;
     background-color: white;
     width: 500px;
     max-width: 800%;
@@ -214,7 +214,7 @@ nav #list li button {
     bottom: 0;
     background-color: rgba(0, 0, 0, .5);
     pointer-events: none;
-    z-index: 10;
+    z-index: 100;
 }
 
 #overlay.active {
