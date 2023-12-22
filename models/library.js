@@ -23,20 +23,6 @@ const librarySchema = new mongoose.Schema({
         type: Date, 
         default: Date.now,
     },
-    noticeBoard: [{
-        image: {
-            data: Buffer,
-            contentType: String,
-        },
-        description: {
-            type: String,
-            required: true,
-        },
-        createdAt: {
-            type: Date, 
-            default: Date.now,
-        }
-    }],
     banner: {
         type: String,
         default: "uploads/default_banner.jpg",

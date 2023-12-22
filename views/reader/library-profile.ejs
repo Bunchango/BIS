@@ -17,16 +17,25 @@
 <body>
     <%- include('../partials_readers/head_navigation.ejs'), { user: user } %>
     <a href="/library-profile/>"></a>
-    <div id="upper">
-        <div id="banner"><%= library.banner %></div>
-        <div id="lib-ava"> <img src="/<%= library.profilePicture %>" alt="<%= library.username %>'s Picture Profile"></div>
-        <div id="lib-info">
-            <div id="lib-username"><%= library.username %></div>
-            <div id="lib-address"><%= library.address %></div>
-            <div id="lib-email"><%= library.gmail %></div>
+    <div id="upper" class="pt-9">
+        <div id="banner" class="border-4 top-9 relative h-96 mx-20 my-5 rounded-lg"> 
+            <div class="absolute w-full h-full">
+                <img class="h-full w-full" src="/<%= library.banner %>" alt=" Library's Banner">
+            </div>
+            <div class="absolute -bottom-32 left-36 flex items-center">
+               <div id="lib-ava" class="rounded-full overflow-hidden"> 
+                    <img src="/<%= library.profilePicture %>" alt="<%= library.username %>'s Picture Profile">
+                </div> 
+                <div id="lib-info" class="mt-32 ml-10">
+                    <div id="lib-username">Library name: <%= library.username %></div>
+                    <div id="lib-address">Address: <%= library.address %> address </div>
+                    <div id="lib-email">Email: <%= library.gmail %></div>
+                </div>
+            </div>
+            
         </div>
     </div>
-    <div id="lower">
+    <div id="lower" >
         <% if(library.noticeBoard && library.noticeBoard.length > 0) { %>
         <div id="notice-board">
             <img src="/<%= library.noticeBoard.image %>" atl="<%= library.username %>'s Notice Board">
@@ -36,6 +45,7 @@
             <div class="book-card"></div>
         </div>
     </div>
-    <%- include('../partials_readers/footer.ejs') %>
+    <!-- <%- include('../partials_readers/footer.ejs') %> -->
 </body>
+
 </html>
