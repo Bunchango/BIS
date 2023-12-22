@@ -9,6 +9,7 @@ const { validationResult } = require('express-validator');
 const uploads = require('../config/multer');
 const { notify, transporter } = require('./librarian');
 const Library = require('../models/library');
+const { localsName } = require('ejs');
 // TODO: Add model and routes for cart, add routes for changing username, password and profile pic      
 
 function isReader(req, res, next) {
@@ -198,34 +199,6 @@ router.post('/cart/request', isReader, async (req, res) => {
     }
 });
 
-// View request route
-router.get('/my-request', isReader, async (req, res) => {
-    try {
-
-        const readerRequests = await Request.find({ reader: req.user._id })
-            .populate('books', 'title')
-            .populate('library', 'name')
-            .exec();
-
-        const formattedRequests = await Promise.all(readerRequests.map(async request => {
-            const pickup = await Pickup.findOne({ request: request._id });
-
-            return {
-                _id: request._id,
-                books: request.books,
-                library: request.library,
-                createdOn: request.createdOn,
-                status: request.status,
-                pickupDate: pickup ? pickup.pickupDate : null,
-            };
-        }));
-
-        res.render('reader/my-requests', { requests: formattedRequests });
-    } catch (err) {
-        console.error('Error:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
 
 // Cancel request route
 router.post("/request/cancel/:id", isReader, async (req, res) => {
@@ -277,35 +250,6 @@ router.post("/request/cancel/:id", isReader, async (req, res) => {
     } catch (e) {
         console.error('Error:', e);
         res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-//My loan route
-router.get('/my_loan/', isReader, async (req, res) => {
-    try {
-        const borrows = await Borrow.find({ reader: req.user._id })
-            .populate('books')
-            .populate('library');
-        res.render('reader/my_loan', { borrows: borrows, user: req.user });
-    } catch (err) {
-        res.status(400).json({ errors: err });
-        res.redirect('/homepage');
-    }
-});
-
-// My wishlist route
-router.get('/wishlist', isReader, async (req, res) => {
-    try {
-        const reader = await Reader.findOne({ _id: req.user._id }).populate('wishList');
-
-        if (!reader) {
-            return res.status(404).json({ error: 'Reader not found' });
-        }
-        const wishList = reader.wishList;
-
-        res.render('reader/wishlist', { wishList: wishList, user: req.user });
-    } catch (err) {
-        res.status(400).json({ errors: err });
     }
 });
 
@@ -371,29 +315,83 @@ router.post('/wishlist/:id', isReader, async (req, res) => {
     }
 });
 
-// Reader profile route
-router.get('/profile', isReader, async (req, res) => {
+// Middleware to fetch loans
+const fetchLoans = async (req, res, next) => {
     try {
-        const loanCount = await Borrow.countDocuments({ reader: req.user._id });
-        const wishlistCount = await Reader.findOne({ _id: req.user._id })
-            .select('wishList')
-            .then(reader => reader.wishList.length);
+        const loans = await Borrow.find({ reader: req.user._id })
+            .populate('books')
+            .populate('library');
 
+        req.readerLoans = loans;
+        next();
+    } catch (err) {
+        res.status(400).json({ errors: err });
+    }
+};
+
+// Middleware to fetch wishlist
+const fetchWishlist = async (req, res, next) => {
+    try {
+        const wishlist = await Reader.findOne({ _id: req.user._id }).populate('wishList');
+
+        if (!wishlist) {
+            req.wishlist = [];
+        } else {
+            req.wishlist = wishlist.wishList;
+        }
+
+        next();
+    } catch (err) {
+        res.status(400).json({ errors: err });
+    }
+};
+
+// Middleware to fetch requests
+const fetchRequests = async (req, res, next) => {
+    try {
+        const readerRequests = await Request.find({ reader: req.user._id })
+            .populate('books', 'title')
+            .populate('library', 'name')
+            .exec();
+
+        const formattedRequests = await Promise.all(readerRequests.map(async (request) => {
+            const pickup = await Pickup.findOne({ request: request._id });
+
+            return {
+                _id: request._id,
+                books: request.books,
+                library: request.library,
+                createdOn: request.createdOn,
+                status: request.status,
+                pickupDate: pickup ? pickup.pickupDate : null,
+            };
+        }));
+
+        req.readerRequests = formattedRequests;
+        next();
+    } catch (err) {
+        res.status(400).json({ errors: err });
+    }
+};
+
+// Reader profile route
+router.get('/profile', isReader, fetchRequests, fetchLoans, fetchWishlist, async (req, res) => {
+    try {
         const reader = await Reader.findOne({ _id: req.user._id });
 
         res.render('reader/reader-profile', {
             reader: reader,
             user: req.user,
-            loanCount: loanCount,
-            wishlistCount: wishlistCount,
+            wishlist: req.wishlist || [],
+            loans: req.readerLoans || [],
+            formattedRequests: req.readerRequests || [],
             errors: [],
         });
     } catch (err) {
-        res.status(400).json({ errors: err });
+        res.error(400).json({ errors: err });
         res.redirect('/homepage');
     }
 });
-
 
 // Update profile route
 router.post('/profile/edit-profile', isReader, validateUsername, uploads.fields([{ name: 'background', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), async (req, res) => {
@@ -509,14 +507,14 @@ router.get("/library-profile/:id", async (req, res) => {
     try {
         const library = await Library.findById(req.params.id);
         res.render('reader/library-profile', {
-            library : library,
+            library: library,
             user: req.user
         })
     } catch (errors) {
         console.log('Error:', errors);
         res.redirect('/homepage')
     }
- })
+})
 
 
 module.exports = router;

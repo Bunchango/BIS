@@ -24,6 +24,7 @@
     <main>
         <div class="container">
             <div class="book-cover">
+                <!-- TODO: Add carousel for multiple cover images -->
                 <% if (book.coverImages && book.coverImages.length > 0) { %>
                 <img src="<%= book.coverImages[0] %>" alt="<%= book.title %> Cover">
                 <% } else { %>
@@ -41,27 +42,44 @@
                     <% if (book.description) { %>
                     <p class="description">Description: <%= book.description %></p>
                     <% } %>
+                    <p class="quantity">Quantity: <%= book.amount %></p>
 
                 </div>
                 <% if (user instanceof Reader) { %>
                 <!-- Reader-specific content -->
                 <div class="reader-buttons">
-                    <button id="cart-btn">Add to cart</button>
-                    <button id="wishlist-btn">Add to wishlist</button>
+                    <div class="cart-btn">
+                        <form action="/reader/cart/<%= book._id %>" method="POST">
+                            <button type="submit">Add to Cart</button>
+                        </form>
+                    </div>
+
+                    <div class="wishlist-btn">
+                        <form action="/reader/wishlist/<%= book._id %>" method="POST">
+                            <button type="submit">Add to Wishlist</button>
+                        </form>
+                    </div>
                 </div>
 
                 <% } else if (user instanceof Librarian) { %>
                 <!-- Librarian-specific content -->
                 <div class="librarian-buttons">
-                    <button id="edit-btn">Edit</button>
-                    <button id="delete-btn">Delete</button>
-                </div>
+                    <div class="edit-btn">
+                        <form action="/librarian/book_detail/<%= book._id %>" method="POST">
+                            <button type="submit">Edit book</button>
+                        </form>
+                    </div>
 
-                <% } else { %>
-                <!-- Default content for other roles or unauthenticated users -->
-                <% } %>
+                    <div class="delete-btn">
+                        <form action="/librarian/delete_book/<%= book._id %>" method="POST">
+                            <button type="submit">Delete book</button>
+                        </form>
+                    </div>
+                    <% } else { %>
+                    <!-- Default content for other roles or unauthenticated users -->
+                    <% } %>
+                </div>
             </div>
-        </div>
     </main>
 
     <%- include('../partials_readers/footer.ejs') %>
