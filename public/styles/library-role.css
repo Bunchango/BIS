@@ -177,7 +177,8 @@ nav #list li button {
     background: none;
 }
 
-.createLibrarians-header {
+.createLibrarians-header,
+.update-header {
     padding: 10px 15px;
     display: flex;
     justify-content: space-between;
@@ -185,12 +186,14 @@ nav #list li button {
     border-bottom: 1px solid black;
 }
 
-.createLibrarians-header .title {
+.createLibrarians-header .title,
+.update-header .title {
     font-size: 1.25rem;
     font-weight: bold;
 }
 
-.createLibrarians-header .close-modal {
+.createLibrarians-header .close-modal,
+.update-header .close-modal{
     cursor: pointer;
     border: none;
     outline: none;
@@ -199,7 +202,8 @@ nav #list li button {
     font-weight: bold;
 }
 
-.create-librarians-body {
+.create-librarians-body,
+.update-body {
     padding: 10px 15px;
 }
 
@@ -254,4 +258,35 @@ nav #list li button {
     height: 450px;
     border: 1px solid black;
     overflow-y: scroll;
+}
+
+/*   Profile   */
+
+#upper {
+    width: 100%;
+    height: 40vh;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+#upper #banner {
+    object-fit: cover;
+    width: 100%;
+    height: 40vh;
+    z-index: -1;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 1rem;
+}
+
+#upper #avatar-container {
+
+}
+
+#avatar-container #avatar {
+
+}
+
+#avatar-container #update-profile {
+
 }

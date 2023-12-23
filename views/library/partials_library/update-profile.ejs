@@ -1,0 +1,38 @@
+ 
+<div class="pop-up-modal" id="pop-up-update">
+    <div class="update-header">
+        <div class="title">Library Profile</div>
+        <button data-close-button class="close-modal">&times;</button>
+    </div>
+    <div class="update-body">
+        <% if (errors && errors.length > 0) { %>
+            <div style="color: red;">
+                <% errors.forEach(error => { %>
+                    <p><%= error.msg %></p>
+                <% }); %>
+            </div>
+        <% } %>
+        <form action="profile" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="<%= admin.username %>">
+            </div>
+            <div>
+                <label for="logo">Profile Picture:</label>
+                <img src="/<%= admin.profilePicture %>" alt="Profile Picture">
+                <input type="file" id="logo" name="logo">
+            </div>
+            <div>
+                <label for="banner">Banner:</label>
+                <img src="/<%= admin.banner %>" alt="Banner">
+                <input type="file" id="banner" name="banner">
+            </div>
+            <div>
+                <input type="checkbox" id="confirm" name="confirm">
+                <label for="confirm">Confirm Changes</label>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+</div>

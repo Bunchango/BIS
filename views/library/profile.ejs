@@ -19,51 +19,35 @@
     <div id="overlay"></div>
     <%- include('./partials_library/navigation.ejs') %>
     <div id="main">
-        
+        <%- include('./partials_library/update-profile.ejs') %>
+        <div id="upper">
+           <div id="banner">
+                <img src="/<%= admin.banner %>" alt="<%= admin.username %>'s Banner">
+           </div> 
+           <div id="avatar-container">
+                <div id="avatar">
+                    <img src="/<%= admin.profilePicture %>" alt=" <%= admin.username %>'s Picture Profile">
+                </div>
+                <button data-modal-target="#pop-up-update" id="update-btn">Update</button>
+           </div>
+           
+        </div>
+        <div id="lower">
+            <div>
+                <label for="gmail">Gmail:</label>
+                <p><%= admin.gmail %></p>
+            </div>
+            <div>
+                <label for="location">Location:</label>
+                <p><%= admin.location.formattedAddress %></p>
+            </div>
+            <div>
+                <label for="joinedAt">Joined At:</label>
+                <p><%= admin.joinedAt.toDateString() %></p>
+            </div>
+        </div>
     </div>
-    <h1>Library Profile</h1>
     
-    <% if (errors && errors.length > 0) { %>
-        <div style="color: red;">
-            <% errors.forEach(error => { %>
-                <p><%= error.msg %></p>
-            <% }); %>
-        </div>
-    <% } %>
-
-    <form action="profile" method="POST" enctype="multipart/form-data">
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="<%= admin.username %>">
-        </div>
-        <div>
-            <label for="gmail">Gmail:</label>
-            <p><%= admin.gmail %></p>
-        </div>
-        <div>
-            <label for="location">Location:</label>
-            <p><%= admin.location.formattedAddress %></p>
-        </div>
-        <div>
-            <label for="joinedAt">Joined At:</label>
-            <p><%= admin.joinedAt.toDateString() %></p>
-        </div>
-        <div>
-            <label for="logo">Profile Picture:</label>
-            <img src="/<%= admin.profilePicture %>" alt="Profile Picture">
-            <input type="file" id="logo" name="logo">
-        </div>
-        <div>
-            <label for="banner">Banner:</label>
-            <img src="/<%= admin.banner %>" alt="Banner">
-            <input type="file" id="banner" name="banner">
-        </div>
-        <div>
-            <input type="checkbox" id="confirm" name="confirm">
-            <label for="confirm">Confirm Changes</label>
-        </div>
-        <input type="submit" value="Submit">
-    </form>
     <%- include('../partials_readers/footer.ejs') %>
     <script defer src="/js/library.js"></script>
     <script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
