@@ -16,6 +16,10 @@ html {
     scroll-behavior: smooth;
 }
 
+body {
+    background-color: var(--theme-color-peach);
+}
+
 nav {
     display: flex;
     flex-direction: row;
@@ -153,13 +157,16 @@ nav #list li #create-librarians {
     border-radius: 5px;
     z-index: 1002;
     background-color: white;
-    width: 500px;
+    width: 600px;
     max-width: 800%;
+    max-height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .pop-up-modal.active {
     transform: translate(-50%, -50%) scale(1);
-    background-color: white;
+   
 }
 
 
@@ -261,36 +268,84 @@ nav #list li button {
 }
 
 /*   Profile   */
+#whole-upper {
+    height: fit-content;
+    /* box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2);  */
+    background-color: var(--theme-color-peach);
+}
 
 #upper {
-    width: 100%;
-    height: 50vh;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
+    margin: 0 110px;
+    height: 450px;
+    position: relative;
 }
 
 #upper #banner {
     object-fit: cover;
     width: 100%;
-    height: 40vh;
+    height: 30vh;
     z-index: -1;
-    border-radius: 0 0 10px 10px;
+    border-radius: 10px 10px 10px 10px;
     margin-bottom: 1rem;
 }
 
-#upper #banner img {
-    
-}
 
 #upper #avatar-container {
-
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    width: 100%;
 }
 
 #avatar-container #avatar {
-
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: var(--theme-color-peach);
+    padding: 5px;
+    text-align: center;
 }
 
-#avatar-container #update-profile {
+#avatar-container #update-btn {
+    border: 1 solid var(--theme-color-orange);
+    background-color: var(--theme-color-orange);
+    color: var(--theme-color-peach);
+    width: 120px;
+    height: 50px;
+    border-radius:5%;
+}
 
+#avatar-container #update-btn:hover {
+    box-shadow: 0px 0px 5px black;
+}
+
+#whole-lower {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#lower {
+    background-color: rgb(255, 255, 255);
+    z-index: -1;
+    height: 60vh;
+    padding: 50px;
+    width: 80%;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#lower .label {
+    font-size: 30px;
+    width: 100%;
+    display: flex;
+}
+
+/* Update Profile */
+#description {
+    width: 100%;
+    height: 50px;
+    overflow-y: scroll;
 }

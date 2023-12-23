@@ -20,32 +20,43 @@
     <%- include('./partials_library/navigation.ejs') %>
     <div id="main">
         <%- include('./partials_library/update-profile.ejs') %>
-        <div id="upper">
-           <div id="banner">
-                <img src="/<%= admin.banner %>" alt="<%= admin.username %>'s Banner">
-           </div> 
-           <div id="avatar-container">
-                <div id="avatar">
-                    <img src="/<%= admin.profilePicture %>" alt=" <%= admin.username %>'s Picture Profile">
+        <div id="whole-upper">
+            <div id="upper">
+                <img id="banner" src="/<%= admin.banner %>" alt="<%= admin.username %>'s Banner">
+                <div id="avatar-container">
+                        <img id="avatar" src="/<%= admin.profilePicture %>" alt=" <%= admin.username %>'s Picture Profile">
+                        <button data-modal-target="#pop-up-update" id="update-btn">
+                            <% if (errors && errors.length > 0) { %>
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <% } %>
+                            Update
+                        </button>
                 </div>
-                <button data-modal-target="#pop-up-update" id="update-btn">Update</button>
-           </div>
-           
-        </div>
-        <div id="lower">
-            <div>
-                <label for="gmail">Gmail:</label>
-                <p><%= admin.gmail %></p>
-            </div>
-            <div>
-                <label for="location">Location:</label>
-                <p><%= admin.location.formattedAddress %></p>
-            </div>
-            <div>
-                <label for="joinedAt">Joined At:</label>
-                <p><%= admin.joinedAt.toDateString() %></p>
             </div>
         </div>
+        
+        <div id="whole-lower">
+            <div id="lower">
+                <div class="label">
+                    <label for="description">Description:</label>
+                    <p><%= admin.description %></p>
+                </div>
+                <div class="label">
+                    <label for="gmail">Gmail:</label>
+                    <p><%= admin.gmail %></p>
+                </div>
+                <div class="label">
+                    <label for="location">Location:</label>
+                    <p><%= admin.location.formattedAddress %></p>
+                </div>
+                <div class="label">
+                    <label for="joinedAt">Joined At:</label>
+                    <p><%= admin.joinedAt.toDateString() %></p>
+                </div>
+            </div>
+        </div>
+        
+
     </div>
     
     <%- include('../partials_readers/footer.ejs') %>

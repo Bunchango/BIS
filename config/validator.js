@@ -59,4 +59,11 @@ const validatePassword = [
     ),
 ]
 
-module.exports = { validateRegistration, validateBookCreation, validateUsername, validatePassword }
+const validateDescription = [
+  body("description")
+  .optional({ checkFalsy: true })
+  .isLength({ min: 10, max: 15 })
+  .withMessage("Description must be greater than 10 characters"),
+]
+
+module.exports = { validateRegistration, validateBookCreation, validateUsername, validatePassword, validateDescription }
