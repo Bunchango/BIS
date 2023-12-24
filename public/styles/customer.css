@@ -1,0 +1,124 @@
+:root {
+    --theme-color-peach: #FCEDDA;
+    --theme-color-orange: #EE4E34;
+  }
+
+  nav {
+    background-color: #FCEDDA;
+  }
+  
+  nav div, nav a {
+    color: #EE4E34;
+    font-weight: 600;
+  }
+  
+  main, .listPage {
+    background-color: #FCEDDA;
+  }
+
+  .listPage{
+    padding:10px;
+    text-align: center;
+    list-style: none;
+}
+.listPage li{
+    background-color: var(--theme-color-peach);
+    padding:20px;
+    display: inline-block;
+    margin:0 10px;
+    cursor: pointer;
+}
+.listPage .active{
+    background-color: var(--theme-color-orange);
+    color:#fff;
+}
+
+#sect-header {
+  font-size: 62px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 74px;
+    padding-bottom: 0.5rem;
+    color: #ee4e34;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+#sect-header2 {
+  font-size: 62px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 74px;
+    padding-bottom: 0.5rem;
+    color: var(--theme-color-peach);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+#borrow-section {
+  background-color: var(--theme-color-peach);
+}
+
+#pagination-item {
+  background-color: var(--theme-color-orange);
+  color: var(--theme-color-peach);
+}
+#borrow-section2 {
+  background-color: var(--theme-color-orange);
+}
+
+#pagination-item2 {
+  background-color: var(--theme-color-peach);
+  color: var(--theme-color-orange);
+}
+
+.view-all {
+  color: var(--theme-color-peach);
+  display: flex;
+  justify-content: center;
+}
+.view-all2 {
+  display: flex;
+  justify-content: center;
+}
+
+.view-all-button {
+  width: 100px;
+  margin: 2rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: #EE4E34;
+  border-radius: 20px;
+}
+.view-all-button2 {
+  width: 100px;
+  margin: 2rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--theme-color-peach);
+  color: var(--theme-color-orange);
+  border-radius: 20px;
+}
+.triangle-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  background-color: #FCEDDA;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 20px solid var(--theme-color-orange); /* Change color as needed */
+}
+.search-section {
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FCEDDA;
+  font-size: 50px;
+  color: #EE4E34;
+}
