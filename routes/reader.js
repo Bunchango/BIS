@@ -554,7 +554,7 @@ router.post("/profile/set-default", isReader, async (req, res) => {
 
 // Get Library Profile
 // Dont need to login
-router.get("/library/:id", async (req, res) => {
+router.get("/library-profile/:id", async (req, res) => {
     try {
         const library = await Library.findById(req.params.id);
         res.render("reader/library-profile", {
