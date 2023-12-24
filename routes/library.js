@@ -41,11 +41,13 @@ router.get("/manage", isLibraryAdmin, async (req, res) => {
 router.get("/create_librarian", isLibraryAdmin, (req, res) => {
     res.render("library/create_librarian", {errors: []})
 })
-
+// The new upadated code is suitable with the design of the fontend
 router.post("/create_librarian", isLibraryAdmin, validateRegistration, async (req, res) => {
+    const librarians = await Librarian.find({library: req.user.id}); 
+    const verifyingLibrarians = await LibrarianVerification.find({library: req.user.id});
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('library/create_librarian', { errors: errors.array() })
+        return res.render('library/manage', { errors: errors.array(), admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians})
     }
 
     // Create a new librarian, send an email to verify
@@ -55,16 +57,16 @@ router.post("/create_librarian", isLibraryAdmin, validateRegistration, async (re
     password = password.trim();
 
     if (password !== confirmPassword) {
-        return res.render('library/create_librarian', {errors: [{msg: "Password different from confirm password"}]});
+        return res.render('library/manage', {errors: [{msg: "Password different from confirm password"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
     }
 
     if (!acceptTerms) {
-        return res.render('library/create_librarian', {errors: [{msg: "You must accept terms and conditions"}]});
+        return res.render('library/manage', {errors: [{msg: "You must accept terms and conditions"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
     }
 
     const account = await User.findOne({gmail: gmail});
     if (account) {
-        return res.render('library/create_librarian', {errors: [{msg: "Account already exists"}]});
+        return res.render('library/manage', {errors: [{msg: "Account already exists"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
     }
 
     const token =  crypto.randomBytes(20).toString("hex"); 

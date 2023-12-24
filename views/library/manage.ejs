@@ -29,7 +29,7 @@
                         <li>
                             <p>Name: <%= librarian.username %></p>
                             <p>Email: <%= librarian.gmail %></p>
-                            <p>Profile Picture: <img src="<%= librarian.profilePicture %>" alt="<%= librarian.username %>"></p>
+                            <p>Profile Picture: <img src="/<%= librarian.profilePicture %>" alt="<%= librarian.username %>'s Profile picture"></p>
                             <form action="librarian/<%= librarian._id %>" method="POST">
                                 <button type="submit">Delete</button>
                             </form>

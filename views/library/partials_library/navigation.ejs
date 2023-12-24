@@ -3,7 +3,11 @@
     <ul id="list">
         <li><a href="/library/manage">Manage Librarians</a></li>
         <!-- Pop creating librarians button -->
-        <li><button data-modal-target="#pop-up-createLibrarians" id="create-librarians">
+        <li>
+            <% if (errors && errors.length > 0) { %>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            <% } %>
+            <button data-modal-target="#pop-up-createLibrarians" id="create-librarians">
                 Create Librarians
             </button>
         </li>
