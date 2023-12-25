@@ -120,7 +120,29 @@ async function createAdmin() {
 
 // createAdmin();
 
-
+// Save the book object to the database
+async function saveBook() { 
+    try {
+        const { Book } = require("./models/book")
+        // Create a new book object
+        const book = new Book({
+            title: 'To Kill a Mockingbird',
+            coverImages: ['uploads/tokillamockingbird1.jpg', 'uploads/tokillamockingbird2.jpg', 'uploads/tokillamockingbird3.jpg'],
+            author: 'Harper Lee',
+            category: [" Romance"],
+            description: 'A novel about the injustices of the adult world as seen through the eyes of a young girl in the American South.',
+            publishDate: new Date('1960-07-11'),
+            library: '65859e0789225b047162498a', // replace with the id of the library
+            dateImported: new Date(),
+            amount: 10,
+        });
+        const savedBook = await book.save();
+        console.log('Book saved successfully:', savedBook);
+    } catch (err) {
+        console.error('Error saving book:', err);
+    }
+}
+saveBook()
    
 
 app.listen(PORT, () => {

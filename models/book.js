@@ -15,6 +15,7 @@ const bookSchema = new mongoose.Schema({
     },
     coverImages: [{
         type: String,
+        default: "uploads/default_book_cover.jpg"
     }],
     author: {
         type: String,
