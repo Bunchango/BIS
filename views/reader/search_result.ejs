@@ -81,43 +81,45 @@
                 </div>
             </form>
         </aside>
-        <section class="col-span-3 search-result-display">
+        <section class="col-span-3 search-result-container">
             <h2 id="search-result-title">Search Results</h2>
-            <% if (books.length> 0) { %>
-            <ul>
-                <% books.forEach(book=> { %>
-                <li>
-                    <h3>
-                        <%= book.title %>
-                    </h3>
-                    <p>
-                        Author: <%= book.author %>
-                    </p>
-                    <!-- TODO: Add book description and images -->
-                </li>
-                <% }); %>
-            </ul>
+                <% if (books.length> 0) { %>
+                <ul class="search-result-display">
+                    <% books.forEach(book=> { %>
+                    <a href="/reader/book_detail/<%= book.id %>">
+                    <li>
+                        <img src="<%= book.coverImages[0] %>" >
+                        <h3>
+                            <%= book.title %>
+                        </h3>
+                        <p>
+                            Author: <%= book.author %>
+                        </p>
+                        <!-- TODO: Add book description and images -->
+                    </li>
+                    </a>
+                    <% }); %>
+                </ul>
 
+
+                <% } else { %>
+                <p>No books found.</p>
+                <% } %>
             <!-- Pagination Controls -->
-            <!-- TODO: Test this after populating database with books -->
             <div class="pagination">
                 <% if (books.previous) { %>
-                <a href="<%= buildPaginationLink(books.previous.page) %>">Previous</a>
+                <a href="<%= buildPaginationLink(books.previous.page) %>"> < </a>
                 <% } %>
 
                 <!-- Page Buttons -->
                 <% for (let i = 1; i <= totalPages; i++) { %>
-                <a href="<%= buildPaginationLink(i) %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+                    <a href="<%= buildPaginationLink(i) %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
                 <% } %>
 
                 <% if (books.next) { %>
-                <a href="<%= buildPaginationLink(books.next.page) %>">Next</a>
+                <a href="<%= buildPaginationLink(books.next.page) %>"> > </a>
                 <% } %>
             </div>
-
-            <% } else { %>
-            <p>No books found.</p>
-            <% } %>
         </section>
     </main>
 
