@@ -16,6 +16,7 @@ const libraryRoutes = require('./routes/library');
 const librarianRoutes = require('./routes/librarian');
 const adminRoutes = require('./routes/admin');
 const Library = require('./models/library');
+const { Book } = require('./models/book');
 
 // Load global vars
 dotenv.config({ path: "./config/config.env" })
@@ -78,7 +79,8 @@ app.get("/homepage", async (req, res) => {
     if (!req.user || req.user.__t === "Reader") {
         // Query data of 6 libraries
         const libraries = await Library.find().limit(6);
-        res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries });
+        const awardBooks = await Book.find().limit(6);
+        res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries, books: awardBooks });
     } else if (req.user && req.user.__t === "Librarian") {
         res.redirect("/librarian/dashboard");
     } else if (req.user && req.user.__t === "Library") {

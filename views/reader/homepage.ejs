@@ -94,7 +94,7 @@
     <div class="container1">
         <!-- Small picture -->
         <div id="slide"> 
-            <% libraries.forEach(library => { %>
+            <% libraries.forEach( library => { %>
                 <div class="item2" style="background-image: url('<%= library.banner %>');"></div>
             <% }); %>
             <!-- <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
@@ -176,6 +176,39 @@
       <div class="container swiper">
         <div class="slide-container">
           <div class="card-wrapper swiper-wrapper">
+            <% if (books && books.length > 0) {%> 
+              <% books.forEach( book => { %>
+                <div class="card swiper-slide">
+                    <div class="image-box">
+                      <img src="<%= book.coverImages[0]%> " alt="<%= book.title %>'s Image" />
+                    </div>
+                    <div class="book-details">
+                      <div class="detail-box">
+                        
+                        <h1><%= book.title %></h1>
+                        <p><%= book.description %></p>
+                      </div>
+                      <a id="bookmark-icon">
+                         <i class="fa-solid fa-star"></i>
+                      </a>
+                      <a href="/reader/book_detail/<%= book._id %>" class="view-more-button">  View details</a>
+                    </div>
+                </div>
+              <% }) %>
+            <% } %>
+            <!-- <div class="card swiper-slide">
+                <div class="image-box">
+                  <img src="images/lib1.jpg" alt="" />
+                </div>
+                <div class="book-details">
+                  <div class="detail-box">
+                    <h1>Book name</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque inventorratione saepe labore accusamus error.</p>
+                  </div>
+                  <a href="" class="view-more-button">View details</a>
+                </div>
+            </div>
+
             <div class="card swiper-slide">
                 <div class="image-box">
                   <img src="images/lib1.jpg" alt="" />
@@ -187,7 +220,8 @@
                   </div>
                   <a href="" class="view-more-button">View details</a>
                 </div>
-              </div>
+            </div>
+
             <div class="card swiper-slide">
                 <div class="image-box">
                   <img src="images/lib1.jpg" alt="" />
@@ -199,7 +233,8 @@
                   </div>
                   <a href="" class="view-more-button">View details</a>
                 </div>
-              </div>
+            </div>
+
             <div class="card swiper-slide">
                 <div class="image-box">
                   <img src="images/lib1.jpg" alt="" />
@@ -211,7 +246,8 @@
                   </div>
                   <a href="" class="view-more-button">View details</a>
                 </div>
-              </div>
+            </div>
+
             <div class="card swiper-slide">
                 <div class="image-box">
                   <img src="images/lib1.jpg" alt="" />
@@ -223,31 +259,7 @@
                   </div>
                   <a href="" class="view-more-button">View details</a>
                 </div>
-              </div>
-            <div class="card swiper-slide">
-                <div class="image-box">
-                  <img src="images/lib1.jpg" alt="" />
-                </div>
-                <div class="book-details">
-                  <div class="detail-box">
-                    <h1>Book name</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque inventorratione saepe labore accusamus error.</p>
-                  </div>
-                  <a href="" class="view-more-button">View details</a>
-                </div>
-              </div>
-            <div class="card swiper-slide">
-                <div class="image-box">
-                  <img src="images/lib1.jpg" alt="" />
-                </div>
-                <div class="book-details">
-                  <div class="detail-box">
-                    <h1>Book name</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque inventorratione saepe labore accusamus error.</p>
-                  </div>
-                  <a href="" class="view-more-button">View details</a>
-                </div>
-              </div>
+            </div> -->
             
           </div>
         </div>

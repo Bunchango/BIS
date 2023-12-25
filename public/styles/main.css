@@ -312,42 +312,99 @@
     height: fit-content;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.8);
     border-radius: 1%;
-  }
-  
-  #account-hovering #content {
+}
+
+#account-hovering #content {
     display: flex;
     flex-direction: column;
     height: 100%;
     overflow: hidden;
     padding: 5px 10px;
-  }
-  
-  #account-hovering #content #account-name {
+}
+
+#account-hovering #content #account-name {
     height: fit-content;
     margin: 5px 0px;
     font-size: 20px;
     align-items: center;
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-    
-  }
-  
-  #account-hovering #content #my-account,
-  #account-hovering #content #logout,
-  #account-hovering #content #my-loan {
+
+}
+
+#account-hovering #content #my-account,
+#account-hovering #content #logout,
+#account-hovering #content #my-loan {
     font-size: 15px;
     padding: 5px 0px;
-  }
-  
-  #account-hovering #content #my-account:hover,
-  #account-hovering #content #logout:hover,
-  #account-hovering #content #my-loan:hover {
+}
+
+#account-hovering #content #my-account:hover,
+#account-hovering #content #logout:hover,
+#account-hovering #content #my-loan:hover {
     background-color: #5f5e5e73;
-  }
-  
-  
-  #account-hovering #content #logout {
+}
+
+
+#account-hovering #content #logout {
     border-top: 0.5px solid rgba(0, 0, 0, 0.5);
-  }
+}
+
+.lib-sect {
+    background-color: #EE4E34;
+    padding-top: 100px;
+}
+
+
+.card {
+    height: 300px;
+    position: relative;
+}
+  
+.book-details {
+    position: absolute;
+    bottom: -400px;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(238,78,52, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.card:hover .book-details{
+    bottom: 0px;
+}
+
+.book-details h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+
+    color: var(--theme-color-peach);
+}
+
+.book-details p {
+    text-align: center;
+    padding: 10px;
+
+    color: var(--theme-color-peach);
+}
+
+.book-details a {
+    padding: 10px;
+    background-color: #EE4E34;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    color: var(--theme-color-peach);
+}
+
+#bookmark-icon .fa-solid .fa-star {
+    background-color: yellow;
+    cursor: pointer;
+}
 
 @media only screen and (max-width:1500px) {
     #account-hovering {
@@ -383,56 +440,3 @@
         transition: 0.2s;
     }
 }
-
-.lib-sect {
-    background-color: #EE4E34;
-    padding-top: 100px;
-}
-
-
-.card {
-    height: 300px;
-    position: relative;
-  }
-  
-  .book-details {
-    position: absolute;
-    bottom: -400px;
-    width: 100%;
-    height: 100%;
-    transition: 0.5s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    background-color: rgba(238,78,52, 0.5);
-    backdrop-filter: blur(10px);
-  }
-  
-  .card:hover .book-details{
-    bottom: 0px;
-  }
-  
-  .book-details h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    text-align: center;
-    
-    color: var(--theme-color-peach);
-  }
-  
-  .book-details p {
-    text-align: center;
-    padding: 10px;
-    
-    color: var(--theme-color-peach);
-  }
-  
-  .book-details a {
-    padding: 10px;
-    background-color: #EE4E34;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    
-    color: var(--theme-color-peach);
-  }
