@@ -220,6 +220,18 @@
 
 }
 
+.layer-two img #background {
+  border-radius: 10px;
+}
+
+#background-pic {
+  
+}
+
+#avatar-pic {
+
+}
+
 
 @media only screen and (max-width:1000px) {
   .whole-upper {

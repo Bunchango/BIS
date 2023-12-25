@@ -1,18 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap');
- *{
+ * {
     font-family: 'Poppins', sans-serif;
- }
-.custom-peach{
- background-color: #FCEDDA;
-}
-.custom-raspberry{
- background-color: #EE4E34;
 }
 
-.border-peach {
-    border-color: #FCEDDA;
+:root {
+    --theme-color-peach: #FCEDDA;
+    --theme-color-orange: #EE4E34;
+} 
+
+
+body{
+ background-color: var(--theme-color-peach);
 }
 
+#lib-ava {
+    border: 7px solid var(--theme-color-peach);
+    border-radius: 50%;
+}
+/* 
 .border-raspberry{
     border-color: #EE4E34;
-}
+} */
