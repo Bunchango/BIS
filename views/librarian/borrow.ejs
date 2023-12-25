@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borrow details</title>
+    <link rel="stylesheet" href="/styles/swiper-bundle.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"
     />
-    <link rel="stylesheet" href="borrow.css">
+    <link rel="stylesheet" href="/js/borrow.css">
 </head>
 <body>
-    <div>
         <!-- Profile Information Section -->
         <div class="profile-section">
             <!-- Profile Image -->
@@ -20,47 +22,233 @@
             <!-- Profile Details (2 Column) -->
             <div class="profile-details">
                 <h1 class="profile-name">E Duc</h1>
-                <p class="profile-role">Web Developer</p>
+                <h1 class="profile-extra">ID: 3547982478967</h1>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-10 pb-10">
+                  <!-- Card Holder 1 -->
+                  <div class="p-4 rounded-md" id="extra-reader-info">
+                    <div class=" w-10 h-10 mx-auto mb-4">
+                      <img src="img/phone-solid.svg" alt="Image 1" class="w-full h-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center">Contact number</h3>
+                    <p class="text-center">0123456789</p>
+                  </div>
+                  <div class="p-4 rounded-md" id="extra-reader-info">
+                    <div class=" w-10 h-10 mx-auto mb-4">
+                      <img src="img/cake-candles-solid.svg" alt="Image 1" class="w-full h-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center">Date of birth</h3>
+                    <p class="text-center">29/08/2004</p>
+                  </div>
+                  <div class="p-4 rounded-md" id="extra-reader-info">
+                    <div class=" w-10 h-10 mx-auto mb-4">
+                      <img src="img/right-to-bracket-solid.svg" alt="Image 1" class="w-full h-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center">Member since</h3>
+                    <p class="text-center">1/12/2023</p>
+                  </div>
+                  <div class="p-4 rounded-md" id="extra-reader-info">
+                    <div class=" w-10 h-10 mx-auto mb-4">
+                      <img src="img/book-bookmark-solid.svg" alt="Image 1" class="w-full h-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center">Books borrowed</h3>
+                    <p class="text-center">63 books</p>
+                  </div>
+                  
+                </div>
             </div>
         </div>
+        <div class="triangle-line">
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <div class="triangle"></div>
+          <!-- Add more triangles as needed -->
+      </div>
         <!-- Extra Description Section -->
         <div class="extra-description">
-            <h2 class="section-title">About Me</h2>
-            <p class="section-content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
-                Sed cursus ante dapibus diam.
-            </p>
+            <h2 class="sect-header2">Borrow Details</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10 pb-10">
+              <!-- Card Holder 1 -->
+              <div class="p-4 rounded-md" id="extra-information">
+                <div class=" w-10 h-10 mx-auto mb-4">
+                  <img src="img/calendar-days-regular.svg" alt="Image 1" class="w-full h-full">
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-center">Pickup date</h3>
+                <p class="text-center">22/12/2023</p>
+              </div>
+              <div class="p-4 rounded-md" id="extra-information">
+                <div class=" w-10 h-10 mx-auto mb-4">
+                  <img src="img/calendar.svg" alt="Image 1" class="w-full h-full">
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-center">Pickup date</h3>
+                <p class="text-center">10/1/2024</p>
+              </div>
+              <div class="p-4 rounded-md" id="extra-information">
+                <div class=" w-10 h-10 mx-auto mb-4">
+                  <img src="img/clock-solid.svg" alt="Image 1" class="w-full h-full">
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-center">Duration</h3>
+                <p class="text-center">20 days</p>
+              </div>
+              <div class="p-4 rounded-md" id="extra-information">
+                <div class=" w-10 h-10 mx-auto mb-4">
+                  <img src="img/book-solid.svg" alt="Image 1" class="w-full h-full">
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-center">Books number</h3>
+                <p class="text-center">3 books total</p>
+              </div>
+              <div class="p-4 rounded-md" id="extra-information">
+                <div class=" w-10 h-10 mx-auto mb-4">
+                  <img src="img/map-location-dot-solid.svg" alt="Image 1" class="w-full h-full">
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-center">Pickup Location</h3>
+                <p class="text-center">Library 1</p>
+              </div>
+              <div class="p-4 rounded-md" id="extra-information">
+                <div class=" w-10 h-10 mx-auto mb-4">
+                  <img src="img/ellipsis-solid.svg" alt="Image 1" class="w-full h-full">
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-center">Borrow status</h3>
+                <p class="text-center">Waiting for approve</p>
+              </div>
+
+            </div>
         </div>
-    </div>
-    <h1 id="borrow-header">Borrwing books</h1>
-    <div class="general-slider-container">
-        <div class="general-slider-wrapper">
-          <button id="general-prev-slide" class="general-slide-button material-symbols-rounded">
-            chevron_left
-          </button>
-          <ul class="general-image-list">
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-1" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-2" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-3" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-4" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-5" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-6" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-7" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-8" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-9" />
-            <img class="general-image-item" src="img/Screenshot 2023-10-14 231723.png" alt="img-10" />
-          </ul>
-          <button id="general-next-slide" class="general-slide-button material-symbols-rounded">
-            chevron_right
-          </button>
-        </div>
-        <div class="general-slider-scrollbar">
-          <div class="general-scrollbar-track">
-            <div class="general-scrollbar-thumb"></div>
+        <div class="triangle-line">
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <div class="triangle-flip"></div>
+          <!-- Add more triangles as needed -->
+      </div>
+    <div class="borrowing-cont">
+      <h1 class="sect-header">Borrwing books</h1>
+      <div class="container swiper">
+        <div class="slide-container">
+          <div class="card-wrapper swiper-wrapper">
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="img/Screenshot 2023-10-14 231723.png" alt="" />
+              </div>
+              <div class="profile-details">
+                <h1>Book name</h1>
+                <h2>Book ID</h2>
+              </div>
+            </div>
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="img/Screenshot 2023-10-14 231723.png" alt="" />
+              </div>
+              <div class="profile-details">
+                <h1>Book name</h1>
+                <h2>Book ID</h2>
+              </div>
+            </div>
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="img/Screenshot 2023-10-14 231723.png" alt="" />
+              </div>
+              <div class="profile-details">
+                <h1>Book name</h1>
+                <h2>Book ID</h2>
+              </div>
+            </div>
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="img/Screenshot 2023-10-14 231723.png" alt="" />
+              </div>
+              <div class="profile-details">
+                <h1>Book name</h1>
+                <h2>Book ID</h2>
+              </div>
+            </div>
+            <div class="card swiper-slide">
+              <div class="image-box">
+                <img src="img/Screenshot 2023-10-14 231723.png" alt="" />
+              </div>
+              <div class="profile-details">
+                <h1>Book name</h1>
+                <h2>Book ID</h2>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="swiper-button-next swiper-navBtn"></div>
+        <div class="swiper-button-prev swiper-navBtn"></div>
+        <div class="swiper-pagination"></div>
       </div>
+    </div>
+    <div class="interact-buttons">
+      <button id="decline">Decline this borrow</button>
+      <button id="accept">Accept this borrow</button>
+    </div>
 </div>
-<script src="borrow.js"></script>
+<script src="/js/swiper-bundle.min.js"></script>
+<script src="/js/borrow.js"></script>
 </body>
 </html>
