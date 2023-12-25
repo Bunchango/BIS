@@ -41,8 +41,8 @@
                     <div class="categories-select">
                         <% categories.forEach(category=> { %>
                         <label for="category">
-                            <input type="checkbox" name="category" value="<%= category %>">
-                            <%= category %>
+                            <input type="checkbox" name="category" value="<%= category %>" id="<%= category %>">
+                            <label for="<%= category %>"><%= category %></label>
                         </label>
                         <% }); %>
                     </div>

@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap');
+ *{
+    font-family: 'Poppins', sans-serif;
+ }
+
 :root {
   --theme-color-peach: #FCEDDA;
   --theme-color-orange: #EE4E34;
@@ -136,7 +141,8 @@
 }
 
 .tab button:hover {
-  background-color: #ddd;
+  background-color: #EE4E34;
+  color: #FCEDDA;
 }
 
 .tab button.active {
@@ -144,6 +150,9 @@
   border-bottom: 3px solid var(--theme-color-orange);
 }
 
+.tab button.active:hover {
+  color: #EE4E34;
+}
 .tabcontent {
   display: none;
   padding: 6px 12px;
@@ -169,6 +178,10 @@
   width: 80%;
   border-radius: 10px;
   box-shadow: -2px -2px 4px var(--theme-color-orange);
+}
+
+.custom-text-orange{
+  color: #EE4E34;
 }
 
 #pop-up-edit {
@@ -204,6 +217,18 @@
 
 .edit-body {
   padding: 10px 15px;
+
+}
+
+.layer-two img #background {
+  border-radius: 10px;
+}
+
+#background-pic {
+  
+}
+
+#avatar-pic {
 
 }
 

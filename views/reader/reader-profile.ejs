@@ -77,7 +77,7 @@
                             <div id="edit-background-box">
                                 <div class="title">Background Image</div>
                                 <div class="layer-two">
-                                    <img class="background" src="/<%= user.background%>" alt="background">
+                                    <img id="background" src="/<%= user.background%>" alt="background">
                                     <div class="edit-file-cont">
                                         <label for="background-pic">Upload:</label>
                                         <input type="file" name="background" accept="image/*" id="background-pic">
@@ -116,9 +116,10 @@
 
             <div class="menu-list">
                 <div class="tab">
-                    <button class="tablinks" onclick="openCity(event, 'my-requests')">My Requests</button>
-                    <button class="tablinks" onclick="openCity(event, 'my-loans')">My Loan</button>
-                    <button class="tablinks" onclick="openCity(event, 'my-wishlist')">My Wishlist</button>
+                    <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-cart')">My Cart</button>
+                    <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-requests')">My Requests</button>
+                    <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-loans')">My Loan</button>
+                    <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-wishlist')">My Wishlist</button>
                 </div>
             </div>
 
@@ -127,8 +128,28 @@
 
     <div class="whole-lower">
         <div class="lower">
+            <div id="my-cart" class="tabcontent">
+                <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Cart</h3>
+                <ul> 
+                    <!-- Replace with backend of my cart here -->
+                    <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
+                        <div class="flex-shrink-0">
+                          <img src="/images/lib1.jpg" alt="Image" class="w-40 h-52 rounded-xl">
+                        </div>
+                        <div class="flex-grow ">
+                          <p class="text-4xl font-semibold ml-10"> Book Title </p>
+                          <p class="text-gray-600 ml-10">This is a brief description of the book.</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                          <button class="px-4 py-3 mr-20 text-white bg-red-500 rounded hover:bg-red-600">Remove</button>
+                        </div>
+                      </div>
+                      
+                </ul>
+            </div>
+
             <div id="my-requests" class="tabcontent">
-                <h3>My Requests</h3>
+                <h3 class="text-center text-6xl custom-text-orange mt-8  ">My Requests</h3>
                 <ul>
                     <% formattedRequests.forEach(request => { %>
                     <li>
@@ -147,7 +168,7 @@
             </div>
 
             <div id="my-loans" class="tabcontent">
-                <h3>My Loans</h3>
+                <h3 class="text-center text-6xl custom-text-orange mt-8  ">My Loans</h3>
                 <ul>
                     <% loans.forEach(loan => { %>
                     <li>
@@ -163,7 +184,7 @@
             </div>
 
             <div id="my-wishlist" class="tabcontent">
-                <h3>My Wishlist</h3>
+                <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Wishlist</h3>
                 <ul>
                     <% wishlist.forEach(book => { %>
                     <li><%= book.title %></li>

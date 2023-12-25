@@ -112,7 +112,8 @@ validateUsername, validateDescription, async (req, res) => {
     if (!errors.isEmpty()) {
         return res.render('library/profile', {admin: req.user, errors: errors.array()})
     }
-
+    console.log("req.logo:", req.logo);
+    console.log("req.banner:", req.banner);
     try {
         if (!req.body.confirm) {
             // Show error must confrim to change 
