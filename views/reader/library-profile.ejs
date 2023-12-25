@@ -16,32 +16,32 @@
     <title>Library Profile</title>
 </head>
 
-<body class="">
+<body class="custom-peach">
     <%- include('../partials_readers/head_navigation.ejs'), { user: user } %>
     <a href="/library-profile/>"></a>
     <div id="upper" class="pt-9">
-        <div id="banner" class="border-4 top-9 relative h-96 mx-20 my-5 rounded-lg">
+        <div id="banner" class="border-4 top-9 relative h-96 mx-20 my-5 rounded-lg border-peach">
             <div class="absolute w-full h-full">
-                <img class="h-full w-full" src="/<%= library.banner %>" alt=" Library's Banner">
+                <img class="h-full w-full rounded-md" src="/<%= library.banner %>" alt=" Library's Banner">
             </div>
             <div class="absolute -bottom-32 left-36 flex items-center">
-                <div id="lib-ava" class="rounded-full overflow-hidden border-8 border-y-">
+                <div id="lib-ava" class="rounded-full overflow-hidden border-4 border-y- border-peach">
                     <img src="/<%= library.profilePicture %>" alt="<%= library.username %>'s Picture Profile">
                 </div>
-                <div id="lib-info" class="mt-32 ml-10">
-                    <div id="lib-username">Library name: <%= library.username %></div>
-                    <div id="lib-address">Address: <%= library.address %> address </div>
-                    <div id="lib-email">Email: <%= library.gmail %></div>
+                <div id="lib-info" class="mt-36 ml-10">
+                    <div id="lib-username"><p class="text-4xl mb-2 font-bold">Library Name: <%= library.username %></p></div>
+                    <div id="lib-address"><p class="text-l">Address: <%= library.address %> address </p></div>
+                    <div id="lib-email"><p class="text-l ">Email: <%= library.gmail %></p></div>
                 </div>
             </div>
 
         </div>
     </div>
     <div id="lower">
-        <div id="book-container" class="border-4  mx-20 my-60">
+        <div id="book-container" class="  mx-20 my-60  rounded-lg">
             <div class="book-card m-6">
 
-
+<!-- Insert Card in Here  -->
                 <div
                     class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="#">

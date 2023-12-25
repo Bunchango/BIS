@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap');
+ *{
+    font-family: 'Poppins', sans-serif;
+ }
+.custom-peach{
+ background-color: #FCEDDA;
+}
+.custom-raspberry{
+ background-color: #EE4E34;
+}
+
+.border-peach {
+    border-color: #FCEDDA;
+}
+
+.border-raspberry{
+    border-color: #EE4E34;
+}
