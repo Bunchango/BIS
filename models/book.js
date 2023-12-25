@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const categoriesArray = [
-    "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History",
+    "Mystery", "Thriller", "Romance", "Biography", "Memoir", "Self-Help", "History",
     "Science", "Fantasy", "Sci-fi", "Horror", "Action", "Adventure", "Children's",
     "Comedy", "Poetry", "Philosophy", "Science", "Religion", "Text-book", "Journal", "Other"
 ]

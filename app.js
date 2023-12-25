@@ -125,24 +125,59 @@ async function saveBook() {
     try {
         const { Book } = require("./models/book")
         // Create a new book object
-        const book = new Book({
-            title: 'To Kill a Mockingbird',
-            coverImages: ['uploads/tokillamockingbird1.jpg', 'uploads/tokillamockingbird2.jpg', 'uploads/tokillamockingbird3.jpg'],
-            author: 'Harper Lee',
-            category: [" Romance"],
-            description: 'A novel about the injustices of the adult world as seen through the eyes of a young girl in the American South.',
-            publishDate: new Date('1960-07-11'),
-            library: '65859e0789225b047162498a', // replace with the id of the library
-            dateImported: new Date(),
-            amount: 10,
-        });
-        const savedBook = await book.save();
-        console.log('Book saved successfully:', savedBook);
+        const books = [
+            {
+                title: 'To Kill a Mockingbird',
+                coverImages: ['uploads/tokillamockingbird1.jpg', 'uploads/tokillamockingbird2.jpg', 'uploads/tokillamockingbird3.jpg'],
+                author: 'Harper Lee',
+                category: ["Romance"],
+                description: 'A novel about the injustices of the adult world as seen through the eyes of a young girl in the American South.',
+                publishDate: new Date('1960-07-11'),
+                library: '65859e0789225b047162498a', // replace with the id of the library
+                dateImported: new Date(),
+                amount: 10,
+            },
+            {
+                title: 'The Great Gatsby',
+                coverImages: ['uploads/greatgatsby1.jpg', 'uploads/greatgatsby2.jpg', 'uploads/greatgatsby3.jpg'],
+                author: 'F. Scott Fitzgerald',
+                category: ["Mystery"],
+                description: 'The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.',
+                publishDate: new Date('1925-04-10'),
+                library: '65859e0789225b047162498a', // replace with the id of the library
+                dateImported: new Date(),
+                amount: 5,
+            },
+            {
+                title: 'To Kill a Mockingbird',
+                coverImages: ['uploads/tokillamockingbird1.jpg', 'uploads/tokillamockingbird2.jpg', 'uploads/tokillamockingbird3.jpg'],
+                author: 'Harper Lee',
+                category: ["Thriller"],
+                description: 'A novel about the injustices of the adult world as seen through the eyes of a young girl in the American South.',
+                publishDate: new Date('1960-07-11'),
+                library: '65859e0789225b047162498a', // replace with the id of the library
+                dateImported: new Date(),
+                amount: 8,
+            },
+            {
+                title: 'The Catcher in the Rye',
+                coverImages: ['uploads/catcherintherye1.jpg', 'uploads/catcherintherye2.jpg', 'uploads/catcherintherye3.jpg'],
+                author: 'J.D. Salinger',
+                category: ["Comedy"],
+                description: 'A novel about teenage angst and alienation.',
+                publishDate: new Date('1951-07-16'),
+                library: '65859e0789225b047162498a', // replace with the id of the library
+                dateImported: new Date(),
+                amount: 7,
+            }
+        ];
+        const savedBooks = await Book.insertMany(books);
+        console.log('Book saved successfully:', savedBooks);
     } catch (err) {
         console.error('Error saving book:', err);
     }
 }
-saveBook()
+//saveBook()
    
 
 app.listen(PORT, () => {
