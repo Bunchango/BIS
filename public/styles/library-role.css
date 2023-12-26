@@ -407,9 +407,9 @@ nav #list li button {
 
 #chart-container {
     width: 100%;
-    height: 30vh;
-    border: 1px solid black;
-    margin: 30px;
+    display: flex;
+    justify-content: center;
+    padding: 20px 100px;
 }
 
 #lower-container {
