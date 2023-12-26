@@ -5,6 +5,7 @@ const { validateBookCreation, validateUsername } = require("../config/validator"
 const upload = require("./../config/multer");
 const { validationResult } = require("express-validator");
 const { Librarian, Reader } = require("../models/user");
+const Notice = require("../models/notice");
 const nodemailer = require("nodemailer");
 
 // Flow: Librarian accept the pickup request created by the user or decline it. 
@@ -20,9 +21,6 @@ const nodemailer = require("nodemailer");
 // When set book as returned, librarian has to determine which book is returned.Automatically increment available of books returned by 1, and decrease amount by 1 of books that are not returned.
 // After some time the reader return the book
 // The librarian determine if the books are returned and confirm the return
-
-// TODO: Create a schema for pickup request, modify borrow schemas, send email when changing information of the record
-// TODO: Real time chat between librarians and readers
 
 const router = require("express").Router();
 
@@ -138,9 +136,22 @@ router.get("/book_detail/:id", async (req, res) => {
     }
 })
 
-router.post("/book_detail/:id", isLibrarian, (req, res) => {
+// TODO: Finish this
+router.post("/book_detail/:id", upload.fields([{ name: "cover_1" }, { name: "cover_2" }, { name: "cover_3" }]), isLibrarian, (req, res) => {
     // Change book detail (when changing amount, only allow reducing the amount at most by the available amount)
-
+    // Change title, author, images, category, description, amount
+    try {
+        const updateFields = {}
+        if (req.body.title) updateFields.title = req.body.title;
+        if (req.body.author) updateFields.author = req.body.author;
+        if (req.body.categories) updateFields.categories = req.body.category;
+        if (req.body.description) updateFields.description = req.body.description;
+        
+        // Change images and change amount
+        
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 })
 
 // Request, Pickup and Borrow management
@@ -202,92 +213,142 @@ router.post("/borrow/update_date/:id", async (req, res) => {
 })
 
 router.post("/borrow/return/:id", async (req, res) => {
-    // Librarian determines which book is returned or lost
-    // If a book is set as lost, automatically decrease the amount by 1
-    // If a book is set as returned, automatically increase availability by 1
-    // If all books are not outstanding, set the borrow as completed
-    let session; // Declare the session variable outside the try block
+    const { returned, lost } = req.body;
+    const session = await mongoose.startSession();
 
     try {
-        const { returned, lost } = req.body;
+        await session.withTransaction(async () => {
+            // Change books states and increment/decrease
+            await Borrow.updateOne(
+                { _id: req.params.id, "books": { $in: returned } },
+                { $set: { "books.$[].status": "returned" } },
+                { session }
+            );
 
-        // Use a transaction for atomicity
-        session = await mongoose.startSession();
-        session.startTransaction();
+            await Borrow.updateOne(
+                { _id: req.params.id, "books": { $in: lost } },
+                { $set: { "books.$[].status": "lost" } },
+                { session }
+            );
+            
+            // Update available and amount for returned and lost books
+            await Book.updateMany(
+                { _id: { $in: [...returned, ...lost] } },
+                {
+                    $inc: {
+                        available: returned ? 1 : 0,
+                        amount: lost ? -1 : 0
+                    }
+                },
+                { session }
+            );
 
-        // Change books states and increment/decrease
-        await Borrow.updateOne(
-            { _id: req.params.id, "books": { $in: returned } },
-            { $set: { "books.$[].status": "returned" } },
-            { session }
-        );
+            // Check if all books are not outstanding
+            const allBooksReturnedOrLost = await Borrow.findOne({
+                _id: req.params.id,
+                "books.status": { $ne: "outstanding" }
+            }).session(session);
 
-        await Borrow.updateOne(
-            { _id: req.params.id, "books": { $in: lost } },
-            { $set: { "books.$[].status": "lost" } },
-            { session }
-        );
+            if (allBooksReturnedOrLost) {
+                // Update the borrow record status to "Completed"
+                const borrow = await Borrow.findByIdAndUpdate(req.params.id, { status: "Completed" }, { session });
+                // Send notfications
+                transporter.sendMail({
+                    to: borrow.reader.gmail,
+                    subject: "VxNhe Borrow completed",
+                    html: `Your borrow record has been set to completed`,
+                })
 
-        // Update available and amount for returned and lost books
-        await Book.updateMany(
-            { _id: { $in: [...returned, ...lost] } },
-            {
-                $inc: {
-                    available: returned ? 1 : 0,
-                    amount: lost ? -1 : 0
+                await notify(borrow.reader._id, "Borrow completed", `Your borrow record is completed`);
+            }
+
+            // Send notification
+            const operations = [];
+            const borrow = await Borrow.findById(req.params.id).populate("reader");
+
+            for (let i = 0; i < returned.length; i++) {
+                const bookId = returned[i];
+                const book = await Book.findById(bookId);
+
+                if (book.available === 0) {
+                    const notification = {
+                        title: `Book wishlisted available`,
+                        message: `${book.title} is now available`,
+                        createdOn: Date.now()
+                    };
+
+                    operations.push({
+                        updateMany: {
+                            filter: { wishList: { $in: [bookId] } },
+                            update: { $push: { notification: notification } },
+                            upsert: true
+                        }
+                    });
+
+                    // Send email
+                    transporter.sendMail({
+                        to: borrow.reader.gmail,
+                        subject: "VxNhe wishlisted book available",
+                        html: `${book.title} is not available`,
+                    });
                 }
-            },
-            { session }
-        );
+            }
 
-        // Check if all books are not outstanding
-        const allBooksReturnedOrLost = await Borrow.findOne({
-            _id: req.params.id,
-            "books.status": { $ne: "outstanding" }
-        }).session(session);
-
-        if (allBooksReturnedOrLost) {
-            // Update the borrow record status to "Completed"
-            const borrow = await Borrow.findByIdAndUpdate(req.params.id, { status: "Completed" }, { session });
-            // Send notfications
-            transporter.sendMail({
-                to: borrow.reader.gmail,
-                subject: "VxNhe Borrow completed",
-                // Add library of the borrow, add links, etc
-                html: `Your borrow record has been set to completed`,
-            })
-
-            await notify(borrow.reader._id, "Borrow completed", `Your borrow record is completed`);
-        }
-
-        // TODO: Send notifications to all users who are book marking the returned books
-
-        await session.commitTransaction();
+            if (operations.length > 0) {
+                await Reader.bulkWrite(operations);
+            }
+        });
 
         res.redirect("/librarian/customer");
     } catch (e) {
-        // Check if session is defined before using it
-        if (session) {
-            await session.abortTransaction();
-            session.endSession();
-        }
         res.status(400).json({ errors: e });
+    } finally {
+        session.endSession();
     }
 });
+
 
 router.post("/borrow/overdue/:id", async (req, res) => {
     // Mark borrow as overdue and send notifications
     try {
-        
+        const borrow = await Borrow.findByIdAndUpdate(req.params.id, {status: "Overdue"}, {new: true}).populate("reader");
+        // Send notification
+        await notify(borrow.reader._id, "Borrow overdue", "Your borrow is overdue");
+    
+        // Send email
+        transporter.sendMail({
+            to: borrow.reader.gmail,
+            subject: "VxNhe borrow overdue",
+            // Add link
+            html: `Your borrow is overdue`,
+        });
     } catch(e) {
         res.status(400).json({ errors: e });
     }
 })
 
 router.post("/borrow/cancel/:id", async (req, res) => {
-    // Mark borrow as canceled, decrease amount by 1 and send notifications
+    // Mark borrow as canceled, decrease amount of all books by 1 and send notifications
     try {
+        const borrow = await Borrow.findByIdAndUpdate(req.params.id, {status: "Canceled"}, {new: true});
 
+        // Decrease amount of all books by 1
+        const bookIds = borrow.books.map(book => book._id); // extract book IDs from the borrow record
+
+        await Book.updateMany(
+          { _id: { $in: bookIds } }, // select books that are in the borrow record
+          { $inc: { amount: -1 } }   // decrease the 'amount' of each selected book by 1
+        )
+
+        // Send notification
+        transporter.sendMail({
+            to: borrow.reader.gmail,
+            subject: "VxNhe borrow canceled",
+            // Add reason
+            html: `Your borrow is canceled`,
+        });
+
+        await notify(borrow.reader._id, "Borrow canceled", "Your borrow is canceled");
     } catch(e) {
         res.status(400).json({ errors: e });
     }
@@ -329,7 +390,6 @@ router.post("/pickup/update_date/:id", async (req, res) => {
 })
 
 router.post("/pickup/cancel/:id", async (req, res) => {
-    // Change status to canceled, increment available of all books by 1. Can't change status from canceled to anything else
     try {
         const { cancelReason } = req.body;
         const pickup = await Pickup.findByIdAndUpdate(req.params.id, { status: "Canceled" }, { new: true }).populate("reader");
@@ -338,33 +398,60 @@ router.post("/pickup/cancel/:id", async (req, res) => {
         transporter.sendMail({
             to: pickup.reader.gmail,
             subject: "VxNhe Pickup pickup modified",
-            // Add more detail (reason for cancel)
             html: `Your pickup has been canceled for ${cancelReason}`,
-        })
+        });
 
         await notify(pickup.reader._id, "Update pickup status", `Your pickup has been canceled for ${cancelReason}`);
 
-        // Increment available of books by 1. If the previous available is 0, then notify user's who wishlisted the books
-        for (let book of pickup.books) {
-            const bookRecord = await Book.findById(book._id);
+        // Get all books in the pickup
+        const books = await Book.find({_id: {$in: pickup.books}});
 
-            if (bookRecord.available === 0) {
-                // Notify readers
-                const readers = await Reader.find({ wishlist: bookRecord._id });
+        const operations = [];
+        for (let i = 0; i < books.length; i++) {
+            const book = books[i];
 
-                for (let reader of readers) {
-                    await notify(reader._id, `${bookRecord.title} available`, `The ${bookRecord.title} is now available to borrow`)
-                }
+            if (book.available === 0) {
+                const notification = {
+                    title: `Book wishlisted available`,
+                    message: `${book.title} is now available`,
+                    createdOn: Date.now()
+                };
+
+                operations.push({
+                    updateMany: {
+                        filter: { wishList: { $in: [bookId] } },
+                        update: { $push: { notification: notification } },
+                        upsert: true
+                    }
+                });
+
+                // Send email
+                transporter.sendMail({
+                    to: pickup.reader.gmail,
+                    subject: "VxNhe wishlisted book available",
+                    html: `${book.title} is not available`,
+                });
             }
 
-            await Book.findByIdAndUpdate(book._id, { $inc: { available: 1 } });
+            operations.push({
+                "updateOne": {
+                    "filter": { "_id": book._id },
+                    "update": { "$inc": { "available": 1 } }
+                }
+            });
+        }
+
+
+        if (operations.length > 0) {
+            await Book.bulkWrite(operations);
         }
 
         res.redirect("/librarian/customer");
     } catch (e) {
         res.status(400).json({ errors: e });
     }
-})
+});
+
 
 router.post("/pickup/complete/:id", async (req, res) => {
     // Change status to completed, create a borrow record
@@ -491,6 +578,50 @@ router.post("/request/decline/:id", async (req, res) => {
 // Dashboard 
 router.get("/dashboard", isLibrarian, (req, res) => {
     res.render("librarian/dashboard");
+})
+
+// Add notification to the library
+router.post("/add_notify", upload.single("image"), async (req, res) => {
+    try {
+        const {description} = req.body;
+        const notice = new Notice({
+            library: req.user.library,
+            description: description, 
+            image: req.file.path,
+        })
+
+        await notice.save();
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
+// Librarian profile
+router.get("/profile", isLibrarian, async (req, res) => {
+    res.render("librarian/profile", {librarian: req.user, errors: [] });
+})
+
+router.post("/profile", isLibrarian, validateUsername, upload.single("image"), async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('librarian/profile', {librarian: req.user, errors: errors.array()})
+    }
+
+    try {
+        if (!req.body.confirm) {
+            // Show error must confrim to change 
+            res.render("library/profile", {admin: req.user, errors: [{msg: "You must confirm the changes"}]})
+        }
+
+        const updateFields = {};
+        if (req.body.username) updateFields.username = req.body.username; 
+        if (req.file.path) update.profilePicture = req.file.path;
+
+        await Librarian.findOneAndUpdate({_id: req.user.__id}, updateFields); 
+        res.redirect("/librarian/profile");
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
 })
 
 module.exports = { notify, transporter };
