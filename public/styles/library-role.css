@@ -168,7 +168,7 @@ nav #list li #create-librarians {
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* Create Librarian */
+/* Create Librarian & Update Profile */
 nav #list li button {
     width: 40px;
     height: fit-content;
@@ -378,6 +378,12 @@ nav #list li button {
     #create-librarians-body,
     #update-body ::-webkit-scrollbar {
         width: 0;
+    }
+
+    #update-body .user-input-box .upload-button span{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
