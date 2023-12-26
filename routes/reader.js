@@ -11,7 +11,6 @@ const uploads = require("../config/multer");
 const { notify, transporter } = require("./librarian");
 const Library = require("../models/library");
 const { localsName } = require("ejs");
-// TODO: Add model and routes for cart, add routes for changing username, password and profile pic
 
 function isReader(req, res, next) {
   if (req.isAuthenticated && req.user && req.user.__t === "Reader") {
@@ -107,15 +106,17 @@ router.get("/search", searchBooks, paginatedResults, renderSearchResultPage);
 // Book Detail Route
 router.get("/book_detail/:id", async (req, res) => {
   try {
-    const book = await Book.findById(
-      new mongoose.Types.ObjectId(req.params.id),
-    );
+    const book = await Book.findById(req.params.id);
 
     if (!book) {
       return res.status(404).json({ error: "Book not found" });
     }
+    const isUserReader = req.user instanceof Reader;
 
-    res.render("book/book_detail", { book, user: req.user });
+    res.render("book/book_detail", {
+      book,
+      user: isUserReader ? req.user : null,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ errors: err });
