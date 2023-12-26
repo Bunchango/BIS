@@ -118,9 +118,7 @@ router.get("/search", searchBooks, paginatedResults, renderSearchResultPage);
 // Book Detail Route
 router.get("/book_detail/:id", async (req, res) => {
   try {
-    const book = await Book.findById(
-      new mongoose.Types.ObjectId(req.params.id),
-    );
+    const book = await Book.findById(req.params.id).populate("library");
 
     if (!book) {
       return res.status(404).json({ error: "Book not found" });
@@ -261,9 +259,8 @@ router.post("/cart/request", isReader, async (req, res) => {
 
     notify(req.user._id, "Request sent", "Request sent successfully");
 
-    res
-      .status(201)
-      .json({ message: "Request sent successfully", request: newRequest });
+    res.status(201);
+    res.redirect("/reader/profile/#my-requests");
   } catch (err) {
     console.error("Error:", err);
     res.status(500).redirect("/reader/profile/#my-requests");
