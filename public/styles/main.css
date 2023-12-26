@@ -382,7 +382,7 @@
     font-size: 2rem;
     font-weight: 600;
     text-align: center;
-
+    margin-top: 5px;
     color: var(--theme-color-peach);
 }
 
@@ -401,10 +401,33 @@
     color: var(--theme-color-peach);
 }
 
-#bookmark-icon .fa-solid .fa-star {
-    background-color: yellow;
+/* #bookmark-icon-container{
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+} */
+
+.bookmark-icon {
+    font-size: 20px;
     cursor: pointer;
 }
+
+.fa-star {
+    color: var(--theme-color-peach);
+}
+
+
+#bookmark-icon:active {
+   
+}
+
+.bookmarked {
+
+}
+
+
 
 @media only screen and (max-width:1500px) {
     #account-hovering {

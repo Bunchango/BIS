@@ -17,21 +17,25 @@
             </div>
             <div class="center">
                 <div class="list">
-                    <div class="item" data-key="1">
-                        <div class="img">
-                            <img src="/images/test-bookmark.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title">THE DIARY OF A YOUNG GIRL</div>
-                            <div class="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                                exercitationem aspernatur dicta labore
+                    <% if (user.wishList) { %> 
+                        <% wishList.forEach( book => { %>
+                        <div class="item" data-bookid="<%= book._id %>">
+                            <div class="img">
+                                <img src="/<%= book.coverImages[0] %>" alt="<%= book.title %>'s Picture">
                             </div>
-                            <button class="remove"><i class="fa-solid fa-trash"></i></button>
+                            <div class="content">
+                                <div class="title"><%= book.title %></div>
+                                <div class="des">
+                                    <%= book.description %>
+                                </div>
+                                <button class="remove"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </div>
-                    </div>
+                        <% } %>
+                    <% } %>
+                    
 
-                    <div class="item" data-key="2">
+                    <!-- <div class="item" data-key="2">
                         <div class="img">
                             <img src="/images/test-bookmark.jpg" alt="">
                         </div>
@@ -71,7 +75,8 @@
                             </div>
                             <button class="remove"><i class="fa-solid fa-trash"></i></button>
                         </div>
-                    </div>
+                    </div> -->
+
                 </div>
             </div>
         </div>

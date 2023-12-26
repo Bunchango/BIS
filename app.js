@@ -80,7 +80,9 @@ app.get("/homepage", async (req, res) => {
         // Query data of 6 libraries
         const libraries = await Library.find().limit(6);
         const awardBooks = await Book.find().limit(6);
-        res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries, books: awardBooks });
+        let wishListBooksId = req.user.wishList
+        const wishlistBooks = await Book.find({_id: {$in: wishListBooksId}})
+        res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries, books: awardBooks, wishList: wishlistBooks });
     } else if (req.user && req.user.__t === "Librarian") {
         res.redirect("/librarian/dashboard");
     } else if (req.user && req.user.__t === "Library") {

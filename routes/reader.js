@@ -295,66 +295,83 @@ router.post("/request/cancel/:id", isReader, async (req, res) => {
   }
 });
 
-// Add book to wishlist route
+// Add and remove book from wishlist route
 router.post("/wishlist/:id", isReader, async (req, res) => {
   try {
+    const action = req.query.action; // check the action
+    console.log(action)
     const reader = await Reader.findOne({ _id: req.user._id });
-
     if (!reader) {
-      return res.status(404).json({ error: "Reader not found" });
+        return res.status(404).json({ error: "Reader not found", success: false });
     }
 
     const book = await Book.findOne({ _id: req.params.id });
+    if (action === 'add') {
 
-    if (reader.wishList.includes(book)) {
-      return res.status(400).json({ error: "Book already in wishlist" });
+      if (reader.wishList.includes(book)) {
+        return res.status(400).json({ error: "Book already in wishlist",  success: false });
+      } 
+    
+      reader.wishList.push(book);
+      
+      await reader.save();
+      return res.status(200).json({ success: true })
+
+    } else if (action === 'remove') {
+
+      if (!reader.wishList.map(String).includes(book._id.toString())) { // compare with the string
+        return res.status(200).json({ error: "Book not in wishlist", success: false });
+      }
+
+      reader.wishList.pull(book);
+      await reader.save();
+      return res.status(200).json({ success: true })
     }
-
-    reader.wishList.push(book);
-
     // Notification
-    await notify(
+    const message = action === 'add' ? "Added to wishlist" : "Removed from wishlist";
+    const notificationMessage = `${book.title} has been ${message.toLowerCase()}.`;
+    await notify  (
       req.user._id,
-      "Added to wishlist",
-      `${book.title} has been added to your wishlist.`,
+      message,
+      notificationMessage,
     );
 
-    await reader.save();
   } catch (err) {
+    console.log(err)
     res.status(400).json({ errors: err });
   }
 });
 
 // Remove book from wishlist route
-router.post("/wishlist/:id", isReader, async (req, res) => {
-  try {
-    const reader = await Reader.findOne({ _id: req.user._id });
+// router.post("/wishlist/:id", isReader, async (req, res) => {
+//   try {
+//     const reader = await Reader.findOne({ _id: req.user._id });
 
-    if (!reader) {
-      return res.status(404).json({ error: "Reader not found" });
-    }
+//     if (!reader) {
+//       return res.status(404).json({ error: "Reader not found" });
+//     }
 
-    const book = await Book.findOne({ _id: req.params.id });
+//     const book = await Book.findOne({ _id: req.params.id });
 
-    if (!reader.wishList.includes(book)) {
-      return res.status(400).json({ error: "Book not in wishlist" });
-    }
+//     if (!reader.wishList.includes(book)) {
+//       return res.status(400).json({ error: "Book not in wishlist" });
+//     }
 
-    reader.wishList.pull(book);
-    await reader.save();
-    res.render("reader/wishlist", { wishList: wishList, user: req.user });
+//     reader.wishList.pull(book);
+//     await reader.save();
+//     res.render("reader/wishlist", { wishList: wishList, user: req.user });
 
-    // Notification
-    await notify(
-      req.user._id,
-      "Removed from wishlist",
-      `${book.title} has been removed from your wishlist.`,
-    );
-  } catch (err) {
-    res.status(400).json({ errors: err });
-    res.render("reader/wishlist", { wishList: wishList, user: req.user });
-  }
-});
+//     // Notification
+//     await notify(
+//       req.user._id,
+//       "Removed from wishlist",
+//       `${book.title} has been removed from your wishlist.`,
+//     );
+//   } catch (err) {
+//     res.status(400).json({ errors: err });
+//     res.render("reader/wishlist", { wishList: wishList, user: req.user });
+//   }
+// });
 
 // Middleware to fetch loans
 const fetchLoans = async (req, res, next) => {
