@@ -375,36 +375,6 @@ router.post("/wishlist/:id", isReader, async (req, res) => {
   }
 });
 
-// Remove book from wishlist route
-// router.post("/wishlist/:id", isReader, async (req, res) => {
-//   try {
-//     const reader = await Reader.findOne({ _id: req.user._id });
-
-//     if (!reader) {
-//       return res.status(404).json({ error: "Reader not found" });
-//     }
-
-//     const book = await Book.findOne({ _id: req.params.id });
-
-//     if (!reader.wishList.includes(book)) {
-//       return res.status(400).json({ error: "Book not in wishlist" });
-//     }
-
-//     reader.wishList.pull(book);
-//     await reader.save();
-//     res.render("reader/wishlist", { wishList: wishList, user: req.user });
-
-//     // Notification
-//     await notify(
-//       req.user._id,
-//       "Removed from wishlist",
-//       `${book.title} has been removed from your wishlist.`,
-//     );
-//   } catch (err) {
-//     res.status(400).json({ errors: err });
-//     res.render("reader/wishlist", { wishList: wishList, user: req.user });
-//   }
-// });
 
 // Show cart route
 const fetchCart = async (req, res, next) => {

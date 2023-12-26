@@ -184,3 +184,4 @@ icons.forEach(icon => {
    });
 });
 
+// TODO: Remove from my wishlist in the profile

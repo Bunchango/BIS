@@ -217,14 +217,29 @@
 
             <div id="my-wishlist" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Wishlist</h3>
-                <ul>
-                    <% wishList.forEach(book => { %>
-                    <li><%= book.title %></li>
-                    <form action="/reader/remove-wishlist/<%= book._id %>" method="POST" class="flex justify-center">
-                        <button class="px-4 py-3 my-5 text-white bg-blue-500 rounded hover:bg-blue-600">Remove</button>
-                    </form>
-                    <% }); %>
-                </ul>
+                <div class="center">
+                    <div class="list">
+                        <% if (user.wishList &&  user.wishList.length > 0) { %> 
+                            <% wishList.forEach( book => { %>
+                            <div class="item">
+                                <div class="img">
+                                    <img src="/<%= book.coverImages[0] %>" alt="<%= book.title %>'s Picture">
+                                </div>
+                                <div class="content">
+                                    <div class="title"><%= book.title %></div>
+                                    <div class="des">
+                                        <%= book.description %>
+                                    </div>
+                                    <button class="remove" data-bookid="<%= book._id %>"><i class="fa-solid fa-trash"></i></button>
+                                    <a id="view-detail" href="/reader/book_detail/<%= book._id %>">View</a>
+                                </div>
+                            </div>
+                            <% }) %>
+                        <% } else { %>
+                            <div id="empty-wishList">Your WishList Empty</div>
+                        <% } %> 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
