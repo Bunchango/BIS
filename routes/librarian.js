@@ -8,19 +8,7 @@ const { Librarian, Reader } = require("../models/user");
 const Notice = require("../models/notice");
 const nodemailer = require("nodemailer");
 
-// Flow: Librarian accept the pickup request created by the user or decline it. 
-// If Accept, redirect librarian to page to create a pickup and change request status to accept
-// If Decline, change request status to decline (Reader can reopen the request)
-// Librarian decides on the pickup date, determine which book to let the reader borrow
-// User go to the library and pickup the books then librarian create a borrow record
-// If Reader doesn't pickup the book, librarian can set the pickup as canceled 
-// When change pickup status to canceled, decrease amount books of the pickup by 1, if change from canceled to scheduled, also increase pickup by 1
-// If Reader picks up the book, create a borrow record
-// Notify the reader if it is turned into overdued
-// If borrow is set as canceled, books are considered lost
-// When set book as returned, librarian has to determine which book is returned.Automatically increment available of books returned by 1, and decrease amount by 1 of books that are not returned.
-// After some time the reader return the book
-// The librarian determine if the books are returned and confirm the return
+// TODO: add notification button to dashboard page, finish borrow page, finish profile page
 
 const router = require("express").Router();
 
@@ -75,7 +63,9 @@ router.get("/inventory", isLibrarian, async (req, res) => {
     // Display all the books
     try {
         const books = await Book.find({ library: req.user.library });
-        res.render("librarian/inventory", { books: books });
+        const data = {};
+        data.books = books;
+        res.render("librarian/inventory", { data: data });
     } catch (e) {
         res.status(400).json({ errors: e });
     }
@@ -129,14 +119,26 @@ router.get("/book_detail/:id", async (req, res) => {
     // View book detail
     try {
         const book = await Book.findById(req.params.id);
-
-        res.render("book/book_detail", { book: book });
+        
+        const data = {};
+        if (book) data.book = book;
+        
+        if (req.isAuthenticated && req.user && req.user.__t === "Librarian") data.isLibrarian = true;
+        res.render("book/book_detail", { data: data, categories: categoriesArray });
     } catch (e) {
         res.status(400).json({ errors: e });
     }
 })
 
-// TODO: Finish this
+router.post("/book_detail/delete/:id", async (req, res) => {
+    try {
+        await Book.findByIdAndDelete(req.params.id); 
+        res.redirect("/librarian/inventory");
+    } catch(e) {
+        res.status(400).json({ errors: e });
+    }
+})
+
 router.post("/book_detail/:id", upload.fields([{ name: "cover_1" }, { name: "cover_2" }, {name: "cover_3"}]), isLibrarian, async (req, res) => {
     // Change book detail (when changing amount, only allow reducing the amount at most by the available amount)
     // Change title, author, images, category, description, amount
@@ -146,7 +148,7 @@ router.post("/book_detail/:id", upload.fields([{ name: "cover_1" }, { name: "cov
         const updateFields = {}
         if (req.body.title) updateFields.title = req.body.title;
         if (req.body.author) updateFields.author = req.body.author;
-        if (req.body.categories) updateFields.categories = req.body.category;
+        if (req.body.category) updateFields.category = req.body.category;
         if (req.body.description) updateFields.description = req.body.description;
         
         // Update cover images
@@ -182,7 +184,8 @@ router.post("/book_detail/:id", upload.fields([{ name: "cover_1" }, { name: "cov
         // Perform the update
         await Book.findByIdAndUpdate(req.params.id, updateFields);
 
-        // Render the page
+        // Render the inventory
+        res.redirect("/librarian/inventory");
     } catch(e) {
         res.status(400).json({ errors: e });
     }
@@ -203,15 +206,30 @@ async function notify(readerID, title, message) {
 router.get("/customer", isLibrarian, async (req, res) => {
     // Show all pickups, borrows, and requests of a library
     try {
-        const requests = await Request.find({ library: req.user.library });
-        const pickups = await Pickup.find({ library: req.user.library });
-        const borrows = await Borrow.find({ library: req.user.library });
+        const requests = await Request.find({ library: req.user.library }).populate("reader");
+        const pickups = await Pickup.find({ library: req.user.library }).populate("reader");
+        const borrows = await Borrow.find({ library: req.user.library }).populate("reader");
 
-        res.render("librarian/customer", { requests: requests, pickups: pickups, borrows: borrows });
+        const data = {};
+
+        if (requests.length > 0) {
+            data.requests = requests;
+        }
+
+        if (pickups.length > 0) {
+            data.pickups = pickups;
+        }
+
+        if (borrows.length > 0) {
+            data.borrows = borrows;
+        }
+
+        res.render("librarian/customer", data);
     } catch (e) {
         res.status(400).json({ errors: e });
     }
-})
+});
+
 
 router.get("/borrow/:id", isLibrarian, async (req, res) => {
     // Display borrow information
