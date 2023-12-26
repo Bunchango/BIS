@@ -13,9 +13,13 @@ const bookSchema = new mongoose.Schema({
         minlength: [5, "Book name must be at least 5 characters"],
         maxlength: [24, "Book name must be at most 24 characters"]
     },
-    coverImages: [{
-        type: String,
-    }],
+    coverImages: {
+        type: [{
+            type: String,
+            default: "default_cover.png"
+        }],
+        validate: [coverImagesValidator, "At most 3 cover images are required"]
+    },
     author: {
         type: String,
         required: true,
@@ -61,6 +65,9 @@ bookSchema.pre("save", function (next) {
     next();
 })
 
+function coverImagesValidator(val) {
+    return val.length <= 3;
+}
 
 const Book = mongoose.model("Book", bookSchema);
 
