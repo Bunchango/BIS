@@ -8,7 +8,6 @@ const { Reader } = require("./../models/user");
 const { validateUsername, validatePassword } = require("./../config/validator");
 const { validationResult } = require("express-validator");
 const uploads = require("../config/multer");
-const { notify, transporter } = require("./librarian");
 const Library = require("../models/library");
 const { localsName } = require("ejs");
 
@@ -17,6 +16,19 @@ function isReader(req, res, next) {
     return next();
   }
   res.redirect("/homepage");
+}
+
+async function notify(readerID, title, message) {
+  // Function to send notification to reader
+  const notification = {
+    title: title,
+    message: message,
+    createdOn: Date.now(),
+  };
+
+  await Reader.findByIdAndUpdate(readerID, {
+    $push: { notification: notification },
+  });
 }
 
 // Middleware to handle advanced book search
@@ -106,58 +118,54 @@ router.get("/search", searchBooks, paginatedResults, renderSearchResultPage);
 // Book Detail Route
 router.get("/book_detail/:id", async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findById(
+      new mongoose.Types.ObjectId(req.params.id),
+    );
 
     if (!book) {
       return res.status(404).json({ error: "Book not found" });
     }
-    const isUserReader = req.user instanceof Reader;
 
-    res.render("book/book_detail", {
-      book,
-      user: isUserReader ? req.user : null,
-    });
+    res.render("book/book_detail", { book, user: req.user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ errors: err });
   }
 });
 
-// Show cart route
-router.get("/cart", isReader, async (req, res) => {
-  try {
-    const cart = await Cart.findOne({ reader: req.user._id }).populate(
-      "books.book",
-    );
-
-    if (!cart) {
-      return res.status(404).json({ error: "Cart not found" });
-    }
-
-    res.render("reader/cart", { cart: cart, user: req.user });
-  } catch (err) {
-    res.status(400).json({ errors: err });
-    res.redirect("/homepage");
-  }
-});
-
 // Add book to cart route
-router.post("/cart/:id", isReader, async (req, res) => {
+router.post("/add-cart/:id", isReader, async (req, res) => {
   try {
     const bookId = req.params.id;
 
-    // Check if the book is already in the user's cart
+    // Check if the user has an existing cart
     const existingCart = await Cart.findOne({
       reader: req.user._id,
-      "books.book": bookId,
     });
 
     if (existingCart) {
-      return res.status(400).json({ error: "Book is already in your cart" });
+      // Check if the book is already in the cart
+      const isBookInCart = existingCart.books.some(
+        (item) => item.book.toString() === bookId,
+      );
+      if (isBookInCart) {
+        return res.status(400).json({ error: "Book is already in your cart" });
+      }
+
+      // If the book is not in the cart, add it
+      await Cart.findOneAndUpdate(
+        { reader: req.user._id },
+        { $addToSet: { books: { book: bookId } } },
+      );
+
+      return res.status(200).json({
+        message: "Book added to cart successfully",
+        cart: existingCart,
+      });
     }
 
+    // If the user doesn't have an existing cart, create a new cart and add the book
     const date = new Date();
-
     const newCart = new Cart({
       reader: req.user._id,
       books: [{ book: bookId }],
@@ -169,6 +177,12 @@ router.post("/cart/:id", isReader, async (req, res) => {
     res
       .status(201)
       .json({ message: "Book added to cart successfully", cart: newCart });
+
+    notify(
+      req.user._id,
+      "Book added to cart",
+      "Book added to cart successfully",
+    );
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Internal Server Error" });
@@ -176,7 +190,7 @@ router.post("/cart/:id", isReader, async (req, res) => {
 });
 
 // Remove book from cart route
-router.post("/cart/:id", isReader, async (req, res) => {
+router.post("/remove-cart/:id", isReader, async (req, res) => {
   try {
     const bookId = req.params.id;
 
@@ -187,15 +201,31 @@ router.post("/cart/:id", isReader, async (req, res) => {
     });
 
     if (!existingCart) {
-      return res.status(400).json({ error: "Book is not in your cart" });
+      console.log("Book not found in cart");
+      return res.status(400).redirect("/reader/profile");
     }
 
-    await Cart.deleteOne({ reader: req.user._id, "books.book": bookId });
+    if (existingCart.books.length > 1) {
+      // If the cart has more than one book, remove the specified book
+      await Cart.findOneAndUpdate(
+        { reader: req.user._id },
+        { $pull: { books: { book: bookId } } },
+      );
+    } else if (existingCart.books.length === 1) {
+      // If the cart has only one book, delete the entire cart
+      await Cart.deleteOne({ reader: req.user._id });
+    }
 
-    res.status(200).json({ message: "Book removed from cart successfully" });
+    notify(
+      req.user._id,
+      "Book removed from cart",
+      "Book removed from cart successfully",
+    );
+
+    res.status(200).redirect("/reader/profile");
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).redirect("/reader/profile");
   }
 });
 
@@ -205,10 +235,15 @@ router.post("/cart/request", isReader, async (req, res) => {
     const cart = await Cart.findOne({ reader: req.user._id }).populate(
       "books.book",
     );
-    const library = req.body.library;
 
     if (!cart) {
       return res.status(404).json({ error: "Cart not found" });
+    }
+
+    const library = cart.books.length > 0 ? cart.books[0].book.library : null;
+
+    if (!library) {
+      return res.status(400).json({ error: "Library not found in the cart" });
     }
 
     const date = new Date();
@@ -224,19 +259,14 @@ router.post("/cart/request", isReader, async (req, res) => {
 
     await Cart.deleteMany({ reader: req.user._id });
 
-    // Notification
-    await notify(
-      req.user._id,
-      "Request sent",
-      `Request ${request._id} has been sent.`,
-    );
+    notify(req.user._id, "Request sent", "Request sent successfully");
 
     res
       .status(201)
       .json({ message: "Request sent successfully", request: newRequest });
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).redirect("/reader/profile/#my-requests");
   }
 });
 
@@ -276,18 +306,7 @@ router.post("/request/cancel/:id", isReader, async (req, res) => {
       await Book.findByIdAndUpdate(book._id, { $inc: { amount: 1 } });
     }
 
-    // Send notification and email to the reader about the cancellation
-    await notify(
-      req.user._id,
-      "Request cancelled",
-      `Request ${request._id} has been cancelled.`,
-    );
-
-    transporter.sendMail({
-      to: request.reader.gmail,
-      subject: "VxNhe request cancelled",
-      html: `<p>Your request ${request._id} has been cancelled</p>`,
-    });
+    notify(req.user._id, "Request canceled", "Request canceled successfully");
 
     res.status(200).json(updatedRequest);
   } catch (e) {
@@ -297,7 +316,7 @@ router.post("/request/cancel/:id", isReader, async (req, res) => {
 });
 
 // Add book to wishlist route
-router.post("/wishlist/:id", isReader, async (req, res) => {
+router.post("/add-wishlist/:id", isReader, async (req, res) => {
   try {
     const reader = await Reader.findOne({ _id: req.user._id });
 
@@ -313,49 +332,66 @@ router.post("/wishlist/:id", isReader, async (req, res) => {
 
     reader.wishList.push(book);
 
-    // Notification
-    await notify(
-      req.user._id,
-      "Added to wishlist",
-      `${book.title} has been added to your wishlist.`,
-    );
-
     await reader.save();
+
+    notify(
+      req.user._id,
+      "Book added to wishlist",
+      "Book added to wishlist successfully",
+    );
   } catch (err) {
+    console.error("Error:", err);
     res.status(400).json({ errors: err });
   }
 });
 
 // Remove book from wishlist route
-router.post("/wishlist/:id", isReader, async (req, res) => {
+router.post("/remove-wishlist/:id", isReader, async (req, res) => {
   try {
     const reader = await Reader.findOne({ _id: req.user._id });
 
     if (!reader) {
-      return res.status(404).json({ error: "Reader not found" });
+      console.log("Error: Reader not found");
+      return res.status(404);
     }
 
-    const book = await Book.findOne({ _id: req.params.id });
+    const book = reader.wishList.find((b) => b._id.equals(req.params.id));
 
-    if (!reader.wishList.includes(book)) {
-      return res.status(400).json({ error: "Book not in wishlist" });
+    if (!book) {
+      console.log("Error: Book not in wishlist");
+      return res.status(400);
     }
 
     reader.wishList.pull(book);
     await reader.save();
-    res.render("reader/wishlist", { wishList: wishList, user: req.user });
 
-    // Notification
-    await notify(
+    notify(
       req.user._id,
-      "Removed from wishlist",
-      `${book.title} has been removed from your wishlist.`,
+      "Book removed from wishlist",
+      "Book removed from wishlist successfully",
     );
+
+    res.redirect("/reader/profile/#my-wishlist");
   } catch (err) {
-    res.status(400).json({ errors: err });
-    res.render("reader/wishlist", { wishList: wishList, user: req.user });
+    console.error("Error:", err);
+    res.status(500).send("Internal Server Error");
   }
 });
+
+// Show cart route
+const fetchCart = async (req, res, next) => {
+  try {
+    const cart = await Cart.findOne({ reader: req.user._id }).populate(
+      "books.book",
+    );
+
+    req.cart = cart;
+    next();
+  } catch (err) {
+    res.status(400).json({ errors: err });
+    res.redirect("/homepage");
+  }
+};
 
 // Middleware to fetch loans
 const fetchLoans = async (req, res, next) => {
@@ -378,11 +414,7 @@ const fetchWishlist = async (req, res, next) => {
       "wishList",
     );
 
-    if (!wishlist) {
-      req.wishlist = [];
-    } else {
-      req.wishlist = wishlist.wishList;
-    }
+    req.wishlist = wishlist.wishList;
 
     next();
   } catch (err) {
@@ -395,7 +427,7 @@ const fetchRequests = async (req, res, next) => {
   try {
     const readerRequests = await Request.find({ reader: req.user._id })
       .populate("books", "title")
-      .populate("library", "name")
+      .populate("library", "username")
       .exec();
 
     const formattedRequests = await Promise.all(
@@ -424,6 +456,7 @@ const fetchRequests = async (req, res, next) => {
 router.get(
   "/profile",
   isReader,
+  fetchCart,
   fetchRequests,
   fetchLoans,
   fetchWishlist,
@@ -434,6 +467,7 @@ router.get(
       res.render("reader/reader-profile", {
         reader: reader,
         user: req.user,
+        cart: req.cart || {},
         wishlist: req.wishlist || [],
         loans: req.readerLoans || [],
         formattedRequests: req.readerRequests || [],
@@ -441,7 +475,7 @@ router.get(
       });
     } catch (err) {
       res.error(400).json({ errors: err });
-      res.redirect("/homepage");
+      res.redirect("/reader/profile");
     }
   },
 );
@@ -511,6 +545,9 @@ router.post(
       }
 
       console.log("Document updated");
+
+      notify(req.user._id, "Profile updated", "Profile updated successfully");
+
       res.redirect("/homepage");
     } catch (err) {
       console.log("Error:", err);

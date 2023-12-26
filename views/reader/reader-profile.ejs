@@ -118,7 +118,7 @@
                 <div class="tab">
                     <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-cart')">My Cart</button>
                     <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-requests')">My Requests</button>
-                    <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-loans')">My Loan</button>
+                    <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-loans')">My Loans</button>
                     <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-wishlist')">My Wishlist</button>
                 </div>
             </div>
@@ -131,20 +131,45 @@
             <div id="my-cart" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Cart</h3>
                 <ul> 
-                    <!-- Replace with backend of my cart here -->
-                    <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
-                        <div class="flex-shrink-0">
-                          <img src="/images/lib1.jpg" alt="Image" class="w-40 h-52 rounded-xl">
-                        </div>
-                        <div class="flex-grow ">
-                          <p class="text-4xl font-semibold ml-10"> Book Title </p>
-                          <p class="text-gray-600 ml-10">This is a brief description of the book.</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                          <button class="px-4 py-3 mr-20 text-white bg-red-500 rounded hover:bg-red-600">Remove</button>
-                        </div>
-                      </div>
-                      
+                    <% if (cart && cart.books && cart.books.length > 0) { %>
+                            <% cart.books.forEach(bookEntry => { %>
+                                <li>
+                                    <% const book = bookEntry.book; %>
+                                    <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
+                                        <div class="flex-shrink-0">
+                                            <% if (book.coverImages && book.coverImages.length > 0) { %>
+                                                <img src="/<%= book.coverImages[0] %>" alt="Image" class="w-40 h-52 rounded-xl">
+                                            <% } else { %>
+                                                <img src="/images/default-book-cover.jpg %>" alt="Image" class="w-40 h-52 rounded-xl">
+                                            <% } %>
+                                        </div>
+                                        <div class="flex-grow ">
+                                            <% if (book && book.title) { %>
+                                                <p class="text-4xl font-semibold ml-10"><%= book.title %></p>
+                                            <% } else { %>
+                                                <p class="text-4xl font-semibold ml-10">Title not available</p>
+                                            <% } %>
+                                            <% if (book && book.description) { %>
+                                                <p class="text-gray-600 ml-10"><%= book.description %></p>
+                                            <% } else { %>
+                                                <p class="text-gray-600 ml-10">Description not available</p>
+                                            <% } %>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <form action="/reader/remove-cart/<%= book._id %>" method="POST">
+                                                <input type="hidden" name="bookId" value="<%= book._id %>">
+                                                <button class="px-4 py-3 mr-20 text-white bg-red-500 rounded hover:bg-red-600">Remove</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>  
+                            <% }); %>
+                                <form action="/reader/cart/request" method="POST" class="flex justify-center">
+                                    <button class="px-4 py-3 my-5 text-white bg-blue-500 rounded hover:bg-blue-600">Send Request</button>
+                                </form>
+                        <% } else {%>
+                        <p>Your cart is empty</p>
+                    <% } %>
                 </ul>
             </div>
 
@@ -152,17 +177,23 @@
                 <h3 class="text-center text-6xl custom-text-orange mt-8  ">My Requests</h3>
                 <ul>
                     <% formattedRequests.forEach(request => { %>
-                    <li>
-                        <p><strong>Library:</strong> <%= request.library.name %></p>
-                        <p><strong>Status:</strong> <%= request.status %></p>
-                        <p><strong>Pickup Date:</strong>
-                            <%= request.pickupDate ? request.pickupDate.toLocaleDateString() : 'N/A' %></p>
-                        <ul>
-                            <% request.books.forEach(book => { %>
-                            <li><%= book.title %></li>
-                            <% }); %>
-                        </ul>
-                    </li>
+                    <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
+                        <div class="flex-shrink-0">
+                            <li>
+                                <p><strong>Library:</strong> <%= request.library.username %></p>
+                                <p><strong>Status:</strong> <%= request.status %></p>
+                                <p><strong>Pickup Date:</strong>
+                                    <%= request.pickupDate ? request.pickupDate.toLocaleDateString() : 'N/A' %></p>
+                                <div class="flex-grow ">
+                                    <ul>
+                                        <% request.books.forEach(book => { %>
+                                        <li class="text-gray-600 ml-10"><%= book.title %></li>
+                                        <% }); %>
+                                    </ul>
+                                </div>
+                            </li>
+                        </div>
+                    </div>
                     <% }); %>
                 </ul>
             </div>
@@ -188,6 +219,9 @@
                 <ul>
                     <% wishlist.forEach(book => { %>
                     <li><%= book.title %></li>
+                    <form action="/reader/remove-wishlist/<%= book._id %>" method="POST" class="flex justify-center">
+                        <button class="px-4 py-3 my-5 text-white bg-blue-500 rounded hover:bg-blue-600">Remove</button>
+                    </form>
                     <% }); %>
                 </ul>
             </div>
@@ -195,6 +229,39 @@
     </div>
 
     <script>
+
+        // Function to open the tab based on the hash fragment in the URL
+        function openTabFromHash() {
+            var hash = window.location.hash.substr(1);
+
+            if (!hash) {
+                hash = "my-cart";
+            }
+
+            var tabContents = document.getElementsByClassName("tabcontent");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].style.display = "none";
+            }
+
+            // If the hash corresponds to a valid tab, open it
+            var tabContent = document.getElementById(hash);
+            if (tabContent) {
+                tabContent.style.display = "block";
+
+                // Find the corresponding tab button and add the 'active' class
+                var tablinks = document.getElementsByClassName("tablinks");
+                for (var i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                    if (tablinks[i].getAttribute("onclick").includes(hash)) {
+                        tablinks[i].className += " active";
+                    }
+                }
+            }
+        }
+
+    document.addEventListener("DOMContentLoaded", openTabFromHash);
+    window.addEventListener("hashchange", openTabFromHash);
+
         function openCity(evt, cityName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
@@ -208,6 +275,7 @@
             document.getElementById(cityName).style.display = "block";
             evt.currentTarget.className += " active";
         }
+
     </script>
 
     <%- include('../partials_readers/footer.ejs') %>
