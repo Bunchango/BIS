@@ -1,99 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/customer.css">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Your Page Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
-<body class="font-sans">
+<body>
+  <!-- Display Requests -->
+  <% if (data.requests && data.requests.length > 0) { %>
+    <h2>Requests</h2>
+    <ul>
+        <% data.requests.forEach(request => { %>
+            <li>
+                <p>Reader: <%= request.reader.username %></p>
+                <p>Created On: <%= request.createdOn %></p>
+                <p>Number of Books: <%= request.books.length %></p>
+                <p>Status: <%= request.status %></p>
+            </li>
+        <% }); %>
+    </ul>
+  <% } %>
 
-    <!-- Navigation Bar -->
-    <nav class="p-4">
-        <div class="flex justify-between items-center">
-            <div class="text-6xl font-bold ml-10">VXNHE</div>
-            <div class="flex space-x-10 mr-10 text-xl">
-                <a href="dashboard.html" class="hover:text-gray-300">Dashboard</a>
-                <a href="/librarian/customer" class="hover:text-gray-300">Customer management</a>
-                <a href="borrow-detail.html" class="hover:text-gray-300">Inventory management</a>
-            </div>
-        </div>
-    </nav>
-    <section class="search-section">
-      search section goes here
-    </section>
-    <section id="borrow-section" class="p-16 pb-0">
-        <h2 class="text-2xl font-bold mb-4" id="sect-header">Pending borrow requests</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
-            <!-- Card Holder 1 -->
-            <a href="/librarian/borrow/<%= requests._id %>" class="p-4 rounded-md shadow-md" id="pagination-item">
-              <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
-                <img src="img/Screenshot 2023-10-14 231723.png" alt="Image 1" class="w-full h-full object-cover">
-              </div>
-              <h3 class="text-xl font-bold mb-2 text-center">Card 1</h3>
-              <p class="text-center">This is the content of Card 1.</p>
-            </a>
-        </div>
-        <div class="view-all">
-          <a href="all.html" class="view-all-button">View all</a>
-        </div>
-    </section>
-    <div class="triangle-line">
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <!-- Add more triangles as needed -->
-  </div>
-    <section id="borrow-section2" class="p-16">
-      <h2 class="text-2xl font-bold mb-4" id="sect-header2">Accepted borrows</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
-          <!-- Card Holder 1 -->
-          <a href="borrow-detail.html" class="p-4 rounded-md shadow-md" id="pagination-item2">
-            <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
-              <img src="img/Screenshot 2023-10-14 231723.png" alt="Image 1" class="w-full h-full object-cover">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center">Card 1</h3>
-            <p class="text-center">This is the content of Card 1.</p>
-          </a>
-      </div>
-      <div class="view-all">
-        <a href="all.html" class="view-all-button2">View all</a>
-      </div>
-  </section>
-    <!-- <script src="pagination.js"></script> -->
+  <!-- Display Pickups -->
+  <% if (data.pickups && data.pickups.length > 0) { %>
+    <h2>Pickups</h2>
+    <ul>
+        <% data.pickups.forEach(pickup => { %>
+            <li>
+                <p>Reader: <%= pickup.reader.username %></p>
+                <p>Created On: <%= pickup.createdOn %></p>
+                <p>Number of Books: <%= pickup.books.length %></p>
+                <p>Status: <%= pickup.status %></p>
+            </li>
+        <% }); %>
+    </ul>
+  <% } %>
+
+  <!-- Display Borrows -->
+  <% if (data.borrows && data.borrows.length > 0) { %>
+    <h2>Borrows</h2>
+    <ul>
+        <% data.borrows.forEach(borrow => { %>
+            <li>
+                <p>Reader: <%= borrow.reader.username %></p>
+                <p>Created On: <%= borrow.createdOn %></p>
+                <p>Number of Books: <%= borrow.books.length %></p>
+                <p>Status: <%= borrow.status %></p>
+            </li>
+        <% }); %>
+    </ul>
+  <% } %>
+
 </body>
 </html>
