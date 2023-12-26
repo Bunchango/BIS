@@ -131,8 +131,8 @@
         <div class="lower">
             <div id="my-cart" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Cart</h3>
-                <ul> 
                     <% if (cart && cart.books && cart.books.length > 0) { %>
+                        <ul> 
                             <% cart.books.forEach(bookEntry => { %>
                                 <li>
                                     <% const book = bookEntry.book; %>
@@ -165,13 +165,13 @@
                                     </div>
                                 </li>  
                             <% }); %>
-                                <form action="/reader/cart/request" method="POST" class="flex justify-center">
-                                    <button class="px-4 py-3 my-5 text-white bg-blue-500 rounded hover:bg-blue-600">Send Request</button>
-                                </form>
-                        <% } else {%>
-                        <p>Your cart is empty</p>
+                        </ul>
+                        <form action="/reader/cart/request" method="POST" class="flex justify-center">
+                            <button class="px-4 py-3 my-5 text-white bg-blue-500 rounded hover:bg-blue-600">Send Request</button>
+                        </form>
+                    <% } else {%>
+                        <p class="empty-content">No item found</p>
                     <% } %>
-                </ul>
             </div>
 
             <div id="my-requests" class="tabcontent">
@@ -217,28 +217,34 @@
 
             <div id="my-wishlist" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Wishlist</h3>
-                <div class="center">
-                    <div class="list">
-                        <% if (user.wishList &&  user.wishList.length > 0) { %> 
-                            <% wishList.forEach( book => { %>
-                            <div class="item">
-                                <div class="img">
-                                    <img src="/<%= book.coverImages[0] %>" alt="<%= book.title %>'s Picture">
-                                </div>
-                                <div class="content">
-                                    <div class="title"><%= book.title %></div>
-                                    <div class="des">
-                                        <%= book.description %>
+                    <% if (user.wishList &&  user.wishList.length > 0) { %> 
+                    <ul>
+                        <% wishList.forEach( book => { %>
+                            <li>
+                                <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
+                                    <div class="flex-shrink-0">
+                                        <div class="img">
+                                            <img src="/<%= book.coverImages[0] %>" alt="<%= book.title %>'s Cover" class="w-40 h-52 rounded-xl">
+                                        </div>
                                     </div>
-                                    <button class="remove" data-bookid="<%= book._id %>"><i class="fa-solid fa-trash"></i></button>
-                                    <a id="view-detail" href="/reader/book_detail/<%= book._id %>">View</a>
+                                    <div class="flex-grow ">
+                                        <div class="flex items-center space-x-4">
+                                            <p class="text-4xl mr-12 font-semibold ml-10"><%= book.title %></p>
+                                            <form action="/reader/wishlist/remove/<%= book._id %>" method="POST">
+                                                <input type="hidden" name="bookId" value="<%= book._id %>">
+                                                <button class="remove" type="submit"><i class="fa-solid fa-trash hover:text-red-500"></i></button>
+                                            </form>
+                                            <a id="view-detail" class="hover:text-blue-500" href="/reader/book_detail/<%= book._id %>">View</a>
+                                        </div>
+                                        <p class="text-gray-600 mt-2 ml-10"><%= book.description %></p>
+                                    </div>
                                 </div>
-                            </div>
-                            <% }) %>
-                        <% } else { %>
-                            <div id="empty-wishList">Your WishList Empty</div>
-                        <% } %> 
-                    </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+                    <% } else { %>
+                        <div class="empty-content">No item found</div>
+                    <% } %> 
                 </div>
             </div>
         </div>
