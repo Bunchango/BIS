@@ -45,7 +45,7 @@
                     <p class="quantity">Quantity: <%= book.amount %></p>
 
                 </div>
-                <% if (user instanceof Reader) { %>
+                <% if (user && user instanceof Reader) { %>
                 <!-- Reader-specific content -->
                 <div class="reader-buttons">
                     <div class="cart-btn">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
 
-                <% } else if (user instanceof Librarian) { %>
+                <% } else if (user && user instanceof Librarian) { %>
                 <!-- Librarian-specific content -->
                 <div class="librarian-buttons">
                     <div class="edit-btn">
