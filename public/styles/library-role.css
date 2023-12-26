@@ -20,6 +20,7 @@ body {
     background-color: var(--theme-color-peach);
 }
 
+/* Navigation */
 nav {
     display: flex;
     flex-direction: row;
@@ -54,8 +55,6 @@ nav {
     background: rgba(252, 237, 217, 0.85);
     backdrop-filter: blur(10px);
 }
-
-
 
 nav #list {
     display: flex;
@@ -189,6 +188,7 @@ nav #list li button {
     padding: 30px;
     box-shadow: inset -2px 2px 2px var(--theme-color-peach);
 }
+
 .createLibrarians-header,
 .update-header {
     padding: 10px 15px;
@@ -234,9 +234,11 @@ nav #list li button {
     justify-content: space-between;
     padding: 20px 0;
 }
+
 #create-librarians-body .user-input-box:nth-child(2n){
     justify-content: end;
 }
+
 #create-librarians-body .user-input-box{
     display: flex;
     flex-wrap: wrap;
@@ -260,6 +262,7 @@ nav #list li button {
     border: 1px solid grey;
     padding: 0 10px;
 }
+
 #create-librarians-body .form-submit-btn{
     margin-top: 40px;
 }
@@ -280,6 +283,7 @@ nav #list li button {
     background: #db260a;
     color: rgb(255, 255, 255);
 }
+
 @media (max-width: 600px) {
     #pop-up-createLibrarians{
         align-items: center;
@@ -332,7 +336,7 @@ nav #list li button {
     pointer-events: all;
 }
 
-/*   Body    */
+/*   Body of manager    */
 #main {
     margin-top: 100px;
 }
