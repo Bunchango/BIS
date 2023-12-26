@@ -1,0 +1,190 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body{
+    font-family: 'poppins', sans-serif;
+    background-color: white;
+  }
+  
+  .breadcrumbs_container{
+    display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin: 30px 10px 10px; 
+  }
+  
+  .breadcrumbs {
+    border: 1px solid #cbd2d9;
+    border-radius: 0.3rem;
+    display: inline-flex;
+    overflow: hidden;
+  }
+  
+  .breadcrumbs__item {
+    background: bisque;
+    color: black;
+    outline: none;
+    padding: 0.75em 0.75em 0.75em 1.25em;
+    position: relative;
+    text-decoration: none;
+    transition: background 0.2s linear;
+    font-weight: 700;
+  }
+  
+  .breadcrumbs__item:hover:after,
+  .breadcrumbs__item:hover {
+    background: orangered;
+    color: #fff;
+  }
+  
+  .breadcrumbs__item:focus:after,
+  .breadcrumbs__item:focus,
+  .breadcrumbs__item.is-active:focus {
+    background: #323f4a;
+    color: #fff;
+  }
+  
+  .breadcrumbs__item:after,
+  .breadcrumbs__item:before {
+    background: bisque;
+    bottom: 0;
+    clip-path: polygon(50% 50%, -50% -50%, 0 100%);
+    content: "";
+    left: 100%;
+    position: absolute;
+    top: 0;
+    transition: background 0.2s linear;
+    width: 1em;
+    z-index: 1;
+  }
+  
+  .breadcrumbs__item:before {
+    background: #cbd2d9;
+    margin-left: 1px;
+  }
+  
+  .breadcrumbs__item:last-child {
+    border-right: none;
+  }
+  
+  .breadcrumbs__item.is-active {
+    background: orangered;
+    color: white;
+    font-weight: 700;
+  }
+  
+  .container{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin: 50px auto;
+    width: 65%;
+    border: 2px solid #EE4E34;
+    padding: 20px;
+    border-radius: 20px;
+    background-color:#FCEDDA;
+  }
+  
+  .container img {
+    width: 75px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    margin-left: 30px;
+    border-radius: 20px;
+    border: 1px solid black;
+  }
+  
+  .container > .book-carousel > img{
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .book-image img {
+    width: 250px;
+  }
+  
+  .description{
+    padding: 20px;
+    border-radius: 8px; 
+    max-width: 300px; 
+    margin: auto; 
+  }
+  
+  .description h1 {
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .description h1 .title-text {
+    flex-grow: 1; 
+  }
+  
+  .description h1 .fas.fa-bookmark {
+    margin-left: auto; 
+    color: orangered; 
+  }
+  
+  .description p {
+    color: #666; 
+    margin-bottom: 10px; 
+  }
+  
+  .description .btn{
+    margin: 10%;
+    text-align: center;
+  }
+  
+  .description button {
+    width: 200px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 55px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  
+  .description button:hover{
+    background-position: 100% 0;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  
+  .description button:focus{
+    outline: none;
+  }
+  
+  .description button{
+    background-image: linear-gradient(to right, #fc6076, #ff9a44, #ef9d43, #e75516);
+    box-shadow: 0 4px 15px 0 rgba(252, 104, 110, 0.75);
+  }
+  
+  @media screen and (max-width: 960px) {
+    
+    .container {
+      flex-direction: column;
+      align-items: center;
+  }
+  .book-carousel {
+      display: flex;
+      flex-direction: row;
+  }
+  
+  }
