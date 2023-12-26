@@ -1,9 +1,5 @@
 <div class="pop-up-modal" id="pop-up-update">
-    <div class="update-header">
-        <div class="title">Library Profile</div>
-        <button data-close-button class="close-modal">&times;</button>
-    </div>
-    <div class="update-body">
+    <div id="update-body">
         <% if (errors && errors.length > 0) { %>
             <div style="color: red;">
                 <% errors.forEach(error => { %>
@@ -11,31 +7,51 @@
                 <% }); %>
             </div>
         <% } %>
+
+        <div class="update-header">
+            <div class="title">Library Profile</div>
+            <button data-close-button class="close-modal">&times;</button>
+        </div>
+    
         <form action="profile" method="POST" enctype="multipart/form-data">
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" value="<%= admin.username %>">
+            <div class="main-user-info">
+                <div class="user-input-box">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" value="<%= admin.username %>">
+                </div>
+                <div class="user-input-box">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description" value="<%= admin.description %>">
+                </div>
+                <div class="user-input-box">
+                    <label for="ava">Profile Picture</label>
+                    <div class="image-container">
+                        <img src="/<%= admin.profilePicture %>" alt="Profile Picture" class="uploaded-image">
+                    </div>
+                    <div class="upload-button">
+                        <span>Choose File</span>
+                        <input type="file" id="ava" name="logo">
+                    </div>
+                </div>
+                <div class="user-input-box">
+                    <label for="banner">Banner</label>
+                    <div class="image-container">
+                        <img src="/<%= admin.banner %>" alt="Banner" class="uploaded-image">
+                    </div>
+                    <div class="upload-button">
+                        <span>Choose File</span>
+                        <input type="file" id="banner" name="banner">
+                    </div>
+                </div>
+                <div class="user-confirm-changes">
+                    <input type="checkbox" id="confirm" name="confirm">
+                    <label for="confirm">Confirm Changes</label>
+                </div>
             </div>
-            <div>
-                <label for="description">Description:</label>
-                <input type="text" id="description" name="description" value="<%= admin.description %>">
+            
+            <div class="form-submit-btn">
+                <input type="submit" value="Submit">
             </div>
-            <div>
-                <label for="ava">Profile Picture:</label>
-                <img src="/<%= admin.profilePicture %>" alt="Profile Picture">
-                <input type="file" id="ava" name="logo">
-            </div>
-            <div>
-                <label for="banner">Banner:</label>
-                <img src="/<%= admin.banner %>" alt="Banner">
-                <input type="file" id="banner" name="banner">
-            </div>
-            <div>
-                <input type="checkbox" id="confirm" name="confirm">
-                <label for="confirm">Confirm Changes</label>
-            </div>
-            <input type="submit" value="Submit">
         </form>
     </div>
-
 </div>

@@ -1,11 +1,7 @@
 
 <div class="pop-up-modal" id="pop-up-createLibrarians">
-    <div class="createLibrarians-header">
-        <div class="title">Create Librarian</div>
-        <button data-close-button class="close-modal">&times;</button>
-    </div>
         
-    <div id="create-librarians-body">
+    <div id="create-librarians-body"> 
         <% if (errors && errors.length > 0) { %>
             <div style="color: red;">
                 <% errors.forEach(error => { %>
@@ -14,25 +10,40 @@
             </div>
         <% } %>
 
+        <div class="createLibrarians-header">
+            <div class="title">Create Librarian</div>
+            <button data-close-button class="close-modal">&times;</button>
+        </div>
 
         <form action="create_librarian" method="POST">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" required><br>
-            
-            <label for="gmail">Gmail:</label><br>
-            <input type="email" id="gmail" name="gmail" required><br>
-            
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required><br>
-            
-            <label for="confirmPassword">Confirm Password:</label><br>
-            <input type="password" id="confirmPassword" name="confirmPassword" required><br>
-            
-            <input type="checkbox" id="acceptTerms" name="acceptTerms">
-            <label for="acceptTerms">Accept terms and conditions</label><br>
-            
-            <input type="submit" value="Submit">
+            <div class="main-user-info">
+                <div class="user-input-box">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter Full Name" required>
+                </div>
+                <div class="user-input-box">
+                    <label for="gmail">Gmail</label>
+                    <input type="email" id="gmail" name="gmail" placeholder="Enter Gmail" required>
+                </div>
+                <div class="user-input-box">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                </div>
+                <div class="user-input-box">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                </div>
+                <div class="user-accept-terms">
+                    <input type="checkbox" id="acceptTerms" name="acceptTerms">
+                    <label for="acceptTerms">Accept terms and conditions</label>
+                </div>
+            </div>
+
+            <div class="form-submit-btn">
+                <input type="submit" value="Submit">
+            </div>
         </form>
-    </div>
-    
+        
+    </div> 
+
 </div>

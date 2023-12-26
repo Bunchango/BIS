@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap');
- *{
-    font-family: 'Poppins', sans-serif;
- }
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap");
+* {
+  font-family: "Poppins", sans-serif;
+}
 
 :root {
-  --theme-color-peach: #FCEDDA;
-  --theme-color-orange: #EE4E34;
+  --theme-color-peach: #fcedda;
+  --theme-color-orange: #ee4e34;
 }
 
 * {
@@ -18,7 +18,9 @@
 
 .whole-upper {
   height: fit-content;
-  box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2); 
+  box-shadow:
+    inset 0px 50px 30px rgba(0, 0, 0, 0.2),
+    0px 0px 4px rgba(0, 0, 0, 0.2);
   background-color: var(--theme-color-peach);
   box-shadow: 1px 1px 10px var(--theme-color-orange);
 }
@@ -103,7 +105,7 @@
   align-items: center;
 }
 .set-default button {
-  color: #EE4E34;
+  color: #ee4e34;
 }
 .edit-profile:hover {
   box-shadow: 0px 0px 3px black;
@@ -118,7 +120,7 @@
   background-color: var(--theme-color-peach);
 }
 
-.menu-list { 
+.menu-list {
   margin-top: 150px;
   border-top: 1px solid black;
   height: 25px;
@@ -141,8 +143,8 @@
 }
 
 .tab button:hover {
-  background-color: #EE4E34;
-  color: #FCEDDA;
+  background-color: #ee4e34;
+  color: #fcedda;
 }
 
 .tab button.active {
@@ -151,8 +153,9 @@
 }
 
 .tab button.active:hover {
-  color: #EE4E34;
+  color: #ee4e34;
 }
+
 .tabcontent {
   display: none;
   padding: 6px 12px;
@@ -178,10 +181,11 @@
   width: 80%;
   border-radius: 10px;
   box-shadow: -2px -2px 4px var(--theme-color-orange);
+  overflow-y: scroll;
 }
 
-.custom-text-orange{
-  color: #EE4E34;
+.custom-text-orange {
+  color: #ee4e34;
 }
 
 #pop-up-edit {
@@ -203,7 +207,7 @@
 .edit-header .title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #EE4E34;
+  color: #ee4e34;
 }
 
 .edit-header .close-modal {
@@ -217,7 +221,6 @@
 
 .edit-body {
   padding: 10px 15px;
-
 }
 
 .layer-two img #background {
@@ -225,17 +228,14 @@
 }
 
 #background-pic {
-  
 }
 
 #avatar-pic {
-
 }
 
-
-@media only screen and (max-width:1000px) {
+@media only screen and (max-width: 1000px) {
   .whole-upper {
-    height:550px;
+    height: 550px;
   }
 
   .upper {
@@ -247,7 +247,8 @@
   .user-info {
     flex-direction: column;
   }
-  .edit-profile, .set-default {
+  .edit-profile,
+  .set-default {
     position: relative;
     left: 0;
   }
@@ -285,11 +286,13 @@
   }
 }
 
-#edit-username-box .title, #edit-background-box .title, #edit-ava-box .title {
+#edit-username-box .title,
+#edit-background-box .title,
+#edit-ava-box .title {
   text-align: center;
   font-size: 30px;
   font-weight: 600;
-  color: #EE4E34;
+  color: #ee4e34;
   margin-bottom: 1rem;
 }
 
@@ -302,7 +305,8 @@
 .layer-two #name {
   margin-bottom: 1rem;
 }
-.layer-two input, .layer-two label {
+.layer-two input,
+.layer-two label {
   margin-bottom: 1rem;
   margin-left: 1rem;
   margin-top: 1rem;
@@ -326,3 +330,4 @@
   height: 40px;
   width: 100px;
 }
+

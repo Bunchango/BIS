@@ -6,6 +6,29 @@
     <title>Inventory management</title>
 </head>
 <body>
-    
+    <h1>Book Inventory</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Amount</th>
+                <th>Available</th>
+                <th>Date Imported</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.books.forEach(book => { %>
+                <tr>
+                    <td><%= book.title %></td>
+                    <td><%= book.author %></td>
+                    <td><%= book.amount %></td>
+                    <td><%= book.available %></td>
+                    <td><%= book.dateImported.toDateString() %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
 </body>
 </html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% if (data.book) { %>
+        <h2><%= data.book.title %></h2>
+        <p>Author: <%= data.book.author %></p>
+        <p>Category: <%= data.book.category.join(', ') %></p>
+        <p>Description: <%= data.book.description %></p>
+        <p>Publish Date: <%= data.book.publishDate.toDateString() %></p>
+        <p>Number of Books: <%= data.book.amount %></p>
+        <p>Available books: <%= data.book.available %></p>
+        <p>Library: <%= data.book.library.name %></p>
+        <!-- Add other relevant information based on your schema -->
+    <% } else { %>
+        <p>Book not found</p>
+    <% } %>
+
+    <!-- Button to toggle the form visibility -->
+    <% if (data.isLibrarian) { %>
+        <button id="editButton">Edit Book</button>
+    <% } %>
+
+    <!-- Form to edit book (initially hidden) -->
+    <form id="editForm" class="centered-form" style="display:none;" action="book_detail/<%= data.book._id %>" method="post" enctype="multipart/form-data">
+        <!-- Add your form fields here for editing book details -->
+        <label for="title">Title:</label>
+        <input type="text" name="title" value="<%= data.book.title %>" required>
+
+        <label for="author">Author:</label>
+        <input type="text" name="author" value="<%= data.book.author %>" required>
+
+        <label>Categories:</label>
+        <% categoriesArray.forEach(category => { %>
+            <label>
+                <input type="checkbox" name="category" id="category" value="<%= category %>" <%= data.book.category.includes(category) ? 'checked' : '' %>>
+                <%= category %>
+            </label>
+        <% }); %>
+
+        <label for="description">Description:</label>
+        <textarea name="description" rows="4" required><%= data.book.description %></textarea>
+
+        <label for="amount">Amount:</label>
+        <input type="number" name="amount" id="amountInput" value=5 min="0" required>
+
+        <label for="available">Available:</label>
+        <input type="number" name="available" value=3 min="0" required>
+
+        <label for="cover_1">Cover Image 1:</label>
+        <input type="file" name="cover_1" accept="image/*">
+
+        <label for="cover_2">Cover Image 2:</label>
+        <input type="file" name="cover_2" accept="image/*">
+
+        <label for="cover_3">Cover Image 3:</label>
+        <input type="file" name="cover_3" accept="image/*">
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <script>
+        document.getElementById('editButton').addEventListener('click', function() {
+            document.getElementById('editForm').style.display = 'block';
+        });
+
+        // Add event listener for amount input
+        document.getElementById('amountInput').addEventListener('input', function() {
+            var amountInput = this;
+            var availableInput = document.getElementsByName('available')[0];
+            var maxAmount = parseInt(availableInput.value);
+
+            // Validate and update the input value
+            if (parseInt(amountInput.value) < maxAmount) {
+                amountInput.value = maxAmount;
+            }
+        });
+    </script>
+    <!-- CSS to center the form -->
+    <style>
+        .centered-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+    </style>
+
+    <!-- Add borrow button -->
+</body>
+</html>

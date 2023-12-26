@@ -104,16 +104,13 @@ router.get("/profile", isLibraryAdmin, (req, res) => {
     res.render("library/profile", {admin: req.user, errors: [] });
 })
 
-router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), 
-validateUsername, validateDescription, async (req, res) => {
+router.post("/profile", validateUsername, validateDescription, upload.fields([{ name: "logo" }, { name: "banner" }]), async (req, res) => {
     // TODO: Make location changable
     // Change library information: username, profile picture, location, banner
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render('library/profile', {admin: req.user, errors: errors.array()})
     }
-    console.log("req.logo:", req.logo);
-    console.log("req.banner:", req.banner);
     try {
         if (!req.body.confirm) {
             // Show error must confrim to change 

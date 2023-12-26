@@ -20,6 +20,7 @@ body {
     background-color: var(--theme-color-peach);
 }
 
+/* Navigation */
 nav {
     display: flex;
     flex-direction: row;
@@ -54,8 +55,6 @@ nav {
     background: rgba(252, 237, 217, 0.85);
     backdrop-filter: blur(10px);
 }
-
-
 
 nav #list {
     display: flex;
@@ -147,6 +146,7 @@ nav #list li #create-librarians {
 .sticky button:hover {
   color: white;
 }
+
 /* pop up modal */
 .pop-up-modal {
     position: fixed;
@@ -154,7 +154,7 @@ nav #list li #create-librarians {
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    border-radius: 5px;
+    border-radius: 10px;
     z-index: 1002;
     background-color: white;
     width: 600px;
@@ -166,11 +166,9 @@ nav #list li #create-librarians {
 
 .pop-up-modal.active {
     transform: translate(-50%, -50%) scale(1);
-   
 }
 
-
-/* Create Lbraraian */
+/* Create Librarian & Update Profile */
 nav #list li button {
     width: 40px;
     height: fit-content;
@@ -184,6 +182,14 @@ nav #list li button {
     background: none;
 }
 
+#create-librarians-body,
+#update-body{
+    width: 100%;
+    max-width: 650px;
+    padding: 30px;
+    box-shadow: inset -2px 2px 2px var(--theme-color-peach);
+}
+
 .createLibrarians-header,
 .update-header {
     padding: 10px 15px;
@@ -194,9 +200,14 @@ nav #list li button {
 }
 
 .createLibrarians-header .title,
-.update-header .title {
-    font-size: 1.25rem;
-    font-weight: bold;
+.update-header .title{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 6px;
+    color: var(--theme-color-orange);
+    text-shadow: 2px 2px 2px black;
+    border-bottom: solid 1px white;
 }
 
 .createLibrarians-header .close-modal,
@@ -205,13 +216,175 @@ nav #list li button {
     border: none;
     outline: none;
     background: none;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: bold;
+    text-align: center;
 }
 
-.create-librarians-body,
-.update-body {
-    padding: 10px 15px;
+#create-librarians-body .main-user-info,
+#update-body .main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+#create-librarians-body .user-input-box,
+#update-body .user-input-box:nth-child(2n){
+    justify-content: end;
+}
+
+#create-librarians-body .user-input-box,
+#update-body .user-input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+
+#create-librarians-body .user-input-box label,
+#update-body .user-input-box label{
+    width: 95%;
+    color: var(--theme-color-orange);
+    font-size: 20px;
+    font-weight: 400;
+    margin: 5px 0;
+}
+
+#create-librarians-body .user-input-box input,
+#update-body .user-input-box input{
+    height: 40px;
+    width: 95%;
+    border-radius: 7px;
+    outline: none;
+    border: 1px solid grey;
+    padding: 0 10px;
+}
+
+#create-librarians-body .form-submit-btn,
+#update-body .form-submit-btn{
+    margin-top: 40px;
+}
+
+#create-librarians-body .form-submit-btn input,
+#update-body .form-submit-btn input{
+    display: block;
+    width: 100%;
+    margin-top: -40px;
+    font-size: 20px;
+    padding: 10px;
+    border:none;
+    border-radius: 3px;
+    color: rgb(209, 209, 209);
+    background: var(--theme-color-orange);
+}
+
+#create-librarians-body .form-submit-btn input,
+#update-body .form-submit-btn input:hover{
+    background: #db260a;
+    color: rgb(255, 255, 255);
+}
+
+#update-body .image-container {
+    width: 255px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+}
+  
+#update-body .uploaded-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+  
+#update-body .user-confirm-changes {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+}
+  
+#update-body .user-confirm-changes label {
+    margin-left: 10px;
+}
+
+#update-body .upload-button {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    background-color: var(--theme-color-orange);
+    color: #fff;
+    padding: 8px 82px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 7px;
+}
+  
+#update-body .upload-button input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    font-size: 100px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+  
+#update-body .upload-button:hover {
+    background-color: #e03217;
+}
+  
+#update-body .upload-button:active {
+    background-color: #bf1900;
+}
+
+@media (max-width: 600px) {
+    #pop-up-createLibrarians,
+    #pop-up-update{
+        align-items: center;
+        width: fit-content;
+    }
+
+    #create-librarians-body,
+    #update-body{
+        min-width: 280px;
+    }
+
+    #create-librarians-body .user-input-box,
+    #update-body .user-input-box {
+        margin-bottom: 12px;
+        width: 100%;
+    }
+
+    #create-librarians-body .user-input-box,
+    #update-body .user-input-box:nth-child(2n) {
+        justify-content: flex-start;
+    }
+
+    #create-librarians-body .user-accept-terms,
+    #update-body .user-confirm-changes{
+        width: 100%;
+    }
+
+    #create-librarians-body .main-user-info,
+    #update-body .main-user-info {
+        max-height: 300px;
+        overflow: auto;
+    }
+
+    #create-librarians-body,
+    #update-body ::-webkit-scrollbar {
+        width: 0;
+    }
+
+    #update-body .user-input-box .upload-button span{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 /*   Overlay  */
@@ -233,16 +406,16 @@ nav #list li button {
     pointer-events: all;
 }
 
-/*   Body    */
+/*   Body of manager    */
 #main {
     margin-top: 100px;
 }
 
 #chart-container {
     width: 100%;
-    height: 30vh;
-    border: 1px solid black;
-    margin: 30px;
+    display: flex;
+    justify-content: center;
+    padding: 20px 100px;
 }
 
 #lower-container {
@@ -268,79 +441,217 @@ nav #list li button {
 }
 
 /*   Profile   */
+#whole-upper #upper .left-col .manager-description ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+#whole-upper #upper .right-col a{
+    text-decoration: none;
+}
+
 #whole-upper {
     height: fit-content;
     /* box-shadow: inset 0px 50px 30px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.2);  */
     background-color: var(--theme-color-peach);
 }
 
-#upper {
-    margin: 0 110px;
-    height: 450px;
-    position: relative;
-}
-
-#upper #banner {
-    object-fit: cover;
+#whole-upper #banner{
     width: 100%;
     height: 30vh;
+    object-fit: cover;
     z-index: -1;
-    border-radius: 10px 10px 10px 10px;
-    margin-bottom: 1rem;
 }
 
-
-#upper #avatar-container {
-    position: absolute;
-    bottom: 0px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
-    width: 100%;
-}
-
-#avatar-container #avatar {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: var(--theme-color-peach);
-    padding: 5px;
+#whole-upper #upper .left-col{
+    padding: 25px 20px;
     text-align: center;
+    max-width: 350px;
+    position: relative;
+    margin: 0 auto;
 }
 
-#avatar-container #update-btn {
-    border: 1 solid var(--theme-color-orange);
-    background-color: var(--theme-color-orange);
-    color: var(--theme-color-peach);
+#whole-upper #upper .left-col #avatar-container{
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
+#whole-upper #upper .left-col #avatar-container #avatar{
     width: 120px;
-    height: 50px;
-    border-radius:5%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.18);
 }
 
-#avatar-container #update-btn:hover {
-    box-shadow: 0px 0px 5px black;
+#whole-upper #upper .left-col #avatar-container span{
+    position: absolute;
+    background: #2afa6a;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    bottom: 3px;
+    right: 11px;
+    border: 2px solid #fff;
 }
 
-#whole-lower {
+#whole-upper #upper .left-col h2{
+    margin-top: 60px;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+#whole-upper #upper .left-col p{
+    font-size: 0.9rem;
+    color: #818181;
+    margin: 0;
+}
+
+#whole-upper #upper .left-col .about-manager{
+    justify-content: space-between;
+    position: relative;
+    margin: 35px 0;
+}
+
+
+#whole-upper #upper .left-col .about-manager li{
     display: flex;
+    flex-direction: column;
+    color: #818181;
+    font-size: 0.9rem;
+}
+
+#whole-upper #upper .left-col .about-manager li span{
+    color: #1d1d1d;
+    font-weight: 600;
+}
+
+#whole-upper #upper .left-col .about-manager::after{
+    position: absolute;
+    content: "";
+    bottom: -16px;
+    display: block;
+    background: #cccccc;
+    height: 1px;
+    width: 100%;
+}
+
+#whole-upper #upper .left-col .manager-description p{
+    font-size: 1rem;
+    color: #1d1d1d;
+    line-height: 1.8em;
+}
+
+#whole-upper #upper .left-col .manager-description ul{
+    gap: 30px;
     justify-content: center;
-    width: 100%;
+    align-items: center;
+    margin-top: 25px;
 }
 
-#lower {
-    background-color: rgb(255, 255, 255);
-    z-index: -1;
-    height: 60vh;
-    padding: 50px;
-    width: 80%;
-    border-radius: 10px 10px 10px 10px;
-}
-
-#lower .label {
-    font-size: 30px;
-    width: 100%;
+#whole-upper #upper .left-col .manager-description ul li{
     display: flex;
+}
+
+#whole-upper #upper .left-col .manager-description ul i{
+    font-size: 1.3rem;
+}
+
+#whole-upper #upper .right-col .small-nav{
+    display: flex;
+    align-items: center;
+    padding: 30px 0;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+#whole-upper #upper .right-col .small-nav ul{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+#whole-upper #upper .right-col .small-nav ul li h3{
+    text-transform: uppercase;
+    color: #818181;
+}
+
+#whole-upper #upper .right-col .small-nav ul li:nth-child(1) h3 {
+    color: #1d1d1d;
+    font-weight: 600;
+}
+
+#whole-upper #upper .right-col .small-nav #update-btn{
+    background: var(--theme-color-orange);
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#whole-upper #upper .right-col .small-nav #update-btn:hover{
+    opacity: 0.8;
+}
+
+#whole-upper #upper .right-col .products{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 20px;
+}
+
+#whole-upper #upper .right-col .products img{
+    max-width: 100%;
+    display: block;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (min-width: 868px) {
+    #whole-upper #upper {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 90%;
+      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 50px;
+    }
+
+    #whole-upper #upper .left-col {
+      padding: 25px 0px;
+    }
+
+    #whole-upper #upper .right__col .small-nav ul {
+        flex-direction: row;
+        gap: 30px;
+    }
+
+    #whole-upper #upper .right-col .products {
+      height: 365px;
+      overflow: auto;
+      padding: 0 0 30px;
+    }
+}
+  
+@media (min-width: 1017px) {
+    #whole-upper #upper .left-col {
+      margin: 0;
+      margin-right: auto;
+    }
+    #whole-upper #upper .right-col .small-nav {
+      flex-direction: row;
+    }
+    #whole-upper #upper .right-col .small-nav #update-btn {
+      margin-top: 0;
+    }
 }
 
 /* Update Profile */
