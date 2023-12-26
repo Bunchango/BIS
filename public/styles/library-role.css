@@ -147,6 +147,7 @@ nav #list li #create-librarians {
 .sticky button:hover {
   color: white;
 }
+
 /* pop up modal */
 .pop-up-modal {
     position: fixed;
@@ -154,7 +155,7 @@ nav #list li #create-librarians {
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    border-radius: 5px;
+    border-radius: 10px;
     z-index: 1002;
     background-color: white;
     width: 600px;
@@ -166,11 +167,9 @@ nav #list li #create-librarians {
 
 .pop-up-modal.active {
     transform: translate(-50%, -50%) scale(1);
-   
 }
 
-
-/* Create Lbraraian */
+/* Create Librarian */
 nav #list li button {
     width: 40px;
     height: fit-content;
@@ -184,6 +183,12 @@ nav #list li button {
     background: none;
 }
 
+#create-librarians-body{
+    width: 100%;
+    max-width: 650px;
+    padding: 30px;
+    box-shadow: inset -2px 2px 2px var(--theme-color-peach);
+}
 .createLibrarians-header,
 .update-header {
     padding: 10px 15px;
@@ -193,10 +198,19 @@ nav #list li button {
     border-bottom: 1px solid black;
 }
 
-.createLibrarians-header .title,
 .update-header .title {
     font-size: 1.25rem;
     font-weight: bold;
+}
+
+.createLibrarians-header .title{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 6px;
+    color: var(--theme-color-orange);
+    text-shadow: 2px 2px 2px black;
+    border-bottom: solid 1px white;
 }
 
 .createLibrarians-header .close-modal,
@@ -205,13 +219,98 @@ nav #list li button {
     border: none;
     outline: none;
     background: none;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: bold;
+    text-align: center;
 }
 
-.create-librarians-body,
 .update-body {
     padding: 10px 15px;
+}
+
+#create-librarians-body .main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+#create-librarians-body .user-input-box:nth-child(2n){
+    justify-content: end;
+}
+#create-librarians-body .user-input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+
+#create-librarians-body .user-input-box label{
+    width: 95%;
+    color: var(--theme-color-orange);
+    font-size: 20px;
+    font-weight: 400;
+    margin: 5px 0;
+}
+
+#create-librarians-body .user-input-box input{
+    height: 40px;
+    width: 95%;
+    border-radius: 7px;
+    outline: none;
+    border: 1px solid grey;
+    padding: 0 10px;
+}
+#create-librarians-body .form-submit-btn{
+    margin-top: 40px;
+}
+
+#create-librarians-body .form-submit-btn input{
+    display: block;
+    width: 100%;
+    margin-top: -40px;
+    font-size: 20px;
+    padding: 10px;
+    border:none;
+    border-radius: 3px;
+    color: rgb(209, 209, 209);
+    background: var(--theme-color-orange);
+}
+
+#create-librarians-body .form-submit-btn input:hover{
+    background: #db260a;
+    color: rgb(255, 255, 255);
+}
+@media (max-width: 600px) {
+    #pop-up-createLibrarians{
+        align-items: center;
+        width: fit-content;
+    }
+
+    #create-librarians-body {
+        min-width: 280px;
+    }
+
+    #create-librarians-body .user-input-box {
+        margin-bottom: 12px;
+        width: 100%;
+    }
+
+    #create-librarians-body .user-input-box:nth-child(2n) {
+        justify-content: flex-start;
+    }
+
+    #create-librarians-body .user-accept-terms{
+        width: 100%;
+    }
+
+    #create-librarians-body .main-user-info {
+        max-height: 300px;
+        overflow: auto;
+    }
+
+    #create-librarians-body ::-webkit-scrollbar {
+        width: 0;
+    }
 }
 
 /*   Overlay  */

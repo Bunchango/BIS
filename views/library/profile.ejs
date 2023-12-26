@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/library-role.css"/>
     <link rel="stylesheet" href="/styles/footer.css"/>
-    <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"
-  />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    <!-- <link rel="stylesheet" href="/styles/manager-profile.css"/> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"/>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
       crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Library Profile</title>
@@ -64,3 +62,94 @@
     <script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+<!-- Đang sửa lại -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/library-role.css"/>
+    <link rel="stylesheet" href="/styles/footer.css"/>
+    <link rel="stylesheet" href="/styles/manager-profile.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"/>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Library Profile</title>
+</head>
+<body>
+    <div id="overlay"></div>
+    <%- include('./partials_library/navigation.ejs') %>
+    <div id="header__wrapper">
+        <%- include('./partials_library/update-profile.ejs') %>
+        <header><img id="banner" src="/<%= admin.banner %>" alt="<%= admin.username %>'s Banner"></header>
+        <div class="cols__container">
+            <div class="left__col">
+                <div class="img__container">
+                    <img id="avatar" src="/<%= admin.profilePicture %>" alt=" <%= admin.username %>'s Picture Profile">
+                    <span></span>
+                </div>
+
+                <h2>Name</h2>
+                <p><%= admin.gmail %></p>
+                <p><%= admin.location.formattedAddress %></p>
+                <p>Joined At: 
+                    <%= admin.joinedAt.toDateString() %>
+                </p>
+
+                <ul class="about">
+                    <li><span>4,073</span>Connections</li>
+                    <li><span>322</span>Manage Librarians</li>
+                    <li><span>Manager</span>Position</li>
+                </ul>
+
+                <div class="content">
+                    <p>
+                        <%= admin.description %>
+                    </p>
+        
+                    <ul>
+                      <li><i class="fab fa-twitter"></i></li>
+                      <i class="fab fa-pinterest"></i>
+                      <i class="fab fa-facebook"></i>
+                      <i class="fab fa-dribbble"></i>
+                    </ul>
+                </div>
+            </div>
+        
+            <div class="right__col">
+                <nav>
+                <ul>
+                    <li><a href="">photos</a></li>
+                    <li><a href="">galleries</a></li>
+                    <li><a href="">groups</a></li>
+                    <li><a href="">about</a></li>
+                </ul>
+                <button data-modal-target="#pop-up-update" id="update-btn">
+                    <% if (errors && errors.length > 0) { %>
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <% } %>
+                    Update
+                </button>
+                </nav>
+    
+                <div class="photos">
+                <img src="" alt="Photo" />
+                <img src="" alt="Photo" />
+                <img src="" alt="Photo" />
+                <img src="" alt="Photo" />
+                <img src="" alt="Photo" />
+                <img src="" alt="Photo" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <%- include('../partials_readers/footer.ejs') %>
+    <script defer src="/js/library.js"></script>
+    <script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
+</body>
+</html> -->
