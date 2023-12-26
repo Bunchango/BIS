@@ -137,18 +137,52 @@ router.get("/book_detail/:id", async (req, res) => {
 })
 
 // TODO: Finish this
-router.post("/book_detail/:id", upload.fields([{ name: "cover_1" }, { name: "cover_2" }, {name: "cover_3"}]), isLibrarian, (req, res) => {
+router.post("/book_detail/:id", upload.fields([{ name: "cover_1" }, { name: "cover_2" }, {name: "cover_3"}]), isLibrarian, async (req, res) => {
     // Change book detail (when changing amount, only allow reducing the amount at most by the available amount)
     // Change title, author, images, category, description, amount
     try {
+        const book = await Book.findById(req.params.id);
+
         const updateFields = {}
         if (req.body.title) updateFields.title = req.body.title;
         if (req.body.author) updateFields.author = req.body.author;
         if (req.body.categories) updateFields.categories = req.body.category;
         if (req.body.description) updateFields.description = req.body.description;
         
-        // Change images and change amount
+        // Update cover images
+        if (req.files) {
+            const coverImages = [];
+            for (let i = 1; i <= 3; i++) {
+                const coverFieldName = `cover_${i}`;
+                if (req.files[coverFieldName] && req.files[coverFieldName][0]) {
+                    coverImages.push(req.files[coverFieldName][0].filename);
+                } else {
+                    // Use default cover instead
+                    coverImages.push("default_cover.png");
+                }
+            }
+            if (coverImages.length > 0) {
+                updateFields.coverImages = coverImages;
+            }
+        }
+
+        // Update amount (only allow reducing the amount at most by the available amount)
+        if (req.body.amount) {
+            const newAmount = parseInt(req.body.amount, 10);
+            if (!isNaN(newAmount)) {
+                if (newAmount <= book.available) {
+                    updateFields.amount = newAmount;
+                } else {
+                    // Render page with error: Cannot reduce past the available amount
+                    return res.status(400).json({ error: "Cannot increase amount beyond available books" });
+                }
+            }
+        }
         
+        // Perform the update
+        await Book.findByIdAndUpdate(req.params.id, updateFields);
+
+        // Render the page
     } catch(e) {
         res.status(400).json({ errors: e });
     }
