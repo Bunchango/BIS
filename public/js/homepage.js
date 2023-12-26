@@ -56,15 +56,24 @@ async function updateBookmarkPopup() {
                 .then( data => {
                     // TODO : Update the corresponding book mark icon
                     if (data.success) {
-                        // TODO: try to clear the taget element from the from end
+                        // Remove the itemDiv
                         itemDiv.remove();
-                        // TODO check if the list is empty append the this to html "<div id="empty-bookmark">Empty</div>"
+                        
                         // Check if the list is empty
-                    const list = document.querySelector('.pop-up-modal .list');
-                    if (list.children.length === 0) {
-                        // Append the "Empty" div to the list
-                        list.innerHTML = '<div id="empty-bookmark">Empty</div>'
-                    }
+                        const list = document.querySelector('.pop-up-modal .list');
+                        if (list.children.length === 0) {
+                            // Append the "Empty" div to the list
+                            list.innerHTML = '<div id="empty-bookmark">Empty</div>'
+                        }
+                        // TODO: Change the class of target icon, if the dataset.bookid == clicked bookId remove the class contain 'fas' to 'far'
+                        // Change the class of target icon
+                        const icons = document.querySelectorAll('.bookmark-icon');
+                        icons.forEach( icon => {
+                            if (icon.dataset.bookid === bookId) {
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                            }
+                        })
                     } else {
                         console.log('Error:', data.error);
                         console.log('Fail to remove from wishlist')
