@@ -69,32 +69,43 @@
         </script>
       </div>
       
-      <div class="popup-box">
-        <div class="popup">
-          <div class="content">
-            <header>
-              <p></p>
-              <i class="uil uil-times"></i>
-            </header>
-            <form action="#">
-              <div class="row title">
-                <label>Title</label>
-                <input type="text" spellcheck="false">
-              </div>
-              <div class="row description">
-                <label>Description</label>
-                <textarea spellcheck="false"></textarea>
-              </div>
-              <button></button>
-            </form>
+      <form action="add_notify" method="post">
+        <div class="popup-box">
+          <div class="popup">
+            <div class="content">
+              <header>
+                <p></p>
+                <i class="uil uil-times"></i>
+              </header>
+              <form action="#">
+                <div class="row title">
+                  <label>Title</label>
+                  <input type="text" name="title" spellcheck="false">
+                </div>
+                <div class="row description">
+                  <label>Description</label>
+                  <textarea spellcheck="false" name="description"></textarea>
+                </div>
+                <button type="submit"></button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
+
       <div class="wrapper">
         <li class="add-box">
           <div class="icon"><i class="uil uil-plus"></i></div>
           <p>Add new note</p>
         </li>
+
+        <% notices.forEach((notice) => { %>
+          <li>
+            <h2><%= notice.title %></h2>
+            <p>Author: <%= notice.author.username %></p>
+            <p><%= notice.description %></p>
+          </li>
+        <% }) %>
       </div>
       <script src="/js/dashboard.js"></script>
 </body>

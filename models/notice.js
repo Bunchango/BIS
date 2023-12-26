@@ -6,8 +6,14 @@ const noticeSchema = new mongoose.Schema({
         ref: "Library",
         required: true,
     }, 
-    image: {
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Librarian",
+        required: true,
+    },
+    title: {
         type: String,
+        required: true,
     },
     description: {
         type: String,
