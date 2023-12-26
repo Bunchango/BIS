@@ -277,7 +277,7 @@ router.get("/customer", isLibrarian, async (req, res) => {
       data.borrows = borrows;
     }
 
-    res.render("librarian/customer", data);
+    res.render("librarian/customer", {data: data});
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -332,93 +332,93 @@ router.post("/borrow/return/:id", async (req, res) => {
   try {
     await session.withTransaction(async () => {
       // Change books states and increment/decrease
-      await Borrow.updateOne(
-        { _id: req.params.id, books: { $in: returned } },
-        { $set: { "books.$[].status": "returned" } },
-        { session },
-      );
-
-      await Borrow.updateOne(
-        { _id: req.params.id, books: { $in: lost } },
-        { $set: { "books.$[].status": "lost" } },
-        { session },
-      );
-
-      // Update available and amount for returned and lost books
-      await Book.updateMany(
-        { _id: { $in: [...returned, ...lost] } },
-        {
-          $inc: {
-            available: returned ? 1 : 0,
-            amount: lost ? -1 : 0,
-          },
-        },
-        { session },
-      );
-
-      // Check if all books are not outstanding
-      const allBooksReturnedOrLost = await Borrow.findOne({
-        _id: req.params.id,
-        "books.status": { $ne: "outstanding" },
-      }).session(session);
-
-      if (allBooksReturnedOrLost) {
-        // Update the borrow record status to "Completed"
-        const borrow = await Borrow.findByIdAndUpdate(
-          req.params.id,
-          { status: "Completed" },
-          { session },
+        await Borrow.updateOne(
+            { _id: req.params.id, books: { $in: returned } },
+            { $set: { "books.$[].status": "returned" } },
+            { session },
         );
-        // Send notfications
-        transporter.sendMail({
-          to: borrow.reader.gmail,
-          subject: "VxNhe Borrow completed",
-          html: `Your borrow record has been set to completed`,
-        });
 
-        await notify(
-          borrow.reader._id,
-          "Borrow completed",
-          `Your borrow record is completed`,
+        await Borrow.updateOne(
+            { _id: req.params.id, books: { $in: lost } },
+            { $set: { "books.$[].status": "lost" } },
+            { session },
         );
-      }
 
-      // Send notification
-      const operations = [];
-      const borrow = await Borrow.findById(req.params.id).populate("reader");
-
-      for (let i = 0; i < returned.length; i++) {
-        const bookId = returned[i];
-        const book = await Book.findById(bookId);
-
-        if (book.available === 0) {
-          const notification = {
-            title: `Book wishlisted available`,
-            message: `${book.title} is now available`,
-            createdOn: Date.now(),
-          };
-
-          operations.push({
-            updateMany: {
-              filter: { wishList: { $in: [bookId] } },
-              update: { $push: { notification: notification } },
-              upsert: true,
+        // Update available and amount for returned and lost books
+        await Book.updateMany(
+            { _id: { $in: [...returned, ...lost] } },
+            {
+            $inc: {
+                available: returned ? 1 : 0,
+                amount: lost ? -1 : 0,
             },
-          });
+            },
+            { session },
+        );
 
-          // Send email
-          transporter.sendMail({
+        // Check if all books are not outstanding
+        const allBooksReturnedOrLost = await Borrow.findOne({
+            _id: req.params.id,
+            "books.status": { $ne: "outstanding" },
+        }).session(session);
+
+        if (allBooksReturnedOrLost) {
+            // Update the borrow record status to "Completed"
+            const borrow = await Borrow.findByIdAndUpdate(
+            req.params.id,
+            { status: "Completed" },
+            { session },
+            );
+            // Send notfications
+            transporter.sendMail({
             to: borrow.reader.gmail,
-            subject: "VxNhe wishlisted book available",
-            html: `${book.title} is not available`,
-          });
-        }
-      }
+            subject: "VxNhe Borrow completed",
+            html: `Your borrow record has been set to completed`,
+            });
 
-      if (operations.length > 0) {
-        await Reader.bulkWrite(operations);
-      }
-    });
+            await notify(
+            borrow.reader._id,
+            "Borrow completed",
+            `Your borrow record is completed`,
+            );
+        }
+
+        // Send notification
+        const operations = [];
+        const borrow = await Borrow.findById(req.params.id).populate("reader");
+
+        for (let i = 0; i < returned.length; i++) {
+            const bookId = returned[i];
+            const book = await Book.findById(bookId);
+
+            if (book.available === 0) {
+            const notification = {
+                title: `Book wishlisted available`,
+                message: `${book.title} is now available`,
+                createdOn: Date.now(),
+            };
+
+            operations.push({
+                updateMany: {
+                filter: { wishList: { $in: [bookId] } },
+                update: { $push: { notification: notification } },
+                upsert: true,
+                },
+            });
+
+            // Send email
+            transporter.sendMail({
+                to: borrow.reader.gmail,
+                subject: "VxNhe wishlisted book available",
+                html: `${book.title} is not available`,
+            });
+            }
+        }
+
+        if (operations.length > 0) {
+            await Reader.bulkWrite(operations);
+        }
+        });
 
     res.redirect("/librarian/customer");
   } catch (e) {
@@ -813,4 +813,3 @@ router.post(
 
 module.exports = { notify, transporter };
 module.exports = router;
-
