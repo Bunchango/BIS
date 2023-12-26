@@ -137,7 +137,7 @@ router.get("/book_detail/:id", async (req, res) => {
 })
 
 // TODO: Finish this
-router.post("/book_detail/:id", isLibrarian, (req, res) => {
+router.post("/book_detail/:id", upload.fields([{ name: "cover_1" }, { name: "cover_2" }, {name: "cover_3"}]), isLibrarian, (req, res) => {
     // Change book detail (when changing amount, only allow reducing the amount at most by the available amount)
     // Change title, author, images, category, description, amount
     try {
