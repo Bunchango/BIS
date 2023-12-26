@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/library-role.css"/>
     <link rel="stylesheet" href="/styles/footer.css"/>
-    <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"
-  />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"/>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
       crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Library Profile</title>
@@ -20,47 +17,65 @@
     <%- include('./partials_library/navigation.ejs') %>
     <div id="main">
         <%- include('./partials_library/update-profile.ejs') %>
+        
         <div id="whole-upper">
+            <img id="banner" src="/<%= admin.banner %>" alt="<%= admin.username %>'s Banner">
             <div id="upper">
-                <img id="banner" src="/<%= admin.banner %>" alt="<%= admin.username %>'s Banner">
-                <div id="avatar-container">
-                        <img id="avatar" src="/<%= admin.profilePicture %>" alt=" <%= admin.username %>'s Picture Profile">
+                <div class="left-col">
+                    <div id="avatar-container">
+                        <img id="avatar" src="/<%= admin.profilePicture %>" alt=" <%= admin.username %>'s Picture Profile" />
+                        <span></span>
+                    </div>
+
+                    <h2><%= admin.username %></h2>
+                    <p>Library Manager</p>
+                    <p><%= admin.gmail %></p>
+                    <p><%= admin.joinedAt.toDateString() %></p>
+
+                    <ul class="about-manager">
+                        <li><span>4,073</span>Connections</li>
+                        <li><span>322</span>Manage Librarians</li>
+                    </ul>
+
+                    <div class="manager-description">
+                        <p><%= admin.description %></p>
+                        <ul>
+                            <li><i class="fab fa-twitter"></i></li>
+                            <i class="fab fa-pinterest"></i>
+                            <i class="fab fa-facebook"></i>
+                            <i class="fab fa-dribbble"></i>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="right-col">
+                    <div class="small-nav">
+                        <ul>
+                            <li><h3>Our Products</h3></li>
+                        </ul>
                         <button data-modal-target="#pop-up-update" id="update-btn">
                             <% if (errors && errors.length > 0) { %>
                                 <i class="fa-solid fa-triangle-exclamation"></i>
                                 <% } %>
-                            Update
+                            Update Profile
                         </button>
+                    </div>
+            
+                    <div class="products">
+                        <img src="/images/default-book-cover.jpg" alt="Photo" />
+                        <img src="/images/lib1.jpg" alt="Photo" />
+                        <img src="/images/lib2.jpg" alt="Photo" />
+                        <img src="/images/lib3.jpg" alt="Photo" />
+                        <img src="/images/login.jpg" alt="Photo" />
+                        <img src="/images/test-bookmark.jpg" alt="Photo" />
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div id="whole-lower">
-            <div id="lower">
-                <div class="label">
-                    <label for="description">Description:</label>
-                    <p><%= admin.description %></p>
-                </div>
-                <div class="label">
-                    <label for="gmail">Gmail:</label>
-                    <p><%= admin.gmail %></p>
-                </div>
-                <div class="label">
-                    <label for="location">Location:</label>
-                    <p><%= admin.location.formattedAddress %></p>
-                </div>
-                <div class="label">
-                    <label for="joinedAt">Joined At:</label>
-                    <p><%= admin.joinedAt.toDateString() %></p>
-                </div>
-            </div>
-        </div>
-        
-
     </div>
-    
     <%- include('../partials_readers/footer.ejs') %>
     <script defer src="/js/library.js"></script>
     <script src="https://kit.fontawesome.com/5c0d7c8bb2.js" crossorigin="anonymous"></script>
 </body>
 </html>
+

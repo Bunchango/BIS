@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title><%= book.title %> by <%= book.author %></title>
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/footer.css" />
@@ -45,7 +45,7 @@
                     <p class="quantity">Quantity: <%= book.amount %></p>
 
                 </div>
-                <% if (user && user instanceof Reader) { %>
+                <% if (user && user.__t === "Reader") { %>
                 <!-- Reader-specific content -->
                 <div class="reader-buttons">
                     <div class="cart-btn">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
 
-                <% } else if (user && user instanceof Librarian) { %>
+                <% } else if (user && user.__t === "Librarian") { %>
                 <!-- Librarian-specific content -->
                 <div class="librarian-buttons">
                     <div class="edit-btn">
