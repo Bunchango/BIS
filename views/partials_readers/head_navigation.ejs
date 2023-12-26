@@ -17,9 +17,9 @@
             </div>
             <div class="center">
                 <div class="list">
-                    <% if (user.wishList) { %> 
+                    <% if (user.wishList &&  user.wishList.length > 0) { %> 
                         <% wishList.forEach( book => { %>
-                        <div class="item" data-bookid="<%= book._id %>">
+                        <div class="item">
                             <div class="img">
                                 <img src="/<%= book.coverImages[0] %>" alt="<%= book.title %>'s Picture">
                             </div>
@@ -28,55 +28,14 @@
                                 <div class="des">
                                     <%= book.description %>
                                 </div>
-                                <button class="remove"><i class="fa-solid fa-trash"></i></button>
+                                <button class="remove" data-bookid="<%= book._id %>"><i class="fa-solid fa-trash"></i></button>
+                                <a id="view-detail" href="/reader/book_detail/<%= book._id %>">View</a>
                             </div>
                         </div>
-                        <% } %>
+                        <% }) %>
+                    <% } else { %>
+                        <div id="empty-bookmark">Empty</div>
                     <% } %>
-                    
-
-                    <!-- <div class="item" data-key="2">
-                        <div class="img">
-                            <img src="/images/test-bookmark.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title">THE DIARY OF A YOUNG GIRL</div>
-                            <div class="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                                exercitationem aspernatur dicta labore
-                            </div>
-                            <button class="remove"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-
-                    <div class="item" data-key="3">
-                        <div class="img">
-                            <img src="/images/test-bookmark.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title">THE DIARY OF A YOUNG GIRL</div>
-                            <div class="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                                exercitationem aspernatur dicta labore
-                            </div>
-                            <button class="remove"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-
-                    <div class="item" data-key="4">
-                        <div class="img">
-                            <img src="/images/test-bookmark.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title">THE DIARY OF A YOUNG GIRL</div>
-                            <div class="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                                exercitationem aspernatur dicta labore
-                            </div>
-                            <button class="remove"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div> -->
-
                 </div>
             </div>
         </div>
@@ -133,5 +92,4 @@
         </div>
         <% } %>
     </div>
-
 </div>

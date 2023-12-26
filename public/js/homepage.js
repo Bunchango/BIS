@@ -2,10 +2,84 @@ const openModalButtons = document.querySelectorAll('[data-modal-target]')
 const closeModalButtons = document.querySelectorAll('[data-close-button]')
 const overlay = document.getElementById('overlay')
 
+// Open the pop up book mark
+async function updateBookmarkPopup() {
+    // Send a request to the server to get the updated list of bookmarks
+    const response = await fetch('/reader/wishlist', { method: 'GET', credentials: 'include' });
+   
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+   
+    const bookmarks = await response.json();
+    if (bookmarks.length > 0) {
+        // Clear the current popup content
+        const list = document.querySelector('.pop-up-modal .list');
+        list.innerHTML = '';
+    
+        // Add the updated bookmarks to the popup
+        bookmarks.forEach(bookmark => {
+        const bookmarkElement = document.createElement('div');
+        bookmarkElement.className = 'item';
+        bookmarkElement.innerHTML = `
+            <div class="img">
+            <img src="/${bookmark.coverImages[0]}" alt="${bookmark.title}'s Picture">
+            </div>
+            <div class="content">
+            <div class="title">${bookmark.title}</div>
+            <div class="des">${bookmark.description}</div>
+            <button class="remove" data-bookid="${bookmark._id}"><i class="fa-solid fa-trash"></i></button>
+            <a id="view-detail" href="/reader/book_detail/${bookmark._id}">View</a>
+            </div>
+        `;
+        list.appendChild(bookmarkElement);
+        });
+    } 
+    // Remove the book from the wishlist
+    // TODO: remove the book from the wish list , update the data when out pop up window
+    const removeBookmarks = document.querySelectorAll('.pop-up-modal .remove');
+    removeBookmarks.forEach(removebtn => {
+        removebtn.addEventListener("click", (event) => {
+            console.log('click')
+            // Prevent the default action
+            event.preventDefault();
+            const bookId = event.currentTarget.dataset.bookid;
+            const itemDiv = event.currentTarget.closest('.item');
+            console.log(bookId)
+            fetch(`/reader/wishlist/${bookId}?action=remove`, { method: 'POST', credentials: 'include' })
+                .then( response => { 
+                    if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then( data => {
+                    // TODO : Update the corresponding book mark icon
+                    if (data.success) {
+                        // TODO: try to clear the taget element from the from end
+                        itemDiv.remove();
+                        // TODO check if the list is empty append the this to html "<div id="empty-bookmark">Empty</div>"
+                        // Check if the list is empty
+                    const list = document.querySelector('.pop-up-modal .list');
+                    if (list.children.length === 0) {
+                        // Append the "Empty" div to the list
+                        list.innerHTML = '<div id="empty-bookmark">Empty</div>'
+                    }
+                    } else {
+                        console.log('Error:', data.error);
+                        console.log('Fail to remove from wishlist')
+                    }
+                }).catch(error => console.error('There has been a problem with your fetch operation: ', error));
+        })
+    })
+    
+}
+
 openModalButtons.forEach(button => {
     button.addEventListener('click', () => {
         const modal = document.querySelector(button.dataset.modalTarget)
         openModal(modal)
+        updateBookmarkPopup().catch(console.error);
     })
 })
 
@@ -50,7 +124,6 @@ if(avaImage){
         }
     })
 }
-
 
 // Get all the icon elements
 const icons = document.querySelectorAll('.bookmark-icon');
@@ -101,19 +174,4 @@ icons.forEach(icon => {
         }
    });
 });
-// // Bookmark Icon
-// icon.addEventListener('click', function() {
-//     const bookId = this.dataset.bookId;
-//     fetch(`/reader/wishlist/${bookId}`, { method: 'POST' })
-//       .then(response => response.json())
-//       .then(data => {
-//         if (data.success && icon.classList.contains('fa-regular')) {
-//             icon.classList.remove('fa-regular');
-//             icon.classList.add('fa-solid');
-//         } else {
-//             // If it doesn't, remove 'fa-solid' and add 'fa-regular'
-//             icon.classList.remove('fa-solid');
-//             icon.classList.add('fa-regular');
-//         }
-//       });
-//   });
+

@@ -114,8 +114,10 @@ router.get("/book_detail/:id", async (req, res) => {
     if (!book) {
       return res.status(404).json({ error: "Book not found" });
     }
+    const wishList = req.user.wishList
+    let wishlistBooks = await Book.find({_id: {$in: wishList}});
 
-    res.render("book/book_detail", { book, user: req.user });
+    res.render("book/book_detail", { book, user: req.user, wishList: wishlistBooks});
   } catch (err) {
     console.error(err);
     res.status(500).json({ errors: err });
@@ -294,6 +296,17 @@ router.post("/request/cancel/:id", isReader, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+// Get all wishlist Data
+router.get("/wishlist",isReader, async (req, res) => {
+  try {
+    const wishList = req.user.wishList
+    let wishlistBooks = await Book.find({_id: {$in: wishList}});
+    res.json(wishlistBooks);
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({ errors: err });
+  }
+})
 
 // Add and remove book from wishlist route
 router.post("/wishlist/:id", isReader, async (req, res) => {
@@ -304,7 +317,10 @@ router.post("/wishlist/:id", isReader, async (req, res) => {
     if (!reader) {
         return res.status(404).json({ error: "Reader not found", success: false });
     }
-
+    
+    if (!req.params.id) {
+      return res.status(400).json({ error: "Book ID is required", success: false });
+    }
     const book = await Book.findOne({ _id: req.params.id });
     if (action === 'add') {
 
@@ -437,6 +453,7 @@ const fetchRequests = async (req, res, next) => {
 };
 
 // Reader profile route
+// Update the wishlist to the user profile
 router.get(
   "/profile",
   isReader,
@@ -446,11 +463,12 @@ router.get(
   async (req, res) => {
     try {
       const reader = await Reader.findOne({ _id: req.user._id });
-
+      const wishList = req.user.wishList
+      let wishlistBooks = await Book.find({_id: {$in: wishList}});
       res.render("reader/reader-profile", {
         reader: reader,
         user: req.user,
-        wishlist: req.wishlist || [],
+        wishList: wishlistBooks || [],
         loans: req.readerLoans || [],
         formattedRequests: req.readerRequests || [],
         errors: [],
@@ -592,9 +610,12 @@ router.post("/profile/set-default", isReader, async (req, res) => {
 router.get("/library-profile/:id", async (req, res) => {
   try {
     const library = await Library.findById(req.params.id);
+    const wishList = req.user.wishList
+    let wishlistBooks = await Book.find({_id: {$in: wishList}});
     res.render("reader/library-profile", {
       library: library,
       user: req.user,
+      wishList: wishlistBooks,
     });
   } catch (errors) {
     console.log("Error:", errors);

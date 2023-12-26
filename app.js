@@ -72,23 +72,41 @@ app.get("/", (req, res) => {
 
 app.use("/uploads", express.static("uploads"));
 
+// Helper function to redirect based on user type
+function redirectBasedOnUserType(res, req) {
+    switch (req.user.__t) {
+        case "Librarian":
+            return res.redirect("/librarian/dashboard");
+        case "Library":
+            return res.redirect("/library/manage");
+        case "Admin":
+            return res.redirect("/admin/create_library");
+        default:
+            return res.redirect("/login");
+    }
+ }
+
 // TODO: Change reader to redirect
 // TODO: Query more data from library to display in the homepage for Reader role
+// Route handler
 app.get("/homepage", async (req, res) => {
-    // If user has not login render reader's home page, if logged in render respective user's home page
     if (!req.user || req.user.__t === "Reader") {
-        // Query data of 6 libraries
-        const libraries = await Library.find().limit(6);
-        const awardBooks = await Book.find().limit(6);
-        let wishListBooksId = req.user.wishList
-        const wishlistBooks = await Book.find({_id: {$in: wishListBooksId}})
-        res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries, books: awardBooks, wishList: wishlistBooks });
-    } else if (req.user && req.user.__t === "Librarian") {
-        res.redirect("/librarian/dashboard");
-    } else if (req.user && req.user.__t === "Library") {
-        res.redirect("/library/manage");
-    } else if (req.user && req.user.__t === "Admin") {
-        res.redirect("/admin/create_library");
+        try {
+            const libraries = await Library.find().limit(6);
+            const awardBooks = await Book.find().limit(6);
+            let wishlistBooks = [];
+            if (req.user) {
+                let wishListBooksId = req.user.wishList;
+                wishlistBooks = await Book.find({_id: {$in: wishListBooksId}});
+            }
+ 
+            res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries, books: awardBooks, wishList: wishlistBooks });
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("An error occurred while processing your request.");
+        }
+    } else {
+        redirectBasedOnUserType(res, req);
     }
 })
 
