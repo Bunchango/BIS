@@ -214,39 +214,47 @@ icons.forEach((icon) => {
   });
 });
 
-// TODO: Remove from my wishlist in the profile
+// Remove from my wishlist in the profile
 const removeBtns = document.querySelectorAll("#my-wishlist .remove"); // Target Buttons
 
-removeBtns.forEach( removeBtn => {
-    removeBtn.addEventListener('click', (event) => {
-       
-        event.preventDefault();
-        const bookId = event.currentTarget.dataset.bookid;
-        const itemDiv = event.currentTarget.closest('.item');
-        console.log(bookId)
-        fetch(`/reader/wishlist/${bookId}?action=remove`, { method: 'POST', credentials: 'include' })
-            .then( response => { 
-                if (!response.ok) {
-                throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then( data => {
-                // TODO : Update the corresponding book mark icon
-                if (data.success) {
-                    // Remove the itemDiv
-                    itemDiv.remove();
-                    // Check if the list is empty
-                    const list = document.querySelector('#my-wishlist .list');
-                    if (list.children.length === 0) {
-                        // Append the "Empty" div to the list
-                        list.innerHTML = '<div id="empty-wishList">Your WishList Empty</div>'
-                    }
-                } else {
-                    console.log('Error:', data.error);
-                    console.log('Fail to remove from wishlist')
-                }
-            }).catch(error => console.error('There has been a problem with your fetch operation: ', error));
-    })  
-})
-
+removeBtns.forEach((removeBtn) => {
+  removeBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    const bookId = event.currentTarget.dataset.bookid;
+    const itemDiv = event.currentTarget.closest(".item");
+    console.log(bookId);
+    fetch(`/reader/wishlist/${bookId}?action=remove`, {
+      method: "POST",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Update the corresponding book mark icon
+        if (data.success) {
+          // Remove the itemDiv
+          itemDiv.remove();
+          // Check if the list is empty
+          const list = document.querySelector("#my-wishlist .list");
+          if (list.children.length === 0) {
+            // Append the "Empty" div to the list
+            list.innerHTML =
+              '<div id="empty-container">Your WishList Empty</div>';
+          }
+        } else {
+          console.log("Error:", data.error);
+          console.log("Fail to remove from wishlist");
+        }
+      })
+      .catch((error) =>
+        console.error(
+          "There has been a problem with your fetch operation: ",
+          error,
+        ),
+      );
+  });
+});

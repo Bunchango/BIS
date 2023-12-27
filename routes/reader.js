@@ -106,13 +106,17 @@ const paginatedResults = async (req, res, next) => {
 
 // Middleware to handle rendering search result page
 const renderSearchResultPage = async (req, res) => {
-  const wishList = req.user.wishList
-  let wishlistBooks = await Book.find({_id: {$in: wishList}});
+  let wishlistBooks = [];
+
+  if (req.user && req.user.__t === "Reader") {
+    const wishList = req.user.wishList;
+    wishlistBooks = await Book.find({ _id: { $in: wishList } });
+  }
+
   res.render("reader/search_result", {
     user: req.user,
-    wishList: wishlistBooks,
     ...req.paginatedResults,
-    wishList: wishlistBooks,
+    wishList: wishlistBooks || [],
   });
 };
 
@@ -381,35 +385,6 @@ router.post("/wishlist/:id", isReader, async (req, res) => {
       book.title
     } has been ${message.toLowerCase()}.`;
     await notify(req.user._id, message, notificationMessage);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ errors: err });
-  }
-});
-
-// Remove book from wishlist in profile page route
-router.post("/wishlist/remove/:id", isReader, async (req, res) => {
-  try {
-    const book = await Book.findOne({ _id: req.params.id });
-    const reader = await Reader.findOne({ _id: req.user._id });
-
-    if (!book) {
-      return res.status(404).json({ error: "Book not found" });
-    }
-
-    if (!reader) {
-      return res.status(404).json({ error: "Reader not found" });
-    }
-
-    if (!reader.wishList.map(String).includes(book._id.toString())) {
-      return res.status(400).json({ error: "Book not in wishlist" });
-    }
-
-    reader.wishList.pull(book);
-    await reader.save();
-
-    res.status(200);
-    res.redirect("/reader/profile/#my-wishlist");
   } catch (err) {
     console.log(err);
     res.status(400).json({ errors: err });

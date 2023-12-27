@@ -419,25 +419,30 @@ nav #list li button {
 }
 
 #lower-container {
-    margin: 30px;
+    padding: 30px;
     display: grid;
     grid-template-rows: repeat(auto-fit);
     grid-template-columns: repeat(auto-fit, minmax(300px, auto));
     gap: 10px;
+    background-color: var(--theme-color-orange);
 }
 
 #librarians-container {
     width: auto;
     height: 450px;
-    border: 1px solid black;
+    border: 10px solid var(--theme-color-peach);
+    background-color: var(--theme-color-peach);
+    border-radius: 10px;
     overflow-y: scroll;
 }
 
 #verifying-container {
     width: auto;
     height: 450px;
-    border: 1px solid black;
+    border: 10px solid var(--theme-color-peach);
     overflow-y: scroll;
+    border-radius: 10px;
+    background-color: var(--theme-color-peach);
 }
 
 /*   Profile   */
@@ -624,7 +629,6 @@ nav #list li button {
       grid-template-columns: 1fr 2fr;
       gap: 50px;
     }
-
     #whole-upper #upper .left-col {
       padding: 25px 0px;
     }
@@ -660,3 +664,56 @@ nav #list li button {
     height: 50px;
     overflow-y: scroll;
 }
+
+.sect-header {
+    font-size: 62px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 74px;
+    padding: 2rem 1rem;
+    color: var(--theme-color-peach);
+    text-align: center;
+    background-color: var(--theme-color-orange);
+}
+
+.lib-header {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 74px;
+    padding: 1rem 1rem;
+    color: var(--theme-color-orange);
+    text-align: center;
+    background-color: var(--theme-color-peach);
+}
+
+.people-container {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.information-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+    background-color: var(--theme-color-orange);
+    color: var(--theme-color-peach);
+    border-radius: 10px;
+}
+
+.information-left {
+    display: flex;
+    align-items: center;
+}
+
+.information-container button {
+    padding: 0.5rem;
+    background-color: var(--theme-color-peach);
+    color: var(--theme-color-orange);
+    border-radius: 10px;
+    margin-right: 1rem;
+}
+
