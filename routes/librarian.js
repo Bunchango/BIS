@@ -286,7 +286,7 @@ router.get("/customer", isLibrarian, async (req, res) => {
 router.get("/borrow/:id", isLibrarian, async (req, res) => {
   // Display borrow information
   try {
-    const borrow = await Borrow.findById(req.params.id);
+    const borrow = await Borrow.findById(req.params.id).populate("reader").populate("books");
     if (borrow.library !== req.user.library)
       return res.redirect("/librarian/customer");
     res.render("librarian/borrow", { borrow: borrow });
@@ -301,7 +301,7 @@ router.post("/borrow/update_date/:id", async (req, res) => {
     const { dueDate } = req.body;
     const borrow = await Borrow.findByIdAndUpdate(
       req.params.id,
-      { dueDate: dueDate },
+      { dueDate: dueDate, status: "Ongoing" },
       { new: true },
     ).populate("reader");
 
@@ -454,6 +454,7 @@ router.post("/borrow/overdue/:id", async (req, res) => {
 router.post("/borrow/cancel/:id", async (req, res) => {
   // Mark borrow as canceled, decrease amount of all books by 1 and send notifications
   try {
+    const reason = req.body.reason || "No reason"
     const borrow = await Borrow.findByIdAndUpdate(
       req.params.id,
       { status: "Canceled" },
@@ -473,13 +474,13 @@ router.post("/borrow/cancel/:id", async (req, res) => {
       to: borrow.reader.gmail,
       subject: "VxNhe borrow canceled",
       // Add reason
-      html: `Your borrow is canceled`,
+      html: `Your borrow is canceled for ${reason}`,
     });
 
     await notify(
       borrow.reader._id,
       "Borrow canceled",
-      "Your borrow is canceled",
+      `Your borrow is canceled for ${reason}`,
     );
   } catch (e) {
     res.status(400).json({ errors: e });
@@ -775,14 +776,15 @@ router.post("/add_notify", async (req, res) => {
 
 // Librarian profile
 router.get("/profile", isLibrarian, async (req, res) => {
-  res.render("librarian/profile", { librarian: req.user, errors: [] });
+    const user = await Librarian.findById(req.user._id).populate("library");
+  res.render("librarian/profile", { librarian: user, errors: [] });
 });
 
 router.post(
   "/profile",
   isLibrarian,
-  validateUsername,
   upload.single("image"),
+  validateUsername,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

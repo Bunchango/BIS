@@ -2,9 +2,9 @@
 <div class="pop-up-modal" id="pop-up-createLibrarians">
         
     <div id="create-librarians-body"> 
-        <% if (errors && errors.length > 0) { %>
+        <% if (errors_lib && errors_lib.length > 0) { %>
             <div style="color: red;">
-                <% errors.forEach(error => { %>
+                <% errors_lib.forEach(error => { %>
                     <p><%= error.msg %></p>
                 <% }); %>
             </div>

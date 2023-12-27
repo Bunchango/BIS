@@ -106,13 +106,17 @@ const paginatedResults = async (req, res, next) => {
 
 // Middleware to handle rendering search result page
 const renderSearchResultPage = async (req, res) => {
-  const wishList = req.user.wishList
-  let wishlistBooks = await Book.find({_id: {$in: wishList}});
+  let wishlistBooks = [];
+
+  if (req.user && req.user.__t === "Reader") {
+    const wishList = req.user.wishList;
+    wishlistBooks = await Book.find({ _id: { $in: wishList } });
+  }
+
   res.render("reader/search_result", {
     user: req.user,
-    wishList: wishlistBooks,
     ...req.paginatedResults,
-    wishList: wishlistBooks,
+    wishList: wishlistBooks || [],
   });
 };
 
@@ -387,35 +391,6 @@ router.post("/wishlist/:id", isReader, async (req, res) => {
   }
 });
 
-// Remove book from wishlist in profile page route
-router.post("/wishlist/remove/:id", isReader, async (req, res) => {
-  try {
-    const book = await Book.findOne({ _id: req.params.id });
-    const reader = await Reader.findOne({ _id: req.user._id });
-
-    if (!book) {
-      return res.status(404).json({ error: "Book not found" });
-    }
-
-    if (!reader) {
-      return res.status(404).json({ error: "Reader not found" });
-    }
-
-    if (!reader.wishList.map(String).includes(book._id.toString())) {
-      return res.status(400).json({ error: "Book not in wishlist" });
-    }
-
-    reader.wishList.pull(book);
-    await reader.save();
-
-    res.status(200);
-    res.redirect("/reader/profile/#my-wishlist");
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ errors: err });
-  }
-});
-
 // Show cart route
 const fetchCart = async (req, res, next) => {
   try {
@@ -523,32 +498,34 @@ router.get(
 // Update profile route
 router.post(
   "/profile/edit-profile",
-  isReader,
-  validateUsername,
   uploads.fields([
     { name: "background", maxCount: 1 },
     { name: "avatar", maxCount: 1 },
   ]),
+  isReader,
+  validateUsername,
   async (req, res) => {
     const errors = validationResult(req);
 
     console.log("req.files:", req.files);
     console.log("req.body:", req.body);
-
+    const wishList = req.user.wishList
+    let wishlistBooks = await Book.find({_id: {$in: wishList}});
     if (!errors.isEmpty()) {
       // If there are validation errors, render the page with errors
       return res.render("reader/reader-profile", {
         user: req.user,
         errors: errors.array(),
+        wishList: wishlistBooks,
       });
     }
-
     try {
       if (!req.body.confirm) {
         // Show error must confirm to change
         return res.render("reader/reader-profile", {
           user: req.user,
           errors: [{ msg: "You must confirm the changes" }],
+          wishList: wishlistBooks,
         });
       }
 
@@ -581,6 +558,7 @@ router.post(
         return res.render("reader/reader-profile", {
           user: req.user,
           errors: [{ msg: "Reader not found or not updated" }],
+          wishList: wishlistBooks,
         });
       }
 
@@ -594,6 +572,7 @@ router.post(
       return res.render("reader/reader-profile", {
         user: req.user,
         errors: [{ msg: "Internal Server Error" }],
+        wishList: wishlistBooks,
       });
     }
   },
@@ -605,11 +584,10 @@ router.post(
           errors: [
             { msg: "File Too Large: Please upload an image smaller than 2MB" },
           ],
+          wishList: wishlistBooks
         });
       }
-    } else {
-      next(error);
-    }
+    } 
   },
 );
 

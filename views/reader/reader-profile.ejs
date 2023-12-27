@@ -216,10 +216,10 @@
 
             <div id="my-wishlist" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Wishlist</h3>
-                    <% if (user.wishList &&  user.wishList.length > 0) { %> 
-                    <ul>
-                        <% wishList.forEach( book => { %>
-                            <li>
+                <ul>
+                    <% if (wishList && wishList.length > 0) { %> 
+                    <% wishList.forEach( book => { %>
+                            <li class="item" data-bookid="<%= book._id %>">
                                 <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
                                     <div class="flex-shrink-0">
                                         <div class="img">
@@ -229,22 +229,19 @@
                                     <div class="flex-grow ">
                                         <div class="flex items-center space-x-4">
                                             <p class="text-4xl mr-12 font-semibold ml-10"><%= book.title %></p>
-                                            <form action="/reader/wishlist/remove/<%= book._id %>" method="POST">
-                                                <input type="hidden" name="bookId" value="<%= book._id %>">
-                                                <button class="remove" type="submit"><i class="fa-solid fa-trash hover:text-red-500"></i></button>
-                                            </form>
+                                            <button class="remove" data-bookid="<%= book._id %>"><i class="fa-solid fa-trash hover:text-red-500"></i></button>
                                             <a id="view-detail" class="hover:text-blue-500" href="/reader/book_detail/<%= book._id %>">View</a>
                                         </div>
                                         <p class="text-gray-600 mt-2 ml-10"><%= book.description %></p>
                                     </div>
                                 </div>
-                            </div>
-                            <% }) %>
-                        <% } else { %>
-                            <div id="empty-container">Your WishList Empty</div>
-                        <% } %> 
-                    </div>
-                </div>
+                            </li>
+                        
+                    <% }) %>
+                    <% } else { %>
+                        <div id="empty-container">Your WishList Empty</div>
+                    <% } %> 
+                </ul>
             </div>
         </div>
     </div>
