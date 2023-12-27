@@ -44,7 +44,7 @@
         <p><strong>Created On:</strong> <%= pickup.createdOn %></p>
         <p><strong>Take Date:</strong> <%= pickup.takeDate %></p>
 
-        <% if(pickup.status !== 'scheduled') { %>
+        <% if(pickup.status === 'Scheduled') { %>
             <!-- Button display form to change date -->
             <button onclick="showForm('changeDateForm')">Change Pickup Date</button> 
         <% } %>
