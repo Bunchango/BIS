@@ -523,32 +523,34 @@ router.get(
 // Update profile route
 router.post(
   "/profile/edit-profile",
-  isReader,
-  validateUsername,
   uploads.fields([
     { name: "background", maxCount: 1 },
     { name: "avatar", maxCount: 1 },
   ]),
+  isReader,
+  validateUsername,
   async (req, res) => {
     const errors = validationResult(req);
 
     console.log("req.files:", req.files);
     console.log("req.body:", req.body);
-
+    const wishList = req.user.wishList
+    let wishlistBooks = await Book.find({_id: {$in: wishList}});
     if (!errors.isEmpty()) {
       // If there are validation errors, render the page with errors
       return res.render("reader/reader-profile", {
         user: req.user,
         errors: errors.array(),
+        wishList: wishlistBooks,
       });
     }
-
     try {
       if (!req.body.confirm) {
         // Show error must confirm to change
         return res.render("reader/reader-profile", {
           user: req.user,
           errors: [{ msg: "You must confirm the changes" }],
+          wishList: wishlistBooks,
         });
       }
 
@@ -581,6 +583,7 @@ router.post(
         return res.render("reader/reader-profile", {
           user: req.user,
           errors: [{ msg: "Reader not found or not updated" }],
+          wishList: wishlistBooks,
         });
       }
 
@@ -594,6 +597,7 @@ router.post(
       return res.render("reader/reader-profile", {
         user: req.user,
         errors: [{ msg: "Internal Server Error" }],
+        wishList: wishlistBooks,
       });
     }
   },
@@ -605,11 +609,10 @@ router.post(
           errors: [
             { msg: "File Too Large: Please upload an image smaller than 2MB" },
           ],
+          wishList: wishlistBooks
         });
       }
-    } else {
-      next(error);
-    }
+    } 
   },
 );
 

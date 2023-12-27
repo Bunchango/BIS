@@ -8,7 +8,7 @@ const {validateRegistration, validateUsername, validateDescription} = require(".
 const { validationResult } = require("express-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
-
+const multer = require('multer');
 // Only library admin can access this page
 function isLibraryAdmin(req, res, next) {
     // If is library admin then move to the next task
@@ -32,7 +32,7 @@ router.get("/manage", isLibraryAdmin, async (req, res) => {
         const librarians = await Librarian.find({library: req.user.id}); 
         const verifyingLibrarians = await LibrarianVerification.find({library: req.user.id});
 
-        res.render("library/manage", {librarians: librarians, verifyingLibrarians: verifyingLibrarians, errors: [], admin: req.user});
+        res.render("library/manage", {librarians: librarians, verifyingLibrarians: verifyingLibrarians, errors_lib: [], admin: req.user});
     } catch(e) {
         res.status(400).json({ errors: e });
     }
@@ -47,7 +47,7 @@ router.post("/create_librarian", isLibraryAdmin, validateRegistration, async (re
     const verifyingLibrarians = await LibrarianVerification.find({library: req.user.id});
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('library/manage', { errors: errors.array(), admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians})
+        return res.render('library/manage', { errors_lib: errors.array(), admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians})
     }
 
     // Create a new librarian, send an email to verify
@@ -57,16 +57,16 @@ router.post("/create_librarian", isLibraryAdmin, validateRegistration, async (re
     password = password.trim();
 
     if (password !== confirmPassword) {
-        return res.render('library/manage', {errors: [{msg: "Password different from confirm password"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
+        return res.render('library/manage', {errors_lib: [{msg: "Password different from confirm password"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
     }
 
     if (!acceptTerms) {
-        return res.render('library/manage', {errors: [{msg: "You must accept terms and conditions"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
+        return res.render('library/manage', {errors_lib: [{msg: "You must accept terms and conditions"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
     }
 
     const account = await User.findOne({gmail: gmail});
     if (account) {
-        return res.render('library/manage', {errors: [{msg: "Account already exists"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
+        return res.render('library/manage', {errors_lib: [{msg: "Account already exists"}], admin: req.user, librarians: librarians, verifyingLibrarians: verifyingLibrarians});
     }
 
     const token =  crypto.randomBytes(20).toString("hex"); 
@@ -99,36 +99,55 @@ router.post("/create_librarian", isLibraryAdmin, validateRegistration, async (re
     }
 })
 
-router.get("/profile", isLibraryAdmin, (req, res) => {
+router.get("/profile", isLibraryAdmin, async (req, res) => {
     // Show library information
-    res.render("library/profile", {admin: req.user, errors: [] });
+    let librarians = []
+    librarians = await Librarian.find({ library: req.user._id })
+    res.render("library/profile", {admin: req.user, errors_lib: [], librarians: librarians, errors: []});
 })
 
-router.post("/profile", validateUsername, validateDescription, upload.fields([{ name: "logo" }, { name: "banner" }]), async (req, res) => {
+// Upadte the Libray Profile
+router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), validateUsername, validateDescription,  async (req, res) => {
     // TODO: Make location changable
     // Change library information: username, profile picture, location, banner
     const errors = validationResult(req);
+    let librarians = []
+    librarians = await Librarian.find({ library: req.user._id })
+    
     if (!errors.isEmpty()) {
-        return res.render('library/profile', {admin: req.user, errors: errors.array()})
+        return res.render('library/profile', { admin: req.user, errors: errors.array(), librarians : librarians, errors_lib: [] })
     }
+    
     try {
         if (!req.body.confirm) {
             // Show error must confrim to change 
-            res.render("library/profile", {admin: req.user, errors: [{msg: "You must confirm the changes"}]})
+            return res.render("library/profile", {admin: req.user, errors: [{msg: "You must confirm the changes"}], librarians : librarians, errors_lib: []})
         }
-
+ 
         const updateFields = {};
         if (req.body.username) updateFields.username = req.body.username; 
         if (req.body.description) updateFields.description = req.body.description;
         if (req.files.logo) updateFields.profilePicture = req.files.logo[0].path;
         if (req.files.banner) updateFields.banner = req.files.banner[0].path;
-
-        await Library.findOneAndUpdate({_id: req.user.__id}, updateFields); 
+ 
+        await Library.findOneAndUpdate({_id: req.user._id}, updateFields); 
         
         res.redirect("/library/manage");
     } catch(e) {
-        res.render("library/profile", {admin: req.user, errors: e})
-        res.status(400).json({ errors: e }); 
+        if (e instanceof multer.MulterError && e.code === 'LIMIT_FILE_SIZE') {
+            let librarians = []
+            librarians = await Librarian.find({ library: req.user._id })
+            
+            res.render("library/profile", {
+              admin: req.user,
+              errors: [
+                { msg: "File Too Large: Please upload an image smaller than 2MB" },
+              ],
+              errors_lib: [],
+              librarians :librarians
+            });
+        } 
+        
     }
 })
 

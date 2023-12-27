@@ -42,11 +42,11 @@ const validateBookCreation = [
 
 const validateUsername = [
   body("username")
-    .optional({ checkFalsy: true })
     .isAlpha()
     .withMessage("Username must contain only digits and letters")
     .isLength({ min: 8, max: 15 })
-    .withMessage("Username must be between 8 and 15 characters"),
+    .withMessage("Username must be between 8 and 15 characters")
+    .optional({ checkFalsy: true })
 ]
 
 const validatePassword = [
@@ -61,9 +61,9 @@ const validatePassword = [
 
 const validateDescription = [
   body("description")
+    .isLength({ min: 10 })
+    .withMessage("Description must be greater than 10 characters")
     .optional({ checkFalsy: true })
-    .isLength({ min: 10, max: 15 })
-    .withMessage("Description must be greater than 10 characters"),
 ]
 
 module.exports = { validateRegistration, validateBookCreation, validateUsername, validatePassword, validateDescription }

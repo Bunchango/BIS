@@ -4,7 +4,7 @@
         <li><a href="/library/manage">Manage Librarians</a></li>
         <!-- Pop creating librarians button -->
         <li>
-            <% if (errors && errors.length > 0) { %>
+            <% if (errors_lib && errors_lib.length > 0) { %>
                 <i class="fa-solid fa-triangle-exclamation"></i>
             <% } %>
             <button data-modal-target="#pop-up-createLibrarians" id="create-librarians">
