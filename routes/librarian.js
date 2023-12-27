@@ -756,16 +756,18 @@ router.get("/dashboard", isLibrarian, (req, res) => {
 });
 
 // Add notification to the library
-router.post("/add_notify", upload.single("image"), async (req, res) => {
+router.post("/add_notify", async (req, res) => {
   try {
-    const { description } = req.body;
+    const { description, title } = req.body;
     const notice = new Notice({
       library: req.user.library,
+      author: req.user.username,
+      title: title,
       description: description,
-      image: req.file.path,
     });
 
     await notice.save();
+    res.redirect("/librarian/dashboard");
   } catch (e) {
     res.status(400).json({ errors: e });
   }

@@ -350,6 +350,85 @@
   border-top: 0.5px solid rgba(0, 0, 0, 0.5);
 }
 
+.lib-sect {
+  background-color: #ee4e34;
+  padding-top: 100px;
+}
+
+.card {
+  height: 300px;
+  position: relative;
+}
+
+.book-details {
+  position: absolute;
+  bottom: -400px;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(238, 78, 52, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.card:hover .book-details {
+  bottom: 0px;
+}
+
+.book-details h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 5px;
+  color: var(--theme-color-peach);
+}
+
+.book-details p {
+  text-align: center;
+  padding: 10px;
+
+  color: var(--theme-color-peach);
+}
+
+.book-details a {
+  padding: 10px;
+  background-color: #ee4e34;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  color: var(--theme-color-peach);
+}
+
+/* #bookmark-icon-container{
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+} */
+
+.bookmark-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.fa-star {
+  color: var(--theme-color-peach);
+}
+
+#empty-bookmark {
+  height: 200px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+}
+
+
+
 @media only screen and (max-width: 1500px) {
   #account-hovering {
     right: 200px;
@@ -384,56 +463,3 @@
     transition: 0.2s;
   }
 }
-
-.lib-sect {
-  background-color: #ee4e34;
-  padding-top: 100px;
-}
-
-.card {
-  height: 300px;
-  position: relative;
-}
-
-.book-details {
-  position: absolute;
-  bottom: -400px;
-  width: 100%;
-  height: 100%;
-  transition: 0.5s;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  background-color: rgba(238, 78, 52, 0.5);
-  backdrop-filter: blur(10px);
-}
-
-.card:hover .book-details {
-  bottom: 0px;
-}
-
-.book-details h1 {
-  font-size: 2rem;
-  font-weight: 600;
-  text-align: center;
-
-  color: var(--theme-color-peach);
-}
-
-.book-details p {
-  text-align: center;
-  padding: 10px;
-
-  color: var(--theme-color-peach);
-}
-
-.book-details a {
-  padding: 10px;
-  background-color: #ee4e34;
-  margin-bottom: 10px;
-  border-radius: 10px;
-
-  color: var(--theme-color-peach);
-}
-

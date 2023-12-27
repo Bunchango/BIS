@@ -16,6 +16,7 @@ const libraryRoutes = require('./routes/library');
 const librarianRoutes = require('./routes/librarian');
 const adminRoutes = require('./routes/admin');
 const Library = require('./models/library');
+const { Book } = require('./models/book');
 
 // Load global vars
 dotenv.config({ path: "./config/config.env" })
@@ -71,20 +72,41 @@ app.get("/", (req, res) => {
 
 app.use("/uploads", express.static("uploads"));
 
+// Helper function to redirect based on user type
+function redirectBasedOnUserType(res, req) {
+    switch (req.user.__t) {
+        case "Librarian":
+            return res.redirect("/librarian/dashboard");
+        case "Library":
+            return res.redirect("/library/manage");
+        case "Admin":
+            return res.redirect("/admin/create_library");
+        default:
+            return res.redirect("/login");
+    }
+ }
+
 // TODO: Change reader to redirect
 // TODO: Query more data from library to display in the homepage for Reader role
+// Route handler
 app.get("/homepage", async (req, res) => {
-    // If user has not login render reader's home page, if logged in render respective user's home page
     if (!req.user || req.user.__t === "Reader") {
-        // Query data of 6 libraries
-        const libraries = await Library.find().limit(6);
-        res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries });
-    } else if (req.user && req.user.__t === "Librarian") {
-        res.redirect("/librarian/dashboard");
-    } else if (req.user && req.user.__t === "Library") {
-        res.redirect("/library/manage");
-    } else if (req.user && req.user.__t === "Admin") {
-        res.redirect("/admin/create_library");
+        try {
+            const libraries = await Library.find().limit(6);
+            const awardBooks = await Book.find().limit(6);
+            let wishlistBooks = [];
+            if (req.user) {
+                let wishListBooksId = req.user.wishList;
+                wishlistBooks = await Book.find({_id: {$in: wishListBooksId}});
+            }
+ 
+            res.render("reader/homepage", { user: req.user, categories: categoriesArray, libraries: libraries, books: awardBooks, wishList: wishlistBooks });
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("An error occurred while processing your request.");
+        }
+    } else {
+        redirectBasedOnUserType(res, req);
     }
 })
 
@@ -120,7 +142,64 @@ async function createAdmin() {
 
 // createAdmin();
 
-
+// Save the book object to the database
+async function saveBook() { 
+    try {
+        const { Book } = require("./models/book")
+        // Create a new book object
+        const books = [
+            {
+                title: 'To Kill a Mockingbird',
+                coverImages: ['uploads/tokillamockingbird1.jpg', 'uploads/tokillamockingbird2.jpg', 'uploads/tokillamockingbird3.jpg'],
+                author: 'Harper Lee',
+                category: ["Romance"],
+                description: 'A novel about the injustices of the adult world as seen through the eyes of a young girl in the American South.',
+                publishDate: new Date('1960-07-11'),
+                library: '65859e0789225b047162498a', // replace with the id of the library
+                dateImported: new Date(),
+                amount: 10,
+            },
+            {
+                title: 'The Great Gatsby',
+                coverImages: ['uploads/greatgatsby1.jpg', 'uploads/greatgatsby2.jpg', 'uploads/greatgatsby3.jpg'],
+                author: 'F. Scott Fitzgerald',
+                category: ["Mystery"],
+                description: 'The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.',
+                publishDate: new Date('1925-04-10'),
+                library: '65859e0789225b047162498a', // replace with the id of the library
+                dateImported: new Date(),
+                amount: 5,
+            },
+            {
+                title: 'To Kill a Mockingbird',
+                coverImages: ['uploads/tokillamockingbird1.jpg', 'uploads/tokillamockingbird2.jpg', 'uploads/tokillamockingbird3.jpg'],
+                author: 'Harper Lee',
+                category: ["Thriller"],
+                description: 'A novel about the injustices of the adult world as seen through the eyes of a young girl in the American South.',
+                publishDate: new Date('1960-07-11'),
+                library: '65859e0789225b047162498a', // replace with the id of the library
+                dateImported: new Date(),
+                amount: 8,
+            },
+            {
+                title: 'The Catcher in the Rye',
+                coverImages: ['uploads/catcherintherye1.jpg', 'uploads/catcherintherye2.jpg', 'uploads/catcherintherye3.jpg'],
+                author: 'J.D. Salinger',
+                category: ["Comedy"],
+                description: 'A novel about teenage angst and alienation.',
+                publishDate: new Date('1951-07-16'),
+                library: '65859e0789225b047162498a', // replace with the id of the library
+                dateImported: new Date(),
+                amount: 7,
+            }
+        ];
+        const savedBooks = await Book.insertMany(books);
+        console.log('Book saved successfully:', savedBooks);
+    } catch (err) {
+        console.error('Error saving book:', err);
+    }
+}
+//saveBook()
    
 
 app.listen(PORT, () => {

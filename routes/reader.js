@@ -105,10 +105,18 @@ const paginatedResults = async (req, res, next) => {
 };
 
 // Middleware to handle rendering search result page
-const renderSearchResultPage = (req, res) => {
+const renderSearchResultPage = async (req, res) => {
+  let wishlistBooks = [];
+
+  if (req.user && req.user.__t === "Reader") {
+    const wishList = req.user.wishList;
+    wishlistBooks = await Book.find({ _id: { $in: wishList } });
+  }
+
   res.render("reader/search_result", {
     user: req.user,
     ...req.paginatedResults,
+    wishList: wishlistBooks || [],
   });
 };
 
@@ -123,8 +131,14 @@ router.get("/book_detail/:id", async (req, res) => {
     if (!book) {
       return res.status(404).json({ error: "Book not found" });
     }
+    const wishList = req.user.wishList;
+    let wishlistBooks = await Book.find({ _id: { $in: wishList } });
 
-    res.render("book/book_detail", { book, user: req.user });
+    res.render("book/book_detail", {
+      book,
+      user: req.user,
+      wishList: wishlistBooks,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ errors: err });
@@ -270,7 +284,6 @@ router.post("/cart/request", isReader, async (req, res) => {
 // Cancel request route
 router.post("/request/cancel/:id", isReader, async (req, res) => {
   try {
-    // Find the request by ID and populate necessary fields
     const request = await Request.findById(req.params.id)
       .populate("reader")
       .populate("books")
@@ -312,66 +325,69 @@ router.post("/request/cancel/:id", isReader, async (req, res) => {
   }
 });
 
-// Add book to wishlist route
-router.post("/add-wishlist/:id", isReader, async (req, res) => {
+// Get all wishlist Data
+router.get("/wishlist", isReader, async (req, res) => {
   try {
-    const reader = await Reader.findOne({ _id: req.user._id });
-
-    if (!reader) {
-      return res.status(404).json({ error: "Reader not found" });
-    }
-
-    const book = await Book.findOne({ _id: req.params.id });
-
-    if (reader.wishList.includes(book)) {
-      return res.status(400).json({ error: "Book already in wishlist" });
-    }
-
-    reader.wishList.push(book);
-
-    await reader.save();
-
-    notify(
-      req.user._id,
-      "Book added to wishlist",
-      "Book added to wishlist successfully",
-    );
+    const wishList = req.user.wishList;
+    let wishlistBooks = await Book.find({ _id: { $in: wishList } });
+    res.json(wishlistBooks);
   } catch (err) {
-    console.error("Error:", err);
+    console.log(err);
     res.status(400).json({ errors: err });
   }
 });
 
-// Remove book from wishlist route
-router.post("/remove-wishlist/:id", isReader, async (req, res) => {
+// Add and remove book from wishlist route
+router.post("/wishlist/:id", isReader, async (req, res) => {
   try {
+    const action = req.query.action; // check the action
+    console.log(action);
     const reader = await Reader.findOne({ _id: req.user._id });
-
     if (!reader) {
-      console.log("Error: Reader not found");
-      return res.status(404);
+      return res
+        .status(404)
+        .json({ error: "Reader not found", success: false });
     }
 
-    const book = reader.wishList.find((b) => b._id.equals(req.params.id));
-
-    if (!book) {
-      console.log("Error: Book not in wishlist");
-      return res.status(400);
+    if (!req.params.id) {
+      return res
+        .status(400)
+        .json({ error: "Book ID is required", success: false });
     }
+    const book = await Book.findOne({ _id: req.params.id });
+    if (action === "add") {
+      if (reader.wishList.includes(book)) {
+        return res
+          .status(400)
+          .json({ error: "Book already in wishlist", success: false });
+      }
 
-    reader.wishList.pull(book);
-    await reader.save();
+      reader.wishList.push(book);
 
-    notify(
-      req.user._id,
-      "Book removed from wishlist",
-      "Book removed from wishlist successfully",
-    );
+      await reader.save();
+      return res.status(200).json({ success: true });
+    } else if (action === "remove") {
+      if (!reader.wishList.map(String).includes(book._id.toString())) {
+        // compare with the string
+        return res
+          .status(200)
+          .json({ error: "Book not in wishlist", success: false });
+      }
 
-    res.redirect("/reader/profile/#my-wishlist");
+      reader.wishList.pull(book);
+      await reader.save();
+      return res.status(200).json({ success: true });
+    }
+    // Notification
+    const message =
+      action === "add" ? "Added to wishlist" : "Removed from wishlist";
+    const notificationMessage = `${
+      book.title
+    } has been ${message.toLowerCase()}.`;
+    await notify(req.user._id, message, notificationMessage);
   } catch (err) {
-    console.error("Error:", err);
-    res.status(500).send("Internal Server Error");
+    console.log(err);
+    res.status(400).json({ errors: err });
   }
 });
 
@@ -450,6 +466,7 @@ const fetchRequests = async (req, res, next) => {
 };
 
 // Reader profile route
+// Update the wishlist to the user profile
 router.get(
   "/profile",
   isReader,
@@ -460,12 +477,13 @@ router.get(
   async (req, res) => {
     try {
       const reader = await Reader.findOne({ _id: req.user._id });
-
+      const wishList = req.user.wishList;
+      let wishlistBooks = await Book.find({ _id: { $in: wishList } });
       res.render("reader/reader-profile", {
         reader: reader,
         user: req.user,
+        wishList: wishlistBooks || [],
         cart: req.cart || {},
-        wishlist: req.wishlist || [],
         loans: req.readerLoans || [],
         formattedRequests: req.readerRequests || [],
         errors: [],
@@ -610,9 +628,12 @@ router.post("/profile/set-default", isReader, async (req, res) => {
 router.get("/library-profile/:id", async (req, res) => {
   try {
     const library = await Library.findById(req.params.id);
+    const wishList = req.user.wishList;
+    let wishlistBooks = await Book.find({ _id: { $in: wishList } });
     res.render("reader/library-profile", {
       library: library,
       user: req.user,
+      wishList: wishlistBooks,
     });
   } catch (errors) {
     console.log("Error:", errors);
@@ -624,9 +645,12 @@ router.get("/library-profile/:id", async (req, res) => {
 router.get("/library", async (req, res) => {
   try {
     const libraries = await Library.find({});
+    const wishList = req.user.wishList;
+    let wishlistBooks = await Book.find({ _id: { $in: wishList } });
     res.render("reader/library-list", {
       libraries: libraries,
       user: req.user,
+      wishList: wishlistBooks,
     });
   } catch (err) {
     res.status(400).json({ errors: err });

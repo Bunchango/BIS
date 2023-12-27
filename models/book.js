@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const categoriesArray = [
-    "Mystery", "Thriller", " Romance", "Biography", "Memoir", "Self-Help", "History",
+    "Mystery", "Thriller", "Romance", "Biography", "Memoir", "Self-Help", "History",
     "Science", "Fantasy", "Sci-fi", "Horror", "Action", "Adventure", "Children's",
     "Comedy", "Poetry", "Philosophy", "Science", "Religion", "Text-book", "Journal", "Other"
 ]
@@ -16,7 +16,7 @@ const bookSchema = new mongoose.Schema({
     coverImages: {
         type: [{
             type: String,
-            default: "default_cover.png"
+            default: "uploads/default_book_cover.jpg"
         }],
         validate: [coverImagesValidator, "At most 3 cover images are required"]
     },
