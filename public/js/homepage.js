@@ -15,11 +15,13 @@ async function updateBookmarkPopup() {
   }
 
   const bookmarks = await response.json();
-  if (bookmarks.length > 0) {
-    // Clear the current popup content
-    const list = document.querySelector(".pop-up-modal .list");
-    list.innerHTML = "";
+  console.log(bookmarks.length)
 
+  // Clear the current popup content
+  const list = document.querySelector(".pop-up-modal .list");
+  list.innerHTML = "";
+
+  if (bookmarks.length > 0) {
     // Add the updated bookmarks to the popup
     bookmarks.forEach((bookmark) => {
       const bookmarkElement = document.createElement("div");
@@ -37,7 +39,10 @@ async function updateBookmarkPopup() {
         `;
       list.appendChild(bookmarkElement);
     });
+  } else {
+    list.innerHTML = '<div id="empty-bookmark">Empty</div>'
   }
+
   // Remove the book from the wishlist
   // TODO: remove the book from the wish list , update the data when out pop up window
   const removeBookmarks = document.querySelectorAll(".pop-up-modal .remove");
@@ -62,7 +67,7 @@ async function updateBookmarkPopup() {
         .then((data) => {
           // TODO : Update the corresponding book mark icon
           if (data.success) {
-            // Remove the itemDiv
+            // Remove the itemDiv from the popup
             itemDiv.remove();
 
             // Check if the list is empty
@@ -71,7 +76,7 @@ async function updateBookmarkPopup() {
               // Append the "Empty" div to the list
               list.innerHTML = '<div id="empty-bookmark">Empty</div>';
             }
-            // TODO: Change the class of target icon, if the dataset.bookid == clicked bookId remove the class contain 'fas' to 'far'
+
             // Change the class of target icon
             const icons = document.querySelectorAll(".bookmark-icon");
             icons.forEach((icon) => {
@@ -80,6 +85,22 @@ async function updateBookmarkPopup() {
                 icon.classList.add("far");
               }
             });
+            
+            // Find to div that has the 
+            // Remove the corresponding div in the reader profile
+            const divItems = document.querySelectorAll('#my-wishlist .item');
+            divItems.forEach ( div => {
+              if (div.dataset.bookid == bookId) {
+                div.remove()
+              }
+            })
+            const listOfbookmark = document.querySelector("#my-wishlist ul");
+            if (listOfbookmark.children.length === 0) {
+              // Append the "Empty" div to the list
+              listOfbookmark.innerHTML =
+                '<div id="empty-container">Your WishList Empty</div>';
+            }
+
           } else {
             console.log("Error:", data.error);
             console.log("Fail to remove from wishlist");
@@ -239,12 +260,13 @@ removeBtns.forEach((removeBtn) => {
           // Remove the itemDiv
           itemDiv.remove();
           // Check if the list is empty
-          const list = document.querySelector("#my-wishlist .list");
+          const list = document.querySelector("#my-wishlist ul");
           if (list.children.length === 0) {
             // Append the "Empty" div to the list
             list.innerHTML =
               '<div id="empty-container">Your WishList Empty</div>';
           }
+          
         } else {
           console.log("Error:", data.error);
           console.log("Fail to remove from wishlist");

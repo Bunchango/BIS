@@ -216,10 +216,10 @@
 
             <div id="my-wishlist" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Wishlist</h3>
-                <% if (wishList && wishList.length > 0) { %> 
+                <ul>
+                    <% if (wishList && wishList.length > 0) { %> 
                     <% wishList.forEach( book => { %>
-                        <ul>
-                            <li class="item">
+                            <li class="item" data-bookid="<%= book._id %>">
                                 <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
                                     <div class="flex-shrink-0">
                                         <div class="img">
@@ -236,11 +236,12 @@
                                     </div>
                                 </div>
                             </li>
-                        </ul>
+                        
                     <% }) %>
-                <% } else { %>
-                    <div id="empty-container">Your WishList Empty</div>
-                <% } %> 
+                    <% } else { %>
+                        <div id="empty-container">Your WishList Empty</div>
+                    <% } %> 
+                </ul>
             </div>
         </div>
     </div>
