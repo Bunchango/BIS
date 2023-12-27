@@ -105,10 +105,13 @@ const paginatedResults = async (req, res, next) => {
 };
 
 // Middleware to handle rendering search result page
-const renderSearchResultPage = (req, res) => {
+const renderSearchResultPage = async (req, res) => {
+  const wishList = req.user.wishList
+  let wishlistBooks = await Book.find({_id: {$in: wishList}});
   res.render("reader/search_result", {
     user: req.user,
     ...req.paginatedResults,
+    wishList: wishlistBooks,
   });
 };
 

@@ -160,10 +160,20 @@
   display: none;
   padding: 6px 12px;
   border-top: none;
+  height: 100%;
 }
 
 .tabcontent:nth-child(1) {
   display: block;
+}
+
+#empty-container {
+  height: 600px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
 }
 
 /* Lower */

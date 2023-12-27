@@ -169,7 +169,7 @@
                                     <button class="px-4 py-3 my-5 text-white bg-blue-500 rounded hover:bg-blue-600">Send Request</button>
                                 </form>
                         <% } else {%>
-                        <p>Your cart is empty</p>
+                        <div id="empty-container">Your Cart Empty</div>
                     <% } %>
                 </ul>
             </div>
@@ -236,7 +236,7 @@
                             </div>
                             <% }) %>
                         <% } else { %>
-                            <div id="empty-wishList">Your WishList Empty</div>
+                            <div id="empty-container">Your WishList Empty</div>
                         <% } %> 
                     </div>
                 </div>
