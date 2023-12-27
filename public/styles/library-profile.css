@@ -21,3 +21,219 @@ body{
 .border-raspberry{
     border-color: #EE4E34;
 } */
+
+/*   Overlay  */
+#overlay {
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+    z-index: 100;
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/*   Profile   */
+#whole-upper #upper .left-col .lib-description ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+#whole-upper #upper .right-col a{
+    text-decoration: none;
+}
+
+#whole-upper {
+    height: fit-content;
+    background-color: var(--theme-color-peach);
+}
+
+#whole-upper #banner{
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#whole-upper #upper .left-col{
+    padding: 25px 20px;
+    text-align: center;
+    max-width: 350px;
+    position: relative;
+    margin: 0 auto;
+}
+
+#whole-upper #upper .left-col #avatar-container{
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
+#whole-upper #upper .left-col #avatar-container #avatar{
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.18);
+}
+
+#whole-upper #upper .left-col #avatar-container span{
+    position: absolute;
+    background: #2afa6a;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    bottom: 3px;
+    right: 11px;
+    border: 2px solid #fff;
+}
+
+#whole-upper #upper .left-col h2{
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+#whole-upper #upper .left-col p{
+    font-size: 0.9rem;
+    color: #818181;
+    margin: 0;
+}
+
+#whole-upper #upper .left-col .about-lib{
+    justify-content: space-between;
+    position: relative;
+    margin: 35px 0;
+}
+
+
+#whole-upper #upper .left-col .about-lib li{
+    display: flex;
+    flex-direction: column;
+    color: #818181;
+    font-size: 0.9rem;
+}
+
+#whole-upper #upper .left-col .about-lib li span{
+    color: #1d1d1d;
+    font-weight: 600;
+}
+
+#whole-upper #upper .left-col .about-lib::after{
+    position: absolute;
+    content: "";
+    bottom: -16px;
+    display: block;
+    background: #cccccc;
+    height: 1px;
+    width: 100%;
+}
+
+#whole-upper #upper .left-col .lib-description p{
+    font-size: 1rem;
+    color: #1d1d1d;
+    line-height: 1.8em;
+}
+
+#whole-upper #upper .left-col .lib-description ul{
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+
+#whole-upper #upper .left-col .lib-description ul li{
+    display: flex;
+}
+
+#whole-upper #upper .left-col .lib-description ul i{
+    font-size: 1.3rem;
+}
+
+#whole-upper #upper .right-col .small-nav{
+    display: flex;
+    align-items: center;
+    padding: 30px 0;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+#whole-upper #upper .right-col .small-nav ul{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+#whole-upper #upper .right-col .small-nav ul li h3{
+    text-transform: uppercase;
+    color: #818181;
+}
+
+#whole-upper #upper .right-col .small-nav ul li:nth-child(1) h3 {
+    color: #1d1d1d;
+    font-weight: 600;
+}
+
+#whole-upper #upper .right-col .book-card{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 20px;
+}
+
+#whole-upper #upper .right-col .book-card #book-info{
+    max-width: 100%;
+    display: block;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (min-width: 868px) {
+    #whole-upper #upper {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 90%;
+      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 50px;
+    }
+
+    #whole-upper #upper .left-col {
+      padding: 25px 0px;
+    }
+
+    #whole-upper #upper .right__col .small-nav ul {
+        flex-direction: row;
+        gap: 30px;
+    }
+
+    #whole-upper #upper .right-col .book-card {
+      height: 365px;
+      overflow: auto;
+      padding: 0 0 30px;
+    }
+}
+  
+@media (min-width: 1017px) {
+    #whole-upper #upper .left-col {
+      margin: 0;
+      margin-right: auto;
+    }
+    #whole-upper #upper .right-col .small-nav {
+      flex-direction: row;
+    }
+}
