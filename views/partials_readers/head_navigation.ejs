@@ -12,66 +12,37 @@
         <!-- pop up window for bookmark -->
         <div class="pop-up-modal" id="pop-up-bookmark">
             <div class="bookmark-header">
-                <div class="title">BookMark</div>
+                <a href="/reader/profile/#my-wishlist" class="title">Wishlist</a>
                 <button data-close-button class="close-modal">&times;</button>
             </div>
             <div class="center">
                 <div class="list">
-                    <div class="item" data-key="1">
-                        <div class="img">
-                            <img src="/images/test-bookmark.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title">THE DIARY OF A YOUNG GIRL</div>
-                            <div class="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                                exercitationem aspernatur dicta labore
-                            </div>
-                            <button class="remove"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
+                    <% if (user.wishList &&  user.wishList.length > 0) { %> 
+                        <% wishList.forEach( book => { %>
+                        <div class="item">
+                            <% if (book.coverImages && book.coverImages.length > 0) { %>
+                                <div class="img">
+                                    <img src="/<%= book.coverImages[0] %>" alt="<%= book.title %>'s Cover">
+                                </div>
+                            <% } else { %>
+                                <div class="img">
+                                    <img src="images/default-book.png" alt="Default cover">
+                                </div>
+                            <% } %>
 
-                    <div class="item" data-key="2">
-                        <div class="img">
-                            <img src="/images/test-bookmark.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title">THE DIARY OF A YOUNG GIRL</div>
-                            <div class="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                                exercitationem aspernatur dicta labore
+                            <div class="content">
+                                <div class="title"><%= book.title %></div>
+                                <div class="des">
+                                    <%= book.description %>
+                                </div>
+                                <button class="remove" data-bookid="<%= book._id %>"><i class="fa-solid fa-trash"></i></button>
+                                <a id="view-detail" href="/reader/book_detail/<%= book._id %>">View</a>
                             </div>
-                            <button class="remove"><i class="fa-solid fa-trash"></i></button>
                         </div>
-                    </div>
-
-                    <div class="item" data-key="3">
-                        <div class="img">
-                            <img src="/images/test-bookmark.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title">THE DIARY OF A YOUNG GIRL</div>
-                            <div class="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                                exercitationem aspernatur dicta labore
-                            </div>
-                            <button class="remove"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-
-                    <div class="item" data-key="4">
-                        <div class="img">
-                            <img src="/images/test-bookmark.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title">THE DIARY OF A YOUNG GIRL</div>
-                            <div class="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas et ex iusto saepe enim
-                                exercitationem aspernatur dicta labore
-                            </div>
-                            <button class="remove"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div id="empty-bookmark">Empty</div>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -128,5 +99,4 @@
         </div>
         <% } %>
     </div>
-
 </div>
