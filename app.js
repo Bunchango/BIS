@@ -149,13 +149,23 @@ async function saveBook() {
         // Create a new book object
         const books = [
             {
+                title: 'Book Title 1',
+                author: 'Author Name',
+                coverImages: ['uploads/image1.jpg'],
+                category: ['Science'],
+                description: 'This is a description for book 1',
+                publishDate: new Date(),
+                library: "658d4a1720da69df1a2124aa", // This should be an existing library ID
+                amount: 10
+            },
+            {
                 title: 'To Kill a Mockingbird',
                 coverImages: ['uploads/tokillamockingbird1.jpg', 'uploads/tokillamockingbird2.jpg', 'uploads/tokillamockingbird3.jpg'],
                 author: 'Harper Lee',
                 category: ["Romance"],
                 description: 'A novel about the injustices of the adult world as seen through the eyes of a young girl in the American South.',
                 publishDate: new Date('1960-07-11'),
-                library: '65859e0789225b047162498a', // replace with the id of the library
+                library: '658d4a1720da69df1a2124aa', // replace with the id of the library
                 dateImported: new Date(),
                 amount: 10,
             },
@@ -166,7 +176,7 @@ async function saveBook() {
                 category: ["Mystery"],
                 description: 'The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.',
                 publishDate: new Date('1925-04-10'),
-                library: '65859e0789225b047162498a', // replace with the id of the library
+                library: '658d4a1720da69df1a2124aa', // replace with the id of the library
                 dateImported: new Date(),
                 amount: 5,
             },
@@ -177,7 +187,7 @@ async function saveBook() {
                 category: ["Thriller"],
                 description: 'A novel about the injustices of the adult world as seen through the eyes of a young girl in the American South.',
                 publishDate: new Date('1960-07-11'),
-                library: '65859e0789225b047162498a', // replace with the id of the library
+                library: '658d4a1720da69df1a2124aa', // replace with the id of the library
                 dateImported: new Date(),
                 amount: 8,
             },
@@ -188,7 +198,7 @@ async function saveBook() {
                 category: ["Comedy"],
                 description: 'A novel about teenage angst and alienation.',
                 publishDate: new Date('1951-07-16'),
-                library: '65859e0789225b047162498a', // replace with the id of the library
+                library: '658d4a1720da69df1a2124aa', // replace with the id of the library
                 dateImported: new Date(),
                 amount: 7,
             }
