@@ -62,49 +62,54 @@
             </div>
 
             <div class="description">
-                <h1 id="book-title"><span class="title-text"><%= book.title %></span></h1>
-                <p id="author"><strong>Author:</strong> <%= book.author %></p>
+                <div>
+                    <h1 id="book-title"><span class="title-text"><%= book.title %></span></h1>
+                    <p id="author"><strong>Author:</strong> <%= book.author %></p>
 
-                <p class="category"><strong>Category:</strong> <%= book.category %></p>
-                <p class="publish-date"><strong>Publish Date:</strong> <%= book.publishDate.toLocaleDateString() %></p>
-                <p class="book-description"><strong>Description:</strong> <%= book.description %></p>
-                <p class="quantity"><strong>Quantity:</strong> <%= book.amount %></p>
-
+                    <p class="category"><strong>Category:</strong> <%= book.category %></p>
+                    <p class="publish-date"><strong>Publish Date:</strong> <%= book.publishDate.toLocaleDateString() %></p>
+                    <p class="book-description"><strong>Description:</strong> <%= book.description %></p>
+                    <p class="quantity"><strong>Quantity:</strong> <%= book.amount %></p>
                 </div>
-                <% if (user && user.__t === "Reader") { %>
-                <!-- Reader-specific content -->
-                <div class="reader-buttons">
-                    <div class="cart-btn">
-                        <form class="form" action="/reader/add-cart/<%= book._id %>" method="POST">
-                            <button class="btn" type="submit">Add to Cart</button>
-                        </form>
+                <div class="buttons">
+                    <% if (user && user.__t === "Reader") { %>
+                    <!-- Reader-specific content -->
+                    <div class="reader-buttons">
+                        <div class="cart-btn">
+                            <form class="form" action="/reader/add-cart/<%= book._id %>" method="POST">
+                                <button class="btn" type="submit">Add to Cart</button>
+                            </form>
+                        </div>
+
+                        <div class="wishlist-btn">
+                            <form class="form" action="/reader/wishlist/<%= book._id %>?action=add" method="POST">
+                                <button class="btn" type="submit">Add to Wishlist</button>
+                            </form>
+                        </div>
                     </div>
 
-                    <div class="wishlist-btn">
-                        <form class="form" action="/reader/wishlist/<%= book._id %>?action=add" method="POST">
-                            <button class="btn" type="submit">Add to Wishlist</button>
-                        </form>
-                    </div>
-                </div>
+                    <% } else if (user && user.__t === "Librarian") { %>
+                    <!-- Librarian-specific content -->
+                    <div class="librarian-buttons">
+                        <div class="edit-btn">
+                            <form class="form" action="/librarian/book_detail/<%= book._id %>" method="POST">
+                                <button class="btn" type="submit">Edit book</button>
+                            </form>
+                        </div>
 
-                <% } else if (user && user.__t === "Librarian") { %>
-                <!-- Librarian-specific content -->
-                <div class="librarian-buttons">
-                    <div class="edit-btn">
-                        <form class="form" action="/librarian/book_detail/<%= book._id %>" method="POST">
-                            <button class="btn" type="submit">Edit book</button>
-                        </form>
-                    </div>
-
-                    <div class="delete-btn">
-                        <form class="form" action="/librarian/delete_book/<%= book._id %>" method="POST">
-                            <button class="btn" type="submit">Delete book</button>
-                        </form>
-                    </div>
+                        <div class="delete-btn">
+                            <form class="form" action="/librarian/delete_book/<%= book._id %>" method="POST">
+                                <button class="btn" type="submit">Delete book</button>
+                            </form>
+                        </div>
                     <% } else { %>
-                    <!-- Default content for other roles or unauthenticated users -->
+                        <!-- Default content for other roles or unauthenticated users -->
                     <% } %>
+                    </div>
+
+                    </div>
                 </div>
+                
             </div>
     </main>
 
