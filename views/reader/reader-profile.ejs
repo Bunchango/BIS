@@ -69,45 +69,36 @@
                                 <% }); %>
                             </ul>
                             <% } %>
-                            <div id="edit-username-box">
-                                <div class="title">Username</div>
-                                <div class="layer-two">
-                                    <div id="name">Current Username: <%= user.username%></div>
-                                    <div class="edit-file-cont">
-                                        <label for="username">New User Name:</label>
-                                        <input type="text" id="username" name="username">
-                                    </div>
+                            
+                            <div class="main-user-info">
+                                <div class="user-input-box">
+                                    <label for="username">User Name</label>
+                                    <input type="text" id="username" name="username" >
                                 </div>
-                            </div>
-
-                            <div id="edit-background-box">
-                                <div class="title">Background Image</div>
-                                <div class="layer-two">
-                                    <img id="background" src="/<%= user.background%>" alt="background">
-                                    <div class="edit-file-cont">
-                                        <label for="background-pic">Upload:</label>
+                                
+                                <div class="user-input-box">
+                                    <label for="background-pic">Background Image</label>
+                                    <div class="image-container">
+                                        <img id="background" src="/<%= user.background%>" alt="background">
+                                    </div>
+                                    <div class="upload-button">
+                                        <span>Choose File</span>
                                         <input type="file" name="background" accept="image/*" id="background-pic">
                                     </div>
                                 </div>
-                            </div>
-
-                            <div id="edit-ava-box">
-                                <div class="title">Avatar</div>
-                                <div class="layer-two">
-                                    <div class="ava-edit-cont">
-                                        <img class="avatar" src="/<%= user.profilePicture %>"
-                                            alt="<%= user.username %>'s avatar">
+                                <div class="user-input-box">
+                                    <label for="avatar-pic">Avatar</label>
+                                    <div class="image-container">
+                                        <img class="avatar" src="/<%= user.profilePicture %>" accept="image/*" alt="<%= user.username %>'s avatar">
                                     </div>
-                                    <div class="edit-file-cont">
-                                        <label for="avatar-pic">Upload:</label>
+                                    <div class="upload-button">
+                                        <span>Choose File</span>
                                         <input type="file" name="avatar" accept="image/*" id="avatar-pic">
                                     </div>
                                 </div>
-                            </div>
-                            <div id="confirm-change-box">
-                                <div>
-                                    <label for="confirm">Confirm Changes:</label>
+                                <div class="confirm-change-box">
                                     <input type="checkbox" name="confirm" id="confirm">
+                                    <label for="confirm">Confirm Changes</label>
                                 </div>
                                 <button type="submit" class="submit-button" data-modal-target="#popUp-success">Submit</button>
                             </div>
@@ -115,8 +106,6 @@
 
                     </div>
                 </div>
-                <!-- pop up window for Edit profile -->
-
 
             </div>
 
