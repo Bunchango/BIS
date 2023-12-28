@@ -272,6 +272,9 @@
   font-weight: 400;
   margin: 5px 0;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #pop-up-edit .edit-body .username-input-box input{
@@ -328,8 +331,8 @@
   width: -webkit-fill-available;
   display: flex;
   align-items: center;
-  justify-content: space-around;
   overflow: hidden;
+  justify-content: center;
 }
 
 #pop-up-edit .edit-body #background{
@@ -339,7 +342,7 @@
 } 
 #pop-up-edit .edit-body .avatar{
   width: 95%;
-  height: 100%;
+  height: 95%;
   object-fit: cover;
 }
 
