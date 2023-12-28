@@ -9,14 +9,16 @@ const borrowSchema = new mongoose.Schema({
     },
     // Can only pickup books from the same library
     books: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Book", 
+        book: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Book",
+        },
         status: {
-            type: "String",
-            default: "outstanding",
-            enum: ["outstanding", "returned", "lost"],
-        }
-    }], 
+          type: String,
+          default: "outstanding",
+          enum: ["outstanding", "returned", "lost"],
+        },
+    }],
     library: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Library",
