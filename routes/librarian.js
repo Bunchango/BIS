@@ -10,8 +10,9 @@ const { validationResult } = require("express-validator");
 const { Librarian, Reader } = require("../models/user");
 const Notice = require("../models/notice");
 const nodemailer = require("nodemailer");
+const mongoose = require("mongoose");
 
-// TODO: add notification button to dashboard page, finish borrow page, finish profile page
+// TODO: fix accept request, book path
 
 const router = require("express").Router();
 
@@ -99,9 +100,9 @@ router.post(
   validateBookCreation,
   async (req, res) => {
     // Confirm form
-    if (req.files.length !== 3) {
+    if (req.files.length > 3) {
       return res.render("librarian/add_book", {
-        errors: [{ msg: "Book require exactly 3 images" }],
+        errors: [{ msg: "Book require less than 3 images" }],
         categories: categoriesArray,
       });
     }
@@ -119,8 +120,23 @@ router.post(
       const { title, author, categories, description, publishDate, amount } =
         req.body;
 
+      if (!categories) {
+        return res.render("librarian/add_book", {
+          errors: [{ msg: "At least 1 category must be selected" }],
+          categories: categoriesArray,
+        });
+      }
+
+      // Make sure default image path
+      const defaultImagePath = "uploads/default_book_cover.jpg";
+      let coverImages = req.files.map((file) => file.path);
+      
+      while (coverImages.length < 3) {
+          coverImages.push(defaultImagePath);
+      }
+    
       // Ensure book is unique within a library
-      const book = await Book.findOne({ title: title });
+      const book = await Book.findOne({ title: title, library: req.user.library });
       if (book)
         return res.render("librarian/add_book", {
           errors: [{ msg: "Book already exists in this library" }],
@@ -130,7 +146,7 @@ router.post(
       // Create a new book
       const newBook = new Book({
         title: title,
-        coverImages: req.files.map((file) => file.path),
+        coverImages: coverImages,
         author: author,
         category: categories,
         description: description,
@@ -153,12 +169,9 @@ router.get("/book_detail/:id", async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).populate("library");
 
-    const data = {};
-    if (book) data.book = book;
-
     if (req.isAuthenticated && req.user && req.user.__t === "Librarian")
       data.isLibrarian = true;
-    res.render("book/book_detail", { data: data, categories: categoriesArray });
+    res.render("book/book_detail", { book: book, categories: categoriesArray });
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -287,8 +300,9 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
   // Display borrow information
   try {
     const borrow = await Borrow.findById(req.params.id).populate("reader").populate("books");
-    if (borrow.library !== req.user.library)
+    if (borrow.library.toString() !== req.user.library.toString()) {
       return res.redirect("/librarian/customer");
+    }
     res.render("librarian/borrow", { borrow: borrow });
   } catch (e) {
     res.status(400).json({ errors: e });
@@ -308,7 +322,7 @@ router.post("/borrow/update_date/:id", async (req, res) => {
     // Send notification email
     transporter.sendMail({
       to: borrow.reader.gmail,
-      subject: "VxNhe Pickup borrow due date modified",
+      subject: "VxNhe Borrow due date modified",
       // Modify the content of emails later (Maybe add library's name, list of accepted books)
       html: `Your borrow's due date has been pushed to ${dueDate}`,
     });
@@ -442,10 +456,12 @@ router.post("/borrow/overdue/:id", async (req, res) => {
     // Send email
     transporter.sendMail({
       to: borrow.reader.gmail,
-      subject: "VxNhe borrow overdue",
+      subject: "VxNhe Borrow overdue",
       // Add link
       html: `Your borrow is overdue`,
     });
+
+    res.redirect("/librarian/customer");
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -472,7 +488,7 @@ router.post("/borrow/cancel/:id", async (req, res) => {
     // Send notification
     transporter.sendMail({
       to: borrow.reader.gmail,
-      subject: "VxNhe borrow canceled",
+      subject: "VxNhe Borrow canceled",
       // Add reason
       html: `Your borrow is canceled for ${reason}`,
     });
@@ -482,6 +498,8 @@ router.post("/borrow/cancel/:id", async (req, res) => {
       "Borrow canceled",
       `Your borrow is canceled for ${reason}`,
     );
+
+    res.redirect("/librarian/customer");
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -493,8 +511,9 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
     const pickup = await Pickup.findById(req.params.id)
       .populate("reader")
       .populate("books");
-    if (pickup.library !== req.user.library)
-      return res.redirect("/librarian/customer");
+      if (pickup.library.toString() !== req.user.library.toString()) {
+        return res.redirect("/librarian/customer");
+      }
     res.render("librarian/pickup", { pickup: pickup });
   } catch (e) {
     res.status(400).json({ errors: e });
@@ -514,7 +533,7 @@ router.post("/pickup/update_date/:id", async (req, res) => {
     // Send notification email
     transporter.sendMail({
       to: pickup.reader.gmail,
-      subject: "VxNhe Pickup pickup date modified",
+      subject: "VxNhe Pickup date modified",
       // Modify the content of emails later (Maybe add library's name, list of accepted books)
       html: `Your pickup's take date has been pushed to ${takeDate}`,
     });
@@ -543,7 +562,7 @@ router.post("/pickup/cancel/:id", async (req, res) => {
     // Send notification email
     transporter.sendMail({
       to: pickup.reader.gmail,
-      subject: "VxNhe Pickup pickup modified",
+      subject: "VxNhe Pickup canceled",
       html: `Your pickup has been canceled for ${cancelReason}`,
     });
 
@@ -614,7 +633,7 @@ router.post("/pickup/complete/:id", async (req, res) => {
     // Send notification email
     transporter.sendMail({
       to: pickup.reader.gmail,
-      subject: "VxNhe Pickup pickup modified",
+      subject: "VxNhe Pickup completed",
       // Add more detail (reason for cancel)
       html: `Your pickup has been completed. The due date for your loan is ${dueDate}`,
     });
@@ -625,6 +644,7 @@ router.post("/pickup/complete/:id", async (req, res) => {
       books: pickup.books.map((id) => ({ _id: id, status: "outstanding" })),
       library: pickup.library,
       dueDate: dueDate,
+      pickup: pickup._id,
     });
 
     await borrow.save();
@@ -632,7 +652,7 @@ router.post("/pickup/complete/:id", async (req, res) => {
     // Send email
     transporter.sendMail({
       to: pickup.reader.gmail,
-      subject: "VxNhe Pickup borrow created",
+      subject: "VxNhe Borrow created",
       // Change messages, add more detail later
       html: `A borrow has been created`,
     });
@@ -642,6 +662,8 @@ router.post("/pickup/complete/:id", async (req, res) => {
       "Created borrow",
       `A borrow has been created. The due date for your loan is ${dueDate}`,
     );
+
+    res.redirect("/librarian/customer")
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -655,9 +677,10 @@ router.get("/request/:id", isLibrarian, async (req, res) => {
     const request = await Request.findById(req.params.id)
       .populate("reader")
       .populate("books");
-    if (request.library !== req.user.library)
-      return res.redirect("/librarian/customer");
-    res.render("librarian/request", { request: request });
+      if (request.library.toString() !== req.user.library.toString()) {
+        return res.redirect("/librarian/customer");
+      }
+    res.render("librarian/request", { request: request, error: "" });
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -667,17 +690,20 @@ router.post("/request/accept/:id", async (req, res) => {
   // Accept a request and create a pickup record
   try {
     const { approved, takeDate } = req.body;
+    const request = await Request.findById(req.params.id)      
+    .populate("reader")
+    .populate("books")
+    .populate("library")
+    .exec();
+
+    if (!approved) return res.render("librarian/request", { request: request, error: "At least 1 book must be approved to accept request" });
 
     // Change request status to accept
-    const request = await Request.findByIdAndUpdate(
+    await Request.findByIdAndUpdate(
       req.params.id,
       { status: "Accepted" },
       { new: true },
     )
-      .populate("reader")
-      .populate("books")
-      .populate("library")
-      .exec();
 
     // Create pickup
     const pickup = new Pickup({
@@ -696,7 +722,7 @@ router.post("/request/accept/:id", async (req, res) => {
       .join("");
     transporter.sendMail({
       to: request.reader.gmail,
-      subject: "VxNhe Pickup request accepted",
+      subject: "VxNhe Request accepted",
       // Modify the content of emails later (Maybe add library's name, list of accepted books)
       html: `<p>Your request has been accepted. Come and pickup your books on ${takeDate}</p>
                     <p>Here is the list of accepted books:</p>
@@ -734,7 +760,7 @@ router.post("/request/decline/:id", async (req, res) => {
     // Send notification email
     transporter.sendMail({
       to: request.reader.gmail,
-      subject: "VxNhe Pickup request declined",
+      subject: "VxNhe Request declined",
       // Add more content (reason for the decline)
       html: `Your request has been declined for ${declineReason}`,
     });
@@ -752,8 +778,13 @@ router.post("/request/decline/:id", async (req, res) => {
 });
 
 // Dashboard
-router.get("/dashboard", isLibrarian, (req, res) => {
-  res.render("librarian/dashboard");
+router.get("/dashboard", isLibrarian, async (req, res) => {
+  const data = {}
+  const notices = await Notice.find({library: req.user.library});
+
+  if (notices) data.notices = notices;
+  data.user = req.user;
+  res.render("librarian/dashboard", {data: data});
 });
 
 // Add notification to the library

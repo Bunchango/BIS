@@ -20,6 +20,13 @@
     <title>Request page</title>
 </head>
 <body>
+
+    <% if (error) { %>
+        <div class="alert alert-danger">
+            <li><%= error %></li>
+        </div>
+    <% } %>
+
     <div class="container">
         <h1>Request details</h1>
         <p><%= request.reader.gmail %></p>
@@ -29,9 +36,7 @@
         <ul>
             <% request.books.forEach(book => { %>
                 <li>
-                    <input type="checkbox" name="approved" id="approved" value="<%= book._id %>">
-                    <!-- Add the correct link -->
-                    <label onclick="window.location.href='/book/detail/<%= book._id %>'">
+                    <label onclick="window.location.href='/librarian/book_detail/<%= book._id %>'">
                         <p>Title: <%= book.title %></p>
                         <p>Author: <%= book.author %></p>
                         <!-- Add more details as needed -->
@@ -40,19 +45,31 @@
             <% }); %>
         </ul>
 
-        <button id="acceptBtn" class="btn btn-success">Accept</button>
-
-        <form action="request/decline/<%= request._id %>" method="POST">
-            <textarea name="declineReason" id="declineReason" cols="30" rows="10"></textarea>
-            <button id="declineBtn" class="btn btn-danger">Decline</button>
-        </form>
-
-        <form action="request/accept/<%= request._id %>" method="POST" id="datePicker">
-            <button type="button" id="closeBtn" style="float: right;">X</button>
-            <label for="takeDate">Choose a date:</label>
-            <input type="date" id="takeDate" name="takeDate">
-            <button id="confirmDateBtn" class="btn btn-primary">Confirm creation</button>
-        </form>
+        <% if (request.status === 'Pending') { %>
+            <button id="acceptBtn" class="btn btn-success">Accept</button>
+            
+            <form action="/librarian/request/decline/<%= request._id %>" method="POST">
+                <textarea name="declineReason" id="declineReason" cols="30" rows="10"></textarea>
+                <button id="declineBtn" class="btn btn-danger">Decline</button>
+            </form>
+        
+            <form action="/librarian/request/accept/<%= request._id %>" method="POST" id="datePicker">
+                <button type="button" id="closeBtn" style="float: right;">X</button>
+        
+                <ul>
+                    <% request.books.forEach(book => { %>
+                        <li>
+                            <input type="checkbox" name="approved" id="approved" value="<%= book._id %>">
+                            <p>Title: <%= book.title %></p>
+                        </li>
+                    <% }); %>
+                </ul>
+        
+                <label for="takeDate">Choose a date:</label>
+                <input type="date" id="takeDate" name="takeDate">
+                <button id="confirmDateBtn" class="btn btn-primary">Confirm creation</button>
+            </form>
+        <% } %>
     </div>
     <script>
         document.getElementById("acceptBtn").addEventListener("click", function(event){
