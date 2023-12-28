@@ -10,6 +10,7 @@ const { validationResult } = require("express-validator");
 const uploads = require("../config/multer");
 const Library = require("../models/library");
 const { localsName } = require("ejs");
+const multer = require('multer');
 
 function isReader(req, res, next) {
   if (req.isAuthenticated && req.user && req.user.__t === "Reader") {
@@ -496,94 +497,177 @@ router.get(
 );
 
 // Update profile route
-router.post(
-  "/profile/edit-profile",
-  isReader,
-  validateUsername,
+// router.post(
+//   "/profile/edit-profile",
+//   uploads.fields([
+//     { name: "background", maxCount: 1 },
+//     { name: "avatar", maxCount: 1 },
+//   ]),
+//   isReader,
+//   validateUsername,
+//   async (req, res) => {
+//     const errors = validationResult(req);
+
+//     console.log("req.files:", req.files);
+//     console.log("req.body:", req.body);
+//     const wishList = req.user.wishList
+//     let wishlistBooks = await Book.find({_id: {$in: wishList}});
+//     if (!errors.isEmpty()) {
+//       // If there are validation errors, render the page with errors
+//       return res.render("reader/reader-profile", {
+//         user: req.user,
+//         errors: errors.array(),
+//         wishList: wishlistBooks,
+//       });
+//     }
+//     try {
+//       if (!req.body.confirm) {
+//         // Show error must confirm to change
+//         return res.render("reader/reader-profile", {
+//           user: req.user,
+//           errors: [{ msg: "You must confirm the changes" }],
+//           wishList: wishlistBooks,
+//         });
+//       }
+
+//       const updateProfile = {};
+
+//       // Update username if it's changed
+//       if (req.body.username && req.body.username !== req.user.username) {
+//         updateProfile.username = req.body.username;
+//       }
+
+//       // Update background image if it's changed
+//       if (req.files.background) {
+//         updateProfile.background = req.files.background[0].path;
+//       }
+
+//       // Update avatar if it's changed
+//       if (req.files.avatar) {
+//         updateProfile.profilePicture = req.files.avatar[0].path;
+//       }
+
+//       // Save the changes to the database
+//       const updatedReader = await Reader.findOneAndUpdate(
+//         { _id: req.user._id }, // Query condition
+//         { $set: updateProfile }, // Use $set to only update specified fields
+//         { new: true }, // Options: Return the modified document
+//       );
+
+//       if (!updatedReader) {
+//         console.log("Reader not found or not updated");
+//         return res.render("reader/reader-profile", {
+//           user: req.user,
+//           errors: [{ msg: "Reader not found or not updated" }],
+//           wishList: wishlistBooks,
+//         });
+//       }
+
+//       console.log("Document updated");
+
+//       notify(req.user._id, "Profile updated", "Profile updated successfully");
+
+//       res.redirect("/homepage");
+//     } catch (err) {
+//       console.log("Error:", err);
+//       return res.render("reader/reader-profile", {
+//         user: req.user,
+//         errors: [{ msg: "Internal Server Error" }],
+//         wishList: wishlistBooks,
+//       });
+//     }
+//   },
+//   (error, req, res, next) => {
+//     if (error instanceof multer.MulterError) {
+//       if (error.code === "LIMIT_FILE_SIZE") {
+//         res.render("reader/reader-profile", {
+//           user: req.user,
+//           errors: [
+//             { msg: "File Too Large: Please upload an image smaller than 2MB" },
+//           ],
+//           wishList: wishlistBooks
+//         });
+//       }
+//     } 
+//   },
+// );
+
+
+
+// Error Handler for the file upload (only for upload background and avatar picture)
+function handleMulterErrors(req, res, next) {
   uploads.fields([
     { name: "background", maxCount: 1 },
     { name: "avatar", maxCount: 1 },
-  ]),
+  ])(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      if (err.code === "LIMIT_FILE_SIZE") {
+        console.log('Cannot upload file')
+        console.log(err.code)
+        return res.status(400).json({ errors: ["File Too Large: Please upload an image smaller than 2MB"], success: false});
+      }
+    } return next(err);
+  });
+}
+
+// Update profile for Reader
+router.post(
+  "/profile/edit-profile",
+  handleMulterErrors,
+  isReader,
+  validateUsername,
   async (req, res) => {
     const errors = validationResult(req);
-
-    console.log("req.files:", req.files);
-    console.log("req.body:", req.body);
-
+ 
     if (!errors.isEmpty()) {
-      // If there are validation errors, render the page with errors
-      return res.render("reader/reader-profile", {
-        user: req.user,
-        errors: errors.array(),
-      });
+      // If there are validation errors, send a JSON response with the errors
+      return res.status(400).json({ errors: errors.array(), success: false });
     }
-
+ 
     try {
       if (!req.body.confirm) {
         // Show error must confirm to change
-        return res.render("reader/reader-profile", {
-          user: req.user,
-          errors: [{ msg: "You must confirm the changes" }],
-        });
+        return res.status(400).json({ errors: ["You must confirm the changes"], success: false });
       }
-
+ 
       const updateProfile = {};
-
+ 
       // Update username if it's changed
       if (req.body.username && req.body.username !== req.user.username) {
         updateProfile.username = req.body.username;
       }
-
+ 
       // Update background image if it's changed
       if (req.files.background) {
         updateProfile.background = req.files.background[0].path;
       }
-
+ 
       // Update avatar if it's changed
       if (req.files.avatar) {
         updateProfile.profilePicture = req.files.avatar[0].path;
       }
-
+ 
       // Save the changes to the database
       const updatedReader = await Reader.findOneAndUpdate(
         { _id: req.user._id }, // Query condition
         { $set: updateProfile }, // Use $set to only update specified fields
         { new: true }, // Options: Return the modified document
       );
-
+ 
       if (!updatedReader) {
         console.log("Reader not found or not updated");
-        return res.render("reader/reader-profile", {
-          user: req.user,
-          errors: [{ msg: "Reader not found or not updated" }],
-        });
+        return res.status(400).json({ errors: ["Reader not found or not updated"], success: false });
       }
-
+ 
       console.log("Document updated");
-
+ 
       notify(req.user._id, "Profile updated", "Profile updated successfully");
-
-      res.redirect("/homepage");
+ 
+      // Send a JSON response with the updated reader
+      return res.json({ updatedReader, success: true});
     } catch (err) {
       console.log("Error:", err);
-      return res.render("reader/reader-profile", {
-        user: req.user,
-        errors: [{ msg: "Internal Server Error" }],
-      });
-    }
-  },
-  (error, req, res, next) => {
-    if (error instanceof multer.MulterError) {
-      if (error.code === "LIMIT_FILE_SIZE") {
-        res.render("reader/reader-profile", {
-          user: req.user,
-          errors: [
-            { msg: "File Too Large: Please upload an image smaller than 2MB" },
-          ],
-        });
-      }
-    } else {
-      next(error);
+      return res.status(500).json({ errors: ["Internal Server Error"] , success: false});
     }
   },
 );

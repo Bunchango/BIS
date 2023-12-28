@@ -47,15 +47,20 @@
                     </div>
                 </div>
 
-
+                <div class="pop-up-success" id="popUp-success">
+                    <div class="title-success">Success</div>
+                    <button data-close-button class="close-modal">&times;</button>
+                </div>
                 <div class="pop-up-modal" id="pop-up-edit">
                     <div class="edit-header">
                         <div class="title">Edit Profile</div>
                         <button data-close-button class="close-modal">&times;</button>
                     </div>
                     <div class="edit-body">
-                        <form action="/reader/profile/edit-profile" method="POST" enctype="multipart/form-data">
+                        <form id="edit-profile-form" action="/reader/profile/edit-profile" method="POST" enctype="multipart/form-data">
+                            <div class="errors-update">
 
+                            </div>
                             <% if (errors && errors.length > 0) { %>
                             <h3>Errors</h3>
                             <ul class="error-messages">
@@ -64,54 +69,43 @@
                                 <% }); %>
                             </ul>
                             <% } %>
-                            <div id="edit-username-box">
-                                <div class="title">Username</div>
-                                <div class="layer-two">
-                                    <div id="name">Current Username: <%= user.username%></div>
-                                    <div class="edit-file-cont">
-                                        <label for="username">New User Name:</label>
-                                        <input type="text" id="username" name="username">
-                                    </div>
+                            
+                            <div class="main-user-info">
+                                <div class="user-input-box">
+                                    <label for="username">User Name</label>
+                                    <input type="text" id="username" name="username" >
                                 </div>
-                            </div>
-
-                            <div id="edit-background-box">
-                                <div class="title">Background Image</div>
-                                <div class="layer-two">
-                                    <img id="background" src="/<%= user.background%>" alt="background">
-                                    <div class="edit-file-cont">
-                                        <label for="background-pic">Upload:</label>
+                                
+                                <div class="user-input-box">
+                                    <label for="background-pic">Background Image</label>
+                                    <div class="image-container">
+                                        <img id="background" src="/<%= user.background%>" alt="background">
+                                    </div>
+                                    <div class="upload-button">
+                                        <span>Choose File</span>
                                         <input type="file" name="background" accept="image/*" id="background-pic">
                                     </div>
                                 </div>
-                            </div>
-
-                            <div id="edit-ava-box">
-                                <div class="title">Avatar</div>
-                                <div class="layer-two">
-                                    <div class="ava-edit-cont">
-                                        <img class="avatar" src="/<%= user.profilePicture %>"
-                                            alt="<%= user.username %>'s avatar">
+                                <div class="user-input-box">
+                                    <label for="avatar-pic">Avatar</label>
+                                    <div class="image-container">
+                                        <img class="avatar" src="/<%= user.profilePicture %>" accept="image/*" alt="<%= user.username %>'s avatar">
                                     </div>
-                                    <div class="edit-file-cont">
-                                        <label for="avatar-pic">Upload:</label>
+                                    <div class="upload-button">
+                                        <span>Choose File</span>
                                         <input type="file" name="avatar" accept="image/*" id="avatar-pic">
                                     </div>
                                 </div>
-                            </div>
-                            <div id="confirm-change-box">
-                                <div>
-                                    <label for="confirm">Confirm Changes:</label>
+                                <div class="confirm-change-box">
                                     <input type="checkbox" name="confirm" id="confirm">
+                                    <label for="confirm">Confirm Changes</label>
                                 </div>
-                                <button type="submit" class="submit-button">Submit</button>
+                                <button type="submit" class="submit-button" data-modal-target="#popUp-success">Submit</button>
                             </div>
                         </form>
 
                     </div>
                 </div>
-                <!-- pop up window for Edit profile -->
-
 
             </div>
 
@@ -216,10 +210,10 @@
 
             <div id="my-wishlist" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Wishlist</h3>
-                <% if (wishList && wishList.length > 0) { %> 
+                <ul>
+                    <% if (wishList && wishList.length > 0) { %> 
                     <% wishList.forEach( book => { %>
-                        <ul>
-                            <li class="item">
+                            <li class="item" data-bookid="<%= book._id %>">
                                 <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
                                     <div class="flex-shrink-0">
                                         <div class="img">
@@ -236,11 +230,12 @@
                                     </div>
                                 </div>
                             </li>
-                        </ul>
+                        
                     <% }) %>
-                <% } else { %>
-                    <div id="empty-container">Your WishList Empty</div>
-                <% } %> 
+                    <% } else { %>
+                        <div id="empty-container">Your WishList Empty</div>
+                    <% } %> 
+                </ul>
             </div>
         </div>
     </div>

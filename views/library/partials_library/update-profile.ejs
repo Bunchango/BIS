@@ -1,27 +1,27 @@
 <div class="pop-up-modal" id="pop-up-update">
     <div id="update-body">
-        <% if (errors && errors.length > 0) { %>
-            <div style="color: red;">
-                <% errors.forEach(error => { %>
-                    <p><%= error.msg %></p>
-                <% }); %>
-            </div>
-        <% } %>
+        
 
         <div class="update-header">
             <div class="title">Library Profile</div>
             <button data-close-button class="close-modal">&times;</button>
         </div>
-    
+        <% if (errors && errors.length > 0) { %>
+                <div style="color: red;">
+                    <% errors.forEach(error => { %>
+                        <p><%= error.msg %></p>
+                    <% }); %>
+                </div>
+        <% } %>
         <form action="profile" method="POST" enctype="multipart/form-data">
             <div class="main-user-info">
                 <div class="user-input-box">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" value="<%= admin.username %>">
+                    <label for="username">User Name</label>
+                    <input type="text" id="username" name="username" >
                 </div>
                 <div class="user-input-box">
                     <label for="description">Description</label>
-                    <input type="text" id="description" name="description" value="<%= admin.description %>">
+                    <input type="text" id="description" name="description">
                 </div>
                 <div class="user-input-box">
                     <label for="ava">Profile Picture</label>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="upload-button">
                         <span>Choose File</span>
-                        <input type="file" id="ava" name="logo">
+                        <input type="file" id="ava" accept="image/*" name="logo">
                     </div>
                 </div>
                 <div class="user-input-box">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="upload-button">
                         <span>Choose File</span>
-                        <input type="file" id="banner" name="banner">
+                        <input type="file" id="banner" accept="image/*" name="banner">
                     </div>
                 </div>
                 <div class="user-confirm-changes">
