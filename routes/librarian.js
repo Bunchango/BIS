@@ -163,7 +163,6 @@ router.post(
   },
 );
 
-// Route shared by librarian and reader
 router.get("/book_detail/:id", isLibrarian, async (req, res) => {
   // View book detail
   try {
@@ -305,6 +304,7 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
     if (borrow.library.toString() !== req.user.library.toString()) {
       return res.redirect("/librarian/customer");
     }
+    console.log(borrow);
     res.render("librarian/borrow", { borrow: borrow });
   } catch (e) {
     res.status(400).json({ errors: e });
@@ -320,7 +320,7 @@ router.post("/borrow/update_date/:id", async (req, res) => {
       { dueDate: dueDate, status: "Ongoing" },
       { new: true },
     ).populate("reader");
-
+    
     // Send notification email
     transporter.sendMail({
       to: borrow.reader.gmail,
