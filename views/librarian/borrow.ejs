@@ -41,9 +41,9 @@
                     <li>
                         <!-- Either is ticked as returned or lost -->
                         <label for="returned">Mark as returned</label>
-                        <input type="checkbox" name="returned" id="Returned_<%= book._id %>" value="<%= book._id %>">
+                        <input type="checkbox" name="returned[]" id="returned_<%= book._id %>" value="<%= book._id %>">
                         <label for="lost">Mark as lost</label>
-                        <input type="checkbox" name="lost" id="Lost_<%= book._id %>" value="<%= book._id %>">                        
+                        <input type="checkbox" name="lost[]" id="lost_<%= book._id %>" value="<%= book._id %>">                        
                         <p>Title: <%= book.title %></p>
                     </li>
                 <% }); %>

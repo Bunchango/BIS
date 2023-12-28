@@ -6,47 +6,45 @@
     <title>Document</title>
 </head>
 <body>
-    <% if (data.book) { %>
-        <h2><%= data.book.title %></h2>
-        <p>Author: <%= data.book.author %></p>
-        <p>Category: <%= data.book.category.join(', ') %></p>
-        <p>Description: <%= data.book.description %></p>
-        <p>Publish Date: <%= data.book.publishDate.toDateString() %></p>
-        <p>Number of Books: <%= data.book.amount %></p>
-        <p>Available books: <%= data.book.available %></p>
-        <p>Library: <%= data.book.library.name %></p>
+    <% if (book) { %>
+        <h2><%= book.title %></h2>
+        <p>Author: <%= book.author %></p>
+        <p>Category: <%= book.category.join(', ') %></p>
+        <p>Description: <%= book.description %></p>
+        <p>Publish Date: <%= book.publishDate.toDateString() %></p>
+        <p>Number of Books: <%= book.amount %></p>
+        <p>Available books: <%= book.available %></p>
+        <p>Library: <%= book.library.name %></p>
         <!-- Add other relevant information based on your schema -->
     <% } else { %>
         <p>Book not found</p>
     <% } %>
 
     <!-- Button to toggle the form visibility -->
-    <% if (data.isLibrarian) { %>
-        <button id="editButton">Edit Book</button>
-        <form method="POST" action="book_detail/delete/<%= book._id %>" onsubmit="return confirm('Are you sure you want to delete this book?');">
-            <button type="submit">Delete</button>
-        </form>
-    <% } %>
+    <button id="editButton">Edit Book</button>
+    <form method="POST" action="book_detail/delete/<%= book._id %>" onsubmit="return confirm('Are you sure you want to delete this book?');">
+        <button type="submit">Delete</button>
+    </form>
 
     <!-- Form to edit book (initially hidden) -->
-    <form id="editForm" class="centered-form" style="display:none;" action="book_detail/<%= data.book._id %>" method="post" enctype="multipart/form-data">
+    <form id="editForm" class="centered-form" style="display:none;" action="book_detail/<%= book._id %>" method="post" enctype="multipart/form->
         <!-- Add your form fields here for editing book details -->
         <label for="title">Title:</label>
-        <input type="text" name="title" value="<%= data.book.title %>" required>
+        <input type="text" name="title" value="<%= book.title %>" required>
 
         <label for="author">Author:</label>
-        <input type="text" name="author" value="<%= data.book.author %>" required>
+        <input type="text" name="author" value="<%= book.author %>" required>
 
         <label>Categories:</label>
         <% categoriesArray.forEach(category => { %>
             <label>
-                <input type="checkbox" name="category" id="category" value="<%= category %>" <%= data.book.category.includes(category) ? 'checked' : '' %>>
+                <input type="checkbox" name="category" id="category" value="<%= category %>" <%= book.category.includes(category) ? 'checked' : '' %>>
                 <%= category %>
             </label>
         <% }); %>
 
         <label for="description">Description:</label>
-        <textarea name="description" rows="4" required><%= data.book.description %></textarea>
+        <textarea name="description" rows="4" required><%= book.description %></textarea>
 
         <label for="amount">Amount:</label>
         <input type="number" name="amount" id="amountInput" value=5 min="0" required>

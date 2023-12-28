@@ -2,8 +2,8 @@ const { body } = require("express-validator");
 
 const validateRegistration = [
   body("username")
-    .isAlphanumeric()
-    .withMessage("Username must contain only digits and letters")
+    .matches(/^[A-Za-z0-9 ]+$/)
+    .withMessage("Username must contain only letters, numbers")
     .isLength({ min: 8, max: 15 })
     .withMessage("Username must be between 8 and 15 characters"),
 
@@ -23,27 +23,27 @@ const validateRegistration = [
 const validateBookCreation = [
   body("title")
     .matches(/^[A-Za-z0-9 ]+$/)
-    .withMessage("Title must contain only letters, numbers, and spaces")
+    .withMessage("Title must contain only letters, numbers")
     .isLength({ min: 5, max: 24 })
     .withMessage("Title must be between 5 and 24 characters"),
 
   body("author")
     .matches(/^[A-Za-z ]+$/)
-    .withMessage("Author's name must contain only letters and spaces")
+    .withMessage("Author's name must contain only letters")
     .isLength({ min: 5, max: 24 })
     .withMessage("Author's name must be between 5 and 24 characters"),
 
   body("description")
     .matches(/^[A-Za-z0-9 ]+$/)
-    .withMessage("Description must contain only letters, numbers, and spaces")
+    .withMessage("Description must contain only letters, numbers")
     .isLength({ min: 5 })
     .withMessage("Description must be at least 5 characters"),
 ]
 
 const validateUsername = [
   body("username")
-    .isAlpha()
-    .withMessage("Username must contain only digits and letters")
+    .matches(/^[A-Za-z0-9 ]+$/)
+    .withMessage("Username must contain only letters, numbers")
     .isLength({ min: 8, max: 15 })
     .withMessage("Username must be between 8 and 15 characters")
     .optional({ checkFalsy: true })
