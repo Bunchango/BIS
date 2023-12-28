@@ -43,3 +43,64 @@ function openCity(evt, cityName) {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+function openModal(modal) {
+  if (modal == null) return;
+  modal.classList.add("active");
+  overlay.classList.add("active");
+}
+
+// TODO: Update the profile without reloading the entire page
+// TODO: Try to update the popup as well
+// TODO: the image has not been  updated yet 
+document.querySelector('.pop-up-modal .submit-button').addEventListener('click', function(event) {
+  event.preventDefault(); // prevent the form from submitting normally
+ 
+  let formData = new FormData(event.target.form); // get form data
+ 
+  fetch('/reader/profile/edit-profile', {
+    method: 'POST',
+    body: formData,
+    credentials: 'include', // include, *same-origin, omit
+  }).then( response => {
+    if (!response.ok) {
+      return response.json().then(errorObj => {
+        // Check if the error object has a 'msg' property
+        if (errorObj.errors[0].msg) {
+          throw new Error(errorObj.errors[0].msg);
+        }
+        // If not, just use the first error object as the error message
+        else {
+          throw new Error(errorObj.errors[0]);
+        }
+      });
+    }
+    return response.json();
+  }).then(data => {
+    if (data.success) {
+      console.log(data)
+      // Update the profile in the UI without reloading the page
+      // You can replace this comment with your own code to update the UI
+      if (data.updatedReader.username) document.querySelector('.user-info .name').innerText = `${data.updatedReader.username}`;
+      if (data.updatedReader.background) document.querySelector('.upper .background').src = `/${data.updatedReader.background}`;
+      if (data.updatedReader.profilePicture) document.querySelector('.user-info .avatar').src = `/${data.updatedReader.profilePicture}`;
+      
+      
+      const button = document.querySelector(".submit-button")
+      const popupSuccess = document.querySelector(button.dataset.modalTarget);
+      openModal(popupSuccess);
+      const errors = document.querySelector('.errors-update');
+      errors.innerText = ''
+      document.querySelector('#edit-profile-form').reset()
+    }
+  }).catch( error => {
+    // Handle errors here
+    // TODO: 
+    console.log(error)
+    const errors = document.querySelector('.errors-update');
+    errors.innerText = ''
+    errors.innerText = "Error: \n" + error.message;
+    alert('Failed to update profile: ' + error.message);
+    console.error('There has been a problem with your fetch operation: ', error.message);
+  });
+});

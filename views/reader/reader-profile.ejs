@@ -47,15 +47,20 @@
                     </div>
                 </div>
 
-
+                <div class="pop-up-success" id="popUp-success">
+                    <div class="title-success">Success</div>
+                    <button data-close-button class="close-modal">&times;</button>
+                </div>
                 <div class="pop-up-modal" id="pop-up-edit">
                     <div class="edit-header">
                         <div class="title">Edit Profile</div>
                         <button data-close-button class="close-modal">&times;</button>
                     </div>
                     <div class="edit-body">
-                        <form action="/reader/profile/edit-profile" method="POST" enctype="multipart/form-data">
+                        <form id="edit-profile-form" action="/reader/profile/edit-profile" method="POST" enctype="multipart/form-data">
+                            <div class="errors-update">
 
+                            </div>
                             <% if (errors && errors.length > 0) { %>
                             <h3>Errors</h3>
                             <ul class="error-messages">
@@ -104,7 +109,7 @@
                                     <label for="confirm">Confirm Changes:</label>
                                     <input type="checkbox" name="confirm" id="confirm">
                                 </div>
-                                <button type="submit" class="submit-button">Submit</button>
+                                <button type="submit" class="submit-button" data-modal-target="#popUp-success">Submit</button>
                             </div>
                         </form>
 

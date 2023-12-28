@@ -15,7 +15,7 @@ if (avaImage) {
 }
 
 // Open the pop up book mark
-const openModalButtons = document.querySelectorAll("[data-modal-target]");
+const openModalButtons = document.querySelectorAll("[data-modal-target]:not(.submit-button)"); // peevent the summit button
 const closeModalButtons = document.querySelectorAll("[data-close-button]");
 const overlay = document.getElementById("overlay");
 
@@ -108,8 +108,8 @@ async function removeBookmark(event) {
 openModalButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const modal = document.querySelector(button.dataset.modalTarget);
-    openModal(modal);
     updateBookmarkPopup().catch(console.error);
+    openModal(modal);
   });
 });
 
@@ -124,6 +124,8 @@ closeModalButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const modal = button.closest(".pop-up-modal");
     closeModal(modal);
+    const successModel = button.closest(".pop-up-success") // If there is a success model
+    successModel.classList.remove("active")
   });
 });
 

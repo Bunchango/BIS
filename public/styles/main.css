@@ -67,6 +67,40 @@
 .pop-up-modal.active {
   transform: translate(-50%, -50%) scale(1);
 }
+.pop-up-success {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-in-out;
+  border-radius: 5px;
+  z-index: 1111;
+  background-color: white;
+  width: 650px;
+  max-width: 800%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+.pop-up-success.active  {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.pop-up-success .title-success {
+  font-size: 50px;
+  color: var(--theme-color-orange);
+}
+.pop-up-success button {
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  margin-right: 20px;
+  margin-top: 10px;
+  font-size: 20px;
+}
 
 /* notification */
 .fa-regular.fa-bell {
@@ -248,7 +282,7 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   pointer-events: none;
-  z-index: 10;
+  z-index: 999;
 }
 
 #overlay.active {
@@ -308,7 +342,7 @@
   display: none;
   top: 50px;
   right: 350px;
-  z-index: 1000;
+  z-index: 900;
   background-color: #fff;
   color: #000;
   width: 250px;
