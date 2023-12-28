@@ -22,7 +22,7 @@
     <h2>Books:</h2>
     <ul>
      <% borrow.books.forEach(book => { %>
-       <li><%= book.title %> - Status: <%= book.status %></li>
+       <li><%= book.book.title %> - Status: <%= book.status %></li>
      <% }); %>
     </ul>
 
@@ -44,7 +44,7 @@
                         <input type="checkbox" name="returned[]" id="returned_<%= book._id %>" value="<%= book._id %>">
                         <label for="lost">Mark as lost</label>
                         <input type="checkbox" name="lost[]" id="lost_<%= book._id %>" value="<%= book._id %>">                        
-                        <p>Title: <%= book.title %></p>
+                        <p>Title: <%= book.book.title %></p>
                     </li>
                 <% }); %>
             </ul>

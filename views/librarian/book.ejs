@@ -22,13 +22,12 @@
 
     <!-- Button to toggle the form visibility -->
     <button id="editButton">Edit Book</button>
-    <form method="POST" action="book_detail/delete/<%= book._id %>" onsubmit="return confirm('Are you sure you want to delete this book?');">
+    <form method="POST" action="/librarian/book_detail/delete/<%= book._id %>" onsubmit="return confirm('Are you sure you want to delete this book?');">
         <button type="submit">Delete</button>
     </form>
 
     <!-- Form to edit book (initially hidden) -->
     <form id="editForm" class="centered-form" style="display:none;" action="book_detail/<%= book._id %>" method="post" enctype="multipart/form->
-        <!-- Add your form fields here for editing book details -->
         <label for="title">Title:</label>
         <input type="text" name="title" value="<%= book.title %>" required>
 
