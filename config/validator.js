@@ -34,8 +34,6 @@ const validateBookCreation = [
     .withMessage("Author's name must be between 5 and 24 characters"),
 
   body("description")
-    .matches(/^[A-Za-z0-9 ]+$/)
-    .withMessage("Description must contain only letters, numbers")
     .isLength({ min: 5 })
     .withMessage("Description must be at least 5 characters"),
 ]
