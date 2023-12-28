@@ -209,85 +209,25 @@
                       <img src="<%= book.coverImages[0]%> " alt="<%= book.title %>'s Image" />
                     </div>
                     <div class="book-details">
-                      <% if (user && user.__t == "Reader") { %> 
-                        <% if (user.wishList && user.wishList.includes(book._id)) { %>
-                          <i class="bookmark-icon fa-star fas" data-bookid="<%= book._id %>"></i>
-                        <%} else if (user.wishList && !user.wishList.includes(book._id)) { %> 
-                          <i class="bookmark-icon far fa-star" data-bookid="<%= book._id %>"></i>
-                        <%}%> 
-                      <% } %>
                       <div class="detail-box"> 
                         <h1><%= book.title %></h1>
                         <p><%= book.description %></p>
                       </div>
-                      <a href="/reader/book_detail/<%= book._id %>" class="view-more-button">View details</a>
+                  
+                        <a href="/reader/book_detail/<%= book._id %>" class="view-more-button">View details</a>
+                        <% if (user && user.__t == "Reader") { %> 
+                          <% if (user.wishList && user.wishList.includes(book._id)) { %>
+                            <i class="bookmark-icon fa-star fas" data-bookid="<%= book._id %>"></i>
+                          <%} else if (user.wishList && !user.wishList.includes(book._id)) { %> 
+                            <i class="bookmark-icon far fa-star" data-bookid="<%= book._id %>"></i>
+                          <%}%> 
+                        <% } %>
+                      
                     </div>
                 </div>
               <% }) %>
             <% } %>
-            <!-- <div class="card swiper-slide">
-                <div class="image-box">
-                  <img src="images/lib1.jpg" alt="" />
-                </div>
-                <div class="book-details">
-                  <div class="detail-box">
-                    <h1>Book name</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque inventorratione saepe labore accusamus error.</p>
-                  </div>
-                  <a href="" class="view-more-button">View details</a>
-                </div>
-            </div>
 
-            <div class="card swiper-slide">
-                <div class="image-box">
-                  <img src="images/lib1.jpg" alt="" />
-                </div>
-                <div class="book-details">
-                  <div class="detail-box">
-                    <h1>Book name</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque inventorratione saepe labore accusamus error.</p>
-                  </div>
-                  <a href="" class="view-more-button">View details</a>
-                </div>
-            </div>
-
-            <div class="card swiper-slide">
-                <div class="image-box">
-                  <img src="images/lib1.jpg" alt="" />
-                </div>
-                <div class="book-details">
-                  <div class="detail-box">
-                    <h1>Book name</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque inventorratione saepe labore accusamus error.</p>
-                  </div>
-                  <a href="" class="view-more-button">View details</a>
-                </div>
-            </div>
-
-            <div class="card swiper-slide">
-                <div class="image-box">
-                  <img src="images/lib1.jpg" alt="" />
-                </div>
-                <div class="book-details">
-                  <div class="detail-box">
-                    <h1>Book name</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque inventorratione saepe labore accusamus error.</p>
-                  </div>
-                  <a href="" class="view-more-button">View details</a>
-                </div>
-            </div>
-
-            <div class="card swiper-slide">
-                <div class="image-box">
-                  <img src="images/lib1.jpg" alt="" />
-                </div>
-                <div class="book-details">
-                  <div class="detail-box">
-                    <h1>Book name</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque inventorratione saepe labore accusamus error.</p>
-                  </div> 
-                </div>
-            </div> -->
             
           </div>
         </div>
