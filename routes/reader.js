@@ -132,14 +132,20 @@ router.get("/book_detail/:id", async (req, res) => {
     if (!book) {
       return res.status(404).json({ error: "Book not found" });
     }
-    const wishList = req.user.wishList;
-    let wishlistBooks = await Book.find({ _id: { $in: wishList } });
-
-    res.render("book/book_detail", {
-      book,
-      user: req.user,
-      wishList: wishlistBooks,
-    });
+    if (req.user) {
+      const wishList = req.user.wishList;
+      let wishlistBooks = await Book.find({ _id: { $in: wishList } });
+      res.render("book/book_detail", {
+        book: book,
+        user: req.user,
+        wishList: wishlistBooks,
+      });
+    } else {
+      res.render("book/book_detail", {
+        book: book,
+        user: req.user,
+      });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ errors: err });
@@ -712,12 +718,18 @@ router.post("/profile/set-default", isReader, async (req, res) => {
 router.get("/library-profile/:id", async (req, res) => {
   try {
     const library = await Library.findById(req.params.id);
+    if (!library) {
+      return res.status(404).render('404', { message: 'Library not found' });
+    }
     const wishList = req.user.wishList;
     let wishlistBooks = await Book.find({ _id: { $in: wishList } });
+    const books = await Book.find({ library: {$in: req.params.id }});
+
     res.render("reader/library-profile", {
       library: library,
       user: req.user,
       wishList: wishlistBooks,
+      books: books,
     });
   } catch (errors) {
     console.log("Error:", errors);
