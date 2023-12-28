@@ -56,9 +56,11 @@
     <section class="hot">
         <h1 id="hot-title">This month's hottest</h1>
         <div class="hot-books">
+            
             <% if (books && books.length > 0) {%> 
               <% books.forEach( book => { %>
-                <div class="card swiper-slide">
+                <div class="hot-book">
+                  <div class="card swiper-slide">
                     <div class="image-box">
                       <img src="<%= book.coverImages[0]%> " alt="<%= book.title %>'s Image" />
                     </div>
@@ -76,6 +78,7 @@
                       </div>
                       <a href="/reader/book_detail/<%= book._id %>" class="view-more-button">View details</a>
                     </div>
+                  </div>
                 </div>
               <% }) %>
             <% } %>
