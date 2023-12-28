@@ -355,19 +355,16 @@ router.post("/borrow/return/:id", async (req, res) => {
     await session.withTransaction(async () => {
       const borrow = await Borrow.findById(req.params.id).populate("reader");
 
-      console.log("passed 0");
       // Change books states and increment/decrease
         borrow.books.forEach(book => {
-          if(returned.includes(book.book.toString())) {
+          if(returned.includes(book._id.toString())) {
               book.status = "returned";
           }
           
-          if(lost.includes(book.book.toString())) {
+          if(lost.includes(book._id.toString())) {
             book.status = "lost";
           }
         });
-
-        console.log("passed 1");
 
         // Update available and amount for returned and lost books
         await Book.updateMany(
@@ -380,8 +377,6 @@ router.post("/borrow/return/:id", async (req, res) => {
             },
             { session },
         );
-            
-        console.log("passed 2");
 
         // Check if all books are not outstanding
         const allBooksReturnedOrLost = await Borrow.findOne({
@@ -410,9 +405,7 @@ router.post("/borrow/return/:id", async (req, res) => {
             `Your borrow record is completed`,
             );
         }
-        
-        console.log("passed 3");
-
+      
         await borrow.save({ session });
         });
 
@@ -721,7 +714,7 @@ router.post("/request/accept/:id", async (req, res) => {
 
     // Decrease by 1 for all books
     for (let book of pickup.books) {
-      await Book.findByIdAndUpdate(book._id, { $inc: { available: 1 } });
+      await Book.findByIdAndUpdate(book._id, { $inc: { available: -1 } });
     }
 
     // Redirect to customer page
