@@ -110,7 +110,7 @@ const requestSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        enum: ["Accepted", "Pending", "Declined", "Canceled"],
+        enum: ["Accepted", "Pending", "Declined"],
         default: "Pending",
     }
 })

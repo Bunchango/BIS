@@ -34,7 +34,7 @@
     <!-- Using Canceling or completing pickup buttons will pop up a form to complete  -->
     <div class="container">
         <h1>Pickup Details</h1>
-        <p><strong>Reader:</strong> <%= pickup.reader %></p>
+        <p><strong>Reader:</strong> <%= pickup.reader.gmail %></p>
         <p><strong>Books:</strong></p>
         <ul>
             <% pickup.books.forEach(book => { %>
@@ -54,14 +54,16 @@
 
     <!-- Button to pop up the forms -->
     <div>
-        <button onclick="showForm('completeForm')">Mark as Completed</button>
-        <button onclick="showForm('cancelForm')">Mark as Canceled</button>
+        <% if (pickup.status !== 'Completed') { %>
+            <button onclick="showForm('completeForm')">Mark as Completed</button>
+            <button onclick="showForm('cancelForm')">Mark as Canceled</button>
+        <% } %>
     </div>
 
     <!-- Complete button -->
     <div id="completeForm" class="popup-form">
         <span class="close-button" onclick="hideForm('completeForm')">&times;</span>
-        <form action="pickup/complete/<%= pickup._id %>" method="POST" onsubmit="return validateDate('dueDate')">
+        <form action="/librarian/pickup/complete/<%= pickup._id %>" method="POST" onsubmit="return validateDueDate('dueDate', '<%= pickup.takeDate %>')">
             <input type="date" name="dueDate" id="dueDate" required>
             <button type="submit">Confirm</button>
         </form>
@@ -70,7 +72,7 @@
     <!-- Cancel button -->
     <div id="cancelForm" class="popup-form">
         <span class="close-button" onclick="hideForm('cancelForm')">&times;</span>
-        <form action="pickup/cancel/<%= pickup._id %>" method="POST">
+        <form action="/librarian/pickup/cancel/<%= pickup._id %>" method="POST">
             <textarea name="cancelReason" id="cancelReason" cols="30" rows="10" required></textarea>
             <button type="submit">Confirm</button>
         </form>
@@ -78,7 +80,7 @@
 
     <div id="changeDateForm" class="popup-form">
         <span class="close-button" onclick="hideForm('changeDateForm')">&times;</span>
-        <form action="pickup/update_date/<%= pickup._id %>" method="POST" onsubmit="return validateDate('takeDate')">
+        <form action="/librarian/pickup/update_date/<%= pickup._id %>" method="POST" onsubmit="return validateDate('takeDate')">
             <input type="date" name="takeDate" id="takeDate" required>
             <button type="submit">Confirm</button>
         </form>
@@ -108,6 +110,18 @@
 
             if (selectedDate < today) {
                   alert("Please select a date that is today or in the future.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateDueDate(id, pickupDate) {
+            var selectedDate = document.getElementById(id).value;
+            var pickupDateFormatted = new Date(pickupDate).toISOString().split('T')[0];
+            var today = new Date().toISOString().split('T')[0];
+
+            if (selectedDate < today || selectedDate < pickupDateFormatted) {
+                alert("Please select a date that is after today and the pickup date.");
                 return false;
             }
             return true;

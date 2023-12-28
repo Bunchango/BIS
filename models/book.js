@@ -53,6 +53,9 @@ const bookSchema = new mongoose.Schema({
         required: true,
         default: 1,
     },
+    available: {
+        type: Number,
+    },
 })
 
 // When user borrow book ( or schedule borrow ) reduce available books by 1

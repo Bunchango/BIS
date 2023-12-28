@@ -35,15 +35,15 @@
 
     <!-- Return form -->
     <div id="returnForm" style="display: none;">
-        <form id="returnForm" method="post" action="borrow/return/<%= borrow._id %>">
+        <form id="returnForm" method="post" action="/librarian/borrow/return/<%= borrow._id %>">
             <ul>
                 <% borrow.books.forEach(book => { %>
                     <li>
                         <!-- Either is ticked as returned or lost -->
                         <label for="returned">Mark as returned</label>
-                        <input type="checkbox" name="returned" id="returned_<%= book._id %>" value="<%= book._id %>">
+                        <input type="checkbox" name="returned" id="Returned_<%= book._id %>" value="<%= book._id %>">
                         <label for="lost">Mark as lost</label>
-                        <input type="checkbox" name="lost" id="lost_<%= book._id %>" value="<%= book._id %>">                        
+                        <input type="checkbox" name="lost" id="Lost_<%= book._id %>" value="<%= book._id %>">                        
                         <p>Title: <%= book.title %></p>
                     </li>
                 <% }); %>
@@ -56,14 +56,14 @@
 
     <!-- Overdue form -->
     <div id="overdueForm" style="display: none">
-        <form action="borrow/overdue/<%= borrow._id %>" method="post" id="overdueForm">
+        <form action="/librarian/borrow/overdue/<%= borrow._id %>" method="post" id="overdueForm">
             <input type="submit" value="Submit">
         </form>
     </div>
 
     <!-- Cancel form -->
     <div id="cancelForm" style="display: none;">
-        <form action="borrow/cancel/<%= borrow._id %>" method="post" id="cancelForm">
+        <form action="/librarian/borrow/cancel/<%= borrow._id %>" method="post" id="cancelForm">
             <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
             <input type="submit" value="Submit">
         </form>
@@ -71,7 +71,7 @@
 
     <!-- Change date form -->
     <div id="changeDateForm" style="display: none;">
-        <form id="changeDateForm" method="post" action="borrow/update_date/<%= borrow._id %>" onsubmit="return validateDate('dueDate')">
+        <form id="changeDateForm" method="post" action="/librarian/borrow/update_date/<%= borrow._id %>" onsubmit="return validateDate('dueDate')">
             <label for="dueDate">New Return Date:</label>
             <input type="date" id="dueDate" name="dueDate">
             <input type="submit" value="Submit">

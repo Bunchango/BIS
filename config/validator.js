@@ -22,20 +22,20 @@ const validateRegistration = [
 
 const validateBookCreation = [
   body("title")
-    .isAlphanumeric()
-    .withMessage("Title must contain only letters and numbers")
+    .matches(/^[A-Za-z0-9 ]+$/)
+    .withMessage("Title must contain only letters, numbers, and spaces")
     .isLength({ min: 5, max: 24 })
     .withMessage("Title must be between 5 and 24 characters"),
 
   body("author")
-    .isAlpha()
-    .withMessage("Author's name must contain only letters")
+    .matches(/^[A-Za-z ]+$/)
+    .withMessage("Author's name must contain only letters and spaces")
     .isLength({ min: 5, max: 24 })
     .withMessage("Author's name must be between 5 and 24 characters"),
 
   body("description")
-    .isAlphanumeric()
-    .withMessage("Description must contain only letters and numbers")
+    .matches(/^[A-Za-z0-9 ]+$/)
+    .withMessage("Description must contain only letters, numbers, and spaces")
     .isLength({ min: 5 })
     .withMessage("Description must be at least 5 characters"),
 ]

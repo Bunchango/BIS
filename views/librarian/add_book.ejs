@@ -6,6 +6,15 @@
     <title>Document</title>
 </head>
 <body>
+
+    <% if (typeof errors !== 'undefined') { %>
+        <% errors.forEach(function(error) { %>
+            <div>
+                <h2><%= error.msg %></h2>
+            </div>
+        <% }); %>
+    <% } %>
+    
     <h1>Upload 3 Images</h1>
     <form action="add_book" method="POST" enctype="multipart/form-data">
         <input type="file" name="images" accept="image/*" multiple required>

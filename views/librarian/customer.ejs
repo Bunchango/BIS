@@ -13,6 +13,7 @@
     <ul>
         <% data.requests.forEach(request => { %>
             <li>
+                <a href="/librarian/request/<%= request._id %>"> Link </a>
                 <p>Reader: <%= request.reader.username %></p>
                 <p>Created On: <%= request.createdOn %></p>
                 <p>Number of Books: <%= request.books.length %></p>
@@ -28,6 +29,7 @@
     <ul>
         <% data.pickups.forEach(pickup => { %>
             <li>
+                <a href="/librarian/pickup/<%= pickup._id %>"> Link </a>
                 <p>Reader: <%= pickup.reader.username %></p>
                 <p>Created On: <%= pickup.createdOn %></p>
                 <p>Number of Books: <%= pickup.books.length %></p>
@@ -43,6 +45,7 @@
     <ul>
         <% data.borrows.forEach(borrow => { %>
             <li>
+              <a href="/librarian/borrow/<%= borrow._id %>"> Link </a>
                 <p>Reader: <%= borrow.reader.username %></p>
                 <p>Created On: <%= borrow.createdOn %></p>
                 <p>Number of Books: <%= borrow.books.length %></p>
