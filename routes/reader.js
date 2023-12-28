@@ -721,16 +721,25 @@ router.get("/library-profile/:id", async (req, res) => {
     if (!library) {
       return res.status(404).render('404', { message: 'Library not found' });
     }
-    const wishList = req.user.wishList;
-    let wishlistBooks = await Book.find({ _id: { $in: wishList } });
+    
     const books = await Book.find({ library: {$in: req.params.id }});
-
-    res.render("reader/library-profile", {
-      library: library,
-      user: req.user,
-      wishList: wishlistBooks,
-      books: books,
-    });
+    if ( req.user ) {
+      const wishList = req.user.wishList;
+      let wishlistBooks = await Book.find({ _id: { $in: wishList } });
+      res.render("reader/library-profile", {
+        library: library,
+        user: req.user,
+        wishList: wishlistBooks,
+        books: books,
+      });
+    } else {
+      res.render("reader/library-profile", {
+        library: library,
+        user: req.user,
+        books: books,
+      });
+    }
+    
   } catch (errors) {
     console.log("Error:", errors);
     res.redirect("/homepage");
