@@ -12,7 +12,7 @@ const Notice = require("../models/notice");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 
-// TODO: fix accept request, book detail path, add modify path to notify
+// TODO: book detail path, add modify path to notify
 
 const router = require("express").Router();
 
@@ -168,8 +168,8 @@ router.get("/book_detail/:id", isLibrarian, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).populate("library");
 
-    if (book.library.toString() !== req.user.library.toString()) {
-      return res.redirect("/librarian/invetory");
+    if (book.library._id.toString() !== req.user.library.toString()) {
+      return res.redirect("/librarian/inventory");
     }
 
     res.render("librarian/book", { book: book, categories: categoriesArray });
@@ -199,13 +199,13 @@ router.post(
     // Change book detail (when changing amount, only allow reducing the amount at most by the available amount)
     // Change title, author, images, category, description, amount
     try {
-      const book = await Book.findById(req.params.id);
-
       const updateFields = {};
       if (req.body.title) updateFields.title = req.body.title;
       if (req.body.author) updateFields.author = req.body.author;
       if (req.body.category) updateFields.category = req.body.category;
       if (req.body.description) updateFields.description = req.body.description;
+      if (req.body.amount) updateFields.amount = req.body.amount;
+      if (req.body.available) updateFields.available = req.body.available;
 
       // Update cover images
       if (req.files) {
@@ -221,21 +221,6 @@ router.post(
         }
         if (coverImages.length > 0) {
           updateFields.coverImages = coverImages;
-        }
-      }
-
-      // Update amount (only allow reducing the amount at most by the available amount)
-      if (req.body.amount) {
-        const newAmount = parseInt(req.body.amount, 10);
-        if (!isNaN(newAmount)) {
-          if (newAmount <= book.available) {
-            updateFields.amount = newAmount;
-          } else {
-            // Render page with error: Cannot reduce past the available amount
-            return res
-              .status(400)
-              .json({ error: "Cannot increase amount beyond available books" });
-          }
         }
       }
 
@@ -304,7 +289,7 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
     if (borrow.library.toString() !== req.user.library.toString()) {
       return res.redirect("/librarian/customer");
     }
-    console.log(borrow);
+
     res.render("librarian/borrow", { borrow: borrow });
   } catch (e) {
     res.status(400).json({ errors: e });
@@ -346,14 +331,12 @@ router.post("/borrow/return/:id", async (req, res) => {
 
   const session = await mongoose.startSession();
   
-  returned = returned || [];
-  lost = lost || [];
-
-  console.log(returned, lost);
+  returned = returned ? returned : [];
+  lost = lost ? lost : [];
 
   try {
     await session.withTransaction(async () => {
-      const borrow = await Borrow.findById(req.params.id).populate("reader");
+      const borrow = await Borrow.findById(req.params.id).populate("reader").session(session);
 
       // Change books states and increment/decrease
         borrow.books.forEach(book => {
@@ -366,31 +349,36 @@ router.post("/borrow/return/:id", async (req, res) => {
           }
         });
 
+        returned = returned.map(id => mongoose.Types.ObjectId(id));
+        lost = lost.map(id => mongoose.Types.ObjectId(id));
+      
+        console.log(returned, lost);
+
         // Update available and amount for returned and lost books
         await Book.updateMany(
-            { _id: { $in: [...returned, ...lost] } },
-            {
-            $inc: {
-                available: returned ? 1 : 0,
-                amount: lost ? -1 : 0,
-            },
-            },
-            { session },
+          { _id: { $in: returned } },
+          { $inc: { available: 1 } },
+          { session: session }
+        );
+        
+        await Book.updateMany(
+          { _id: { $in: lost } },
+          { $inc: { amount: -1 } },
+          { session: session }
         );
 
+        await borrow.save({ session });
+
         // Check if all books are not outstanding
-        const allBooksReturnedOrLost = await Borrow.findOne({
-            _id: req.params.id,
-            "books.status": { $ne: "outstanding" },
-        }).session(session);
+        const updatedBorrow = await Borrow.findById(req.params.id).populate("reader").session(session);
+        const allBooksReturnedOrLost = updatedBorrow.books.every(book => book.status !== 'outstanding');
 
         if (allBooksReturnedOrLost) {
             // Update the borrow record status to "Completed"
             const borrow = await Borrow.findByIdAndUpdate(
             req.params.id,
-            { status: "Completed" },
-            { session },
-            );
+            { status: "Returned" },
+            ).session(session).populate("reader");
 
             // Send notfications
             transporter.sendMail({
@@ -405,9 +393,7 @@ router.post("/borrow/return/:id", async (req, res) => {
             `Your borrow record is completed`,
             );
         }
-      
-        await borrow.save({ session });
-        });
+      });
 
     res.redirect("/librarian/customer");
   } catch (e) {
@@ -454,10 +440,10 @@ router.post("/borrow/cancel/:id", async (req, res) => {
 
     // Decrease amount of all books by 1
     const bookIds = borrow.books.map((book) => book._id); // extract book IDs from the borrow record
-
+    
     await Book.updateMany(
-      { _id: { $in: bookIds } }, // select books that are in the borrow record
-      { $inc: { amount: -1 } }, // decrease the 'amount' of each selected book by 1
+      { _id: { $in: bookIds } },
+      { $inc: { amount: -1 } },
     );
 
     // Send notification
@@ -547,48 +533,6 @@ router.post("/pickup/cancel/:id", async (req, res) => {
       `Your pickup has been canceled for ${cancelReason}`,
     );
 
-    // Get all books in the pickup
-    const books = await Book.find({ _id: { $in: pickup.books } });
-
-    const operations = [];
-    for (let i = 0; i < books.length; i++) {
-      const book = books[i];
-
-      if (book.available === 0) {
-        const notification = {
-          title: `Book wishlisted available`,
-          message: `${book.title} is now available`,
-          createdOn: Date.now(),
-        };
-
-        operations.push({
-          updateMany: {
-            filter: { wishList: { $in: [bookId] } },
-            update: { $push: { notification: notification } },
-            upsert: true,
-          },
-        });
-
-        // Send email
-        transporter.sendMail({
-          to: pickup.reader.gmail,
-          subject: "VxNhe wishlisted book available",
-          html: `${book.title} is not available`,
-        });
-      }
-
-      operations.push({
-        updateOne: {
-          filter: { _id: book._id },
-          update: { $inc: { available: 1 } },
-        },
-      });
-    }
-
-    if (operations.length > 0) {
-      await Book.bulkWrite(operations);
-    }
-
     res.redirect("/librarian/customer");
   } catch (e) {
     res.status(400).json({ errors: e });
@@ -621,8 +565,6 @@ router.post("/pickup/complete/:id", async (req, res) => {
       dueDate: dueDate,
       pickup: pickup._id,
     });
-
-    console.log(borrow);
 
     await borrow.save();
 
@@ -674,6 +616,7 @@ router.post("/request/accept/:id", async (req, res) => {
     .exec();
 
     if (!approved) return res.render("librarian/request", { request: request, error: "At least 1 book must be approved to accept request" });
+    if (!takeDate) return res.render("librarian/request", { request: request, error: "Take date is required" });
 
     // Change request status to accept
     await Request.findByIdAndUpdate(
@@ -713,9 +656,12 @@ router.post("/request/accept/:id", async (req, res) => {
     );
 
     // Decrease by 1 for all books
-    for (let book of pickup.books) {
-      await Book.findByIdAndUpdate(book._id, { $inc: { available: -1 } });
-    }
+    const bookIds = pickup.books.map(book => book._id);
+
+    await Book.updateMany(
+      { _id: { $in: bookIds } },
+      { $inc: { available: -1 } }
+    );    
 
     // Redirect to customer page
     res.redirect("/librarian/customer");
@@ -765,12 +711,12 @@ router.get("/dashboard", isLibrarian, async (req, res) => {
 });
 
 // Add notification to the library
-router.post("/add_notify", async (req, res) => {
+router.post("/notify/add_notify", async (req, res) => {
   try {
     const { description, title } = req.body;
     const notice = new Notice({
       library: req.user.library,
-      author: req.user.username,
+      author: req.user._id,
       title: title,
       description: description,
     });
@@ -781,6 +727,15 @@ router.post("/add_notify", async (req, res) => {
     res.status(400).json({ errors: e });
   }
 });
+
+router.post("/notify/delete_notify/:id", async (req, res) => {
+  try {
+    await Notice.findByIdAndDelete(req.params.id);
+    res.redirect("/librarian/dashboard");
+  } catch(e) {
+    res.status(400).json({ errors: e });
+  }
+})
 
 // Librarian profile
 router.get("/profile", isLibrarian, async (req, res) => {

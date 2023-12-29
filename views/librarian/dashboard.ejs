@@ -9,6 +9,7 @@
     <title>Dashboard</title>
 </head>
 <body class="font-sans">
+  <!-- TODO: Render the notice board from the database -->
     <!-- Navigation Bar -->
     <nav class="text-white p-4">
         <div class="flex justify-between items-center">
@@ -69,7 +70,7 @@
         </script>
       </div>
       
-      <form action="add_notify" method="post">
+      <form action="notify/add_notify" method="post">
         <div class="popup-box">
           <div class="popup">
             <div class="content">
@@ -87,6 +88,7 @@
                   <textarea spellcheck="false" name="description"></textarea>
                 </div>
                 <button type="submit"></button>
+                <input type="submit" value="Submit">
               </form>
             </div>
           </div>

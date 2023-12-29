@@ -11,6 +11,7 @@
     <table border="1">
         <thead>
             <tr>
+                <th>Link</th>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Amount</th>
@@ -21,6 +22,7 @@
         <tbody>
             <% data.books.forEach(book => { %>
                 <tr>
+                    <td><a href="/librarian/book_detail/<%= book._id %>">Link</a></td>
                     <td><%= book.title %></td>
                     <td><%= book.author %></td>
                     <td><%= book.amount %></td>
