@@ -63,6 +63,10 @@
     padding: 50px;
 }
 
+.cont p {
+    font-size: 14px;
+}
+
 #ad-number {
     font-size: 3rem;
 
