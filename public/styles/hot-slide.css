@@ -7,7 +7,7 @@
 
 .hot-book{
     position: absolute;
-    margin-top: 200px;
+    margin-top: 250px;
     text-align: justify;
     background-color: #EE4E34;
     border-radius: 10px;
@@ -35,7 +35,7 @@
 }
 
 .hot-book {
-    height: 50%;
+    height: 45%;
     width: 300px;
 }
 
