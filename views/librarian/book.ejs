@@ -14,8 +14,14 @@
         <p>Publish Date: <%= book.publishDate.toDateString() %></p>
         <p>Number of Books: <%= book.amount %></p>
         <p>Available books: <%= book.available %></p>
-        <p>Library: <%= book.library.name %></p>
-        <!-- Add other relevant information based on your schema -->
+
+        <label>Categories:</label>
+        <% book.category.forEach(category => { %>
+            <label>
+                <%= category %>
+            </label>
+        <% }); %>
+
     <% } else { %>
         <p>Book not found</p>
     <% } %>
@@ -27,7 +33,7 @@
     </form>
 
     <!-- Form to edit book (initially hidden) -->
-    <form id="editForm" class="centered-form" style="display:none;" action="book_detail/<%= book._id %>" method="post" enctype="multipart/form->
+    <form id="editForm" class="centered-form" style="display:none;" action="/librarian/book_detail/<%= book._id %>" method="post" enctype="multipart/form->
         <label for="title">Title:</label>
         <input type="text" name="title" value="<%= book.title %>" required>
 
@@ -35,7 +41,7 @@
         <input type="text" name="author" value="<%= book.author %>" required>
 
         <label>Categories:</label>
-        <% categoriesArray.forEach(category => { %>
+        <% categories.forEach(category => { %>
             <label>
                 <input type="checkbox" name="category" id="category" value="<%= category %>" <%= book.category.includes(category) ? 'checked' : '' %>>
                 <%= category %>
@@ -46,10 +52,10 @@
         <textarea name="description" rows="4" required><%= book.description %></textarea>
 
         <label for="amount">Amount:</label>
-        <input type="number" name="amount" id="amountInput" value=5 min="0" required>
+        <input type="number" name="amount" id="amountInput" value=<%= book.amount %> min="0" required>
 
         <label for="available">Available:</label>
-        <input type="number" name="available" value=3 min="0" required>
+        <input type="number" name="available" value=<%= book.available %> min="0" required>
 
         <label for="cover_1">Cover Image 1:</label>
         <input type="file" name="cover_1" accept="image/*">
@@ -68,7 +74,7 @@
             document.getElementById('editForm').style.display = 'block';
         });
 
-        // Add event listener for amount input
+        // Enforce amount can not be smaller than available
         document.getElementById('amountInput').addEventListener('input', function() {
             var amountInput = this;
             var availableInput = document.getElementsByName('available')[0];
@@ -79,6 +85,19 @@
                 amountInput.value = maxAmount;
             }
         });
+
+        // Enforce available can not be alrger than amount
+        document.getElementsByName('available')[0].addEventListener('input', function() {
+            var availableInput = this;
+            var amountInput = document.getElementById('amountInput');
+            var maxAvailable = parseInt(amountInput.value);
+
+            // Validate and update the input value
+            if (parseInt(availableInput.value) > maxAvailable) {
+                availableInput.value = maxAvailable;
+            }
+        });
+
     </script>
     <!-- CSS to center the form -->
     <style>
