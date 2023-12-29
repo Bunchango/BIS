@@ -1,0 +1,16 @@
+.listPage{
+    padding:10px;
+    text-align: center;
+    list-style: none;
+}
+.listPage li{
+    background-color: var(--theme-color-peach);
+    padding:20px;
+    display: inline-block;
+    margin:0 10px;
+    cursor: pointer;
+}
+.listPage .active{
+    background-color: var(--theme-color-orange);
+    color:#fff;
+}
