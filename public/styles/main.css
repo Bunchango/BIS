@@ -391,6 +391,7 @@
 
 .card {
   position: relative;
+  overflow: hidden;
 }
 
 .book-details {

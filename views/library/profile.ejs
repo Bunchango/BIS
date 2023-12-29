@@ -61,14 +61,30 @@
                         </button>
                     </div>
             
-                    <div class="products">
-                        <%%>
-                        <img src="/images/default-book-cover.jpg" alt="Photo" />
+                    <div class="products"> 
+                        <% if (books && books.length > 0) {%> 
+                            <% books.forEach( book => { %>
+                                <div class="card swiper-slide" id="pagination-item">
+                                    <div class="image-box">
+                                        <img src="<%= book.coverImages[0]%> " alt="<%= book.title %>'s Image" />
+                                    </div>
+                                    <div class="book-details">
+                                        
+                                        <div class="detail-box"> 
+                                            <h1><%= book.title %></h1>
+                                            <p><%= book.description %></p>
+                                        </div>
+                                        <a href="/reader/book_detail/<%= book._id %>" class="view-more-button">View details</a>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } %>
+                        <!-- <img src="/images/default-book-cover.jpg" alt="Photo" />
                         <img src="/images/lib1.jpg" alt="Photo" />
                         <img src="/images/lib2.jpg" alt="Photo" />
                         <img src="/images/lib3.jpg" alt="Photo" />
                         <img src="/images/login.jpg" alt="Photo" />
-                        <img src="/images/test-bookmark.jpg" alt="Photo" />
+                        <img src="/images/test-bookmark.jpg" alt="Photo" /> -->
                     </div>
                 </div>
             </div>

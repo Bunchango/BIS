@@ -54,7 +54,6 @@ body{
 }
 
 #whole-upper {
-    height: fit-content;
     background-color: var(--theme-color-peach);
 }
 
@@ -189,26 +188,25 @@ body{
 
 #whole-upper #upper .right-col .book-card{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
+    margin: 0 2rem;
 }
 
-#whole-upper #upper .right-col .book-card #book-info{
-    max-width: 100%;
-    display: block;
-    height: 100%;
+.image-box img {
+    height: 400px;
     object-fit: cover;
+    border-radius: 8px;
 }
 
-@media (min-width: 868px) {
+@media (min-width: 1017px) {
     #whole-upper #upper {
-      max-width: 1200px;
       margin: 0 auto;
       width: 90%;
-      justify-content: space-between;
+      justify-content: space-around;
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 50px;
+      grid-template-columns: 1fr 3fr;
+      grid-template-rows: auto;
     }
 
     #whole-upper #upper .left-col {
@@ -219,15 +217,9 @@ body{
         flex-direction: row;
         gap: 30px;
     }
-
-    #whole-upper #upper .right-col .book-card {
-      height: 365px;
-      overflow: auto;
-      padding: 0 0 30px;
-    }
 }
   
-@media (min-width: 1017px) {
+@media (min-width: 1217px) {
     #whole-upper #upper .left-col {
       margin: 0;
       margin-right: auto;
