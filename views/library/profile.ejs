@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/library-role.css"/>
     <link rel="stylesheet" href="/styles/footer.css"/>
+    <link rel="icon" href="images/vxnhe-icon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -61,13 +62,30 @@
                         </button>
                     </div>
             
-                    <div class="products">
-                        <img src="/images/default-book-cover.jpg" alt="Photo" />
+                    <div class="products"> 
+                        <% if (books && books.length > 0) {%> 
+                            <% books.forEach( book => { %>
+                                <div class="card swiper-slide" id="pagination-item">
+                                    <div class="image-box">
+                                        <img src="<%= book.coverImages[0]%> " alt="<%= book.title %>'s Image" />
+                                    </div>
+                                    <div class="book-details">
+                                        
+                                        <div class="detail-box"> 
+                                            <h1><%= book.title %></h1>
+                                            <p><%= book.description %></p>
+                                        </div>
+                                        <a href="/reader/book_detail/<%= book._id %>" class="view-more-button">View details</a>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } %>
+                        <!-- <img src="/images/default-book-cover.jpg" alt="Photo" />
                         <img src="/images/lib1.jpg" alt="Photo" />
                         <img src="/images/lib2.jpg" alt="Photo" />
                         <img src="/images/lib3.jpg" alt="Photo" />
                         <img src="/images/login.jpg" alt="Photo" />
-                        <img src="/images/test-bookmark.jpg" alt="Photo" />
+                        <img src="/images/test-bookmark.jpg" alt="Photo" /> -->
                     </div>
                 </div>
             </div>

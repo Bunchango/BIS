@@ -390,8 +390,8 @@
 }
 
 .card {
-  height: 300px;
   position: relative;
+  overflow: hidden;
 }
 
 .book-details {
@@ -404,6 +404,8 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  padding: 1rem;
+  border-radius: 8px;
   background-color: rgba(238, 78, 52, 0.5);
   backdrop-filter: blur(10px);
 }
@@ -430,7 +432,7 @@
 .book-details a {
   padding: 10px;
   background-color: #ee4e34;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   border-radius: 10px;
   color: var(--theme-color-peach);
 }
@@ -444,14 +446,16 @@
 } */
 
 .bookmark-icon {
-  font-size: 20px;
+  font-size: 30px;
   cursor: pointer;
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
 }
 
 .fa-star {
   color: var(--theme-color-peach);
 }
-
 #empty-bookmark {
   height: 200px;
   width: 100%;

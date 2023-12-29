@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/footer.css" />
     <link rel="stylesheet" href="/styles/library-profile.css" />
+    <link rel="stylesheet" href="/styles/pagination.css">
     <link rel="icon" href="/images/vxnhe-icon.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -36,7 +37,7 @@
 
                 <ul class="about-lib">
                     <li><span>10,654</span>Readers</li>
-                    <li><span>4,622</span>Products</li>
+                    <li><span><%= books.length %></span>Books</li>
                     <li><span>322</span>Connections</li>
                 </ul>
 
@@ -57,11 +58,179 @@
                     </ul>
                 </div>
                 
-                <div class="book-card">
+                <div class="book-card" id="pagination-list">
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
+                    <div class="card swiper-slide" id="pagination-item">
+                        <div class="image-box">
+                          <img src="/images/lib1.jpg" alt="book.title's Image" />
+                        </div>
+                        <div class="book-details">
+                              <i class="bookmark-icon fa-star fas" data-bookid="book._id"></i>
+                              <i class="bookmark-icon far fa-star" data-bookid="book._id"></i>
+                          <div class="detail-box"> 
+                            <h1>book.title</h1>
+                            <p>book.description</p>
+                          </div>
+                          <a href="/reader/book_detail/book._id" class="view-more-button">View details</a>
+                        </div>
+                    </div>
                     <!-- Insert Card in Here  -->
                     <% if (books && books.length > 0) {%> 
                         <% books.forEach( book => { %>
-                          <div class="card swiper-slide">
+                          <div class="card swiper-slide" id="pagination-item">
                               <div class="image-box">
                                 <img src="<%= book.coverImages[0]%> " alt="<%= book.title %>'s Image" />
                               </div>
@@ -82,14 +251,17 @@
                           </div>
                         <% }) %>
                     <% } %>
-
+                    
                 </div>
+                <ul class="listPage">
 
+                </ul>
             </div>
         </div>
             
     </div>
     <%- include('../partials_readers/footer.ejs') %>
+    <script src="/js/pagination.js"></script>
 </body>
 
 </html>

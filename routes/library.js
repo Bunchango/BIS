@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Library = require("./../models/library");
 const {Librarian, User} = require("./../models/user");
 const {LibrarianVerification} = require("./../models/verification");
+const { Book } = require("./../models/book");
 const upload = require("./../config/multer");
 const nodemailer = require("nodemailer");
 const {validateRegistration, validateUsername, validateDescription} = require("./../config/validator");
@@ -103,7 +104,9 @@ router.get("/profile", isLibraryAdmin, async (req, res) => {
     // Show library information
     let librarians = []
     librarians = await Librarian.find({ library: req.user._id })
-    res.render("library/profile", {admin: req.user, errors_lib: [], librarians: librarians, errors: []});
+
+    const books = await Book.find({ library: {$in: req.params.id} });
+    res.render("library/profile", { admin: req.user, errors_lib: [], librarians: librarians, errors: [], books: books});
 })
 
 // Upadte the Libray Profile

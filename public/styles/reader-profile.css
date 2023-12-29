@@ -234,40 +234,59 @@
   text-align: center;
 }
 
-#edit-body {
+#pop-up-edit .edit-body {
   width: 100%;
-  max-width: 650px;
-  padding: 30px;
+  padding: 20px;
   box-shadow: inset -2px 2px 2px var(--theme-color-peach);
 }
 
-#edit-body .main-user-info{
+#pop-up-edit .edit-body .main-user-info{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 20px 0;
 }
 
-#edit-body .user-input-box:nth-child(2n){
-  justify-content: end;
+#pop-up-edit .edit-body .username-input-box{
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 15px;
+  width: 100%;
+  margin-top: -25px;
+  justify-content: center;
 }
 
-#edit-body .user-input-box{
+#pop-up-edit .edit-body .user-input-box{
   display: flex;
   flex-wrap: wrap;
   width: 50%;
   padding-bottom: 15px;
+  justify-content: center;
 }
 
-#edit-body .user-input-box label{
-  width: 95%;
+#pop-up-edit .edit-body .username-input-box label,
+#pop-up-edit .edit-body .user-input-box label{
+  width: 100%;
   color: var(--theme-color-orange);
   font-size: 20px;
   font-weight: 400;
   margin: 5px 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#edit-body .user-input-box input{
+#pop-up-edit .edit-body .username-input-box input{
+  height: 40px;
+  width: 100%;
+  border-radius: 7px;
+  outline: none;
+  border: 1px solid grey;
+  padding: 0 10px;
+}
+
+#pop-up-edit .edit-body .user-input-box input{
   height: 40px;
   width: 95%;
   border-radius: 7px;
@@ -276,14 +295,14 @@
   padding: 0 10px;
 }
 
-#edit-body .form-submit-btn{
+#pop-up-edit .edit-body button{
   margin-top: 40px;
 }
 
-#edit-body .form-submit-btn input{
+#pop-up-edit .edit-body button{
   display: block;
   width: 100%;
-  margin-top: -40px;
+  margin-top: 15px;
   font-size: 20px;
   padding: 10px;
   border:none;
@@ -292,58 +311,62 @@
   background: var(--theme-color-orange);
 }
 
-#edit-body .form-submit-btn input:hover{
+#pop-up-edit .edit-body button:hover{
   background: #db260a;
   color: rgb(255, 255, 255);
 }
 
-.main-user-infor #confirm-change-box {
+.main-user-infor .confirm-change-box {
   display: flex;
   align-items: center;
-  margin-top: 16px;
+  margin-top: -25px;
 }
 
-.main-user-infor #confirm-change-box label{
+.main-user-infor .confirm-change-box label{
   margin-left: 10px;
 }
 
-#edit-body .image-container{
-  width: 255px;
-  height: 200px;
+#pop-up-edit .edit-body .image-container{
+  height: 50%;
+  width: -webkit-fill-available;
   display: flex;
   align-items: center;
-  justify-content: space-around;
   overflow: hidden;
+  justify-content: center;
 }
 
-#edit-body #background{
-  width: 100%;
+#pop-up-edit .edit-body #background{
+  width: 95%;
   object-fit: cover;
-  margin-right: 20px;
 
 } 
-#edit-body .avatar{
-  width: 100%;
-  height: 100%;
+#pop-up-edit .edit-body .avatar{
+  width: 95%;
+  height: 95%;
   object-fit: cover;
 }
 
-#edit-body .upload-button{
+#pop-up-edit .edit-body .upload-button{
   position: relative;
   overflow: hidden;
-  display: inline-block;
+  display: flex;
   background-color: var(--theme-color-orange);
   color: #fff;
-  padding: 8px 80px;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 7px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  width: 95%;
+  align-items: center;
+  justify-content: center;
 }
 
-#edit-body .upload-button span{
+#pop-up-edit .edit-body .upload-button span{
   color: white;
 }
-#edit-body .upload-button input[type="file"] {
+#pop-up-edit .edit-body .upload-button input[type="file"] {
   position: absolute;
   top: 0;
   right: 0;
@@ -354,18 +377,12 @@
   cursor: pointer;
 }
 
-#edit-body .upload-button:hover {
+#pop-up-edit .edit-body .upload-button:hover {
   background-color: #e03217;
 }
 
-#edit-body .upload-button:active {
+#pop-up-edit .edit-body .upload-button:active {
   background-color: #bf1900;
-}
-
-#background-pic {
-}
-
-#avatar-pic {
 }
 
 .empty-content {
@@ -437,33 +454,30 @@
     width: fit-content;
   }
 
-  #edit-body{
+  #pop-up-edit .edit-body{
     min-width: 280px;
   }
 
-  #edit-body .user-input-box {
+  #pop-up-edit .edit-body .username-input-box,
+  #pop-up-edit .edit-body .user-input-box {
     margin-bottom: 12px;
     width: 100%;
   }
 
-  #edit-body .user-input-box:nth-child(2n) {
-    justify-content: flex-start;
-  }
-
-  #edit-body .confirm-change-box{
+  #pop-up-edit .edit-body .confirm-change-box{
     width: 100%;
   }
 
-  #edit-body .main-user-info {
+  #pop-up-edit .edit-body .main-user-info {
     max-height: 300px;
     overflow: auto;
   }
 
-  #edit-body ::-webkit-scrollbar {
+  #pop-up-edit .edit-body ::-webkit-scrollbar {
     width: 0;
   }
 
-  #edit-body .user-input-box .upload-button span{
+  #pop-up-edit .edit-body .user-input-box .upload-button span{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
