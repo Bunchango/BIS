@@ -145,7 +145,7 @@ body {
 }
 
 button.btn {
-  width: 200px;
+  width: 150px;
   font-size: 16px;
   font-weight: 600;
   color: #fff;
@@ -183,6 +183,15 @@ button.btn {
     #e75516
   );
   box-shadow: 0 4px 15px 0 rgba(252, 104, 110, 0.75);
+}
+
+.reader-buttons, .librarian-buttons {
+  display: flex;
+  justify-content: space-around; 
+}
+
+button.btn {
+  margin: 0 10px; 
 }
 
 @media screen and (max-width: 960px) {
