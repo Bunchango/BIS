@@ -27,11 +27,14 @@
     </ul>
 
     <!-- Buttons to change status -->
-    <div>
-        <button class="return-button">Mark as Returned</button>
-        <button class="cancel-button">Mark as Canceled</button>
-        <button class="overdue-button">Mark as Overdue</button>
-    </div>
+    <% if(borrow.status !== 'Returned') { %>
+        <!-- Button display form to change date -->
+        <div>
+            <button class="return-button">Mark as Returned</button>
+            <button class="cancel-button">Mark as Canceled</button>
+            <button class="overdue-button">Mark as Overdue</button>
+        </div>
+    <% } %>
 
     <!-- Return form -->
     <div id="returnForm" style="display: none;">
@@ -41,9 +44,9 @@
                     <li>
                         <!-- Either is ticked as returned or lost -->
                         <label for="returned">Mark as returned</label>
-                        <input type="checkbox" name="returned[]" id="returned_<%= book._id %>" value="<%= book._id %>">
+                        <input type="checkbox" name="returned[]" id="returned_<%= book._id %>" value="<%= book._id %>" <%= book.status !== 'outstanding' ? 'checked disabled' : '' %>>
                         <label for="lost">Mark as lost</label>
-                        <input type="checkbox" name="lost[]" id="lost_<%= book._id %>" value="<%= book._id %>">                        
+                        <input type="checkbox" name="lost[]" id="lost_<%= book._id %>" value="<%= book._id %>" <%= book.status !== 'outstanding' ? 'checked disabled' : '' %>>                 
                         <p>Title: <%= book.book.title %></p>
                     </li>
                 <% }); %>
