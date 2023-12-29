@@ -13,4 +13,5 @@
 .listPage .active{
     background-color: var(--theme-color-orange);
     color:#fff;
+    border-radius: 50px;
 }
