@@ -105,7 +105,7 @@ router.get("/profile", isLibraryAdmin, async (req, res) => {
     let librarians = []
     librarians = await Librarian.find({ library: req.user._id })
 
-    const books = await Book.find({ library: {$in: req.params.id} });
+    const books = await Book.find({ library: {$in: req.user._id} });
     res.render("library/profile", { admin: req.user, errors_lib: [], librarians: librarians, errors: [], books: books});
 })
 
