@@ -340,19 +340,19 @@ router.post("/borrow/return/:id", async (req, res) => {
 
       // Change books states and increment/decrease
         borrow.books.forEach(book => {
-          if(returned.includes(book._id.toString())) {
+          if(returned.includes(book.book._id.toString())) {
               book.status = "returned";
           }
           
-          if(lost.includes(book._id.toString())) {
+          if(lost.includes(book.book._id.toString())) {
             book.status = "lost";
           }
         });
+        
+        const books = borrow.books.map(({ book, ...rest }) => (book));
 
-        returned = returned.map(id => mongoose.Types.ObjectId(id));
-        lost = lost.map(id => mongoose.Types.ObjectId(id));
-      
-        console.log(returned, lost);
+        returned = books.filter(book => returned.includes(book.toString()));
+        lost = books.filter(book => lost.includes(book.toString())); 
 
         // Update available and amount for returned and lost books
         await Book.updateMany(
