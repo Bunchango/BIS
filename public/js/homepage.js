@@ -214,7 +214,6 @@ function updateWishlistUI(bookId) {
     .remove();
   const list = document.querySelector("#my-wishlist ul");
   if (list.children.length === 0) {
-    list.innerHTML = '<div id="empty-container">Your WishList Empty</div>';
+    list.innerHTML = '<div id="empty-container">Your WishList is Empty</div>';
   }
 }
-

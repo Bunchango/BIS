@@ -1,105 +1,94 @@
-// TODO: Handle Remove book from Cart buttons
-function setupRemoveButtons() {
-  const removeButtons = document.querySelectorAll(".remove-cart-btn");
+// TODO: handling cart functions
 
-  removeButtons.forEach((removeBtn) => {
-    removeBtn.addEventListener("click", async (event) => {
-      event.preventDefault();
-
-      const cartId = event.currentTarget.dataset.cartid;
-      const bookId = event.currentTarget.dataset.bookid;
-
-      console.log("Clicked Remove Button");
-      console.log("Cart ID:", cartId);
-      console.log("Book ID:", bookId);
-
-      try {
-        const response = await fetch(
-          `/reader/remove-cart/${cartId}/${bookId}`,
-          {
-            method: "POST",
-            credentials: "include",
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-
-        if (data.message === "Book removed from cart successfully") {
-          // Remove the UI element for the book
-          const bookElement = event.currentTarget.closest(".book-item");
-          if (bookElement) {
-            bookElement.remove();
-
-            location.reload();
-
-            console.log("Book removed from UI successfully");
-          } else {
-            console.log("Book UI element not found");
-          }
-
-          console.log("Book removed from cart successfully");
-        } else {
-          console.error("Error:", data.error);
-        }
-      } catch (error) {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error,
-        );
-      }
-    });
-  });
-}
-
-function setupSendRequestButtons() {
-  const sendRequestButtons = document.querySelectorAll(".send-request-btn");
-
-  sendRequestButtons.forEach((sendRequestBtn) => {
-    sendRequestBtn.addEventListener("click", async (event) => {
-      event.preventDefault();
-
-      const cartId = event.currentTarget.dataset.cartid;
-
-      try {
-        const response = await fetch(`/reader/cart/request/${cartId}`, {
-          method: "POST",
-          credentials: "include",
-        });
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-
-        if (data.message === "Request sent successfully") {
-          const cartElement = event.currentTarget.closest(".cart-item");
-          if (cartElement) {
-            cartElement.remove();
-
-            location.reload();
-
-            console.log("Cart removed from UI successfully");
-          }
-        } else {
-          console.error("Error:", data.error);
-        }
-      } catch (error) {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error,
-        );
-      }
-    });
-  });
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOMContentLoaded event triggered");
-  setupRemoveButtons();
-  setupSendRequestButtons();
+// Click event handler for remove buttons in cart
+document.querySelectorAll("#my-cart .remove-cart-btn").forEach((removeBtn) => {
+  removeBtn.addEventListener("click", handleRemoveCartBtn);
 });
+
+async function handleRemoveCartBtn(event) {
+  event.preventDefault();
+  const bookId = event.currentTarget.dataset.bookid;
+  const cartId = event.currentTarget.dataset.cartid;
+
+  try {
+    const response = await fetch(`/reader/remove-cart/${cartId}/${bookId}`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+
+    if (data.message === "Book removed from cart successfully") {
+      updateBookUi(bookId, cartId);
+    } else {
+      console.log("Failed to remove book from cart");
+    }
+  } catch (error) {
+    console.error("There has been a problem with your fetch operation:", error);
+  }
+}
+
+function hasBooksLeftInCart(cartItem) {
+  const booksLeftInCart = cartItem.querySelectorAll(".book-item").length;
+  return booksLeftInCart > 0;
+}
+
+function updateBookUi(bookId, cartId) {
+  const bookElement = document.querySelector(
+    `#my-cart .book-item[data-bookid="${bookId}"][data-cartid="${cartId}"]`,
+  );
+
+  if (bookElement) {
+    const cartItem = bookElement.closest(".cart-item");
+    bookElement.closest(".book-item").remove();
+    console.log("Book removed from UI successfully");
+
+    !hasBooksLeftInCart(cartItem) ? updateCartUi(cartItem) : null;
+  } else {
+    console.log("Book UI element not found");
+  }
+}
+
+function updateCartUi(cartItem) {
+  cartItem.remove();
+  console.log("Cart removed from UI successfully");
+}
+
+// Handling sending requests from cart
+document.querySelectorAll("#my-cart .send-request-btn").forEach((sendBtn) => {
+  sendBtn.addEventListener("click", handleSendRequestBtn);
+});
+
+async function handleSendRequestBtn(event) {
+  event.preventDefault();
+  const cartId = event.currentTarget.dataset.cartid;
+
+  try {
+    const response = await fetch(`/reader/cart/request/${cartId}`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+
+    const cartItem = document
+      .querySelector(`#my-cart .cart-item[data-cartid="${cartId}"]`)
+      .closest(".cart-item");
+
+    if (data.message === "Request sent successfully") {
+      updateCartUi(cartItem);
+    } else {
+      console.log("Failed to send request");
+    }
+  } catch (error) {
+    console.error("There has been a problem with your fetch operation:", error);
+  }
+}

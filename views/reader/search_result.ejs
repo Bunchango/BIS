@@ -88,14 +88,21 @@
                     <% books.forEach(book=> { %>
                     <a href="/reader/book_detail/<%= book.id %>">
                     <li>
-                        <img src="<%= book.coverImages[0] %>" >
+                        <% if (book.cover_1) { %>
+                            <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s' cover" class="book-cover w-32">
+                        <% } else if (book.cover_2) { %>
+                            <img src="/<%= book.cover_2 %>" alt="<%= book.title %>'s' cover" class="book-cover w-32">
+                        <% } else if (book.cover_3) { %>
+                            <img src="/<%= book.cover_3 %>" alt="<%= book.title %>'s' cover" class="book-cover w-32">
+                        <% } else { %>
+                            <img src="/uploads/default_book_cover.jpg" alt="book cover" class="book-cover w-32">
+                        <% } %>
                         <h3>
                             <%= book.title %>
                         </h3>
                         <p>
                             Author: <%= book.author %>
                         </p>
-                        <!-- TODO: Add book description and images -->
                     </li>
                     </a>
                     <% }); %>

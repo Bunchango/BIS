@@ -62,7 +62,7 @@
                 <div class="hot-book">
                   <div class="card swiper-slide">
                     <div class="image-box">
-                      <img src="<%= book.coverImages[0]%> " alt="<%= book.title %>'s Image" />
+                      <img src="<%= book.cover_1 %> " alt="<%= book.title %>'s Image" />
                     </div>
                     <div class="book-details">
                       <% if (user && user.__t == "Reader") { %> 
@@ -178,7 +178,7 @@
               <% books.forEach( book => { %>
                 <div class="card swiper-slide">
                     <div class="image-box">
-                      <img src="<%= book.coverImages[0]%> " alt="<%= book.title %>'s Image" />
+                      <img src="<%= book.cover_1%> " alt="<%= book.title %>'s Image" />
                     </div>
                     <div class="book-details">
                       <div class="detail-box"> 
