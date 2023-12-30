@@ -21,21 +21,21 @@
         </div>
 
         <div class="book-carousel">
-            <% if (book.coverImages[0]) { %>
+            <% if (book.cover_1) { %>
                 <div class="book-carousel-item">
-                        <img src="<%= book.coverImages[0] %>" alt="<%= book.title %> Cover 1">
+                        <img src="<%= book.cover_1 %>" alt="<%= book.title %> Cover 1">
                 </div>
             <% } %>
 
-            <% if (book.coverImages[1]) { %>
+            <% if (book.cover_2) { %>
                 <div class="book-carousel-item">
-                    <img src="<%= book.coverImages[1] %>" alt="<%= book.title %> Cover 2">
+                    <img src="<%= book.cover_2 %>" alt="<%= book.title %> Cover 2">
                 </div>
             <% } %>
 
-            <% if (book.coverImages[2]) { %>
+            <% if (book.cover_3) { %>
                 <div class="book-carousel-item">
-                    <img src="<%= book.coverImages[2] %>" alt="<%= book.title %> Cover 3">
+                    <img src="<%= book.cover_3 %>" alt="<%= book.title %> Cover 3">
                 </div>
             <% } %>
         </div>

@@ -13,13 +13,18 @@ const bookSchema = new mongoose.Schema({
         minlength: [5, "Book name must be at least 5 characters"],
         maxlength: [24, "Book name must be at most 24 characters"]
     },
-    coverImages: {
-        type: [{
-            type: String,
-            default: "uploads/default_book_cover.jpg"
-        }],
-        validate: [coverImagesValidator, "At most 3 cover images are required"]
+    cover_1: {
+        type: String, 
+        default: "uploads/default_book_cover.jpg",
     },
+    cover_2: {
+        type: String, 
+        default: "uploads/default_book_cover.jpg",
+    },
+    cover_3: {
+        type: String, 
+        default: "uploads/default_book_cover.jpg",
+    }, 
     author: {
         type: String,
         required: true,

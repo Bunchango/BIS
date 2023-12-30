@@ -83,7 +83,7 @@ router.get("/inventory", isLibrarian, async (req, res) => {
     const books = await Book.find({ library: req.user.library });
     const data = {};
     data.books = books;
-    res.render("librarian/inventory", { data: data });
+    res.render("librarian/inventory", { data: data, user: req.user });
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -96,16 +96,14 @@ router.get("/add_book", isLibrarian, (req, res) => {
 
 router.post(
   "/add_book",
-  upload.array("images", 3),
+  upload.fields([
+    { name: "cover_1" },
+    { name: "cover_2" },
+    { name: "cover_3" },
+  ]),
   validateBookCreation,
   async (req, res) => {
     // Confirm form
-    if (req.files.length > 3) {
-      return res.render("librarian/add_book", {
-        errors: [{ msg: "Book require less than 3 images" }],
-        categories: categoriesArray,
-      });
-    }
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -126,14 +124,6 @@ router.post(
           categories: categoriesArray,
         });
       }
-
-      // Make sure default image path
-      const defaultImagePath = "uploads/default_book_cover.jpg";
-      let coverImages = req.files.map((file) => file.path);
-      
-      while (coverImages.length < 3) {
-          coverImages.push(defaultImagePath);
-      }
     
       // Ensure book is unique within a library
       const book = await Book.findOne({ title: title, library: req.user.library });
@@ -146,7 +136,9 @@ router.post(
       // Create a new book
       const newBook = new Book({
         title: title,
-        coverImages: coverImages,
+        cover_1: req.files["cover_1"][0].filename,
+        cover_2: req.files["cover_2"][0].filename,
+        cover_3: req.files["cover_3"][0].filename,
         author: author,
         category: categories,
         description: description,
@@ -208,21 +200,9 @@ router.post(
       if (req.body.available) updateFields.available = req.body.available;
 
       // Update cover images
-      if (req.files) {
-        const coverImages = [];
-        for (let i = 1; i <= 3; i++) {
-          const coverFieldName = `cover_${i}`;
-          if (req.files[coverFieldName] && req.files[coverFieldName][0]) {
-            coverImages.push(req.files[coverFieldName][0].filename);
-          } else {
-            // Use default cover instead
-            coverImages.push("default_cover.png");
-          }
-        }
-        if (coverImages.length > 0) {
-          updateFields.coverImages = coverImages;
-        }
-      }
+      if (req.files["cover_1"][0].path) updateFields.cover_1 = req.files["cover_1"][0].path;
+      if (req.files["cover_2"][0].path) updateFields.cover_2 = req.files["cover_2"][0].path;
+      if (req.files["cover_3"][0].path) updateFields.cover_3 = req.files["cover_3"][0].path;
 
       // Perform the update
       await Book.findByIdAndUpdate(req.params.id, updateFields);
