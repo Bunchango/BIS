@@ -83,7 +83,7 @@
 
 .view-all-button {
   width: 100px;
-  margin: 2rem;
+  margin-top: 3rem;
   padding: 1rem;
   text-align: center;
   background-color: #EE4E34;
@@ -91,7 +91,7 @@
 }
 .view-all-button2 {
   width: 100px;
-  margin: 2rem;
+  margin-top: 3rem;
   padding: 1rem;
   text-align: center;
   background-color: var(--theme-color-peach);
@@ -121,4 +121,11 @@
   background-color: #FCEDDA;
   font-size: 50px;
   color: #EE4E34;
+}
+
+.sect-divider {
+  background-color: #EE4E34;
+}
+.sect-divider2 {
+  background-color: var(--theme-color-peach);
 }
