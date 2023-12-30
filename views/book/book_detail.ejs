@@ -13,29 +13,25 @@
 
     <div class="container">
         <div class="book-image">
-            <% if (book.coverImages && book.coverImages.length > 0) { %>
-                <img src="<%= book.coverImages[0] %>" alt="<%= book.title %> Cover">
-            <% } else { %>
-                <img src="/images/default-book-cover.jpg" alt="Default Cover Image">
-            <% } %>
+            <img src="/<%= book.cover_1 %>" alt="<%= book.title %> Cover">
         </div>
 
         <div class="book-carousel">
             <% if (book.cover_1) { %>
                 <div class="book-carousel-item">
-                        <img src="<%= book.cover_1 %>" alt="<%= book.title %> Cover 1">
+                    <img src="/<%= book.cover_1 %>" alt="<%= book.title %> Cover 1">
                 </div>
             <% } %>
 
             <% if (book.cover_2) { %>
                 <div class="book-carousel-item">
-                    <img src="<%= book.cover_2 %>" alt="<%= book.title %> Cover 2">
+                    <img src="/<%= book.cover_2 %>" alt="<%= book.title %> Cover 2">
                 </div>
             <% } %>
 
             <% if (book.cover_3) { %>
                 <div class="book-carousel-item">
-                    <img src="<%= book.cover_3 %>" alt="<%= book.title %> Cover 3">
+                    <img src="/<%= book.cover_3 %>" alt="<%= book.title %> Cover 3">
                 </div>
             <% } %>
         </div>

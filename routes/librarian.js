@@ -88,7 +88,7 @@ router.get("/inventory", isLibrarian, async (req, res) => {
     res.status(400).json({ errors: e });
   }
 });
-
+ 
 router.get("/add_book", isLibrarian, (req, res) => {
   // Render form
   res.render("librarian/add_book", { categories: categoriesArray });
@@ -136,9 +136,6 @@ router.post(
       // Create a new book
       const newBook = new Book({
         title: title,
-        cover_1: req.files["cover_1"][0].filename,
-        cover_2: req.files["cover_2"][0].filename,
-        cover_3: req.files["cover_3"][0].filename,
         author: author,
         category: categories,
         description: description,
@@ -146,6 +143,18 @@ router.post(
         amount: amount,
         library: req.user.library,
       });
+
+      if (req.files["cover_1"] && req.files["cover_1"][0]) {
+        newBook.cover_1 = req.files["cover_1"][0].path;
+      }
+
+      if (req.files["cover_2"] && req.files["cover_2"][0]) {
+        newBook.cover_2 = req.files["cover_2"][0].path;
+      }
+
+      if (req.files["cover_3"] && req.files["cover_3"][0]) {
+        newBook.cover_3 = req.files["cover_3"][0].path;
+      }
 
       await newBook.save();
       res.redirect("/librarian/inventory");
@@ -200,9 +209,17 @@ router.post(
       if (req.body.available) updateFields.available = req.body.available;
 
       // Update cover images
-      if (req.files["cover_1"][0].path) updateFields.cover_1 = req.files["cover_1"][0].path;
-      if (req.files["cover_2"][0].path) updateFields.cover_2 = req.files["cover_2"][0].path;
-      if (req.files["cover_3"][0].path) updateFields.cover_3 = req.files["cover_3"][0].path;
+      if (req.files["cover_1"] && req.files["cover_1"][0]) {
+        updateFields.cover_1 = req.files["cover_1"][0].path;
+      }
+
+      if (req.files["cover_2"] && req.files["cover_2"][0]) {
+        updateFields.cover_2 = req.files["cover_2"][0].path;
+      }
+
+      if (req.files["cover_3"] && req.files["cover_3"][0]) {
+        updateFields.cover_3 = req.files["cover_3"][0].path;
+      }
 
       // Perform the update
       await Book.findByIdAndUpdate(req.params.id, updateFields);
