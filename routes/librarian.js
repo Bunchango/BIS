@@ -707,7 +707,7 @@ router.get("/dashboard", isLibrarian, async (req, res) => {
 
   if (notices) data.notices = notices;
   data.user = req.user;
-  res.render("librarian/dashboard", {data: data});
+  res.render("librarian/dashboard", {data: data, user: req.user});
 });
 
 // Add notification to the library

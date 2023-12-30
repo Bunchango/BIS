@@ -1,0 +1,51 @@
+#account_img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#account-hovering {
+    transition: 0.6s;
+    position: absolute;
+    display: none;
+    top: 70px;
+    right:70px;
+    z-index: 900;
+    background-color: #fff;
+    color: #000;
+    width: 250px;
+    height: fit-content;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.8);
+    border-radius: 1%;
+}
+
+#account-hovering #content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    padding: 5px 10px;
+}
+
+#account-hovering #content #account-name {
+    height: fit-content;
+    margin: 5px 0px;
+    font-size: 20px;
+    align-items: center;
+}
+
+#account-hovering #content #my-account,
+#account-hovering #content #logout {
+    font-size: 15px;
+    padding: 5px 0px;
+}
+
+#account-hovering #content #my-account:hover,
+#account-hovering #content #logout:hover {
+    background-color: #5f5e5e73;
+}
+
+#account-hovering #content #logout {
+    border-top: 0.5px solid rgba(0, 0, 0, 0.5);
+}
