@@ -15,6 +15,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script defer src="/js/homepage.js"></script>
     <script defer src="/js/readerProfile.js"></script>
+    <script defer src="/js/cartHandler.js"></script>
 </head>
 
 <body>
@@ -125,48 +126,55 @@
     <div class="whole-lower">
         <div class="lower">
             <div id="my-cart" class="tabcontent">
-                <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Cart</h3>
-                    <% if (cart && cart.books && cart.books.length > 0) { %>
-                        <ul> 
+                <h3 class="text-center text-6xl custom-text-orange mt-8">My Cart</h3>
+                <% if (carts && carts.length > 0) { %>
+                <ul>
+                    <% carts.forEach(cart => { %>
+                    <li>
+                        <div class="cart-item flex items-center space-x-4 p-4 border rounded-lg shadow-xl mt-6">
+                        <div class="flex-shrink-0">
+                            <!-- <p>Library: <%= cart.library.name %></p> -->
+                        </div>
+                        <div class="flex-grow">
+                            <ul>
                             <% cart.books.forEach(bookEntry => { %>
                                 <li>
-                                    <% const book = bookEntry.book; %>
-                                    <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
-                                        <div class="flex-shrink-0">
-                                            <% if (book.coverImages && book.coverImages.length > 0) { %>
-                                                <img src="/<%= book.coverImages[0] %>" alt="Image" class="w-40 h-52 rounded-xl">
-                                            <% } else { %>
-                                                <img src="/images/default-book-cover.jpg %>" alt="Image" class="w-40 h-52 rounded-xl">
-                                            <% } %>
-                                        </div>
-                                        <div class="flex-grow ">
-                                            <% if (book && book.title) { %>
-                                                <p class="text-4xl font-semibold ml-10"><%= book.title %></p>
-                                            <% } else { %>
-                                                <p class="text-4xl font-semibold ml-10">Title not available</p>
-                                            <% } %>
-                                            <% if (book && book.description) { %>
-                                                <p class="text-gray-600 ml-10"><%= book.description %></p>
-                                            <% } else { %>
-                                                <p class="text-gray-600 ml-10">Description not available</p>
-                                            <% } %>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <form action="/reader/remove-cart/<%= book._id %>" method="POST">
-                                                <input type="hidden" name="bookId" value="<%= book._id %>">
-                                                <button class="px-4 py-3 mr-20 text-white bg-red-500 rounded hover:bg-red-600">Remove</button>
-                                            </form>
-                                        </div>
+                                <% const book = bookEntry.book; %>
+                                <div class="book-item flex items-center space-x-4 p-3 border rounded-lg mt-2">
+                                    <div class="flex-shrink-0">
+                                    <% if (book.coverImages && book.coverImages.length > 0) { %>
+                                        <img src="/<%= book.coverImages[0] %>" alt="Image" class="max-w-20 rounded-xl">
+                                    <% } else { %>
+                                        <img src="/images/default-book-cover.jpg" alt="Image" class="max-w-20 rounded-xl">
+                                    <% } %>
                                     </div>
-                                </li>  
+                                    <div class="flex-grow">
+                                    <% if (book && book.title) { %>
+                                        <p class="text-xl font-semibold ml-10"><%= book.title %></p>
+                                    <% } else { %>
+                                        <p class="text-xl font-semibold ml-10">Title not available</p>
+                                    <% } %>
+                                    <% if (book && book.description) { %>
+                                        <p class="text-gray-600 ml-10"><%= book.description %></p>
+                                    <% } else { %>
+                                        <p class="text-gray-600 ml-10">Description not available</p>
+                                    <% } %>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                    <button class="remove-cart-btn px-4 py-3 mr-20 text-white bg-red-500 rounded hover:bg-red-600" data-cartid="<%= cart._id %>" data-bookid="<%= book._id %>">Remove</button>
+                                    </div>
+                                </div>
+                                </li>
                             <% }); %>
-                                <form action="/reader/cart/request" method="POST" class="flex justify-center">
-                                    <button class="px-4 py-3 my-5 text-white bg-blue-500 rounded hover:bg-blue-600">Send Request</button>
-                                </form>
-                        <% } else {%>
-                        <div id="empty-container">Your Cart Empty</div>
-                    <% } %>
-            </div>
+                            </ul>
+                        <button class="send-request-btn px-4 py-3 my-5 text-white bg-blue-500 rounded hover:bg-blue-600" data-cartid="<%= cart._id %>">Send Request</button>
+                    </li>
+                    <% }); %>
+                </ul>
+                <% } else { %>
+                <div id="empty-container">Your Cart is Empty</div>
+                <% } %>
+
 
             <div id="my-requests" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8  ">My Requests</h3>

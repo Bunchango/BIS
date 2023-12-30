@@ -1,24 +1,32 @@
 const mongoose = require("mongoose");
 
 const cartSchema = new mongoose.Schema({
-    reader: {
+  reader: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Reader",
+    required: true,
+  },
+  library: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Library",
+    required: true,
+  },
+  books: [
+    {
+      book: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Reader",
+        ref: "Book",
         required: true,
+      },
     },
-    books: [{
-        book: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Book",
-            required: true,
-        }
-    }],
-    createdOn: {
-        type: Date,
-        default: Date.now,
-    }
-})
+  ],
+  createdOn: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 const Cart = mongoose.model("Cart", cartSchema);
 
 module.exports = Cart;
+
