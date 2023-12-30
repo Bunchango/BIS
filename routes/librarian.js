@@ -172,7 +172,7 @@ router.get("/book_detail/:id", isLibrarian, async (req, res) => {
       return res.redirect("/librarian/inventory");
     }
 
-    res.render("librarian/book", { book: book, categories: categoriesArray });
+    res.render("librarian/book", { user: req.user, book: book, categories: categoriesArray });
   } catch (e) {
     res.status(400).json({ errors: e });
   }

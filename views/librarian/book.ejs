@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/book-detail.css" />
     <title>Document</title>
 </head>
 <body>
-    <% if (book) { %>
+    <%- include('../book/book_detail.ejs')%>
+    <!-- <% if (book) { %>
         <h2><%= book.title %></h2>
         <p>Author: <%= book.author %></p>
         <p>Category: <%= book.category.join(', ') %></p>
@@ -24,13 +26,13 @@
 
     <% } else { %>
         <p>Book not found</p>
-    <% } %>
+    <% } %> -->
 
     <!-- Button to toggle the form visibility -->
-    <button id="editButton">Edit Book</button>
+    <!-- <button id="editButton">Edit Book</button>
     <form method="POST" action="/librarian/book_detail/delete/<%= book._id %>" onsubmit="return confirm('Are you sure you want to delete this book?');">
         <button type="submit">Delete</button>
-    </form>
+    </form> -->
 
     <!-- Form to edit book (initially hidden) -->
     <form id="editForm" class="centered-form" style="display:none;" action="/librarian/book_detail/<%= book._id %>" method="post" enctype="multipart/form->

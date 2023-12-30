@@ -135,13 +135,13 @@ router.get("/book_detail/:id", async (req, res) => {
     if (req.user) {
       const wishList = req.user.wishList;
       let wishlistBooks = await Book.find({ _id: { $in: wishList } });
-      res.render("book/book_detail", {
+      res.render("reader/book_detail", {
         book: book,
         user: req.user,
         wishList: wishlistBooks,
       });
     } else {
-      res.render("book/book_detail", {
+      res.render("reader/book_detail", {
         book: book,
         user: req.user,
       });
