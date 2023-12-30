@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="images/vxnhe-icon.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/librarian-role.css">
+  <link rel="stylesheet" href="/styles/customer.css">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+  <title>Document</title>
+</head>
+<body>
+  <nav class="p-4">
+    <div class="flex justify-between items-center">
+        <div class="text-6xl font-bold ml-10">VXNHE</div>
+        <div class="flex space-x-10 mr-10 text-xl">
+            <a href="dashboard.html" class="hover:text-gray-300">Dashboard</a>
+            <a href="/librarian/customer" class="hover:text-gray-300">Customer management</a>
+            <a href="borrow-detail.html" class="hover:text-gray-300">Inventory management</a>
+        </div>
+    </div>
+</nav>
+<section class="search-section">
+  search section goes here
+</section>
+
+<section id="borrow-section2" class="p-16">
+  
+  <h2 class="text-2xl font-bold mb-4" id="sect-header2">Pickups</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
+        <% data.pickups.slice(-6).forEach(pickup => { %>
+          <a href="/librarian/pickup/<%= pickup._id %>" class="p-4 rounded-md shadow-md" id="pagination-item2">
+            <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
+              <img src="/<%= pickup.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-center"><%= pickup.reader.username %></h3>
+            <p class="text-center"><%= pickup.createdOn %></p>
+          </a>
+        <% }); %>
+    </ul>
+  
+  <div class="view-all">
+    <a href="all.html" class="view-all-button2">View all</a>
+  </div>
+</section>
+
+</body>
+</html>
