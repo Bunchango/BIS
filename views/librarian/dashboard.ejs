@@ -3,24 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/dashboard.css">
+    
+    <link rel="icon" href="images/vxnhe-icon.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/librarian-role.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <title>Dashboard</title>
 </head>
 <body class="font-sans">
-  <!-- TODO: Render the notice board from the database -->
-    <!-- Navigation Bar -->
-    <nav class="text-white p-4">
-        <div class="flex justify-between items-center">
-            <div class="text-6xl font-bold ml-10">VXNHE</div>
-            <div class="flex space-x-10 mr-10 text-xl">
-                <a href="dashboard.html" class="hover:text-gray-300">Dashboard</a>
-                <a href="/librarian/customer" class="hover:text-gray-300">Customer management</a>
-                <a href="" class="hover:text-gray-300">Inventory management</a>
-            </div>
-        </div>
-    </nav>
+  
+    <%- include('./partials-librarian/nav-librarian.ejs')%>
 
     <!-- Main Section -->
     
@@ -102,5 +95,7 @@
         </li>
       </div>
       <script src="/js/dashboard.js"></script>
+      <script src="/js/librarian-role.js"></script>
+      
 </body>
 </html>

@@ -1,120 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title><%= book.title %> by <%= book.author %></title>
-    <link rel="stylesheet" href="/styles/book-detail.css" />
-    <link rel="stylesheet" href="/styles/main.css" />
-    <link rel="stylesheet" href="/styles/footer.css" />
-    <link rel="stylesheet" href="/styles/search-filter.css" />
-    <link rel="icon" href="/images/vxnhe-icon.png" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script defer src="/js/homepage.js"></script>
-    <script defer src="/js/bookDetail.js"></script>
-</head>
+<!-- Partial div for all roles -->
+<main>
+    <% if ( !user || user.__t === "Reader" ) { %>
+    <div class="breadcrumbs_container">
+        <nav class="breadcrumbs">
+            <a href="/homepage" class="breadcrumbs__item">Home</a>
+            <a href="/reader/library-profile/<%= book.library._id %>" class="breadcrumbs__item"><%= book.library.username %></a> 
+            <a href="/reader/book_detail/<%= book._id %>" class="breadcrumbs__item is-active"><%= book.title %></a> 
+        </nav>
+    </div>
+    <% }; %>
 
-<body>
-    <header>
-        <%- include('../partials_readers/head_navigation.ejs') %>
-    </header>
-
-    <main>
-        <div class="breadcrumbs_container">
-            <nav class="breadcrumbs">
-                <a href="/homepage" class="breadcrumbs__item">Home</a>
-                <a href="/reader/library-profile/<%= book.library._id %>" class="breadcrumbs__item"><%= book.library.username %></a> 
-                <a href="/reader/book_detail/<%= book._id %>" class="breadcrumbs__item is-active"><%= book.title %></a> 
-            </nav>
+    <div class="container">
+        <div class="book-image">
+            <% if (book.coverImages && book.coverImages.length > 0) { %>
+                <img src="<%= book.coverImages[0] %>" alt="<%= book.title %> Cover">
+            <% } else { %>
+                <img src="/images/default-book-cover.jpg" alt="Default Cover Image">
+            <% } %>
         </div>
 
-        <div class="container">
-            <div class="book-image">
-                <% if (book.coverImages && book.coverImages.length > 0) { %>
-                    <img src="<%= book.coverImages[0] %>" alt="<%= book.title %> Cover">
+        <div class="book-carousel">
+            <% if (book.coverImages[0]) { %>
+                <div class="book-carousel-item">
+                        <img src="<%= book.coverImages[0] %>" alt="<%= book.title %> Cover 1">
+                </div>
+            <% } %>
+
+            <% if (book.coverImages[1]) { %>
+                <div class="book-carousel-item">
+                    <img src="<%= book.coverImages[1] %>" alt="<%= book.title %> Cover 2">
+                </div>
+            <% } %>
+
+            <% if (book.coverImages[2]) { %>
+                <div class="book-carousel-item">
+                    <img src="<%= book.coverImages[2] %>" alt="<%= book.title %> Cover 3">
+                </div>
+            <% } %>
+        </div>
+
+        <div class="description">
+            <div>
+                <h1 id="book-title"><span class="title-text"><%= book.title %></span></h1>
+                <p id="author"><strong>Author:</strong> <%= book.author %></p>
+
+                <p class="category"><strong>Category:</strong> <%= book.category %></p>
+                <p class="publish-date"><strong>Publish Date:</strong> <%= book.publishDate.toLocaleDateString() %></p>
+                <p class="book-description"><strong>Description:</strong> <%= book.description %></p>
+                <p class="quantity"><strong>Quantity:</strong> <%= book.amount %></p>
+            </div>
+            <div class="buttons">
+                <% if (user && user.__t === "Reader") { %>
+                <!-- Reader-specific content -->
+                <div class="reader-buttons">
+                    <div class="cart-btn">
+                        <form class="form" action="/reader/add-cart/<%= book._id %>" method="POST">
+                            <button class="btn" type="submit">Add to Cart</button>
+                        </form>
+                    </div>
+
+                    <div class="wishlist-btn">
+                        <form class="form" action="/reader/wishlist/<%= book._id %>?action=add" method="POST">
+                            <button class="btn" type="submit">Add to Wishlist</button>
+                        </form>
+                    </div>
+                </div>
+
+                <% } else if (user && user.__t === "Librarian") { %>
+                <!-- Librarian-specific content -->
+                <div class="librarian-buttons">
+                    <div class="edit-btn">
+                        
+                        <button id="editButton" class="btn" >Edit book</button>
+
+                    </div>
+
+                    <div class="delete-btn">
+                        <form class="form" method="POST" action="/librarian/book_detail/delete/<%= book._id %>" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                            <button class="btn" type="submit">Delete book</button>
+                        </form>
+                    </div> 
+                </div>
                 <% } else { %>
-                    <img src="/images/default-book-cover.jpg" alt="Default Cover Image">
+                    <!-- Default content for other roles or unauthenticated users -->
                 <% } %>
             </div>
+ 
+        </div>       
+    </div>
+</main>
 
-            <div class="book-carousel">
-                <% if (book.coverImages[0]) { %>
-                    <div class="book-carousel-item">
-                            <img src="<%= book.coverImages[0] %>" alt="<%= book.title %> Cover 1">
-                    </div>
-                <% } %>
+    
 
-                <% if (book.coverImages[1]) { %>
-                    <div class="book-carousel-item">
-                        <img src="<%= book.coverImages[1] %>" alt="<%= book.title %> Cover 2">
-                    </div>
-                <% } %>
 
-                <% if (book.coverImages[2]) { %>
-                    <div class="book-carousel-item">
-                        <img src="<%= book.coverImages[2] %>" alt="<%= book.title %> Cover 3">
-                    </div>
-                <% } %>
-            </div>
-
-            <div class="description">
-                <div>
-                    <h1 id="book-title"><span class="title-text"><%= book.title %></span></h1>
-                    <p id="author"><strong>Author:</strong> <%= book.author %></p>
-
-                    <p class="category"><strong>Category:</strong> <%= book.category %></p>
-                    <p class="publish-date"><strong>Publish Date:</strong> <%= book.publishDate.toLocaleDateString() %></p>
-                    <p class="book-description"><strong>Description:</strong> <%= book.description %></p>
-                    <p class="quantity"><strong>Quantity:</strong> <%= book.amount %></p>
-                </div>
-                <div class="buttons">
-                    <% if (user && user.__t === "Reader") { %>
-                    <!-- Reader-specific content -->
-                    <div class="reader-buttons">
-                        <div class="cart-btn">
-                            <form class="form" action="/reader/add-cart/<%= book._id %>" method="POST">
-                                <button class="btn" type="submit">Add to Cart</button>
-                            </form>
-                        </div>
-
-                        <div class="wishlist-btn">
-                            <form class="form" action="/reader/wishlist/<%= book._id %>?action=add" method="POST">
-                                <button class="btn" type="submit">Add to Wishlist</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <% } else if (user && user.__t === "Librarian") { %>
-                    <!-- Librarian-specific content -->
-                    <div class="librarian-buttons">
-                        <div class="edit-btn">
-                            <form class="form" action="/librarian/book_detail/<%= book._id %>" method="POST">
-                                <button class="btn" type="submit">Edit book</button>
-                            </form>
-                        </div>
-
-                        <div class="delete-btn">
-                            <form class="form" action="/librarian/delete_book/<%= book._id %>" method="POST">
-                                <button class="btn" type="submit">Delete book</button>
-                            </form>
-                        </div>
-                    <% } else { %>
-                        <!-- Default content for other roles or unauthenticated users -->
-                    <% } %>
-                    </div>
-
-                    </div>
-                </div>
-                
-            </div>
-    </main>
-
-    <%- include('../partials_readers/footer.ejs') %>
-
-</body>
-
-</html>

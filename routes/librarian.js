@@ -172,7 +172,7 @@ router.get("/book_detail/:id", isLibrarian, async (req, res) => {
       return res.redirect("/librarian/inventory");
     }
 
-    res.render("librarian/book", { book: book, categories: categoriesArray });
+    res.render("librarian/book", { user: req.user, book: book, categories: categoriesArray });
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -707,7 +707,7 @@ router.get("/dashboard", isLibrarian, async (req, res) => {
 
   if (notices) data.notices = notices;
   data.user = req.user;
-  res.render("librarian/dashboard", {data: data});
+  res.render("librarian/dashboard", {data: data, user: req.user});
 });
 
 // Add notification to the library

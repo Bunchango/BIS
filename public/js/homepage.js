@@ -15,7 +15,9 @@ if (avaImage) {
 }
 
 // Open the pop up book mark
-const openModalButtons = document.querySelectorAll("[data-modal-target]:not(.submit-button)"); // peevent the summit button
+const openModalButtons = document.querySelectorAll(
+  "[data-modal-target]:not(.submit-button)",
+); // peevent the summit button
 const closeModalButtons = document.querySelectorAll("[data-close-button]");
 const overlay = document.getElementById("overlay");
 
@@ -90,15 +92,16 @@ async function removeBookmark(event) {
       }
     });
 
-    document.querySelectorAll('#my-wishlist .item').forEach((div) => {
+    document.querySelectorAll("#my-wishlist .item").forEach((div) => {
       if (div.dataset.bookid == bookId) {
-        div.remove()
+        div.remove();
       }
-    })
+    });
 
     const listOfbookmark = document.querySelector("#my-wishlist ul");
     if (listOfbookmark.children.length === 0) {
-      listOfbookmark.innerHTML = '<div id="empty-container">Your WishList Empty</div>';
+      listOfbookmark.innerHTML =
+        '<div id="empty-container">Your WishList Empty</div>';
     }
   } else {
     console.log("Fail to remove from wishlist");
@@ -124,8 +127,8 @@ closeModalButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const modal = button.closest(".pop-up-modal");
     closeModal(modal);
-    const successModel = button.closest(".pop-up-success") // If there is a success model
-    successModel.classList.remove("active")
+    const successModel = button.closest(".pop-up-success"); // If there is a success model
+    successModel.classList.remove("active");
   });
 });
 
@@ -140,7 +143,6 @@ function closeModal(modal) {
   modal.classList.remove("active");
   overlay.classList.remove("active");
 }
-
 
 // Click event handler for bookmark icons
 document.querySelectorAll(".bookmark-icon").forEach((icon) => {
@@ -157,9 +159,9 @@ async function handleIconClick(event) {
   const bookId = event.target.dataset.bookid;
 
   if (event.target.classList.contains("far")) {
-    await updateWishlist(bookId, 'add', event.target);
+    await updateWishlist(bookId, "add", event.target);
   } else if (event.target.classList.contains("fas")) {
-    await updateWishlist(bookId, 'remove', event.target);
+    await updateWishlist(bookId, "remove", event.target);
   }
 }
 
@@ -206,9 +208,13 @@ function toggleIconClass(targetIcon) {
 }
 
 function updateWishlistUI(bookId) {
-  document.querySelector(`#my-wishlist .remove[data-bookid="${bookId}"]`).closest(".item").remove();
+  document
+    .querySelector(`#my-wishlist .remove[data-bookid="${bookId}"]`)
+    .closest(".item")
+    .remove();
   const list = document.querySelector("#my-wishlist ul");
   if (list.children.length === 0) {
     list.innerHTML = '<div id="empty-container">Your WishList Empty</div>';
   }
 }
+

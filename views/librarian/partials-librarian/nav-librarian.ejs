@@ -1,0 +1,22 @@
+<nav class="text-white p-4">
+    <div class="flex justify-around items-center">
+        <a href="/" class="text-6xl font-bold ml-10">VXNHE</a>
+        <div class="flex space-x-10 mr-10 text-xl">
+            <a href="/librarian/dashboard" class="hover:text-gray-300">Dashboard</a>
+            <a href="/librarian/customer" class="hover:text-gray-300">Customer management</a>
+            <a href="/librarian/inventory" class="hover:text-gray-300">Inventory management</a>
+        </div>
+        <div id="profile">
+            <% if (user.profilePicture) {%>
+                <img src="/<%= user.profilePicture %>" alt="Reader Avatar" id="account_img">
+            <%} else {%>
+                <img src="images/default-ava.png" alt="Reader Avatar" id="account_img">
+            <% } %>
+        </div>
+        <div id="account-hovering">
+            <div id="content">
+              <h3 id="account-name">Hello, <%= user.username%></h3> 
+              <a href="/checkin/logout" id="logout">Logout</a> 
+        </div>  
+    </div>
+</nav>

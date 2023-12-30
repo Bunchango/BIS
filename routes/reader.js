@@ -10,7 +10,7 @@ const { validationResult } = require("express-validator");
 const uploads = require("../config/multer");
 const Library = require("../models/library");
 const { localsName } = require("ejs");
-const multer = require('multer');
+const multer = require("multer");
 
 function isReader(req, res, next) {
   if (req.isAuthenticated && req.user && req.user.__t === "Reader") {
@@ -135,13 +135,13 @@ router.get("/book_detail/:id", async (req, res) => {
     if (req.user) {
       const wishList = req.user.wishList;
       let wishlistBooks = await Book.find({ _id: { $in: wishList } });
-      res.render("book/book_detail", {
+      res.render("reader/book_detail", {
         book: book,
         user: req.user,
         wishList: wishlistBooks,
       });
     } else {
-      res.render("book/book_detail", {
+      res.render("reader/book_detail", {
         book: book,
         user: req.user,
       });
@@ -157,23 +157,29 @@ router.post("/add-cart/:id", isReader, async (req, res) => {
   try {
     const bookId = req.params.id;
 
-    // Check if the user has an existing cart
+    const book = await Book.findById(bookId).populate("library");
+
+    if (!book) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
     const existingCart = await Cart.findOne({
       reader: req.user._id,
+      library: book.library._id,
     });
 
     if (existingCart) {
-      // Check if the book is already in the cart
       const isBookInCart = existingCart.books.some(
         (item) => item.book.toString() === bookId,
       );
+
       if (isBookInCart) {
         return res.status(400).json({ error: "Book is already in your cart" });
       }
 
       // If the book is not in the cart, add it
       await Cart.findOneAndUpdate(
-        { reader: req.user._id },
+        { reader: req.user._id, library: book.library._id },
         { $addToSet: { books: { book: bookId } } },
       );
 
@@ -183,10 +189,11 @@ router.post("/add-cart/:id", isReader, async (req, res) => {
       });
     }
 
-    // If the user doesn't have an existing cart, create a new cart and add the book
+    // If the user doesn't have an existing cart for the library, create a new cart and add the book
     const date = new Date();
     const newCart = new Cart({
       reader: req.user._id,
+      library: book.library._id,
       books: [{ book: bookId }],
       createdOn: date,
     });
@@ -209,30 +216,31 @@ router.post("/add-cart/:id", isReader, async (req, res) => {
 });
 
 // Remove book from cart route
-router.post("/remove-cart/:id", isReader, async (req, res) => {
+router.post("/remove-cart/:cartId/:bookId", isReader, async (req, res) => {
   try {
-    const bookId = req.params.id;
+    const { cartId, bookId } = req.params;
 
     // Check if the book is already in the user's cart
     const existingCart = await Cart.findOne({
       reader: req.user._id,
+      _id: cartId,
       "books.book": bookId,
     });
 
     if (!existingCart) {
       console.log("Book not found in cart");
-      return res.status(400).redirect("/reader/profile");
+      return res.status(400).json({ error: "Book not found in cart" });
     }
 
     if (existingCart.books.length > 1) {
       // If the cart has more than one book, remove the specified book
       await Cart.findOneAndUpdate(
-        { reader: req.user._id },
+        { reader: req.user._id, _id: cartId },
         { $pull: { books: { book: bookId } } },
       );
     } else if (existingCart.books.length === 1) {
       // If the cart has only one book, delete the entire cart
-      await Cart.deleteOne({ reader: req.user._id });
+      await Cart.deleteOne({ reader: req.user._id, _id: cartId });
     }
 
     notify(
@@ -241,19 +249,22 @@ router.post("/remove-cart/:id", isReader, async (req, res) => {
       "Book removed from cart successfully",
     );
 
-    res.status(200).redirect("/reader/profile");
+    res.status(200).json({ message: "Book removed from cart successfully" });
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).redirect("/reader/profile");
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // Send book request from cart route
-router.post("/cart/request", isReader, async (req, res) => {
+router.post("/cart/request/:cartId", isReader, async (req, res) => {
   try {
-    const cart = await Cart.findOne({ reader: req.user._id }).populate(
-      "books.book",
-    );
+    const cartId = req.params.cartId;
+
+    const cart = await Cart.findOne({
+      _id: cartId,
+      reader: req.user._id,
+    }).populate("books.book");
 
     if (!cart) {
       return res.status(404).json({ error: "Cart not found" });
@@ -276,15 +287,16 @@ router.post("/cart/request", isReader, async (req, res) => {
 
     await newRequest.save();
 
-    await Cart.deleteMany({ reader: req.user._id });
+    await Cart.deleteOne({ _id: cartId, reader: req.user._id });
 
     notify(req.user._id, "Request sent", "Request sent successfully");
 
-    res.status(201);
-    res.redirect("/reader/profile/#my-requests");
+    res
+      .status(201)
+      .json({ message: "Request sent successfully", request: newRequest });
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).redirect("/reader/profile/#my-requests");
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -399,17 +411,17 @@ router.post("/wishlist/:id", isReader, async (req, res) => {
 });
 
 // Show cart route
-const fetchCart = async (req, res, next) => {
+const fetchCarts = async (req, res, next) => {
   try {
-    const cart = await Cart.findOne({ reader: req.user._id }).populate(
-      "books.book",
-    );
+    // Fetch all carts associated with the user
+    const carts = await Cart.find({ reader: req.user._id })
+    .populate("books.book").populate("library");
 
-    req.cart = cart;
+    req.carts = carts;
     next();
   } catch (err) {
-    res.status(400).json({ errors: err });
-    res.redirect("/homepage");
+    console.error("Error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -477,7 +489,7 @@ const fetchRequests = async (req, res, next) => {
 router.get(
   "/profile",
   isReader,
-  fetchCart,
+  fetchCarts,
   fetchRequests,
   fetchLoans,
   fetchWishlist,
@@ -490,14 +502,13 @@ router.get(
         reader: reader,
         user: req.user,
         wishList: wishlistBooks || [],
-        cart: req.cart || {},
+        carts: req.carts || [],
         loans: req.readerLoans || [],
         formattedRequests: req.readerRequests || [],
         errors: [],
       });
     } catch (err) {
-      res.error(400).json({ errors: err });
-      res.redirect("/reader/profile");
+      res.status(400).json({ errors: err });
     }
   },
 );
@@ -594,11 +605,9 @@ router.get(
 //           wishList: wishlistBooks
 //         });
 //       }
-//     } 
+//     }
 //   },
 // );
-
-
 
 // Error Handler for the file upload (only for upload background and avatar picture)
 function handleMulterErrors(req, res, next) {
@@ -608,11 +617,15 @@ function handleMulterErrors(req, res, next) {
   ])(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       if (err.code === "LIMIT_FILE_SIZE") {
-        console.log('Cannot upload file')
-        console.log(err.code)
-        return res.status(400).json({ errors: ["File Too Large: Please upload an image smaller than 2MB"], success: false});
+        console.log("Cannot upload file");
+        console.log(err.code);
+        return res.status(400).json({
+          errors: ["File Too Large: Please upload an image smaller than 2MB"],
+          success: false,
+        });
       }
-    } return next(err);
+    }
+    return next(err);
   });
 }
 
@@ -624,56 +637,63 @@ router.post(
   validateUsername,
   async (req, res) => {
     const errors = validationResult(req);
- 
+
     if (!errors.isEmpty()) {
       // If there are validation errors, send a JSON response with the errors
       return res.status(400).json({ errors: errors.array(), success: false });
     }
- 
+
     try {
       if (!req.body.confirm) {
         // Show error must confirm to change
-        return res.status(400).json({ errors: ["You must confirm the changes"], success: false });
+        return res
+          .status(400)
+          .json({ errors: ["You must confirm the changes"], success: false });
       }
- 
+
       const updateProfile = {};
- 
+
       // Update username if it's changed
       if (req.body.username && req.body.username !== req.user.username) {
         updateProfile.username = req.body.username;
       }
- 
+
       // Update background image if it's changed
       if (req.files.background) {
         updateProfile.background = req.files.background[0].path;
       }
- 
+
       // Update avatar if it's changed
       if (req.files.avatar) {
         updateProfile.profilePicture = req.files.avatar[0].path;
       }
- 
+
       // Save the changes to the database
       const updatedReader = await Reader.findOneAndUpdate(
         { _id: req.user._id }, // Query condition
         { $set: updateProfile }, // Use $set to only update specified fields
         { new: true }, // Options: Return the modified document
       );
- 
+
       if (!updatedReader) {
         console.log("Reader not found or not updated");
-        return res.status(400).json({ errors: ["Reader not found or not updated"], success: false });
+        return res.status(400).json({
+          errors: ["Reader not found or not updated"],
+          success: false,
+        });
       }
- 
+
       console.log("Document updated");
- 
+
       notify(req.user._id, "Profile updated", "Profile updated successfully");
- 
+
       // Send a JSON response with the updated reader
-      return res.json({ updatedReader, success: true});
+      return res.json({ updatedReader, success: true });
     } catch (err) {
       console.log("Error:", err);
-      return res.status(500).json({ errors: ["Internal Server Error"] , success: false});
+      return res
+        .status(500)
+        .json({ errors: ["Internal Server Error"], success: false });
     }
   },
 );
@@ -719,11 +739,11 @@ router.get("/library-profile/:id", async (req, res) => {
   try {
     const library = await Library.findById(req.params.id);
     if (!library) {
-      return res.status(404).render('404', { message: 'Library not found' });
+      return res.status(404).render("404", { message: "Library not found" });
     }
-    
-    const books = await Book.find({ library: {$in: req.params.id }});
-    if ( req.user ) {
+
+    const books = await Book.find({ library: { $in: req.params.id } });
+    if (req.user) {
       const wishList = req.user.wishList;
       let wishlistBooks = await Book.find({ _id: { $in: wishList } });
       res.render("reader/library-profile", {
@@ -739,7 +759,6 @@ router.get("/library-profile/:id", async (req, res) => {
         books: books,
       });
     }
-    
   } catch (errors) {
     console.log("Error:", errors);
     res.redirect("/homepage");
