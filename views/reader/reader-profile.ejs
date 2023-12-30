@@ -139,8 +139,10 @@
                             <ul>
                             <% cart.books.forEach(bookEntry => { %>
                                 <li>
+                                <div>Library: <%= cart.library.username %></div>
                                 <% const book = bookEntry.book; %>
                                 <div class="book-item flex items-center space-x-4 p-3 border rounded-lg mt-2">
+                                    
                                     <div class="flex-shrink-0">
                                     <% if (book.coverImages && book.coverImages.length > 0) { %>
                                         <img src="/<%= book.coverImages[0] %>" alt="Image" class="max-w-20 rounded-xl">

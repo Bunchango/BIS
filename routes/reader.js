@@ -414,9 +414,8 @@ router.post("/wishlist/:id", isReader, async (req, res) => {
 const fetchCarts = async (req, res, next) => {
   try {
     // Fetch all carts associated with the user
-    const carts = await Cart.find({ reader: req.user._id }).populate(
-      "books.book",
-    );
+    const carts = await Cart.find({ reader: req.user._id })
+    .populate("books.book").populate("library");
 
     req.carts = carts;
     next();
