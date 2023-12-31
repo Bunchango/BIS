@@ -46,18 +46,18 @@ async function updateBookmarkPopup() {
   });
 }
 
-function createBookmarkElement(list, bookmark) {
+function createBookmarkElement(list, book) {
   const bookmarkElement = document.createElement("div");
   bookmarkElement.className = "item";
   bookmarkElement.innerHTML = `
     <div class="img">
-      <img src="/${bookmark.coverImages[0]}" alt="${bookmark.title}'s Picture">
+      <img src="/${book.cover_1}" alt="${book.title}'s Picture">
     </div>
     <div class="content">
-      <div class="title">${bookmark.title}</div>
-      <div class="des">${bookmark.description}</div>
-      <button class="remove" data-bookid="${bookmark._id}"><i class="fa-solid fa-trash"></i></button>
-      <a id="view-detail" href="/reader/book_detail/${bookmark._id}">View</a>
+      <div class="title">${book.title}</div>
+      <div class="des">${book.description}</div>
+      <button class="remove" data-bookid="${book._id}"><i class="fa-solid fa-trash"></i></button>
+      <a id="view-detail" href="/reader/book_detail/${book._id}">View</a>
     </div>
   `;
   list.appendChild(bookmarkElement);

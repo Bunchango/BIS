@@ -140,7 +140,7 @@
                                     <li class="book-item" data-bookid="<%= book._id %>" data-cartid="<%= cart._id %>">
                                         <div class="flex items-center space-x-4 p-3 border rounded-lg mt-2">
                                             <div class="flex-shrink-0">
-                                                <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s cover'" class="w-20 rounded-xl">
+                                                <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s cover'" class="w-25 h-40 object-cover rounded-xl">
                                             </div>
 
                                             <div class="flex-grow">
@@ -221,9 +221,7 @@
                             <li class="item" data-bookid="<%= book._id %>">
                                 <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
                                     <div class="flex-shrink-0">
-                                        <div class="img">
-                                            <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s Cover" class="w-20 rounded-xl">
-                                        </div>
+                                        <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s cover'" class="w-25 h-40 object-cover rounded-xl">    
                                     </div>
                                     <div class="flex-grow ">
                                         <div class="flex items-center space-x-4">
@@ -231,7 +229,7 @@
                                         </div>
                                         <p class="text-gray-600 mt-2 ml-10"><%= book.description %></p>
                                         <button class="remove" data-bookid="<%= book._id %>"><i class="fa-solid fa-trash hover:text-red-500  ml-10"></i></button>
-                                        <a id="view-detail" class="hover:text-blue-500" href="/reader/book_detail/<%= book._id %>">View</a>
+                                        <a id="view-detail" class="hover:text-blue-500 ml-5" href="/reader/book_detail/<%= book._id %>">View</a>
                                     </div>
                                 </div>
                             </li>

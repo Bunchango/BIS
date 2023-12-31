@@ -97,10 +97,24 @@ aside.search-filter {
 
 .search-result-display {
   margin-right: 3rem;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+  grid-template-rows:  repeat(auto-fit);
+  gap: 20px;
+  
   align-items: center;
+}
+
+.search-result-display .card.swiper-slide {
+  height: 250px;
+}
+
+.search-result-display .card.swiper-slide .image-box {
+  height: 250px;
+}
+
+.search-result-display .card.swiper-slide .image-box img {
+  object-fit: cover;
 }
 
 .search-result-item {

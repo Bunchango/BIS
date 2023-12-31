@@ -86,7 +86,28 @@
                 <% if (books.length> 0) { %>
                 <ul class="search-result-display">
                     <% books.forEach(book=> { %>
-                    <a href="/reader/book_detail/<%= book.id %>">
+                        <div class="card swiper-slide">
+                            <div class="image-box">
+                              <img src="/<%= book.cover_1%> " alt="<%= book.title %>'s Image" />
+                            </div>
+                            <div class="book-details">
+                              <div class="detail-box"> 
+                                <h1><%= book.title %></h1>
+                                <p><%= book.description %></p>
+                              </div>
+                          
+                                <a href="/reader/book_detail/<%= book._id %>" class="view-more-button">View details</a>
+                                <% if (user && user.__t == "Reader") { %> 
+                                  <% if (user.wishList && user.wishList.includes(book._id)) { %>
+                                    <i class="bookmark-icon fa-star fas" data-bookid="<%= book._id %>"></i>
+                                  <%} else if (user.wishList && !user.wishList.includes(book._id)) { %> 
+                                    <i class="bookmark-icon far fa-star" data-bookid="<%= book._id %>"></i>
+                                  <%}%> 
+                                <% } %>
+                              
+                            </div>
+                        </div>
+                    <!-- <a href="/reader/book_detail/<%= book.id %>">
                     <li>
                         <% if (book.cover_1) { %>
                             <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s' cover" class="book-cover w-32">
@@ -104,7 +125,7 @@
                             Author: <%= book.author %>
                         </p>
                     </li>
-                    </a>
+                    </a> -->
                     <% }); %>
                 </ul>
 

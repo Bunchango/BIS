@@ -20,9 +20,9 @@
                     <% if (user.wishList &&  user.wishList.length > 0) { %> 
                         <% wishList.forEach( book => { %>
                         <div class="item">
-                            <% if (book.coverImages && book.coverImages.length > 0) { %>
+                            <% if (book.cover_1) { %>
                                 <div class="img">
-                                    <img src="/<%= book.coverImages[0] %>" alt="<%= book.title %>'s Cover">
+                                    <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s Cover">
                                 </div>
                             <% } else { %>
                                 <div class="img">
