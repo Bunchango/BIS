@@ -82,9 +82,16 @@ document.querySelector('.pop-up-modal .submit-button').addEventListener('click',
       // Update the profile in the UI without reloading the page
       // You can replace this comment with your own code to update the UI
       if (data.updatedReader.username) document.querySelector('.user-info .name').innerText = `${data.updatedReader.username}`;
-      if (data.updatedReader.background) document.querySelector('.upper .background').src = `/${data.updatedReader.background}`;
-      if (data.updatedReader.profilePicture) document.querySelector('.user-info .avatar').src = `/${data.updatedReader.profilePicture}`;
       
+      if (data.updatedReader.background) {
+        document.querySelector('.upper .background').src = `/${data.updatedReader.background}`;
+        document.querySelector(".image-container #background").src = `/${data.updatedReader.background}`;
+      }
+
+      if (data.updatedReader.profilePicture) {
+        document.querySelector('.user-info .avatar').src = `/${data.updatedReader.profilePicture}`;
+        document.querySelector(".image-container .avatar").src = `/${data.updatedReader.profilePicture}`;
+      }
       
       const button = document.querySelector(".submit-button")
       const popupSuccess = document.querySelector(button.dataset.modalTarget);
@@ -92,6 +99,7 @@ document.querySelector('.pop-up-modal .submit-button').addEventListener('click',
       const errors = document.querySelector('.errors-update');
       errors.innerText = ''
       document.querySelector('#edit-profile-form').reset()
+
     }
   }).catch( error => {
     // Handle errors here

@@ -222,16 +222,16 @@
                                 <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
                                     <div class="flex-shrink-0">
                                         <div class="img">
-                                            <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s Cover" class="w-40 h-52 rounded-xl">
+                                            <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s Cover" class="w-20 rounded-xl">
                                         </div>
                                     </div>
                                     <div class="flex-grow ">
                                         <div class="flex items-center space-x-4">
-                                            <p class="text-4xl mr-12 font-semibold ml-10"><%= book.title %></p>
-                                            <button class="remove" data-bookid="<%= book._id %>"><i class="fa-solid fa-trash hover:text-red-500"></i></button>
-                                            <a id="view-detail" class="hover:text-blue-500" href="/reader/book_detail/<%= book._id %>">View</a>
+                                            <p class="text-4xl mr-12 font-semibold ml-10"><%= book.title %></p> 
                                         </div>
                                         <p class="text-gray-600 mt-2 ml-10"><%= book.description %></p>
+                                        <button class="remove" data-bookid="<%= book._id %>"><i class="fa-solid fa-trash hover:text-red-500  ml-10"></i></button>
+                                        <a id="view-detail" class="hover:text-blue-500" href="/reader/book_detail/<%= book._id %>">View</a>
                                     </div>
                                 </div>
                             </li>
