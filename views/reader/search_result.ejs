@@ -16,6 +16,7 @@
     <title>Search Results</title>
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/pagination.css">
     <link rel="stylesheet" href="/styles/search-filter.css" />
     <link rel="icon" href="/images/vxnhe-icon.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -31,7 +32,7 @@
 
 <body>
 
-    <main class="search-result grid grid-cols-4 pt-14">
+    <main class="search-result grid grid-cols-4 pt-14" id="main-page">
         <aside class="search-filter col-span-1">
             <form action="/reader/search" method="get">
                 <div class="search-filter-header border-none">
@@ -136,16 +137,16 @@
             <!-- Pagination Controls -->
             <div class="pagination">
                 <% if (books.previous) { %>
-                <a href="<%= buildPaginationLink(books.previous.page) %>"> < </a>
+                <a href="<%= buildPaginationLink(books.previous.page) %>" id="prev-button"> < </a>
                 <% } %>
 
                 <!-- Page Buttons -->
                 <% for (let i = 1; i <= totalPages; i++) { %>
-                    <a href="<%= buildPaginationLink(i) %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+                    <a href="<%= buildPaginationLink(i) %>" class="<%= i === currentPage ? 'active' : '' %>" id="page-number"><%= i %></a>
                 <% } %>
 
                 <% if (books.next) { %>
-                <a href="<%= buildPaginationLink(books.next.page) %>"> > </a>
+                <a href="<%= buildPaginationLink(books.next.page) %>" id="next-butoon"> > </a>
                 <% } %>
             </div>
         </section>
