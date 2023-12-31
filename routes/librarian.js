@@ -37,7 +37,7 @@ router.get("/profile", isLibrarian, async (req, res) => {
   // View both account info and library info
   try {
     const library = await Library.findById(req.user.library);
-    
+
     res.render("librarian/profile", {
       user: req.user,
       library: library,
@@ -267,13 +267,15 @@ router.get("/customer", isLibrarian, async (req, res) => {
 
     if (pickups.length > 0) {
       data.pickups = pickups;
+    } else if (!pickups) {
+      data.pickups = []
     }
 
     if (borrows.length > 0) {
       data.borrows = borrows;
     }
 
-    res.render("librarian/customer", {data: data});
+    res.render("librarian/customer", { data: data, user: req.user });
   } catch (e) {
     res.status(400).json({ errors: e });
   }

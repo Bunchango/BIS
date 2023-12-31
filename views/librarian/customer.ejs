@@ -11,16 +11,7 @@
   <title>Document</title>
 </head>
 <body>
-  <nav class="p-4">
-    <div class="flex justify-between items-center">
-        <div class="text-6xl font-bold ml-10">VXNHE</div>
-        <div class="flex space-x-10 mr-10 text-xl">
-            <a href="dashboard.html" class="hover:text-gray-300">Dashboard</a>
-            <a href="/librarian/customer" class="hover:text-gray-300">Customer management</a>
-            <a href="borrow-detail.html" class="hover:text-gray-300">Inventory management</a>
-        </div>
-    </div>
-</nav>
+  <%- include('./partials-librarian/nav-librarian.ejs')%>
 <section class="search-section">
   search section goes here
 </section>
@@ -51,6 +42,7 @@
   
   <h2 class="text-2xl font-bold mb-4" id="sect-header2">Pickups</h2>
     <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
+      <% if( data.pickup && data.pickup.length > 0 ) { %>
         <% data.pickups.slice(-6).forEach(pickup => { %>
           <a href="/librarian/pickup/<%= pickup._id %>" class="p-4 rounded-md shadow-md" id="pagination-item2">
             <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
@@ -60,6 +52,7 @@
             <p class="text-center"><%= pickup.createdOn %></p>
           </a>
         <% }); %>
+        <%}%>
     </ul>
   
   <div class="view-all">
@@ -89,6 +82,6 @@
       <a href="all.html" class="view-all-button">View all</a>
     </div>
 </section>
-
+<script src="/js/librarian-role.js"></script>
 </body>
 </html>
