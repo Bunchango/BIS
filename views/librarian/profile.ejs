@@ -12,26 +12,74 @@
 </head>
 <body>
     <%- include('./partials-librarian/nav-librarian.ejs')%>
-    <h1>Welcome, <%= librarian.username %></h1>
+
+    <h1>Welcome, <%= user.username %></h1>
 
     <div>
-        <p>Email: <%= librarian.gmail %></p>
-        <p>Profile Picture: <img src="/<%= librarian.profilePicture %>" alt="Profile Picture"></p>
+        <p>Email: <%= user.gmail %></p>
+        <p>Profile Picture: <img src="/<%= user.profilePicture %>" alt="Profile Picture"></p>
     </div>
 
-    <p>librarian.library.username</p>
+    <p><%= user.library.username %></p>
     
     <!-- Button to display form -->
-    <button></button>
+    <button data-modal-target="#pop-up-edit" id="edit">Edit Profile</button>
 
     <!-- Form to change account info -->
-    <form action="profile" method="post" enctype="multipart/form-data">
+    <!-- <form action="profile" method="post" enctype="multipart/form-data">
         <label for="profile">Profile picture</label>
         <input type="file" name="image" id="profile">
         <label for="username">Username</label>
         <input type="text" name="username" id="username">
         <label for="checkbox">Confirm changes</label>
         <input type="checkbox" name="confirm" id="confirm">
-    </form>
+    </form> -->
+    <div id="overlay"></div>
+    <div class="pop-up-modal" id="pop-up-edit">
+        <div class="edit-header">
+            <div class="title">Edit Profile</div>
+            <button data-close-button class="close-modal">&times;</button>
+        </div>
+        <div class="edit-body">
+            <form id="edit-profile-form" action="/librarian/profile/edit-profile" method="POST" enctype="multipart/form-data">
+                <div class="errors-update">
+
+                </div>
+                <% if (errors && errors.length > 0) { %>
+                <h3>Errors</h3>
+                <ul class="error-messages">
+                    <% errors.forEach(error => { %>
+                    <li><%= error.msg %></li>
+                    <% }); %>
+                </ul>
+                <% } %>
+                
+                <div class="main-user-info">
+                    <div class="username-input-box">
+                        <label for="username">User Name</label>
+                        <input type="text" id="username" name="username" >
+                    </div>
+                    
+                    <div class="user-input-box">
+                        <label for="avatar-pic">Avatar</label>
+                        <div class="image-container">
+                            <img class="avatar" src="/<%= user.profilePicture %>" accept="image/*" alt="<%= user.username %>'s avatar">
+                        </div>
+                        <div class="upload-button">
+                            <span>Choose File</span>
+                            <input type="file" name="avatar" accept="image/*" id="avatar-pic">
+                        </div>
+                    </div>
+                    <div class="confirm-change-box">
+                        <input type="checkbox" name="confirm" id="confirm">
+                        <label for="confirm">Confirm Changes</label>
+                    </div>
+                    <button type="submit" class="submit-button" data-modal-target="#popUp-success">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <script src="/js/librarian-role.js"></script>
 </body>
 </html>

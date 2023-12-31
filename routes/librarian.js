@@ -37,7 +37,7 @@ router.get("/profile", isLibrarian, async (req, res) => {
   // View both account info and library info
   try {
     const library = await Library.findById(req.user.library);
-
+    
     res.render("librarian/profile", {
       user: req.user,
       library: library,
