@@ -51,7 +51,7 @@ async function getLibraries() {
 
 // Plot points onto map
 function loadMap(libraries) {
-    map.on("load", function () {
+    map.once("idle", function () {
         map.addLayer({
             id: "points",
             type: "symbol",
