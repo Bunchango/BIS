@@ -20,7 +20,7 @@
 }
 #next-hot, #prev-hot{
     position: absolute;
-    top: 50%;
+    top: 40%;
     color: #000000;
     background-color: transparent;
     border: none;
