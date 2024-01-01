@@ -7,37 +7,34 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/librarian-role.css">
     <link rel="stylesheet" href="/styles/footer.css"/>
+    <link rel="stylesheet" href="/styles/inventory.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <title>Inventory management</title>
 </head>
 <body>
     <%- include('./partials-librarian/nav-librarian.ejs')%>
-    <h1>Book Inventory</h1>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Link</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Amount</th>
-                <th>Available</th>
-                <th>Date Imported</th>
-            </tr>
-        </thead>
-        <tbody>
+    <section id="inventory-section" class="p-16 pb-0">
+        <h1 class="text-2xl font-bold mb-4" id="sect-header">Book Inventory</h1>
+        <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-10" id="pagination-list">
             <% data.books.forEach(book => { %>
-                <tr>
-                    <td><a href="/librarian/book_detail/<%= book._id %>">Link</a></td>
-                    <td><%= book.title %></td>
-                    <td><%= book.author %></td>
-                    <td><%= book.amount %></td>
-                    <td><%= book.available %></td>
-                    <td><%= book.dateImported.toDateString() %></td>
-                </tr>
+                <a href="/librarian/book_detail/<%= book._id %>" class="p-4 rounded-md shadow-md" id="pagination-item">
+                    <div class="grid grid-cols-3">
+                        <div class="rounded overflow-hidden w-40 h-60 mx-auto col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-3 xl:col-span-1">
+                            <img src="/<%= book.cover_1 %>" alt="Image 1" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex flex-col items-center justify-center col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-3 xl:col-span-2">
+                            <h3 class="text-xl font-bold mb-2 text-center"><%= book.title %></h3>
+                            <p class="text-center"><%= book.author %></p>
+                            <p class="text-center">Book amount: <%= book.amount %></p>
+                            <p class="text-center">Book available: <%= book.available %></p>
+                            <p class="text-center">Import date: <%= book.dateImported.toDateString() %></p>
+                        </div>
+                    </div>
+                    
+                </a>
             <% }); %>
-        </tbody>
-    </table>
+        </ul>
+      </section>
     <script src="/js/librarian-role.js"></script>
     <%- include("../partials_readers/footer.ejs") %>
 </body>

@@ -1,0 +1,26 @@
+:root {
+    --theme-color-peach: #FCEDDA;
+    --theme-color-orange: #EE4E34;
+  }
+
+
+#sect-header {
+    font-size: 62px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      line-height: 74px;
+      padding-bottom: 0.5rem;
+      color: #ee4e34;
+      margin-bottom: 2rem;
+      text-align: center;
+  }
+
+
+#inventory-section {
+    background-color: var(--theme-color-peach);
+}
+
+#pagination-item {
+    background-color: var(--theme-color-orange);
+    color: var(--theme-color-peach);
+}
