@@ -36,7 +36,7 @@
 }
 
 .hot-book {
-    height: 40%;
+    max-height: 600px;
     width: 250px;
 }
 
