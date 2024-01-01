@@ -77,6 +77,18 @@ body {
   font-weight: 700;
 }
 
+@media screen and (max-width: 768px) {
+  .breadcrumbs_container {
+    justify-content: center; 
+    margin: 30px 0 10px; 
+  }
+
+  .breadcrumbs__item {
+    padding: 0.5em 0.5em 0.5em 1em; 
+    font-size: 0.8em; 
+  }
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -205,3 +217,20 @@ button.btn {
   }
 }
 
+@media screen and (max-width: 768px) {
+  button.btn {
+    width: 120px; 
+    margin: 0 5px; 
+    font-size: 14px; 
+    height: 45px; 
+  }
+
+  .reader-buttons, .librarian-buttons {
+    justify-content: center; 
+    flex-wrap: wrap;
+  }
+  .reader-buttons button.btn, .librarian-buttons button.btn {
+    margin: 0 20px; 
+  }
+
+}
