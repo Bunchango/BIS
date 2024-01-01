@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const {User} = require("./user");
 const geocoder = require("./../config/geocoder");
 
-// TODO: add description attribute
 const librarySchema = new mongoose.Schema({
     address: {
         type: String,
@@ -16,7 +15,7 @@ const librarySchema = new mongoose.Schema({
         }, 
         coordinates: {
             type: [Number],
-            index: "2dsphere", // Might have to switch this tolocation
+            index: "2dsphere", 
         }, 
         formattedAddress: String,
     }, 
