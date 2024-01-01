@@ -44,6 +44,7 @@ main {
     height: 100%;
     overflow: hidden;
     padding: 5px 10px;
+    color: #000;
 }
 
 #account-hovering #content #account-name {
@@ -51,10 +52,12 @@ main {
     margin: 5px 0px;
     font-size: 20px;
     align-items: center;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.5);
 }
 
 #account-hovering #content #my-account,
 #account-hovering #content #logout {
+    color: #000;
     font-size: 15px;
     padding: 5px 0px;
 }
@@ -286,3 +289,20 @@ main {
   #pop-up-edit .edit-body .upload-button:active {
     background-color: #bf1900;
   }
+
+/* Search  */
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+.search-section #search {
+  font-size: 3rem;
+  width: 700px;
+  padding: 5px;
+}
+
+.hide {
+  display: none;
+}

@@ -3,15 +3,20 @@
     text-align: center;
     list-style: none;
 }
-.listPage li{
+.listPage li, #page-number, #prev-button, #next-button{
     background-color: var(--theme-color-peach);
     padding:20px;
     display: inline-block;
     margin:0 10px;
     cursor: pointer;
 }
-.listPage .active{
-    background-color: var(--theme-color-orange);
+.listPage .active, .pagination .active{
+    background-color: var(--theme-color-orange) !important;
     color:#fff;
     border-radius: 50px;
+}
+
+.pagination {
+    margin-top: 2rem;
+    text-align: center;
 }

@@ -37,7 +37,7 @@ router.get("/profile", isLibrarian, async (req, res) => {
   // View both account info and library info
   try {
     const library = await Library.findById(req.user.library);
-    
+
     res.render("librarian/profile", {
       user: req.user,
       library: library,
@@ -91,7 +91,7 @@ router.get("/inventory", isLibrarian, async (req, res) => {
  
 router.get("/add_book", isLibrarian, (req, res) => {
   // Render form
-  res.render("librarian/add_book", { categories: categoriesArray });
+  res.render("librarian/add_book", { categories: categoriesArray, user: req.user });
 });
 
 router.post(
@@ -267,13 +267,33 @@ router.get("/customer", isLibrarian, async (req, res) => {
 
     if (pickups.length > 0) {
       data.pickups = pickups;
+    } else if (!pickups) {
+      data.pickups = []
     }
 
     if (borrows.length > 0) {
       data.borrows = borrows;
     }
 
-    res.render("librarian/customer", {data: data});
+    res.render("librarian/customer", { data: data, user: req.user });
+  } catch (e) {
+    res.status(400).json({ errors: e });
+  }
+});
+
+router.get("/borrows", isLibrarian, async(req, res) => {
+  try {
+    const borrows = await Borrow.find({library: req.user.library}).populate("reader").populate("books.book")
+    res.status(200).json({borrows})
+  } catch (e) {
+    res.status(400).json({error: e})
+  } 
+})
+
+router.get("/borrow-all", isLibrarian, async (req, res) => {
+  try {
+    const borrows = await Borrow.find({library: req.user.library}).populate("reader").populate("books.book")
+    res.render("librarian/all-borrow", {borrows : borrows, user: req.user})
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -287,7 +307,7 @@ router.get("/borrow/:id", isLibrarian, async (req, res) => {
       return res.redirect("/librarian/customer");
     }
 
-    res.render("librarian/borrow", { borrow: borrow });
+    res.render("librarian/borrow", { borrow: borrow, user: req.user });
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -463,6 +483,24 @@ router.post("/borrow/cancel/:id", async (req, res) => {
   }
 });
 
+router.get("/pickups", isLibrarian, async(req, res) => {
+  try {
+    const pickups = await Pickup.find({library: req.user.library}).populate("reader").populate("books.book")
+    res.status(200).json({pickups})
+  } catch (e) {
+    res.status(400).json({error: e})
+  } 
+})
+
+router.get("/pickup-all", isLibrarian, async (req, res) => {
+  try {
+    const pickups = await Pickup.find({library: req.user.library}).populate("reader").populate("books.book")
+    res.render("librarian/all-pickup", {pickups : pickups, user: req.user})
+  } catch (e) {
+    res.status(400).json({ errors: e });
+  }
+});
+
 router.get("/pickup/:id", isLibrarian, async (req, res) => {
   // Display pickup information
   try {
@@ -472,7 +510,7 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
       if (pickup.library.toString() !== req.user.library.toString()) {
         return res.redirect("/librarian/customer");
       }
-    res.render("librarian/pickup", { pickup: pickup });
+    res.render("librarian/pickup", { pickup: pickup, user: req.user});
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -585,6 +623,24 @@ router.post("/pickup/complete/:id", async (req, res) => {
   }
 });
 
+router.get("/requests", isLibrarian, async(req, res) => {
+  try {
+    const requests = await Request.find({library: req.user.library}).populate("reader").populate("books.book")
+    res.status(200).json({requests})
+  } catch (e) {
+    res.status(400).json({error: e})
+  } 
+})
+
+router.get("/request-all", isLibrarian, async (req, res) => {
+  try {
+    const requests = await Request.find({ library: req.user.library }).populate("reader").populate("books.book")
+    res.render("librarian/all-request", {requests : requests, user: req.user})
+  } catch (e) {
+    res.status(400).json({ errors: e });
+  }
+});
+
 router.get("/request/:id", isLibrarian, async (req, res) => {
   // Display pickup request information
   // Librarian chooses books to approve, choose a pickup date which pops up, then confirm the pickup creation by clicking on a button
@@ -596,7 +652,7 @@ router.get("/request/:id", isLibrarian, async (req, res) => {
       if (request.library.toString() !== req.user.library.toString()) {
         return res.redirect("/librarian/customer");
       }
-    res.render("librarian/request", { request: request, error: "" });
+    res.render("librarian/request", { request: request, error: "", user: req.user});
   } catch (e) {
     res.status(400).json({ errors: e });
   }

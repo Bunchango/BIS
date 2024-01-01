@@ -6,27 +6,19 @@
   <link rel="icon" href="images/vxnhe-icon.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/styles/librarian-role.css">
+  <link rel="stylesheet" href="/styles/footer.css"/>
   <link rel="stylesheet" href="/styles/customer.css">
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
   <title>Document</title>
 </head>
 <body>
-  <nav class="p-4">
-    <div class="flex justify-between items-center">
-        <div class="text-6xl font-bold ml-10">VXNHE</div>
-        <div class="flex space-x-10 mr-10 text-xl">
-            <a href="dashboard.html" class="hover:text-gray-300">Dashboard</a>
-            <a href="/librarian/customer" class="hover:text-gray-300">Customer management</a>
-            <a href="borrow-detail.html" class="hover:text-gray-300">Inventory management</a>
-        </div>
-    </div>
-</nav>
-<section class="search-section">
-  search section goes here
-</section>
-<section id="borrow-section" class="p-16 pb-0">
-  <% if (data.requests && data.requests.length > 0) { %>
+  <%- include('./partials-librarian/nav-librarian.ejs')%>
+  <section class="search-section">
+  </section>
+
+  <section id="borrow-section" class="p-16 pb-0">
     <h2 class="text-2xl font-bold mb-4" id="sect-header">Requests</h2>
+    <% if (data.requests && data.requests.length > 0) { %>
     <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
         <% data.requests.slice(-6).forEach(request => { %>
             <a href="/librarian/request/<%= request._id %>" class="p-4 rounded-md shadow-md" id="pagination-item">
@@ -38,41 +30,42 @@
             </a>
         <% }); %>
     </ul>
-  <% } %>
+    <% } %>
     <div class="view-all">
-      <a href="all.html" class="view-all-button">View all</a>
+      <a href="/librarian/" class="view-all-button">View all</a>
     </div>
-    
-</section>
-<div class="sect-divider">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#FCEDDA" fill-opacity="1" d="M0,224L26.7,224C53.3,224,107,224,160,213.3C213.3,203,267,181,320,181.3C373.3,181,427,203,480,197.3C533.3,192,587,160,640,170.7C693.3,181,747,235,800,250.7C853.3,267,907,245,960,240C1013.3,235,1067,245,1120,229.3C1173.3,213,1227,171,1280,160C1333.3,149,1387,171,1413,181.3L1440,192L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></path></svg>
-</div>
-<section id="borrow-section2" class="p-16">
-  
-  <h2 class="text-2xl font-bold mb-4" id="sect-header2">Pickups</h2>
-    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
-        <% data.pickups.slice(-6).forEach(pickup => { %>
-          <a href="/librarian/pickup/<%= pickup._id %>" class="p-4 rounded-md shadow-md" id="pagination-item2">
-            <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
-              <img src="/<%= pickup.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center"><%= pickup.reader.username %></h3>
-            <p class="text-center"><%= pickup.createdOn %></p>
-          </a>
-        <% }); %>
-    </ul>
-  
-  <div class="view-all">
-    <a href="all.html" class="view-all-button2">View all</a>
-  </div>
-</section>
-<div class="sect-divider2">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EE4E34" fill-opacity="1" d="M0,224L26.7,224C53.3,224,107,224,160,213.3C213.3,203,267,181,320,181.3C373.3,181,427,203,480,197.3C533.3,192,587,160,640,170.7C693.3,181,747,235,800,250.7C853.3,267,907,245,960,240C1013.3,235,1067,245,1120,229.3C1173.3,213,1227,171,1280,160C1333.3,149,1387,171,1413,181.3L1440,192L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></path></svg>
-</div>
-<section id="borrow-section" class="p-16 pb-0">
+  </section>
 
-  <% if (data.borrows && data.borrows.length > 0) { %>
+  <div class="sect-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#FCEDDA" fill-opacity="1" d="M0,224L26.7,224C53.3,224,107,224,160,213.3C213.3,203,267,181,320,181.3C373.3,181,427,203,480,197.3C533.3,192,587,160,640,170.7C693.3,181,747,235,800,250.7C853.3,267,907,245,960,240C1013.3,235,1067,245,1120,229.3C1173.3,213,1227,171,1280,160C1333.3,149,1387,171,1413,181.3L1440,192L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></path></svg>
+  </div>
+
+  <section id="borrow-section2" class="p-16">
+    <h2 class="text-2xl font-bold mb-4" id="sect-header2">Pickups</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
+        <% if( data.pickup && data.pickup.length > 0 ) { %>
+          <% data.pickups.slice(-6).forEach(pickup => { %>
+            <a href="/librarian/pickup/<%= pickup._id %>" class="p-4 rounded-md shadow-md" id="pagination-item2">
+              <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
+                <img src="/<%= pickup.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
+              </div>
+              <h3 class="text-xl font-bold mb-2 text-center"><%= pickup.reader.username %></h3>
+              <p class="text-center"><%= pickup.createdOn %></p>
+            </a>
+          <% }); %>
+          <%}%>
+      </ul>
+    <div class="view-all">
+      <a href="all.html" class="view-all-button2">View all</a>
+    </div>
+  </section>
+  
+  <div class="sect-divider2">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EE4E34" fill-opacity="1" d="M0,224L26.7,224C53.3,224,107,224,160,213.3C213.3,203,267,181,320,181.3C373.3,181,427,203,480,197.3C533.3,192,587,160,640,170.7C693.3,181,747,235,800,250.7C853.3,267,907,245,960,240C1013.3,235,1067,245,1120,229.3C1173.3,213,1227,171,1280,160C1333.3,149,1387,171,1413,181.3L1440,192L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></path></svg>
+  </div>
+  <section id="borrow-section" class="p-16 pb-0">
     <h2 class="text-2xl font-bold mb-4" id="sect-header">Borrows</h2>
+    <% if (data.borrows && data.borrows.length > 0) { %> 
     <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
         <% data.borrows.slice(-6).forEach(borrow => { %>
           <a href="/librarian/borrow/<%= borrow._id %>" class="p-4 rounded-md shadow-md" id="pagination-item">
@@ -84,11 +77,13 @@
           </a>
         <% }); %>
     </ul>
-  <% } %>
+    <% } %>
     <div class="view-all">
       <a href="all.html" class="view-all-button">View all</a>
     </div>
-</section>
+  </section>
 
+  <script src="/js/librarian-role.js"></script>
+  <%- include("../partials_readers/footer.ejs") %>
 </body>
 </html>
