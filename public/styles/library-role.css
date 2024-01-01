@@ -28,7 +28,6 @@ nav {
     justify-content: space-around;
     align-items: center;
     padding: 30px 10px;
-
     position: fixed;  
     top: 0;
     left: 0;
@@ -286,7 +285,7 @@ nav #list li button {
 }
 
 #update-body .image-container {
-    width: 255px;
+    width: 210px;
     height: 200px;
     display: flex;
     align-items: center;
@@ -300,12 +299,6 @@ nav #list li button {
     object-fit: cover;
 }
   
-#update-body .user-confirm-changes {
-    display: flex;
-    align-items: center;
-    margin-top: 16px;
-}
-  
 #update-body .user-confirm-changes label {
     margin-left: 10px;
 }
@@ -316,7 +309,7 @@ nav #list li button {
     display: inline-block;
     background-color: var(--theme-color-orange);
     color: #fff;
-    padding: 8px 82px;
+    padding: 5px 65px;
     border-radius: 4px;
     cursor: pointer;
     margin-top: 7px;

@@ -112,7 +112,8 @@ main {
 /* pop up modal */
 
 /* Edit Profile */
-.edit-header {
+.edit-header,
+.edit-header-librarian {
     padding: 10px 15px;
     display: flex;
     justify-content: space-between;
@@ -120,7 +121,8 @@ main {
     border-bottom: 1px solid black;
   }
   
-  .edit-header .title {
+  .edit-header .title,
+  .edit-header-librarian .title {
     font-size: 26px;
     font-weight: 600;
     text-align: center;
@@ -129,7 +131,8 @@ main {
     text-shadow: 2px 2px 2px black;
   }
   
-  .edit-header .close-modal {
+  .edit-header .close-modal,
+  .edit-header-librarian .close-modal {
     cursor: pointer;
     border: none;
     outline: none;
@@ -150,6 +153,15 @@ main {
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 20px 0;
+  }
+
+  #pop-up-edit .edit-body .librarian-main-user-info{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 0;
+    align-items: center;
   }
   
   #pop-up-edit .edit-body .username-input-box{
@@ -221,13 +233,8 @@ main {
     color: rgb(255, 255, 255);
   }
   
-  .main-user-infor .confirm-change-box {
-    display: flex;
-    align-items: center;
-    margin-top: -25px;
-  }
-  
-  .main-user-infor .confirm-change-box label{
+  .main-user-info .confirm-change-box label,
+  .librarian-main-user-info .confirm-change-box label{
     margin-left: 10px;
   }
   
@@ -257,6 +264,7 @@ main {
     display: flex;
     background-color: var(--theme-color-orange);
     color: #fff;
+    padding: 5px 65px;
     border-radius: 4px;
     cursor: pointer;
     margin-top: 7px;
