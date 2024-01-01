@@ -42,15 +42,19 @@ const searchBooks = (req, res, next) => {
       new RegExp(req.query.title, "i"),
     );
   }
+
   if (req.query.publishedBefore) {
     req.bookQuery = req.bookQuery.lte("publishDate", req.query.publishedBefore);
   }
+
   if (req.query.publishedAfter) {
     req.bookQuery = req.bookQuery.gte("publishDate", req.query.publishedAfter);
   }
+
   if (req.query.category && req.query.category.length > 0) {
     req.bookQuery = req.bookQuery.in("category", req.query.category);
   }
+
   if (req.query.available === "on") {
     req.bookQuery = req.bookQuery.gt("amount", 0);
   }
@@ -781,5 +785,32 @@ router.get("/library", async (req, res) => {
     res.redirect("/homepage");
   }
 });
+
+// Map route
+router.get("/map", async (req, res) => {
+  res.render("reader/map");
+})
+
+router.get("/get_libraries", async (req, res) => {
+  try {
+      const libraries = await Library.find();
+
+      return res.status(200).json({
+          success: true,
+          data: libraries,
+      })
+  } catch(e) {
+      res.status(400).json({ errors: e });
+  }
+})
+
+router.get("/filter_books", searchBooks, async (req, res) => {
+  const executedQuery = await req.bookQuery.populate("library").exec();
+  
+  return res.status(200).json({
+    success: true,
+    data: executedQuery,
+  })
+})
 
 module.exports = router;
