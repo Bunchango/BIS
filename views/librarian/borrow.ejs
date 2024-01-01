@@ -10,6 +10,7 @@
     <title>Document</title>
 </head>
 <body>
+    <%- include('./partials-librarian/nav-librarian.ejs')%>
     <!-- TODO: Add close button to forms -->
     
     <!-- Display borrow info -->
@@ -85,7 +86,7 @@
         </form>
         <button id="closeButton">Close</button>
      </div>
-
+     <%- include("../partials_readers/footer.ejs") %>
      <script>
         document.querySelector('.change-date-button').addEventListener('click', function() {
         document.getElementById('changeDateForm').style.display = 'block';
@@ -148,5 +149,6 @@
         };
 
      </script>
+     <script src="/js/librarian-role.js"></script>
 </body>
 </html>

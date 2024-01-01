@@ -289,3 +289,20 @@ main {
   #pop-up-edit .edit-body .upload-button:active {
     background-color: #bf1900;
   }
+
+/* Search  */
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+.search-section #search {
+  font-size: 3rem;
+  width: 700px;
+  padding: 5px;
+}
+
+.hide {
+  display: none;
+}

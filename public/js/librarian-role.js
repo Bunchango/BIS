@@ -22,7 +22,6 @@ const openModalButtons = document.querySelectorAll(
 const closeModalButtons = document.querySelectorAll("[data-close-button]");
 const overlay = document.getElementById("overlay");
 
-
 openModalButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const modal = document.querySelector(button.dataset.modalTarget);
@@ -31,12 +30,15 @@ openModalButtons.forEach((button) => {
     });
 });
 
-overlay.addEventListener("click", () => {
-    const modals = document.querySelectorAll(".pop-up-modal.active");
-    modals.forEach((modal) => {
-        closeModal(modal);
+if(overlay){
+    overlay.addEventListener("click", () => {
+        const modals = document.querySelectorAll(".pop-up-modal.active");
+        modals.forEach((modal) => {
+            closeModal(modal);
+        });
     });
-});
+}
+
 
 closeModalButtons.forEach((button) => {
     button.addEventListener("click", () => {

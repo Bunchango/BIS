@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/librarian-role.css">
     <link rel="stylesheet" href="/styles/book-detail.css" />
+    <link rel="stylesheet" href="/styles/footer.css"/>
+    <link rel="stylesheet" href="/styles/customer.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <title>Document</title>
 </head>
 <body>
+    <%- include('./partials-librarian/nav-librarian.ejs')%>
     <%- include('../book/book_detail.ejs')%>
     <!-- <% if (book) { %>
         <h2><%= book.title %></h2>
@@ -70,7 +76,7 @@
 
         <button type="submit">Save Changes</button>
     </form>
-
+    <%- include("../partials_readers/footer.ejs") %>
     <script>
         document.getElementById('editButton').addEventListener('click', function() {
             document.getElementById('editForm').style.display = 'block';
@@ -115,7 +121,7 @@
             z-index: 1000;
         }
     </style>
-
+    <script src="/js/librarian-role.js"></script>
     <!-- Add borrow button -->
 </body>
 </html>

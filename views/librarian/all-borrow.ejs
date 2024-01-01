@@ -6,45 +6,52 @@
   <link rel="icon" href="images/vxnhe-icon.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/styles/librarian-role.css">
+  <link rel="stylesheet" href="/styles/footer.css"/>
   <link rel="stylesheet" href="/styles/customer.css">
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
   <title>Document</title>
 </head>
 <body>
-  <nav class="p-4">
-    <div class="flex justify-between items-center">
-        <div class="text-6xl font-bold ml-10">VXNHE</div>
-        <div class="flex space-x-10 mr-10 text-xl">
-            <a href="dashboard.html" class="hover:text-gray-300">Dashboard</a>
-            <a href="/librarian/customer" class="hover:text-gray-300">Customer management</a>
-            <a href="borrow-detail.html" class="hover:text-gray-300">Inventory management</a>
-        </div>
-    </div>
-</nav>
+<%- include('./partials-librarian/nav-librarian.ejs')%>
 <section class="search-section">
-  search section goes here
+  <label for="search">Search for Borrows</label>
+  <input type="search" id="search" data-borrow-search>
 </section>
 
 <section id="borrow-section" class="p-16 pb-0">
-
-  <% if (data.borrows && data.borrows.length > 0) { %>
-    <h2 class="text-2xl font-bold mb-4" id="sect-header">Borrows</h2>
-    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
-        <% data.borrows.slice(-6).forEach(borrow => { %>
-          <a href="/librarian/borrow/<%= borrow._id %>" class="p-4 rounded-md shadow-md" id="pagination-item">
-            <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
-              <img src="/<%= borrow.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center"><%= borrow.reader.username %></h3>
-            <p class="text-center">Created On: <%= borrow.createdOn %></p>
-          </a>
-        <% }); %>
+  <h2 class="text-2xl font-bold mb-4" id="sect-header">Borrows</h2>
+  <% if (borrows && borrows.length > 0) { %>
+    
+    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list" data-borrows-container>
+        <!-- <% borrows.forEach(borrow => { %>
+          
+            <a href="/librarian/borrow/<%= borrow._id %>" class="p-4 rounded-md shadow-md" id="pagination-item">
+              <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
+                <img src="/<%= borrow.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
+              </div>
+              <h3 class="text-xl font-bold mb-2 text-center" data-header><%= borrow.reader.username %></h3>
+              <div data-body>
+                <p class="text-center">Email: <%= borrow.reader.gmail %></p>
+                <p class="text-center">Created On: <%= borrow.createdOn %></p>
+              </div>
+            </a>
+        <% }); %> -->
     </ul>
   <% } %>
-    <div class="view-all">
-      <a href="all.html" class="view-all-button">View all</a>
-    </div>
+  <template data-borrows-template>
+    <a class="p-4 rounded-md shadow-md" id="pagination-item" >
+      <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4" data-img>
+        <img src="" alt="" class="w-full h-full object-cover">
+      </div>
+      <h3 class="text-xl font-bold mb-2 text-center" data-header></h3>
+      <div data-body class="text-center">
+      </div>
+    </a>
+  </template>
+   
 </section>
-
+<script src="/js/librarian-role.js"></script>
+<script src="/js/librarian-search.js"></script>
+<%- include("../partials_readers/footer.ejs") %>
 </body>
 </html>
