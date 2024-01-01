@@ -1,6 +1,6 @@
 .hot {
     position: relative;
-    height: 100vh;
+    height: 120vh;
     overflow-x: hidden;
     margin-top: 100px;
 }
@@ -9,13 +9,14 @@
     position: absolute;
     margin-top: 250px;
     text-align: justify;
-    background-color: #EE4E34;
     border-radius: 10px;
-    padding: 20px;
     color: #f9e4c8;
     transition: 0.5s;
     left: calc(50% - 150px);
     top: 0;
+    box-shadow: 2px 1px 41px 19px rgba(238,78,52,0.68);
+    -webkit-box-shadow: 2px 1px 41px 19px rgba(238,78,52,0.68);
+    -moz-box-shadow: 2px 1px 41px 19px rgba(238,78,52,0.68);
 }
 #next-hot, #prev-hot{
     position: absolute;
@@ -35,7 +36,7 @@
 }
 
 .hot-book {
-    height: 40%;
+    height: 45%;
     width: 300px;
 }
 
