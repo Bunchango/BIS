@@ -11,21 +11,26 @@
     <!-- Add librarian username here -->
     <title>Profile</title>
 </head>
-<body>
+<body id="librarian-profile">
     <%- include('./partials-librarian/nav-librarian.ejs')%>
 
-    <h1>Welcome, <%= user.username %></h1>
-
-    <div>
-        <p>Email: <%= user.gmail %></p>
-        <p>Profile Picture: <img src="/<%= user.profilePicture %>" alt="Profile Picture"></p>
-    </div>
-
     <p><%= user.library.username %></p>
-    
-    <!-- Button to display form -->
-    <button data-modal-target="#pop-up-edit" id="edit">Edit Profile</button>
 
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center vh-100">
+            <div class="col-12">
+                <div id="profile-card">
+                    <img src="/<%= user.profilePicture %>" alt="Profile Picture" id="profile-image">
+                    <div id="profile-info">
+                        <h1><%= user.username %></h1>
+                        <p><b>Email:</b> <%= user.gmail %></p>
+                        <button data-modal-target="#pop-up-edit" id="edit">Edit Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Form to change account info -->
     <!-- <form action="profile" method="post" enctype="multipart/form-data">
         <label for="profile">Profile picture</label>
