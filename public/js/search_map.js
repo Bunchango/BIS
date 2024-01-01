@@ -81,14 +81,12 @@ async function getLibraries() {
         }
     })
 
-    console.log(libraries)
-
     loadMap(libraries);
 }
 
 function loadMap(libraries) {
     const popups = []; 
-    map.on("load", function () {
+    map.once("idle", function () {
         map.addLayer({
             id: "points",
             type: "symbol",
@@ -116,13 +114,13 @@ function loadMap(libraries) {
 
             const popupContent = `
                 <div>
-                    <h3><a style="cursor: pointer; onclick="redirectToLibrary('${library.properties.libraryId}')">${library.properties.libraryName}</a></h3>
+                    <h3><a onclick="redirectToLibrary('${library.properties.libraryId}')" style="cursor: pointer;">${library.properties.libraryName}</a></h3>
                     <p>${library.properties.formattedAddress}</p>
                     <p>${library.properties.description}</p>
                     <img src="/${library.properties.profilePicture}" alt="Library Profile Picture" width="100" height="100">
                     <h4>Books:</h4>
                     <ul>
-                        ${library.properties.books.map(book => `<li><a style="cursor: pointer; onclick="redirectToBook('${book._id}')">${book.title}</a></li>`).join('')}
+                        ${library.properties.books.map(book => `<li><a onclick="redirectToBook('${book._id}')" style="cursor: pointer;">${book.title}</a></li>`).join('')}
                     </ul>
                 </div>
             `;
