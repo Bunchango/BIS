@@ -15,6 +15,9 @@
     <%- include('./partials-librarian/nav-librarian.ejs')%>
     <section id="inventory-section" class="p-16 pb-0">
         <h1 class="text-2xl font-bold mb-4" id="sect-header">Book Inventory</h1>
+        <div>
+            <a href="/librarian/add_book">Create Book</a>
+        </div>
         <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-10" id="pagination-list">
             <% data.books.forEach(book => { %>
                 <a href="/librarian/book_detail/<%= book._id %>" class="p-4 rounded-md shadow-md" id="pagination-item">
