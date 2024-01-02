@@ -1,19 +1,30 @@
+:root {
+    --theme-color-white: #EEF0E5; 
+    --theme-color-light-green: #B6C4B6;
+    --theme-color-medium-green: #304D30;
+    --theme-color-heavy-green: #163020;
+    --theme-color-bright-green: #A8DF8E;
+    --theme-color-shadow: #5f5e5e73;
+}
+
 .listPage{
     padding:10px;
     text-align: center;
     list-style: none;
 }
 .listPage li, #page-number, #prev-button, #next-button{
-    background-color: var(--theme-color-peach);
+    background-color: var(--theme-color-medium-green);
     padding:20px;
     display: inline-block;
     margin:0 10px;
     cursor: pointer;
+    color: var(--theme-color-white);
+    border-radius: 15px;
 }
 .listPage .active, .pagination .active{
-    background-color: var(--theme-color-orange) !important;
-    color:#fff;
-    border-radius: 50px;
+    background-color: var(--theme-color-medium-green);
+    color: var(--theme-color-white);
+    border-radius: 15px;
 }
 
 .pagination {

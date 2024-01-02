@@ -92,6 +92,12 @@ body{
     background-color: #000000;
     overflow: hidden;
 }
+#lib-title {
+    position: absolute;
+    z-index: 100;
+    left: 30%;
+    top: 10%;
+}
 .container1::before {
     content: "";
     display: block;
@@ -102,7 +108,7 @@ body{
     height: 50px;
     z-index: 10;
     background: linear-gradient(
-        #ee4e34,
+        #FCEDDA,
         rgb(252, 237, 218, 0)
         
          )
@@ -207,10 +213,10 @@ body{
 .item1:nth-child(4) .content{
     position: absolute;
     display: block;
-    width: fit-content;
+    width: 100%;
 }
 .item1:nth-child(4) .content .name{
-    font-size: 70px;
+    font-size: 50px;
     color:#eee;
     font-weight: bold;
     opacity: 0;
@@ -289,10 +295,4 @@ button{
     left: 0;
     right: 0;
     height: 100px;
-      background: linear-gradient(
-          rgba(250, 205, 146, 0),
-          #FCEDDA
-           )
-       
-           scroll no-repeat bottom transparent;
 }

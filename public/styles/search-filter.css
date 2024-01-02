@@ -1,8 +1,12 @@
 /* search filter */
 
 :root {
-  --theme-color-peach: #fcedda;
-  --theme-color-orange: #ee4e34;
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
 }
 
 #search-filter-popup {
@@ -16,19 +20,21 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
+  background: var(--theme-color-medium-green);
 }
 
 aside.search-filter {
-  padding: 1.5rem;
+  padding: 1rem;
+  padding-left: 1.5rem;
   padding-top: 3rem;
-  padding-right: 3rem;
+  padding-right: 0.5rem;
   font-size: 0.85rem;
 }
 
 .search-filter-header .title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: var(--theme-color-orange);
+  color: var(--theme-color-white);
 }
 
 .search-filter-header .close-modal {
@@ -38,41 +44,53 @@ aside.search-filter {
   background: none;
   font-size: 1.25rem;
   font-weight: bold;
+  color: var(--theme-color-white)
 }
+
 #main-page {
-  background-color: var(--theme-color-peach);
+  background-color: white;
 }
+
+form {
+  border-radius: 10px;
+}
+
 .search-filter-body {
   padding: 10px 10px;
+  background: #edeee9;
 }
 
 #search-filter-home {
   width: 500px;
   margin: 5px 20px 5px;
+  background: var(--theme-color-white);
 }
 
 .search-title-input {
   width: 100%;
   padding: 5px 10px;
   border-radius: 10px;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--theme-color-white);
 }
 
 .search-filter-body .search-btn {
-  padding: 10px 15px;
+  padding: 10px;
   border-radius: 10px;
   border: none;
   outline: none;
-  background: var(--theme-color-orange);
-  color: white;
+  background: var(--theme-color-heavy-green);
+  color: var(--theme-color-white);
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 1rem;
+  transition: 0.5s;
+  width: 100%
 }
 
-.search-filter-body #update-search-btn:hover {
-  background: #0069d9;
+.search-btn:hover {
+  background: var(--theme-color-medium-green);
+  color: var(--theme-color-white);
 }
 
 .search-option {
@@ -135,7 +153,10 @@ aside.search-filter {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #ee4e34;
+  color: var(--theme-color-white);
+  background: var(--theme-color-heavy-green);
+  border-radius: 10px;
+  text-align: center;
 }
 
 /* pagination styling */

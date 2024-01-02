@@ -27,7 +27,7 @@ router.get("/create_library", isWebsiteAdmin, (req, res) => {
     res.render("admin/create_library", {errors: []});
 })
 
-router.post("/create_library", validateRegistration, async (req, res) => {
+router.post("/create_library", async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render('admin/create_library', { errors: errors.array() })
