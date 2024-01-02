@@ -1,0 +1,46 @@
+<div class="pop-up-modal" id="pop-up-addbook">
+    
+    <div class="addbook-header">
+        <div class="title"> Add New book</div>
+        <button data-close-button class="close-modal">&times;</button>
+    </div>
+    <div class="addbook-body">
+        
+        <% if (typeof errors !== 'undefined') { %>
+            <% errors.forEach(function(error) { %>
+                <div>
+                    <h2><%= error.msg %></h2>
+                </div>
+            <% }); %>
+        <% } %>
+        
+        <h1>Upload 3 Images</h1>
+        <form action="add_book" method="POST" enctype="multipart/form-data">
+            <label for="cover_1">Cover Image 1:</label>
+            <input type="file" name="cover_1" accept="image/*">
+
+            <label for="cover_2">Cover Image 2:</label>
+            <input type="file" name="cover_2" accept="image/*">
+
+            <label for="cover_3">Cover Image 3:</label>
+            <input type="file" name="cover_3" accept="image/*">
+            
+            <input type="text" name="title" placeholder="Title" required>
+            <input type="text" name="author" placeholder="Author" required>
+
+            <h2>Select Categories:</h2>
+            <% categories.forEach(function(category) { %> 
+                <div>
+                    <input type="checkbox" id="<%= category %>" name="categories" value="<%= category %>">
+                    <label for="<%= category %>"><%= category %></label>
+                </div>
+            <% }); %>
+
+            <textarea name="description" placeholder="Description" required></textarea>
+            <input type="date" name="publishDate" required>
+            <input type="number" name="amount" placeholder="Amount" required>
+
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</div>

@@ -83,7 +83,7 @@ router.get("/inventory", isLibrarian, async (req, res) => {
     const books = await Book.find({ library: req.user.library });
     const data = {};
     data.books = books;
-    res.render("librarian/inventory", { data: data, user: req.user });
+    res.render("librarian/inventory", { data: data, user: req.user,  categories: categoriesArray});
   } catch (e) {
     res.status(400).json({ errors: e });
   }
