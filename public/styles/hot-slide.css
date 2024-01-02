@@ -23,13 +23,12 @@
     transition: 0.5s;
     left: calc(50% - 150px);
     top: 0;
-    box-shadow: 0 .4rem .8rem #0005;
 }
 
 #next-hot, #prev-hot{
     position: absolute;
     top: 40%;
-    color: #000000;
+    color: var(--theme-color-heavy-green);
     background-color: transparent;
     border: none;
     font-size: xxx-large;

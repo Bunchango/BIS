@@ -207,10 +207,10 @@ body{
 .item1:nth-child(4) .content{
     position: absolute;
     display: block;
-    width: fit-content;
+    width: 100%;
 }
 .item1:nth-child(4) .content .name{
-    font-size: 70px;
+    font-size: 50px;
     color:#eee;
     font-weight: bold;
     opacity: 0;
