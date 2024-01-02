@@ -14,16 +14,16 @@
 </head>
 <body>
     <%- include('./partials-librarian/nav-librarian.ejs')%>
-    <section id="inventory-section" class="p-16 pb-0">
+    <section id="inventory-section" class="p-16 flex items-center justify-center flex-col">
         <h1 class="text-2xl font-bold mb-4" id="sect-header">Book Inventory</h1>
-        <div>
+        <div class="add-book">
             <button data-modal-target="#pop-up-addbook" id="add-book">
                 Add Book
             </button>
             <div id="overlay"></div>
             <%- include('./partials-librarian/add_book.ejs')%>
         </div>
-        <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-10" id="pagination-list">
+        <!-- <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-10" id="pagination-list">
             <% data.books.forEach(book => { %>
                 <a href="/librarian/book_detail/<%= book._id %>" class="p-4 rounded-md shadow-md" id="pagination-item">
                     <div class="grid grid-cols-3">
@@ -41,9 +41,60 @@
                     
                 </a>
             <% }); %>
-        </ul>
+        </ul> -->
+
+        <main class="table">
+            <section class="table_header">
+                <h1><strong>Library's Books</strong></h1>
+                <div class="input-group">
+                    <input type="search" placeholder="Search Data...">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </section>
+            <section class="table_body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Amount</th>
+                            <th>Available</th>
+                            <th>Import Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let counter = 0; %>
+                        <% data.books.forEach(book => { %>
+                            <tr> 
+                                <td><%= ++counter %></td>
+                                <td class="title"><img src="/<%= book.cover_1 %>" alt="Image 1">
+                                    <p><a href="/librarian/book_detail/<%= book._id %>"> <%= book.title %> </a></p>
+                                </td>
+                                <td>
+                                    <p><%= book.author %></p>
+                                </td>
+                                <td>
+                                    <p><strong><%= book.amount %></strong></p>
+                                </td>
+                                <td>
+                                    <p><%= book.available %></p>
+                                </td>
+                                <td>
+                                    <p><%= book.dateImported.toDateString() %></p>
+                                </td>
+                                
+                            </tr>
+                        
+                        <% }); %>
+                    </tbody>
+                </table>
+            </section>
+        </main>
       </section>
-    <script src="/js/librarian-role.js"></script>
     <%- include("../partials_readers/footer.ejs") %>
+    <script src="/js/librarian-role.js"></script>
+    <script src="/js/librarian-search.js"></script>
+    
 </body>
 </html>

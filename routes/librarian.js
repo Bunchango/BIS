@@ -165,19 +165,24 @@ router.post(
 );
 
 router.get("/book_detail/:id", isLibrarian, async (req, res) => {
-  // View book detail
   try {
-    const book = await Book.findById(req.params.id).populate("library");
-
-    if (book.library._id.toString() !== req.user.library.toString()) {
-      return res.redirect("/librarian/inventory");
+    const book = await Book.find({_id: req.params.id}).populate("library");
+    console.log(book)
+    console.log(book.library._id)
+    console.log(req.user.library)
+    if (!book.library._id.equals(req.user.library)) {
+      const books = await Book.find({ library: req.user.library });
+      const data = {};
+      data.books = books;
+      return res.render("librarian/inventory", { data: data, user: req.user, categories: categoriesArray});
     }
-
+    
     res.render("librarian/book", { user: req.user, book: book, categories: categoriesArray });
   } catch (e) {
     res.status(400).json({ errors: e });
   }
 });
+
 
 router.post("/book_detail/delete/:id", async (req, res) => {
   try {

@@ -14,33 +14,55 @@
             <% }); %>
         <% } %>
         
-        <h1>Upload 3 Images</h1>
-        <form action="add_book" method="POST" enctype="multipart/form-data">
-            <label for="cover_1">Cover Image 1:</label>
-            <input type="file" name="cover_1" accept="image/*">
+        <form action="add_book" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <h1 class="text-3l font-bold mb-2 mt-4">Upload 3 Images</h1>
+            <div>
+                <label for="cover_1" class="block text-sm font-medium text-gray-700">Cover Image 1:</label>
+                <input type="file" name="cover_1" accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
 
-            <label for="cover_2">Cover Image 2:</label>
-            <input type="file" name="cover_2" accept="image/*">
+            <div>
+                <label for="cover_2" class="block text-sm font-medium text-gray-700">Cover Image 2:</label>
+                <input type="file" name="cover_2" accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
 
-            <label for="cover_3">Cover Image 3:</label>
-            <input type="file" name="cover_3" accept="image/*">
-            
-            <input type="text" name="title" placeholder="Title" required>
-            <input type="text" name="author" placeholder="Author" required>
+            <div>
+                <label for="cover_3" class="block text-sm font-medium text-gray-700">Cover Image 3:</label>
+                <input type="file" name="cover_3" accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
 
-            <h2>Select Categories:</h2>
-            <% categories.forEach(function(category) { %> 
+            <div>
+                <input type="text" name="title" placeholder="Title" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
+
+            <div>
+                <input type="text" name="author" placeholder="Author" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
+
+            <h2 class="text-xl font-bold mb-4">Select Categories:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <% categories.forEach(function(category) { %>
                 <div>
-                    <input type="checkbox" id="<%= category %>" name="categories" value="<%= category %>">
-                    <label for="<%= category %>"><%= category %></label>
+                    <input type="checkbox" id="<%= category %>" name="categories" value="<%= category %>" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                    <label for="<%= category %>" class="ml-2 text-sm text-gray-900"><%= category %></label>
                 </div>
-            <% }); %>
+                <% }); %>
+            </div>
 
-            <textarea name="description" placeholder="Description" required></textarea>
-            <input type="date" name="publishDate" required>
-            <input type="number" name="amount" placeholder="Amount" required>
+            <div>
+                <textarea name="description" placeholder="Description" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+            </div>
 
-            <button type="submit">Upload</button>
+            <div>
+                <input type="date" name="publishDate" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
+
+            <div>
+                <input type="number" name="amount" placeholder="Amount" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
+
+            <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Upload</button>
         </form>
+
     </div>
 </div>
