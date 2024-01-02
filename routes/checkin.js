@@ -176,7 +176,7 @@ router.get('/verify', checkAuthenticated, async (req, res) => {
 })
 
 // Forgot password route
-router.get('/forgot-password', (req, res) => {
+router.get('/forgot-password', checkAuthenticated, (req, res) => {
     res.render('checkin/forgot-password', {error: null, user: req.user});
 })
 
@@ -216,7 +216,7 @@ router.post('/forgot-password', async (req, res) => {
     }
 })
 
-router.get('/reset-password', async (req, res) => {
+router.get('/reset-password', checkAuthenticated, async (req, res) => {
     // Verify if the link has expired
     const email = req.query.email;
     const token = req.query.token;
