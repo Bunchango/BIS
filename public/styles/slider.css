@@ -207,10 +207,10 @@ body{
 .item1:nth-child(4) .content{
     position: absolute;
     display: block;
-    width: fit-content;
+    width: 100%;
 }
 .item1:nth-child(4) .content .name{
-    font-size: 70px;
+    font-size: 50px;
     color:#eee;
     font-weight: bold;
     opacity: 0;
@@ -289,10 +289,4 @@ button{
     left: 0;
     right: 0;
     height: 100px;
-      background: linear-gradient(
-          rgba(250, 205, 146, 0),
-          #FCEDDA
-           )
-       
-           scroll no-repeat bottom transparent;
 }

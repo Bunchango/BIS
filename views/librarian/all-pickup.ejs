@@ -34,11 +34,14 @@
           </a>
         <% }); %> -->
     </ul>
-  <% }; %>
+    <% } else { %>
+      <div id="empty-box-pickup">None</div>
+      <% } %>
+
   <template data-pickups-template>
     <a class="p-4 rounded-md shadow-md" id="pagination-item">
       <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4" data-img>
-        <img src="" alt="" class="w-full h-full object-cover">
+        
       </div>
       <h3 class="text-xl font-bold mb-2 text-center" data-header></h3>
       <div data-body class="text-center">

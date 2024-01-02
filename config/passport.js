@@ -64,7 +64,6 @@ passport.use(new FacebookStrategy({
                     username: profile.displayName,
                     gmail: profile.emails[0].value, 
                     facebookId: profile.id, 
-                    profilePicture: profile.photos[0].value,
                 }).save().then((newReader) => {
                     done(null, newReader);
                 })

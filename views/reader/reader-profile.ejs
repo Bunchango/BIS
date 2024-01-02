@@ -174,26 +174,58 @@
 
             <div id="my-requests" class="tabcontent">
                 <h3 class="text-center text-6xl custom-text-orange mt-8  ">My Requests</h3>
-                <ul>
-                    <% formattedRequests.forEach(request => { %>
-                    <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
-                        <div class="flex-shrink-0">
-                            <li>
-                                <p><strong>Library:</strong> <%= request.library.username %></p>
-                                <p><strong>Status:</strong> <%= request.status %></p>
-                                <p><strong>Pickup Date:</strong>
-                                    <%= request.pickupDate ? request.pickupDate.toLocaleDateString() : 'N/A' %></p>
-                                <div class="flex-grow ">
-                                    <ul>
-                                        <% request.books.forEach(book => { %>
-                                        <li class="text-gray-600 ml-10"><%= book.title %></li>
-                                        <% }); %>
-                                    </ul>
+                <% if (formattedRequests && formattedRequests.length > 0) { %>
+                    <ul>
+                        <% formattedRequests.forEach(request => { %>
+                        <div class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl mt-6">
+                            <div class="flex-shrink-0">
+                                <li class="request-item">
+                                    <p><strong>Library:</strong> <%= request.library.username %></p>
+
+                                    <% if (request.status === 'Pending') { %>
+                                        <p><strong>Status:</strong>
+                                            <span class="text-blue-400"><%= request.status %></span>
+                                        </p>
+                                    <% } else if (request.status === 'Accepted') { %>
+                                        <p><strong>Status:</strong>
+                                            <span class="text-green-600"><%= request.status %></span>
+                                        </p>
+                                    <% } else if (request.status === 'Canceled') { %>
+                                        <p><strong>Status:</strong>
+                                            <span class="text-red-500"><%= request.status %></span>
+                                        </p>
+                                    <% } else if (request.status === 'Declined') { %>
+                                        <p><strong>Status:</strong>
+                                            <span class="text-red-600"><%= request.status %></span>
+                                        </p>
+                                    <% }; %>
+
+                                    <p><strong>Date created:</strong>
+                                        <%= request.createdOn.toLocaleDateString() %></p>
+                                    <p><strong>Pickup Date:</strong>
+                                        <%= request.pickupDate ? request.pickupDate.toLocaleDateString() : 'N/A' %></p>
+                                </li>
+                            </div>
+
+                            <div class="flex-grow">
+                                <ul>
+                                    <% request.books.forEach(book => { %>
+                                    <li class="text-gray-600 ml-10"><%= book.title %></li>
+                                    <% }); %>
+                                </ul>
+                            </div>
+
+                            <% if (request.status === 'Pending') { %>
+                                <div class="flex-shrink-0">
+                                    <button class="cancel-request-btn text-sm px-2 py-2 mr-20 text-white bg-red-500 rounded hover:bg-red-600" data-requestid="<%= request._id %>">Cancel</button>
                                 </div>
-                            </li>
+                            <% }; %>
+
                         </div>
-                    </div>
-                    <% }); %>
+                        <% }); %>
+                    <% } else { %>
+                        <div id="empty-container">You have no book request</div>
+                    <% } %> 
                 </ul>
             </div>
 
@@ -236,7 +268,7 @@
                         
                     <% }) %>
                     <% } else { %>
-                        <div id="empty-container">Your WishList Empty</div>
+                        <div id="empty-container">Your WishList is Empty</div>
                     <% } %> 
                 </ul>
             </div>

@@ -1,8 +1,12 @@
 /* search filter */
 
 :root {
-  --theme-color-peach: #fcedda;
-  --theme-color-orange: #ee4e34;
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
 }
 
 #search-filter-popup {

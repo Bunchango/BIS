@@ -44,8 +44,8 @@
   <section id="borrow-section2" class="p-16">
     <h2 class="text-2xl font-bold mb-4" id="sect-header2">Pickups</h2>
       <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
-        <% if( data.pickup && data.pickup.length > 0 ) { %>
-          <% data.pickups.slice(-6).forEach(pickup => { %>
+        <% if( data.pickups && data.pickups.length > 0 ) { %>
+          <% data.pickups.slice(-6).forEach( pickup => { %>
             <a href="/librarian/pickup/<%= pickup._id %>" class="p-4 rounded-md shadow-md" id="pagination-item2">
               <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4">
                 <img src="/<%= pickup.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
@@ -57,7 +57,7 @@
           <%}%>
       </ul>
     <div class="view-all">
-      <a href="all.html" class="view-all-button2">View all</a>
+      <a href="/librarian/pickup-all" class="view-all-button2">View all</a>
     </div>
   </section>
   
@@ -80,7 +80,7 @@
     </ul>
     <% } %>
     <div class="view-all">
-      <a href="all.html" class="view-all-button">View all</a>
+      <a href="/librarian/borrow-all" class="view-all-button">View all</a>
     </div>
   </section>
 

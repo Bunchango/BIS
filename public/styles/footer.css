@@ -7,15 +7,19 @@
 }
 
 :root {
-  --theme-color-peach: #FCEDDA; 
-  --theme-color-orange: #EE4E34;
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
 } 
 
 .footer-area {
   font-family: 'Poppins', sans-serif;
   margin-top: -2px;
   padding: 234px 0;
-  background: linear-gradient(to bottom, #FCEDDA, #FCEDDA, #FCEDDA, #FCEDDA, #FCEDDA, #FCEDDA, #fdd5b9, #f7cca3, #f5b17f, #f3955f, #f17546, #ee4e34);
+  background: var(--theme-color-white);
   color: black;
   position: relative;
   overflow: hidden;
@@ -42,11 +46,11 @@
 .logo_footer {
   margin-bottom: 10px;
   font-family: "Arial", sans-serif;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 1px rgba(22, 48, 32, 0.2);
 }
 
 .logo_footer a b {
-  color: var(--theme-color-orange);
+  color: var(--theme-color-heavy-green);
 }
 
 .single-footer {
