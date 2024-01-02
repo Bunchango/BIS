@@ -138,6 +138,7 @@
 .notification-header .title {
   font-size: 1.25rem;
   font-weight: bold;
+  color: var(--theme-color-white);
 }
 
 .notification-header .close-modal {
@@ -429,7 +430,7 @@
   flex-direction: column;
   padding: 1rem;
   border-radius: 8px;
-  background-color: rgb(182, 196, 182, 0.2);
+  background-color: rgba(117, 128, 117, 0.5);
   backdrop-filter: blur(10px);
 }
 
