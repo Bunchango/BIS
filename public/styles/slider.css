@@ -220,7 +220,8 @@ body{
     color:#eee;
     font-weight: bold;
     opacity: 0;
-    animation:showcontent 1s ease-in-out 1 forwards
+    animation:showcontent 1s ease-in-out 1 forwards;
+    width: 450px;
 }
 .item1:nth-child(4) .content .des{
     margin:20px 0;

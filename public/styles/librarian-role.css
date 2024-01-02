@@ -6,8 +6,12 @@
 }
 
 :root {
-    --theme-color-peach: #FCEDDA;
-    --theme-color-orange: #EE4E34;
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
 }
 
 nav {
@@ -197,9 +201,9 @@ main {
     border: none;
     outline: none;
     background: none;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
-    text-align: center;
+    color: var(--theme-color-white);
   }
   
   #pop-up-edit .edit-body {
@@ -426,11 +430,13 @@ main {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
+  background: var(--theme-color-medium-green);
 }
 
 .addbook-header .title {
   font-size: 1.25rem;
   font-weight: bold;
+  color: var(--theme-color-white);
 }
 
 .addbook-header .close-modal {
@@ -440,6 +446,7 @@ main {
   background: none;
   font-size: 1.25rem;
   font-weight: bold;
+  color: var(--theme-color-white);
 }
 
 #overlay {
@@ -631,6 +638,52 @@ tbody tr .title:hover {
   border-radius: 2rem;
 }
 
+/* Book detail */
+
+
+#pop-up-editBook .editBook-header{
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+  background: var(--theme-color-medium-green);
+}
+
+.editBook-header .title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--theme-color-white);
+}
+
+.editBook-header .close-modal {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--theme-color-white);
+}
+
+#pop-up-editBook .editBook-body {
+  padding: 10px 15px;
+}
+ 
+#saveBtn-editBook {
+  background-color: var(--theme-color-medium-green);
+}
+#saveBtn-editBook:hover {
+  background-color: var(--theme-color-light-green);
+}
+
+#addBook-btn {
+  background-color: var(--theme-color-medium-green);
+}
+
+#addBook-btn:hover {
+  background-color: var(--theme-color-light-green);
+}
 
 @media (max-width: 1000px) {
   td:not(:first-of-type) {

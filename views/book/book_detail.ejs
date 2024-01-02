@@ -67,10 +67,12 @@
                 <!-- Librarian-specific content -->
                 <div class="librarian-buttons">
                     <div class="edit-btn">
-                        
-                        <button id="editButton" class="btn" >Edit book</button>
-
+                        <button data-modal-target="#pop-up-editBook" id="editButton" class="btn">
+                            Edit book
+                        </button>
                     </div>
+                    
+                    <div id="overlay"></div>
 
                     <div class="delete-btn">
                         <form class="form" method="POST" action="/librarian/book_detail/delete/<%= book._id %>" onsubmit="return confirm('Are you sure you want to delete this book?');">

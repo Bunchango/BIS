@@ -166,10 +166,9 @@ router.post(
 
 router.get("/book_detail/:id", isLibrarian, async (req, res) => {
   try {
-    const book = await Book.find({_id: req.params.id}).populate("library");
-    console.log(book)
-    console.log(book.library._id)
-    console.log(req.user.library)
+    const book = await Book.findById(req.params.id).populate("library");
+    console.log(book);
+    
     if (!book.library._id.equals(req.user.library)) {
       const books = await Book.find({ library: req.user.library });
       const data = {};
