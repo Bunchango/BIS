@@ -92,6 +92,12 @@ body{
     background-color: #000000;
     overflow: hidden;
 }
+#lib-title {
+    position: absolute;
+    z-index: 100;
+    left: 30%;
+    top: 10%;
+}
 .container1::before {
     content: "";
     display: block;
@@ -102,7 +108,7 @@ body{
     height: 50px;
     z-index: 10;
     background: linear-gradient(
-        #ee4e34,
+        #FCEDDA,
         rgb(252, 237, 218, 0)
         
          )
