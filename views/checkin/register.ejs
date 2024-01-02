@@ -36,20 +36,20 @@
                     I accept the <a href="#" class="text-black-500 font-semibold">Terms of Use</a> &  <a href="#" class="text-black-500 font-semibold">Privacy Policy</a> 
                   </span>
                 </div>
+
+                <% if (errors && errors.length > 0) { %>
+                  <ul style="background: #EEF0E5; padding: 10px; border-radius: 10px">
+                      <% errors.forEach(error => { %>
+                          <li><%= error.msg %></li>
+                      <% }); %>
+                  </ul>
+                <% } %>
+
                 <div class="mt-5">
                   <input class="w-full bg-[#304D30] py-3 rounded-xl text-center text-white hover:scale-105 duration-300" type="submit" value="Submit">
                 </div>
               </form>
-              <!-- ----------------- -->
-              <% if (errors && errors.length > 0) { %>
-                <ul>
-                    <% errors.forEach(error => { %>
-                        <li><%= error.msg %></li>
-                    <% }); %>
-                </ul>
-              <% } %>
-              <!-- ----------------- -->
-               
+
             </div>
           </div>
         </div>
