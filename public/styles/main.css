@@ -114,6 +114,37 @@ body {
   margin-top: 10px;
   font-size: 20px;
 }
+/* Map */
+
+
+.map-header {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(0, 0, 0);
+  background-color: var(--theme-color-heavy-green);
+}
+
+.map-header .title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--theme-color-white);
+}
+
+.map-header .close-modal {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--theme-color-white);
+}
+#pop-up-map {
+  width: auto;
+  max-height: 90vh;
+}
 
 /* notification */
 .fa-regular.fa-bell {

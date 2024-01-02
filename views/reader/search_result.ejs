@@ -81,6 +81,7 @@
                     </div>
 
                     <button type="submit" class="search-btn">Update Search</button>
+                    <button class="search-btn" data-modal-target="#pop-up-map">Map</button>
                 </div>
             </form>
         </aside>
@@ -153,7 +154,14 @@
             </div>
         </section>
 
-        <div id="map" style="width: 1000px; height: 1000px;border-radius: 5px;"></div>
+        <div class="pop-up-modal" id="pop-up-map">
+            <div class="map-header">
+                <div class="title">Map</div>
+                <button data-close-button class="close-modal">&times;</button>
+            </div>
+          <div id="map" style="width: 1000px; height: 1000px;border-radius: 5px;"></div>  
+        </div>
+        
     </main>
 
     <%- include('../partials_readers/footer.ejs') %>

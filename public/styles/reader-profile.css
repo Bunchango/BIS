@@ -166,6 +166,7 @@
   padding: 6px 12px;
   border-top: none;
   height: 100%;
+  box-shadow: 0 .4rem .8rem #0005;
 }
 
 .tabcontent:nth-child(1) {
@@ -207,9 +208,22 @@
   width: 50%;
   z-index: 1000;
   height: 70%;
-  overflow-y: scroll;
   border-radius: 10px;
-  overflow-y: hidden;
+}
+
+#pop-up-edit .edit-body::-webkit-scrollbar {
+  width: 0.5rem;
+  height:  0.5rem;
+}
+
+#pop-up-edit .edit-body::-webkit-scrollbar-thumb {
+  border-radius: .5rem;
+  background-color: #0004;
+  visibility: hidden;
+}
+
+#pop-up-edit .edit-body:hover::-webkit-scrollbar-thumb {
+ visibility: visible;
 }
 
 /* Edit Profile */
@@ -242,6 +256,7 @@
 }
 
 #pop-up-edit .edit-body {
+  overflow-y: scroll;
   width: 100%;
   padding: 20px;
   box-shadow: inset -2px 2px 2px var(--theme-color-peach);

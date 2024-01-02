@@ -1,5 +1,5 @@
 <div id="search" class="bg-white p-8 rounded-lg shadow-md max-w-full">
-    <h2 class="text-2xl font-semibold mb-4">Search for Something</h2>
+    <h2 class="text-2xl font-semibold mb-4">What are you looking for:</h2>
     <div class="search flex">
         <form action="reader/search" method="get" class="flex w-full">
             <input type="text" name="title" id="title" placeholder="Enter your search"
@@ -9,7 +9,15 @@
         </form>
         <button data-modal-target="#search-filter-popup"
             class="bg-gray-200 hover:bg-gray-600 text-black hover:text-white border border-black px-2 rounded-md w-1/5 mr-5">Filter</button>
-            <button class="bg-gray-200 hover:bg-gray-600 text-black hover:text-white border border-black px-2 rounded-md w-1/5">Map</button>
+            <button class="bg-gray-200 hover:bg-gray-600 text-black hover:text-white border border-black px-2 rounded-md w-1/5" data-modal-target="#pop-up-map">Map</button>
+            <div class="pop-up-modal" id="pop-up-map">
+                <div class="map-header">
+                    <div class="title">Map</div>
+                    <button data-close-button class="close-modal">&times;</button>
+                </div>
+              <div id="map" style="width: 1000px; height: 1000px;border-radius: 5px;"></div>  
+            </div>
+            
     </div>
     <!-- search filter popup -->
     <div id="overlay"></div>

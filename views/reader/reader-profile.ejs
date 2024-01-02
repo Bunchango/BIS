@@ -126,6 +126,7 @@
 
     <div class="whole-lower">
         <div class="lower">
+            <!-- My cart -->
             <div id="my-cart" class="tabcontent">
                 <% if (carts && carts.length > 0) { %>
                 <ul>
@@ -172,6 +173,7 @@
                 <% } %>
             </div>
 
+            <!-- my request -->
             <div id="my-requests" class="tabcontent">
                 <% if (formattedRequests && formattedRequests.length > 0) { %>
                     <ul>
@@ -226,18 +228,57 @@
                 </ul>
             </div>
 
+            <!-- My Pickups -->
+            <div id="my-pickups" class="tabcontent">
+                <ul>
+                    <% if (pickups && pickups.length > 0) { %>
+                        <% pickups.forEach(pickup => { %>
+                            <li class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl">
+                               <div class="flex-1 min-w-0">
+                                   <p class="text-sm font-medium text-gray-900"><strong>Library</strong><%= pickup.library.username %></p>
+                                   <p class="text-sm text-gray-500"><strong>Created On: </strong><%= pickup.createdOn %></p>
+                                   <p class="text-sm text-gray-500"><strong>Take Date: </strong><%= pickup.takeDate %></p>
+             
+                                   <% if (pickup.status === 'Scheduled') { %>
+                                       <p><strong>Status:</strong>
+                                           <span class="text-blue-400"><%= pickup.status %></span>
+                                       </p>
+                                   <% } else if (pickup.status === 'Completed') { %>
+                                       <p><strong>Status:</strong>
+                                           <span class="text-green-600"><%= pickup.status %></span>
+                                       </p>
+                                   <% } else if (pickup.status === 'Canceled') { %>
+                                       <p><strong>Status:</strong>
+                                           <span class="text-red-600"><%= pickup.status %></span>
+                                       </p>
+                                   <% } %>
+                               </div>
+                            </li>
+                        <% }) %>
+                    <% } else {%>
+                        <div id="empty-container" >You have no pickup</div>
+                    <% } %> 
+                </ul>
+             </div>
+             
+
+            <!-- My Loan -->
             <div id="my-loans" class="tabcontent">
                 <ul>
-                    <% loans.forEach(loan => { %>
-                    <li>
-                        <p><strong>Library:</strong> <%= loan.library.name %></p>
-                        <ul>
-                            <% loan.books.forEach(book => { %>
-                            <li><%= book.title %></li>
-                            <% }); %>
-                        </ul>
-                    </li>
-                    <% }); %>
+                    <% if (loans && loans.length > 0) {%>
+                        <% loans.forEach(loan => { %>
+                        <li>
+                            <p><strong>Library:</strong> <%= loan.library.name %></p>
+                            <ul>
+                                <% loan.books.forEach(book => { %>
+                                <li><%= book.title %></li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                        <% }); %>
+                    <% } else { %>
+                        <div id="empty-container" >You have no loan</div>
+                    <% } %>
                 </ul>
             </div>
 

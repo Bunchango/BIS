@@ -19,7 +19,7 @@
     margin-top: 250px;
     text-align: justify;
     border-radius: 10px;
-    color: #f9e4c8;
+    color: var(--theme-color-light-green);
     transition: 0.5s;
     left: calc(50% - 150px);
     top: 0;
@@ -63,6 +63,6 @@
 }
 
 #lib-title {
-    color: #f9e4c8;
+    color: var(--theme-color-light-green);
     padding-bottom: 50px;
 }
