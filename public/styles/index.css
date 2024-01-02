@@ -7,11 +7,15 @@
     font-family: 'Poppins', sans-serif;
     scroll-behavior: smooth;
     text-decoration: none;
-  }
+}
 
 :root {
-    --theme-color-peach: #FCEDDA; 
-    --theme-color-orange: #EE4E34;
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
 } 
 
 html {
@@ -37,14 +41,14 @@ body,section {
 
 .sticky {
   padding: 5px 100px;
-  background: rgba(252, 237, 217, 0.85);
+  background: rgb(238, 240, 229, 0.85);
   backdrop-filter: blur(10px);
 }
 
 .logo {
   position: relative;
   font-weight: 700;
-  color: var(--theme-color-peach);
+  color: var(--theme-color-white);
   text-decoration: none;
   font-size: 2em;
   text-transform: uppercase;
@@ -63,19 +67,15 @@ header ul li a {
   position: inherit;
   margin: 0 15px;
   text-decoration: none;
-  color: var(--theme-color-peach);
+  color: var(--theme-color-white);
   letter-spacing: 2px;
   font-weight: 700px;
   transition: 0.6s;
 }
 
-header ul li a:hover {
-    color: var(--theme-color-orange);
-}
-
 #account {
   width: fit-content;
-  color: var(--theme-color-peach);
+  color: var(--theme-color-white);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -87,19 +87,9 @@ header ul li a:hover {
   font-size: 1.5em;
 }
 
-#login_index:hover {
-  color: var(--theme-color-orange);
-  transition: 0.6s;
-}
-
 #register_index {
   font-weight: 500px;
   font-size: 1.5em;
-}
-
-#register_index:hover {
-  color: var(--theme-color-orange);
-  transition: 0.6s;
 }
 
 #account_img {
@@ -138,7 +128,6 @@ header ul li a:hover {
   font-size: 20px;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  
 }
 
 #account-hovering #content #my-account,
@@ -151,32 +140,28 @@ header ul li a:hover {
 #account-hovering #content #my-account:hover,
 #account-hovering #content #logout:hover,
 #account-hovering #content #my-loan:hover {
-  background-color: #5f5e5e73;
+  background-color: var(--theme-color-shadow);
 }
 
 
 #account-hovering #content #logout {
-  border-top: 0.5px solid rgba(0, 0, 0, 0.5);
+  border-top: 0.5px solid rgba(22, 48, 32, 0.5);
 }
 
 .sticky .logo,
 .sticky #account,
 .sticky .checkbtn,
 .sticky ul li a {
-    color: var(--theme-color-orange);
+    color: var(--theme-color-heavy-green);
 }
 
 .sticky #account-hovering {
   top:50px;
 }
 
-.sticky ul li a:hover {
-  color: white;
-}
-
 .checkbtn {
   font-size: 30px;
-  color: var(--theme-color-peach);
+  color: var(--theme-color-white);
   float: right;
   line-height: 80px;
   margin-right: 40px;
@@ -198,9 +183,9 @@ header ul li a:hover {
   width: 70%;
   margin-bottom: 30px; */
   /* background: linear-gradient(295deg, #F29727 0%, #CD1818 58%, #CD1818 67%);     */
-  background-image: linear-gradient(295deg, #FFF 40%, #f37f51 , #CD1818 );
+  background-image: linear-gradient(90deg, var(--theme-color-medium-green) 1%, var(--theme-color-white) 100%);
   text-transform: uppercase;
-  font-size: 10em;
+  font-size: 10rem;
   font-weight: 900;
   margin-top: 0px;
   -webkit-background-clip: text;
@@ -215,7 +200,7 @@ header ul li a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: var(--white);
+  background: var(--theme-color-white);
   padding: 50px;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -233,17 +218,13 @@ header ul li a:hover {
   left: 0;
   right: 0;
   height: 100px;
-  background: linear-gradient(
-   #FCEDDA,
-   #FCEDDA
-    )
-
-    scroll no-repeat bottom transparent;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(252,237,218,0.68) 95%, var(--theme-color-white) 100%)
+  scroll no-repeat bottom transparent;
 }
 
 .custom #welcome-text{
   z-index: 900;
-  color: var(--white);
+  color: var(--theme-color-light-green);
   width: 90%;
   margin-top: 10px;
 }
@@ -262,7 +243,7 @@ header ul li a:hover {
   z-index: 101;
   content: '';
   position: absolute;
-  background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(252,237,218,0.68) 95%, rgba(252,237,218,1) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(252,237,218,0.68) 95%, var(--theme-color-white) 100%);
   width: 100%;
   height: 100%;
   top:0;
@@ -275,8 +256,6 @@ header ul li a:hover {
   left: 50px;
 }
 
-
-
 .container .header-text {
    font-size: 40px;
    font-weight: 1000;
@@ -285,7 +264,7 @@ header ul li a:hover {
    line-height: 75px;
    margin-bottom: 40px;
    margin-top: 30px;
-   color: white;
+   color: var(--theme-color-medium-green);
 }
 
 .button {
@@ -294,38 +273,18 @@ header ul li a:hover {
   text-decoration: none;
   font-size: 16px;
   border-radius: 5px;
-  background-color: #ee4e34;
+  background-color: var(--theme-color-heavy-green);
   color: whitesmoke;
-  border: 2px solid #ee4e34;
+  border: 2px solid var(--theme-color-heavy-green);;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #f37f51;
-  color: white;
-  border: 2px solid #f37f51;
+  background-color: var(--theme-color-white);
+  color: var(--theme-color-heavy-green);
+  border: 2px solid var(--theme-color-white);
 }
 
-.button2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 20px;
-  text-decoration: none;
-  font-size: 16px;
-  border-radius: 5px;
-  background-color: #ee4e34;
-  color: whitesmoke;
-  border: 2px solid #ee4e34;
-  transition: background-color 0.3s ease, color 0.3s ease;
-
-}
-
-.button2:hover {
-  background-color: #f37f51;
-  color: white;
-  border: 2px solid #f37f51;
-}
 .button3 {
   display: flex;
   justify-content: center;
@@ -335,24 +294,22 @@ header ul li a:hover {
   text-decoration: none;
   font-size: 16px;
   border-radius: 5px;
-  background-color: #f37f51;
-  color: whitesmoke;
-  border: 2px solid #f37f51;
+  background-color: var(--theme-color-white);
+  color: var(--theme-color-heavy-green);
+  border: 2px solid var(--theme-color-white);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .button3:hover {
-  background-color: #FCEDDA;
-  color: #ee4e34;
-  border: 2px solid #f37f51;
+  background-color: black;
+  color: var(--theme-color-white);
+  border: 2px solid black;
 }
-
 
 /* Why */
 .why-content {
-  color: black;
   padding: 40px 40px 80px 40px ;
-  background:#FCEDDA;
+  background: var(--theme-color-white);;
   overflow-x: hidden;
 }
 
@@ -362,27 +319,22 @@ header ul li a:hover {
   letter-spacing: 0.2px;
   line-height: 74px;
   padding-bottom: 0.5rem;
-  color: #ee4e34;
+  color: var(--theme-color-medium-green);
 }
 
 .grid-container {
   display: grid;
   grid-template-rows: repeat(auto-fit);
   grid-template-columns: repeat(auto-fit, minmax(300px, auto));
- 
   height: 100%;
   width: 100%;
-  /* column-gap: 10px;
-  margin-top: 48px; */
 }
 
 .grid-container .grid-element {
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
   min-height: 400px;
   background: #f7f7f7;
   padding: 35px 25px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .grid-container .grid-element .advantage {
@@ -391,15 +343,11 @@ header ul li a:hover {
   margin-bottom: 20px;
   text-align: center;
   align-items: center;
-  color: #ee4e34;
 }
-.description1 {
-  color: #f37f51;
-}
-/* What */
+
 .what-content {
   padding: 120px;
-  background-color: #ee4e34;
+  background-color: var(--theme-color-medium-green);
   overflow-x: hidden;
 }
 
@@ -410,7 +358,7 @@ header ul li a:hover {
   line-height: 74px;
   padding-bottom: 0.5rem;
   text-align: center;
-  color: #FCEDDA;
+  color: var(--theme-color-white);
 }
 
 .subtitle {
@@ -429,7 +377,7 @@ header ul li a:hover {
 }
 
 .card {
-  background: #f7f7f7;
+  background: var(--theme-color-white);
   border: none;
   border-radius: 15px;
   padding: 80px 60px 60px;
@@ -444,7 +392,7 @@ header ul li a:hover {
   line-height: 48px;
   margin-bottom: 20px;
   text-align: center;
-  color: #ee4e34;
+  color: var(--theme-color-heavy-green);
 }
 
 .title ul {
@@ -459,7 +407,7 @@ header ul li a:hover {
 /* Statistics */
 .statistics {
   padding: 120px;
-  background:#FCEDDA;
+  background: var(--theme-color-white);
 }
 
 .statistics-header {
@@ -469,71 +417,14 @@ header ul li a:hover {
   line-height: 74px;
   padding-bottom: 0.5rem;
   text-align: center;
-  color: #ee4e34;
+  color: var(--theme-color-medium-green);
   margin-bottom: 50px;
-}
-
-
-.card-box {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.card-item {
-  background: #f7f7f7;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 50px;
-  position: relative;
-}
-
-.card-item img {
-  padding-bottom: 50px;
-  height: 300px;
-  width: 300px;
-}
-
-.card-item h3 {
-  font-size: 34px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 48px;
-  margin-bottom: 8px;
-}
-
-.card-item p {
-  color: #414141;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 300;
-  letter-spacing: -0.112px;
-  line-height: 26px;
-  margin-bottom: 0;
-}
-
-.span-full {
-  grid-column: span 2;
-}
-
-.span-full .card-item {
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.span-full .card-item img {
-  padding-right: 30px;
-  padding-bottom: 0;
-  width: 50%;
-  width: auto;
 }
 
 /* Join Now */
 .join-now {
   padding: 120px;
-  background-color: #ee4e34;
+  background-color: var(--theme-color-medium-green);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -547,26 +438,20 @@ header ul li a:hover {
   line-height: 74px;
   margin-bottom: 1.5rem;
   text-align: center;
-  color: #FCEDDA;
+  color: var(--theme-color-white);
 }
 
 .join-now .subtitle {
   margin-bottom: 60px;
   text-align: center;
-  color: #FCEDDA;
+  color: var(--theme-color-white);
 }
 
 .reason{
   margin-top: 30px;
   text-align: center;
   font-size: large;
-  color: #f37f51;
-}
-
-/* Go up */
-.goup{
-  padding: 90px ;
-  background:var(--theme-color-peach);
+  color: var(--theme-color-medium-green);
 }
 
 @media (max-width: 1300px) {
@@ -685,7 +570,7 @@ header ul li a:hover {
       display: block;
       width: 100%;
       height: 100vh;
-      background: var(--theme-color-orange);
+      background: var(--theme-color-medium-green);
       top: 80px;
       left: -100%;
       text-align: center;
@@ -712,11 +597,11 @@ header ul li a:hover {
   }
 
   header ul li:hover a {
-      color: #000;
+      color: var(--theme-color-heavy-green);
   }
   
   header ul li:hover {
-      background: var(--theme-color-peach);
+      background: var(--theme-color-white);
       transition: all 0.6s;
   }
 

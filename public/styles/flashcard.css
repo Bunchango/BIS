@@ -1,3 +1,12 @@
+:root {
+    --theme-color-white: #EEF0E5; 
+    --theme-color-light-green: #B6C4B6;
+    --theme-color-medium-green: #304D30;
+    --theme-color-heavy-green: #163020;
+    --theme-color-bright-green: #A8DF8E;
+    --theme-color-shadow: #5f5e5e73;
+} 
+
 .card-cont {
     font-size: 1rem;
     font-weight: bold;
@@ -32,28 +41,29 @@
     overflow: hidden;
     border-radius: 16px;
 }
+
 .card__face--front {
-    background-color: #EE4E34;
+    background-color: var(--theme-color-medium-green);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: #f9e4c8;
-    box-shadow: 10px 14px 18px rgba(0, 0, 0, 0.6);
+    color: var(--theme-color-white);
     text-align: center;
 }
 .card__face--back {
     transform: rotateY(180deg);
-    background-color: #f9e4c8;
+    background-color: var(--theme-color-medium-green);
+    color: var(--theme-color-white);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    box-shadow: 10px 14px 18px rgba(0, 0, 0, 0.6);
 }
+
 .list-cards {
     margin: 200px;
     display: grid;
-    background-color: brown;
+    background-color: var(--theme-color-heavy-green);
     border-radius: 20px;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust the minimum and maximum width as needed */
     gap: 10px; /* Adjust the gap between cards as needed */

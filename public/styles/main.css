@@ -10,8 +10,12 @@
 }
 
 :root {
-  --theme-color-peach: #fcedda;
-  --theme-color-orange: #ee4e34;
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
 }
 
 #header {
@@ -24,7 +28,7 @@
   z-index: 1000;
   height: 60px;
   width: 100vw;
-  background-color: #fcedda;
+  background-color: var(--theme-color-white);
 }
 
 #logo {
@@ -35,10 +39,12 @@
   font-weight: 500;
   justify-self: start;
 }
+
 #logo h1 {
-  color: #ee4e34;
+  color: var(--theme-color-heavy-green);
   font-weight: 600;
 }
+
 #account {
   width: fit-content;
   height: fit-content;
@@ -48,8 +54,9 @@
 }
 
 #account i {
-  color: #ee4e34;
+  color: var(--theme-color-heavy-green);
 }
+
 /* pop up modal */
 .pop-up-modal {
   position: fixed;
@@ -59,7 +66,7 @@
   transition: 200ms ease-in-out;
   border-radius: 5px;
   z-index: 1000;
-  background-color: white;
+  background-color: var(--theme-color-white);
   width: 500px;
   max-width: 800%;
 }
@@ -67,6 +74,7 @@
 .pop-up-modal.active {
   transform: translate(-50%, -50%) scale(1);
 }
+
 .pop-up-success {
   position: fixed;
   top: 50%;
@@ -75,7 +83,7 @@
   transition: 200ms ease-in-out;
   border-radius: 5px;
   z-index: 1111;
-  background-color: white;
+  background-color: var(--theme-color-white);
   width: 650px;
   max-width: 800%;
   height: 300px;
@@ -91,8 +99,9 @@
 
 .pop-up-success .title-success {
   font-size: 50px;
-  color: var(--theme-color-orange);
+  color: var(--theme-color-medium-green);
 }
+
 .pop-up-success button {
   position: fixed;
   right: 0px;
@@ -122,6 +131,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
+  background: var(--theme-color-medium-green);
 }
 
 .notification-header .title {
@@ -136,6 +146,7 @@
   background: none;
   font-size: 1.25rem;
   font-weight: bold;
+  color: var(--theme-color-white);
 }
 
 .notification-body {
@@ -183,12 +194,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(0, 0, 0);
+  background-color: var(--theme-color-heavy-green);
 }
 
 .bookmark-header .title {
   font-size: 1.25rem;
   font-weight: bold;
+  color: var(--theme-color-white);
 }
 
 .bookmark-header .close-modal {
@@ -198,10 +211,11 @@
   background: none;
   font-size: 1.25rem;
   font-weight: bold;
+  color: var(--theme-color-white);
 }
 
 .center {
-  background-color: var(--light);
+  background-color: var(--theme-color-white);
 }
 
 .center .list {
@@ -211,6 +225,7 @@
   row-gap: 10px;
   overflow: auto;
   max-height: 500px;
+  background: var(--theme-color-white);
 }
 
 .center .item {
@@ -218,7 +233,7 @@
   padding: 10px;
   margin-top: 20px;
   margin-bottom: 10px;
-  border-radius: 20px;
+  border-radius: 5px;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 20% auto;
@@ -233,7 +248,7 @@
 
 .item .img {
   background-color: var(--light);
-  border-radius: 20px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -245,11 +260,12 @@
 
 .item .content .title {
   font-weight: bold;
+  color: black;
 }
 
 .item .content .des {
   font-size: small;
-  color: #000000;
+  color: var(--theme-color-heavy-green);
   opacity: 1;
   margin-top: 5px;
 }
@@ -263,11 +279,11 @@
     border-color 0.3s,
     color 0.3s;
   cursor: pointer;
+  color: var(--theme-color-heavy-green);
 }
 
 .item .content .remove:hover {
-  border-color: #ee4e34;
-  color: #ee4e34;
+  border-color: var(--theme-color-medium-green);
 }
 
 /* --------------------- */
@@ -280,7 +296,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   pointer-events: none;
   z-index: 999;
 }
@@ -306,11 +322,14 @@
   border-radius: 5px;
   font-size: 20px;
   text-align: center;
-  background-color: var(--theme-color-peach);
+  background-color: var(--theme-color-heavy-green);
+  color: var(--theme-color-white);
+  transition: 0.5s
 }
 
 #login:hover {
-  box-shadow: 0.5px 0.5px 3px black;
+  background-color: var(--theme-color-white);
+  color: var(--theme-color-heavy-green);
 }
 
 #register {
@@ -322,12 +341,15 @@
   border-radius: 5px;
   font-size: 20px;
   text-align: center;
-  background-color: #ee4e34;
-  color: white;
+  background-color: var(--theme-color-light-green);
+  color: black;
+  transition: 0.5s
 }
 
 #register:hover {
   box-shadow: 1px 1px 1px black;
+  background-color: var(--theme-color-white);
+  color: var(--theme-color-heavy-green);
 }
 
 #header-btns {
@@ -463,6 +485,7 @@
   justify-content: center;
   align-items: center;
   font-size: 50px;
+  color: var(--theme-color-white)
 }
 
 @media only screen and (max-width: 1500px) {

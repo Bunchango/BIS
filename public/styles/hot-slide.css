@@ -1,3 +1,12 @@
+:root {
+    --theme-color-white: #EEF0E5; 
+    --theme-color-light-green: #B6C4B6;
+    --theme-color-medium-green: #304D30;
+    --theme-color-heavy-green: #163020;
+    --theme-color-bright-green: #A8DF8E;
+    --theme-color-shadow: #5f5e5e73;
+}
+
 .hot {
     position: relative;
     height: 120vh;
@@ -14,10 +23,9 @@
     transition: 0.5s;
     left: calc(50% - 150px);
     top: 0;
-    box-shadow: 2px 1px 41px 19px rgba(238,78,52,0.68);
-    -webkit-box-shadow: 2px 1px 41px 19px rgba(238,78,52,0.68);
-    -moz-box-shadow: 2px 1px 41px 19px rgba(238,78,52,0.68);
+    box-shadow: 0 .4rem .8rem #0005;
 }
+
 #next-hot, #prev-hot{
     position: absolute;
     top: 40%;
@@ -30,6 +38,7 @@
     left: 50px;
     z-index: 100;
 }
+
 #next-hot{
     left: unset;
     right: 50px;
@@ -46,7 +55,7 @@
     letter-spacing: 0.2px;
     line-height: 74px;
     padding-bottom: 0.5rem;
-    color: #ee4e34;
+    color: var(--theme-color-medium-green);
     text-align: center;
 }
 
