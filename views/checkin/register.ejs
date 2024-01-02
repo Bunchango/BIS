@@ -7,13 +7,13 @@
     <title>register page</title>
 </head>
 <body>
-    <div class="min-h-screen py-40" style="background-image: linear-gradient(115deg, #FCEDDA, #EE4E34)">
+    <div class="min-h-screen py-40" style="background-image: linear-gradient(115deg, #e0ddd9, #e9dede)">
         <div class="container mx-auto">
           <div class="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
             <div class="w-full lg:w-full py-16 px-12">
               <h1 class="text-3xl mb-4">Register</h1>
               <p class="mb-4">
-                Create your account. It’s free and only take a minute
+                Create your Reader account. It’s free and only take a minute
               </p>
               
               <form action="register" method="POST">
@@ -36,20 +36,20 @@
                     I accept the <a href="#" class="text-black-500 font-semibold">Terms of Use</a> &  <a href="#" class="text-black-500 font-semibold">Privacy Policy</a> 
                   </span>
                 </div>
+
+                <% if (errors && errors.length > 0) { %>
+                  <ul style="background: #EEF0E5; padding: 10px; border-radius: 10px">
+                      <% errors.forEach(error => { %>
+                          <li><%= error.msg %></li>
+                      <% }); %>
+                  </ul>
+                <% } %>
+
                 <div class="mt-5">
-                  <input class="w-full bg-[#EE4E34] py-3 rounded-xl text-center text-white hover:scale-105 duration-300" type="submit" value="Submit">
+                  <input class="w-full bg-[#304D30] py-3 rounded-xl text-center text-white hover:scale-105 duration-300" type="submit" value="Submit">
                 </div>
               </form>
-              <!-- ----------------- -->
-              <% if (errors && errors.length > 0) { %>
-                <ul>
-                    <% errors.forEach(error => { %>
-                        <li><%= error.msg %></li>
-                    <% }); %>
-                </ul>
-              <% } %>
-              <!-- ----------------- -->
-               
+
             </div>
           </div>
         </div>
