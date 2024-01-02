@@ -436,7 +436,7 @@ const fetchCarts = async (req, res, next) => {
 const fetchLoans = async (req, res, next) => {
   try {
     const loans = await Borrow.find({ reader: req.user._id })
-      .populate("books")
+      .populate("books.book")
       .populate("library");
 
     req.readerLoans = loans;
@@ -460,6 +460,18 @@ const fetchWishlist = async (req, res, next) => {
     res.status(400).json({ errors: err });
   }
 };
+
+const fetchPickups = async (req, res, next) => {
+  try {
+    const pickups = await Pickup.find({reader: req.user._id}).populate("books").exec();
+
+    req.pickups = pickups;
+
+    next();
+  } catch(err) {
+    res.status(400).json({ errors: err });
+  }
+}
 
 // Middleware to fetch requests
 const fetchRequests = async (req, res, next) => {
@@ -526,6 +538,7 @@ router.get(
   fetchCarts,
   fetchRequests,
   fetchLoans,
+  fetchPickups,
   fetchWishlist,
   async (req, res) => {
     try {
@@ -539,6 +552,7 @@ router.get(
         carts: req.carts || [],
         loans: req.readerLoans || [],
         formattedRequests: req.readerRequests || [],
+        pickups: req.pickups || [],
         errors: [],
       });
     } catch (err) {

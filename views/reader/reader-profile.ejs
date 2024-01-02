@@ -115,6 +115,7 @@
                 <div class="tab">
                     <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-cart')">My Cart</button>
                     <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-requests')">My Requests</button>
+                    <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-pickups')">My Pickups</button>
                     <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-loans')">My Loans</button>
                     <button class="tablinks custom-text-orange" onclick="openCity(event, 'my-wishlist')">My Wishlist</button>
                 </div>
@@ -126,7 +127,6 @@
     <div class="whole-lower">
         <div class="lower">
             <div id="my-cart" class="tabcontent">
-                <h3 class="text-center text-6xl custom-text-orange mt-8">My Cart</h3>
                 <% if (carts && carts.length > 0) { %>
                 <ul>
                     <% carts.forEach(cart => { %>
@@ -173,7 +173,6 @@
             </div>
 
             <div id="my-requests" class="tabcontent">
-                <h3 class="text-center text-6xl custom-text-orange mt-8  ">My Requests</h3>
                 <% if (formattedRequests && formattedRequests.length > 0) { %>
                     <ul>
                         <% formattedRequests.forEach(request => { %>
@@ -202,8 +201,6 @@
 
                                     <p><strong>Date created:</strong>
                                         <%= request.createdOn.toLocaleDateString() %></p>
-                                    <p><strong>Pickup Date:</strong>
-                                        <%= request.pickupDate ? request.pickupDate.toLocaleDateString() : 'N/A' %></p>
                                 </li>
                             </div>
 
@@ -230,7 +227,6 @@
             </div>
 
             <div id="my-loans" class="tabcontent">
-                <h3 class="text-center text-6xl custom-text-orange mt-8  ">My Loans</h3>
                 <ul>
                     <% loans.forEach(loan => { %>
                     <li>
@@ -246,7 +242,6 @@
             </div>
 
             <div id="my-wishlist" class="tabcontent">
-                <h3 class="text-center text-6xl custom-text-orange mt-8 ">My Wishlist</h3>
                 <ul>
                     <% if (wishList && wishList.length > 0) { %> 
                     <% wishList.forEach( book => { %>

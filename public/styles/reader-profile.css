@@ -25,8 +25,8 @@
   box-shadow:
     inset 0px 50px 30px rgba(0, 0, 0, 0.2),
     0px 0px 4px rgba(0, 0, 0, 0.2);
-  background-color: var(--theme-color-white);
-  box-shadow: 1px 1px 10px var(--theme-color-white);
+  background-color: var(--theme-color-peach);
+  box-shadow: 1px 1px 10px var(--theme-color-orange);
 }
 
 .whole-upper .upper {
@@ -108,8 +108,9 @@
   justify-content: center;
   align-items: center;
 }
+
 .set-default button {
-  color: #ee4e34;
+  color: black;
 }
 .edit-profile:hover {
   box-shadow: 0px 0px 3px black;
@@ -121,7 +122,7 @@
 
 #pop-up-edit {
   z-index: 11;
-  background-color: var(--theme-color-peach);
+  background-color: var(--theme-color-white);
 }
 
 .menu-list {
@@ -129,10 +130,8 @@
   border-top: 1px solid black;
   height: 25px;
   width: 100%;
-}
-
-.menu-list .tab {
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .tab button {
@@ -144,20 +143,22 @@
   padding: 16px 18px;
   transition: 0.1s;
   font-size: 17px;
+  color: var(--theme-color-heavy-green);
+  transition: 0.3s;
 }
 
 .tab button:hover {
-  background-color: #ee4e34;
-  color: #fcedda;
+  background-color: var(--theme-color-white);
+  color: black;
 }
 
 .tab button.active {
-  background-color: #ffe0bb;
-  border-bottom: 3px solid var(--theme-color-orange);
+  background-color: var(--theme-color-white);
+  border-bottom: 3px solid var(--theme-color-heavy-green)
 }
 
 .tab button.active:hover {
-  color: #ee4e34;
+  color: var();
 }
 
 .tabcontent {
@@ -205,9 +206,10 @@
 #pop-up-edit {
   width: 50%;
   z-index: 1000;
-  height: 80%;
+  height: 70%;
   overflow-y: scroll;
   border-radius: 10px;
+  overflow-y: hidden;
 }
 
 /* Edit Profile */
@@ -217,6 +219,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
+  background: var(--theme-color-medium-green);
 }
 
 .edit-header .title {
@@ -224,8 +227,7 @@
   font-weight: 600;
   text-align: center;
   padding-bottom: 6px;
-  color: var(--theme-color-orange);
-  text-shadow: 2px 2px 2px black;
+  color: var(--theme-color-white);
 }
 
 .edit-header .close-modal {
@@ -236,6 +238,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
+  color: var(--theme-color-white);
 }
 
 #pop-up-edit .edit-body {
@@ -312,12 +315,12 @@
   border:none;
   border-radius: 3px;
   color: rgb(209, 209, 209);
-  background: var(--theme-color-orange);
+  background: var(--theme-color-heavy-green);
+  transition: 0.5s;
 }
 
 #pop-up-edit .edit-body button:hover{
-  background: #db260a;
-  color: rgb(255, 255, 255);
+  background: var(--theme-color-medium-green);
 }
 
 .main-user-infor .confirm-change-box {
@@ -342,8 +345,9 @@
 #pop-up-edit .edit-body #background{
   width: 95%;
   object-fit: cover;
-
+  height: 95%;
 } 
+
 #pop-up-edit .edit-body .avatar{
   width: 95%;
   height: 95%;
@@ -354,7 +358,7 @@
   position: relative;
   overflow: hidden;
   display: flex;
-  background-color: var(--theme-color-orange);
+  background-color: var(--theme-color-heavy-green);
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
@@ -365,6 +369,7 @@
   width: 95%;
   align-items: center;
   justify-content: center;
+  transition: 0.5s;
 }
 
 #pop-up-edit .edit-body .upload-button span{
@@ -382,11 +387,11 @@
 }
 
 #pop-up-edit .edit-body .upload-button:hover {
-  background-color: #e03217;
+  background-color: var(--theme-color-medium-green);
 }
 
 #pop-up-edit .edit-body .upload-button:active {
-  background-color: #bf1900;
+  background-color: var(--theme-color-medium-green);;
 }
 
 .empty-content {
