@@ -341,7 +341,9 @@ router.post("/request/cancel/:id", isReader, async (req, res) => {
 
     notify(req.user._id, "Request canceled", "Request canceled successfully");
 
-    res.status(200).json(updatedRequest);
+    res
+      .status(200)
+      .json({ message: `Request ${updatedRequest.id} canceled successfully` });
   } catch (e) {
     console.error("Error:", e);
     res.status(500).json({ error: "Internal Server Error" });
@@ -419,7 +421,8 @@ const fetchCarts = async (req, res, next) => {
   try {
     // Fetch all carts associated with the user
     const carts = await Cart.find({ reader: req.user._id })
-    .populate("books.book").populate("library");
+      .populate("books.book")
+      .populate("library");
 
     req.carts = carts;
     next();
@@ -464,6 +467,7 @@ const fetchRequests = async (req, res, next) => {
     const readerRequests = await Request.find({ reader: req.user._id })
       .populate("books", "title")
       .populate("library", "username")
+      .sort({ createdOn: "desc" })
       .exec();
 
     const formattedRequests = await Promise.all(
@@ -487,6 +491,32 @@ const fetchRequests = async (req, res, next) => {
     res.status(400).json({ errors: err });
   }
 };
+
+// Get individual request route
+router.get("/requests/:id", isReader, fetchRequests, async (req, res) => {
+  try {
+    const requestId = req.params.id;
+
+    const request = await Request.findById(requestId)
+      .populate("reader", "username")
+      .populate("books", "title")
+      .populate("library", "username")
+      .populate("status", "status")
+      .populate("pickup", "pickupDate")
+      .populate("creationDate", "createdOn")
+      .exec();
+
+    // Check if the request exists
+    if (!request) {
+      return res.status(404).json({ error: "Request not found" });
+    }
+
+    res.json({ request });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 // Reader profile route
 // Update the wishlist to the user profile
@@ -789,28 +819,28 @@ router.get("/library", async (req, res) => {
 // Map route
 router.get("/map", async (req, res) => {
   res.render("reader/map");
-})
+});
 
 router.get("/get_libraries", async (req, res) => {
   try {
-      const libraries = await Library.find();
+    const libraries = await Library.find();
 
-      return res.status(200).json({
-          success: true,
-          data: libraries,
-      })
-  } catch(e) {
-      res.status(400).json({ errors: e });
+    return res.status(200).json({
+      success: true,
+      data: libraries,
+    });
+  } catch (e) {
+    res.status(400).json({ errors: e });
   }
-})
+});
 
 router.get("/filter_books", searchBooks, async (req, res) => {
   const executedQuery = await req.bookQuery.populate("library").exec();
-  
+
   return res.status(200).json({
     success: true,
     data: executedQuery,
-  })
-})
+  });
+});
 
 module.exports = router;

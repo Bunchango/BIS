@@ -566,7 +566,7 @@ header ul li a:hover {
 /* Go up */
 .goup{
   padding: 90px ;
-  background:#eaeaea;
+  background:var(--theme-color-peach);
 }
 
 @media (max-width: 1300px) {
