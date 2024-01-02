@@ -53,7 +53,9 @@ fetch("http://localhost:5000/librarian/borrows")
 
             // TODO: Create img tag in side img
             const imgTag = document.createElement('img')
-            imgTag.src = borrow.reader.profilePicture
+            imgTag.src = "/" + borrow.reader.profilePicture
+            console.log(borrow.reader.profilePicture)
+            imgTag.classList = "w-full h-full object-cover"
             imgTag.alt = borrow.reader.username + "'s Image"
             img.appendChild(imgTag)
 
@@ -119,7 +121,8 @@ fetch("http://localhost:5000/librarian/pickups")
 
             // TODO: Create img tag in side img
             const imgTag = document.createElement('img')
-            imgTag.src = pickup.reader.profilePicture
+            imgTag.src = "/" + pickup.reader.profilePicture
+            imgTag.classList = "w-full h-full object-cover"
             imgTag.alt = pickup.reader.username + "'s Image"
             img.appendChild(imgTag)
 
@@ -187,8 +190,9 @@ fetch("http://localhost:5000/librarian/requests")
 
             // TODO: Create img tag in side img
             const imgTag = document.createElement('img')
-            imgTag.src = request.reader.profilePicture
+            imgTag.src = "/" + request.reader.profilePicture
             imgTag.alt = request.reader.username + "'s Image"
+            imgTag.classList = "w-full h-full object-cover"
             img.appendChild(imgTag)
 
             requestsCardContainer.append(card)
