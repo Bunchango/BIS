@@ -1,5 +1,3 @@
-// TODO: handling cart functions
-
 // Click event handler for remove buttons in cart
 document.querySelectorAll("#my-cart .remove-cart-btn").forEach((removeBtn) => {
   removeBtn.addEventListener("click", handleRemoveCartBtn);
@@ -85,8 +83,42 @@ async function handleSendRequestBtn(event) {
 
     if (data.message === "Request sent successfully") {
       updateCartUi(cartItem);
+      location.reload();
     } else {
       console.log("Failed to send request");
+    }
+  } catch (error) {
+    console.error("There has been a problem with your fetch operation:", error);
+  }
+}
+
+// Handling removing requests
+document
+  .querySelectorAll("#my-requests .cancel-request-btn")
+  .forEach((removeBtn) => {
+    removeBtn.addEventListener("click", handleCancelRequestBtn);
+  });
+
+async function handleCancelRequestBtn(event) {
+  event.preventDefault();
+  const requestId = event.currentTarget.dataset.requestid;
+
+  try {
+    const response = await fetch(`/reader/request/cancel/${requestId}`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+
+    if (data.message === `Request ${requestId} canceled successfully`) {
+      window.location.href = "/reader/profile/#my-requests";
+    } else {
+      console.log("Failed to cancel request");
     }
   } catch (error) {
     console.error("There has been a problem with your fetch operation:", error);
