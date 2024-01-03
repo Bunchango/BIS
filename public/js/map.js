@@ -45,7 +45,6 @@ async function getLibraries() {
             }
         }
     });
-
     loadMap(libraries)
 }
 
