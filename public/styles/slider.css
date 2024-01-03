@@ -220,6 +220,10 @@ body{
     display: none;
     font-family: system-ui;
 }
+.name, .des {
+    
+    color: var(--theme-color-light-green);
+}
 .item1:nth-child(4) .content{
     position: absolute;
     display: block;
@@ -227,7 +231,7 @@ body{
 }
 .item1:nth-child(4) .content .name{
     font-size: 50px;
-    color:#eee;
+    color:var(--theme-color-white);
     font-weight: bold;
     opacity: 0;
     animation:showcontent 1s ease-in-out 1 forwards;
@@ -237,8 +241,8 @@ body{
     margin:20px 0;
     font-size: 30px;
     opacity: 0;
-    color:#eee;
-    width: fit-content;
+    color: var(--theme-color-white);
+    width: 450px;
     animation:showcontent 1s ease-in-out 0.3s 1 forwards
 }
 button{
@@ -249,10 +253,11 @@ button{
 }
 
 #see-more-btn {
-    color: white;
+    color: var(--theme-color-white);
     border: 1px solid white;
     border-radius: 3px;
     padding: 8px;
+    animation:showcontent 1s ease-in-out 0.3s 1 forwards
 }
 
 #see-more-btn:hover {
