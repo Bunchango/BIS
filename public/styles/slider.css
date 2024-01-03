@@ -5,6 +5,15 @@
 }
 
 :root {
+    --theme-color-white: #EEF0E5; 
+    --theme-color-light-green: #B6C4B6;
+    --theme-color-medium-green: #304D30;
+    --theme-color-heavy-green: #163020;
+    --theme-color-bright-green: #A8DF8E;
+    --theme-color-shadow: #5f5e5e73;
+}
+
+:root {
     --theme-color-peach: #FCEDDA;
     --theme-color-orange: #EE4E34;
 }
@@ -82,7 +91,7 @@
 }
 /* second slider */
 body{
-    background-color: #FCEDDA;
+    background-color: var(--theme-color-white);
     margin: 0;
 }
 .container1{
@@ -97,6 +106,8 @@ body{
     z-index: 100;
     left: 30%;
     top: 10%;
+    color: var(--theme-color-medium-green);
+    text-shadow: 2px 2px 5px rgba(238, 240, 229, 0.7)
 }
 .container1::before {
     content: "";
@@ -108,7 +119,7 @@ body{
     height: 50px;
     z-index: 10;
     background: linear-gradient(
-        #FCEDDA,
+        var(--theme-color-white),
         rgb(252, 237, 218, 0)
         
          )
@@ -125,9 +136,8 @@ body{
     height: 100px;
     background: linear-gradient(
         rgb(252, 237, 218, 0),
-        #FCEDDA
+        var(--theme-color-white)
          )
-     
          scroll no-repeat bottom transparent;
 }
 #slide, #slide1{
@@ -246,9 +256,9 @@ button{
 }
 
 #see-more-btn:hover {
-    border: 1px solid var(--theme-color-orange);
-    background-color: var(--theme-color-orange);
-    color: var(--theme-color-peach);
+    border: 1px solid var(--theme-color-heavy-green);
+    background-color: var(--theme-color-heavy-green);
+    color: var(--theme-color-white);
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.8);
 }
 #see-more-btn:active {
@@ -296,4 +306,9 @@ button{
     left: 0;
     right: 0;
     height: 100px;
+    background: linear-gradient(
+        rgb(252, 237, 218, 0),
+        var(--theme-color-white)
+         )
+         scroll no-repeat bottom transparent;
 }

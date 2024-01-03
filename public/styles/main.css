@@ -491,13 +491,6 @@ body {
   color: var(--theme-color-heavy-green);
 }
 
-/* #bookmark-icon-container{
-    font-size: 20px;
-    cursor: pointer;
-    position: absolute;
-    right: 2px;
-    top: 2px;
-} */
 
 .bookmark-icon {
   font-size: 30px;

@@ -130,7 +130,12 @@ router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), v
         const updateFields = {};
         if (req.body.username) updateFields.username = req.body.username; 
         if (req.body.description) updateFields.description = req.body.description;
-        if (req.files.logo) updateFields.profilePicture = req.files.logo[0].path;
+
+        if (req.files.logo) {
+            updateFields.profilePicture = req.files.logo[0].path;
+            updateFields.profilePicture = updateFields.profilePicture.replace(/\\/g, "/")
+        } 
+        
         if (req.files.banner) {
             updateFields.banner = req.files.banner[0].path;
             updateFields.banner = updateFields.banner.replace(/\\/g, "/"); // This replace will help the frontend display the img (only for this part)
