@@ -64,7 +64,4 @@
 
 #lib-title {
     color: var(--theme-color-heavy-green);
-    padding: 10px;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
 }
