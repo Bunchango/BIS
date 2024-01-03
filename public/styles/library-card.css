@@ -8,6 +8,15 @@
     text-decoration: none;
 }
 
+:root {
+    --theme-color-white: #EEF0E5; 
+    --theme-color-light-green: #B6C4B6;
+    --theme-color-medium-green: #304D30;
+    --theme-color-heavy-green: #163020;
+    --theme-color-bright-green: #A8DF8E;
+    --theme-color-shadow: #5f5e5e73;
+}
+
 .card-map {
     position: relative;
     width: 320px;
@@ -21,7 +30,7 @@
     position: relative;
     width: 100%;
     height: 240px;
-    background: rgb(255, 0, 0);
+    background: transparent;
     border-radius: 15px;
     background-size: cover;
 }
@@ -65,7 +74,7 @@
     width: 100%;
     height: 220px;
 
-    background-color: #232949;
+    background-color: var(--theme-color-medium-green);
     border-radius: 15px;
     border-top-left-radius: 0;
     padding: 0 35px;
@@ -83,7 +92,7 @@
     left: 0;
     height: 80px;
     width: 50%;
-    background: #232949;
+    background: var(--theme-color-medium-green);
     border-top: 10px solid #fff;
     border-right: 10px solid #fff;
     border-top-right-radius: 25px;
@@ -110,7 +119,7 @@
     height: 25px;
     background: transparent;
     border-radius: 50%;
-    box-shadow: -10px  10px 0 #232949;
+    box-shadow: -10px  10px 0 var(--theme-color-medium-green);
 }
 
 .card-map .content-map .viewBtn a {
