@@ -113,16 +113,25 @@ function loadMap(libraries) {
             });
 
             const popupContent = `
-            <div class="text-black bg-white rounded p-4">
-                <h3 class="text-lg font-bold"><a onclick="redirectToLibrary('${library.properties.libraryId}')" class="cursor-pointer text-blue-500">${library.properties.libraryName}</a></h3>
-                <p class="text-sm">${library.properties.formattedAddress}</p>
-                <p class="text-sm">${library.properties.description}</p>
-                <img src="/${library.properties.profilePicture}" alt="Library Profile Picture" class="w-24 h-24">
-                <h4 class="text-md font-bold mt-2">Books:</h4>
-                <ul class="list-disc list-inside">
-                    ${library.properties.books.map(book => `<li><a onclick="redirectToBook('${book._id}')" class="cursor-pointer text-blue-500">${book.title}</a></li>`).join('')}
-                </ul>
+            <div class="card-map">
+                <div class="imgBx" style="background-image: url('${library.properties.profilePicture}');"></div>
+                <div class="content">
+                    <span class="viewBtn">
+                        <a onclick="redirectToLibrary('${library.properties.libraryId}')" >View</a> 
+                    </span>
+                    <ul>
+                        <li>${library.properties.libraryName}</li>
+                        <li>Location: ${library.properties.formattedAddress}</li>
+                        <li>Books:</li>
+                        <li>
+                            <ul class="listOfBook">
+                                ${library.properties.books.map(book => `<li><a onclick="redirectToBook('${book._id}')" class="cursor-pointer text-blue-500">${book.title}</a></li>`).join('')}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
+
         `;
 
             // Set popup on mouseover
