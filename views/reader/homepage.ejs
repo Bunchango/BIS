@@ -95,16 +95,14 @@
         <!-- Small picture -->
         <div id="slide"> 
           
-            <% libraries.forEach( library => { %>
-                <div class="item2" style="background-image: url('<%= library.banner %>');"></div>
-            <% }); %>
-            <!-- <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib1.jpg);"></div> -->
-            <!-- start -->
-            <!-- <div class="item2" style="background-image: url(images/lib2.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib3.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib1.jpg);"></div>
-            <div class="item2" style="background-image: url(images/lib2.jpg);"></div> -->
+          <% libraries.slice(1).forEach(library => { %>
+            <div class="item2" style="background-image: url('<%= library.profilePicture %>');"></div>
+        <% }); %>
+        
+        <% libraries.slice(0, 1).forEach(library => { %>
+            <div class="item2" style="background-image: url('<%= library.profilePicture %>');"></div>
+        <% }); %>
+        
         </div>
         <div class="buttons1">
             <button id="prev1"><</button>
@@ -121,54 +119,7 @@
                     </div>
                 </div>
             <% }); %>
-            <!-- <div class="item1"
-                style="background-image: url(images/lib2.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">thu vien thu 4</div>
-                    <a href="">See more</a>
-                </div>
-            </div>
             
-            <div class="item1"
-                style="background-image: url(images/lib3.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">thu vien thu 5 </div>
-                    <a href="">See more</a>
-                </div>
-            </div>
-            <div class="item1"
-                style="background-image: url(images/lib1.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">thu vien thu 6</div>
-                    <a href="">See more</a>
-                </div>
-            </div> -->
-            <!-- start -->
-            <!-- <div class="item1" style="background-image: url(images/lib2.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">thu vien thu 1</div>
-                    <a href="">See more</a>
-                </div>
-            </div>
-            <div class="item1" style="background-image: url(images/lib3.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">thu vien thu 2</div>
-                    <a href="">See more</a>
-                </div>
-            </div>
-            <div class="item1"
-                style="background-image: url(images/lib1.jpg);">
-                <div class="content">
-                    <div class="name">VXNHE</div>
-                    <div class="des">thu vien thu 3</div>
-                    <a href="">See more</a>
-                </div>
-            </div> -->
         </div>
     </div>
 </section>

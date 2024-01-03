@@ -63,6 +63,8 @@
 }
 
 #lib-title {
-    color: var(--theme-color-light-green);
-    padding-bottom: 50px;
+    color: var(--theme-color-heavy-green);
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
 }
