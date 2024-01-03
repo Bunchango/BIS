@@ -114,18 +114,19 @@ function loadMap(libraries) {
 
             const popupContent = `
             <div class="card-map">
-                <div class="imgBx" style="background-image: url('${library.properties.profilePicture}');"></div>
-                <div class="content">
+                <img class="imgBx" src="/${library.properties.profilePicture}" alt="Library Profile Picture" >
+               
+                <div class="content-map">
                     <span class="viewBtn">
                         <a onclick="redirectToLibrary('${library.properties.libraryId}')" >View</a> 
                     </span>
                     <ul>
-                        <li>${library.properties.libraryName}</li>
+                        <li class="text-xl">${library.properties.libraryName}</li>
                         <li>Location: ${library.properties.formattedAddress}</li>
                         <li>Books:</li>
                         <li>
                             <ul class="listOfBook">
-                                ${library.properties.books.map(book => `<li><a onclick="redirectToBook('${book._id}')" class="cursor-pointer text-blue-500">${book.title}</a></li>`).join('')}
+                                ${library.properties.books.map(book => `<li><a onclick="redirectToBook('${book._id}')" >${book.title}</a></li>`).join('')}
                             </ul>
                         </li>
                     </ul>

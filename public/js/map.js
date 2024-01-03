@@ -50,6 +50,7 @@ async function getLibraries() {
 
 // Plot points onto map
 function loadMap(libraries) {
+    const popups = []; 
     map.once("idle", function () {
         map.addLayer({
             id: "points",
@@ -79,10 +80,22 @@ function loadMap(libraries) {
 
             // Set popup content
             const popupContent = `
-                <strong>${library.properties.libraryName}</strong><br>
-                ${library.properties.formattedAddress}<br>
-                ${library.properties.description}<br>
-                <img src="/${library.properties.profilePicture}" alt="Library Image" style="max-width: 100%;">
+
+                <div class="card-map">
+                    <img class="imgBx" src="/${library.properties.profilePicture}" alt="Library Profile Picture" >
+                
+                    <div class="content-map">
+                        <span class="viewBtn">
+                            <a onclick="redirectToLibrary('${library.properties.libraryId}')" >View</a> 
+                        </span>
+                        <ul>
+                            <li class="text-xl">${library.properties.libraryName}</li>
+                            <li>Location: ${library.properties.formattedAddress}</li>
+                            <li>Description: ${library.properties.description}</li>
+                            
+                        </ul>
+                    </div>
+                </div>
             `;
 
             // Set popup on mouseover
@@ -91,30 +104,35 @@ function loadMap(libraries) {
                     popup.setLngLat(e.features[0].geometry.coordinates)
                         .setHTML(popupContent)
                         .addTo(map);
+                    popups.push(popup); // Add popup to the array
                 }
             });
 
             // Remove popup on mouseout
             map.on("mouseleave", "points", function () {
-                popup.remove();
+                // Check if the popup is not hovered before removing it
+                if (!popups.some(p => p.isOpen())) {
+                    popups.forEach(p => p.remove());
+                    popups.length = 0; // Clear the array
+                }
             });
+
+            // Close popups on click outside
+            map.on("click", function () {
+                popups.forEach(p => p.remove());
+                popups.length = 0; // Clear the array
+            });
+
+            
         });
     });
 
-    map.on("click", "points", function (e) {
-        const libraryId = e.features[0].properties.libraryId;
-        window.location.href = `/reader/library-profile/${libraryId}`;
-    });
-
-    map.on("mouseenter", "points", function () {
-        map.getCanvas().style.cursor = "pointer";
-    });
-
-    map.on("mouseleave", "points", function () {
-        map.getCanvas().style.cursor = "";
-    });
+    
+    
 }
-
+function redirectToLibrary(libraryId) {
+        window.open(`http://localhost:5000/reader/library-profile/${libraryId}`, '_blank')
+}
 
 
 getLibraries();

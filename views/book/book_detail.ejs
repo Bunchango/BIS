@@ -45,6 +45,7 @@
                 <p class="publish-date"><strong>Publish Date:</strong> <%= book.publishDate.toLocaleDateString() %></p>
                 <p class="book-description"><strong>Description:</strong> <%= book.description %></p>
                 <p class="quantity"><strong>Quantity:</strong> <%= book.amount %></p>
+                <p class="available"><strong>Available:</strong> <%= book.available %></p>
             </div>
             <div class="buttons">
                 <% if (user && user.__t === "Reader") { %>

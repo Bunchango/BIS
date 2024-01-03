@@ -93,7 +93,7 @@ app.get("/homepage", async (req, res) => {
     if (!req.user || req.user.__t === "Reader") {
         try {
             const libraries = await Library.find().limit(7);
-            const awardBooks = await Book.find().limit(6);
+            const awardBooks = await Book.find().limit(6).populate('library');
             let wishlistBooks = [];
             if (req.user) {
                 let wishListBooksId = req.user.wishList;

@@ -34,7 +34,7 @@ async function notify(readerID, title, message) {
 
 // Middleware to handle advanced book search
 const searchBooks = (req, res, next) => {
-  req.bookQuery = Book.find();
+  req.bookQuery = Book.find().populate('library');
 
   if (req.query.title) {
     req.bookQuery = req.bookQuery.regex(
