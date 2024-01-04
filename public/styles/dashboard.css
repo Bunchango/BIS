@@ -1,19 +1,24 @@
+
 :root {
-    --theme-color-peach: #FCEDDA;
-    --theme-color-orange: #EE4E34;
-  }
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
+}
   
   nav {
-    background-color: #FCEDDA;
+    background-color: var(--theme-color-white);
   }
   
   nav div, nav a {
-    color: #EE4E34;
+    color: var(--theme-color-heavy-green);
     font-weight: 600;
   }
   
   main {
-    background-color: #FCEDDA;
+    background-color: var(--theme-color-white);
   }
   .welcome {
     position: relative;
@@ -27,7 +32,7 @@
   }
   
   .welcome-text {  
-    background-image: linear-gradient(295deg, #ffffff 40%, #EE4E34 );
+    background-image: linear-gradient(295deg, var(--theme-color-white) 40%, var(--theme-color-medium-green));
     text-transform: uppercase;
     font-size: 8em;
     font-weight: 900;
@@ -46,7 +51,7 @@
     height: 100px;
     background: linear-gradient(
      rgb(0,0,0,0),
-     #FCEDDA
+     var(--theme-color-white)
       )
   
       scroll no-repeat bottom transparent;
@@ -60,7 +65,7 @@
     line-height: 75px;
     margin-bottom: 40px;
     margin-top: 30px;
-    color: #ffffff;
+    color: var(--theme-color-white);
   }
   
   .sect-header {
@@ -69,17 +74,19 @@
       letter-spacing: 0.2px;
       line-height: 74px;
       padding-bottom: 0.5rem;
-      color: #ee4e34;
+      color: var(--theme-color-medium-green);
       margin-bottom: 2rem;
       text-align: center;
   }
   
   .dashboard {
     padding: 120px;
-    background: #FCEDDA;
+    background:  var(--theme-color-white);
   }
   
-  
+  .content {
+    padding: 5px;
+  }
   ::selection{
     color: #fff;
     background: #618cf8;
@@ -112,14 +119,14 @@
   .add-box .icon{
     height: 78px;
     width: 78px;
-    color: #88ABFF;
+    color: var(--theme-color-medium-green);
     font-size: 40px;
     border-radius: 50%;
     justify-content: center;
-    border: 2px dashed #88ABFF;
+    border: 2px dashed var(--theme-color-medium-green);
   }
   .add-box p{
-    color: #88ABFF;
+    color: var(--theme-color-medium-green);
     font-weight: 500;
     margin-top: 20px;
   }
@@ -299,7 +306,7 @@
     cursor: pointer;
     font-size: 17px;
     border-radius: 4px;
-    background: #6A93F8;
+    background: var(--theme-color-medium-green);
   }
   
   @media (max-width: 660px){
@@ -317,9 +324,9 @@
   }
   
   .note {
-    background-color: var(--theme-color-peach);
+    background-color: var(--theme-color-white);
   }
   
   .wrapper {
-    background-color: var(--theme-color-peach);
+    background-color: var(--theme-color-white);
   }
