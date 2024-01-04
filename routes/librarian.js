@@ -32,50 +32,6 @@ function isLibrarian(req, res, next) {
   res.redirect("/homepage");
 }
 
-// Profile
-router.get("/profile", isLibrarian, async (req, res) => {
-  // View both account info and library info
-  try {
-    const library = await Library.findById(req.user.library);
-
-    res.render("librarian/profile", {
-      user: req.user,
-      library: library,
-      errors: [],
-    });
-  } catch (e) {
-    res.status(400).json({ errors: e });
-  }
-});
-
-router.post("/profile", validateUsername, async (req, res) => {
-  // Change account info (only allow changing username)
-  try {
-    const library = await Library.findById(req.user.library);
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.render("librarian/profile", {
-        user: req.user,
-        library: library,
-        errors: errors.array(),
-      });
-    }
-
-    await Librarian.findByIdAndUpdate(req.user._id, {
-      username: req.body.username,
-    });
-
-    res.render("librarian/profile", {
-      user: req.user,
-      library: library,
-      errors: [],
-    });
-  } catch (e) {
-    res.status(400).json({ errors: e });
-  }
-});
-
 // Inventory
 router.get("/inventory", isLibrarian, async (req, res) => {
   // Display all the books
@@ -797,7 +753,7 @@ router.post("/notify/delete_notify/:id", async (req, res) => {
 // Librarian profile
 router.get("/profile", isLibrarian, async (req, res) => {
     const user = await Librarian.findById(req.user._id).populate("library");
-  res.render("librarian/profile", { librarian: user, errors: [] });
+  res.render("librarian/profile", { user: user, errors: [] });
 });
 
 router.post(
@@ -809,7 +765,7 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.render("librarian/profile", {
-        librarian: req.user,
+        user: req.user,
         errors: errors.array(),
       });
     }
@@ -818,18 +774,18 @@ router.post(
       if (!req.body.confirm) {
         // Show error must confrim to change
         res.render("library/profile", {
-          admin: req.user,
+          user: req.user,
           errors: [{ msg: "You must confirm the changes" }],
         });
       }
 
       const updateFields = {};
       if (req.body.username) updateFields.username = req.body.username;
-      if (req.file.path) update.profilePicture = req.file.path;
+      if (req.file.path) updateFields.profilePicture = req.file.path;
 
-      await Librarian.findOneAndUpdate({ _id: req.user.__id }, updateFields);
+      await Librarian.findOneAndUpdate({ _id: req.user._id }, updateFields);
       res.redirect("/librarian/profile");
-    } catch (e) {
+    } catch(e) {
       res.status(400).json({ errors: e });
     }
   },
