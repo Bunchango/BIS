@@ -12,31 +12,35 @@
     <% }; %>
 
     <div class="container grid grid-cols-6">
-        <div class="book-image col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 xl:col-span-2 text-center">
-            <img src="/<%= book.cover_1 %>" alt="<%= book.title %> Cover">
+        <div class="book-image col-span-6 sm:col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2 text-center">
+            <div class="grid grid-cols-6">
+                <img src="/<%= book.cover_1 %>" class="col-span-6" alt="<%= book.title %> Cover">
+                <div class="book-carousel col-span-6 grid grid-cols-6">
+                    <% if (book.cover_1) { %>
+                        <div class="book-carousel-item col-span-2">
+                            <img src="/<%= book.cover_1 %>" alt="<%= book.title %> Cover 1">
+                        </div>
+                    <% } %>
+        
+                    <% if (book.cover_2) { %>
+                        <div class="book-carousel-item col-span-2">
+                            <img src="/<%= book.cover_2 %>" alt="<%= book.title %> Cover 2">
+                        </div>
+                    <% } %>
+        
+                    <% if (book.cover_3) { %>
+                        <div class="book-carousel-item col-span-2">
+                            <img src="/<%= book.cover_3 %>" alt="<%= book.title %> Cover 3">
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            
         </div>
 
-        <div class="book-carousel col-span-6 sm:col-span-6 md:col-span-2 lg:col-span-1 xl:col-span-1">
-            <% if (book.cover_1) { %>
-                <div class="book-carousel-item">
-                    <img src="/<%= book.cover_1 %>" alt="<%= book.title %> Cover 1">
-                </div>
-            <% } %>
+        
 
-            <% if (book.cover_2) { %>
-                <div class="book-carousel-item">
-                    <img src="/<%= book.cover_2 %>" alt="<%= book.title %> Cover 2">
-                </div>
-            <% } %>
-
-            <% if (book.cover_3) { %>
-                <div class="book-carousel-item">
-                    <img src="/<%= book.cover_3 %>" alt="<%= book.title %> Cover 3">
-                </div>
-            <% } %>
-        </div>
-
-        <div class="description col-span-6 sm:col-span-6 md:col-span-6 lg:col-span-3 xl:col-span-3">
+        <div class="description col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-4 xl:col-span-4">
             <div>
                 <h1 id="book-title"><span class="title-text"><%= book.title %></span></h1>
                 <p id="author"><strong>Author:</strong> <%= book.author %></p>
@@ -88,6 +92,7 @@
  
         </div>       
     </div>
+    
 </main>
 
     

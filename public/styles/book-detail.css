@@ -5,13 +5,16 @@
 }
 
 :root {
-  --theme-color-peach: #FCEDDA;
-  --theme-color-orange: #EE4E34;
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
 }
-
 body {
   font-family: "poppins", sans-serif;
-  background-color: var(--theme-color-peach);
+  background-color: var(--theme-color-white);
 
 }
 #main-section {
@@ -25,14 +28,14 @@ body {
 }
 
 .breadcrumbs {
-  border: 1px solid #cbd2d9;
+  border: 1px solid var(--theme-color-bright-green);
   border-radius: 0.3rem;
   display: inline-flex;
   overflow: hidden;
 }
 
 .breadcrumbs__item {
-  background: bisque;
+  background: var(--theme-color-bright-green);
   color: black;
   outline: none;
   padding: 0.75em 0.75em 0.75em 1.25em;
@@ -44,20 +47,20 @@ body {
 
 .breadcrumbs__item:hover:after,
 .breadcrumbs__item:hover {
-  background: orangered;
+  background: var(--theme-color-medium-green);
   color: #fff;
 }
 
 .breadcrumbs__item:focus:after,
 .breadcrumbs__item:focus,
 .breadcrumbs__item.is-active:focus {
-  background: #323f4a;
-  color: #fff;
+  background: var(--theme-color-heavy-green);
+  color: var(--theme-color-white);
 }
 
 .breadcrumbs__item:after,
 .breadcrumbs__item:before {
-  background: bisque;
+  background: var(--theme-color-bright-green);
   bottom: 0;
   clip-path: polygon(50% 50%, -50% -50%, 0 100%);
   content: "";
@@ -70,7 +73,7 @@ body {
 }
 
 .breadcrumbs__item:before {
-  background: #cbd2d9;
+  background: var(--theme-color-white);
   margin-left: 1px;
 }
 
@@ -79,8 +82,8 @@ body {
 }
 
 .breadcrumbs__item.is-active {
-  background: orangered;
-  color: white;
+  background: var(--theme-color-medium-green);
+  color: var(--theme-color-white);
   font-weight: 700;
 }
 
@@ -102,10 +105,10 @@ body {
   align-items: center;
   margin: 50px auto;
   width: 65%;
-  border: 2px solid #ee4e34;
+  border: 2px solid var(--theme-color-bright-green);
   padding: 20px;
   border-radius: 20px;
-  background-color: #fcedda;
+  background-color: var(--theme-color-white);
 }
 
 .container img {
@@ -117,7 +120,10 @@ body {
   width: 100%;
   height: 100%;
 }
-
+.book-carousel-item img {
+  width: 100%;
+  max-height: 200px;
+}
 .book-image {
   height: 100%;
   
@@ -136,7 +142,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #333;
+  color: var(--theme-color-heavy-green);
   margin-bottom: 15px;
 }
 
@@ -148,11 +154,11 @@ body {
 
 .description h1 .fas.fa-bookmark {
   margin-left: auto;
-  color: orangered;
+  color: var(--theme-color-bright-green);
 }
 
 .description p {
-  color: #666;
+  color: var(--theme-color-heavy-green);
   margin-bottom: 10px;
 }
 
@@ -165,7 +171,7 @@ button.btn {
   width: 150px;
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: var(--theme-color-white);
   cursor: pointer;
   margin: 20px;
   height: 55px;
@@ -194,12 +200,12 @@ button.btn:focus {
 button.btn {
   background-image: linear-gradient(
     to right,
-    #fc6076,
-    #ff9a44,
-    #ef9d43,
-    #e75516
+    --theme-color-heavy-green,
+    --theme-color-medium-green,
+    --theme-color-light-green,
+    --theme-color-bright-green
   );
-  box-shadow: 0 4px 15px 0 rgba(252, 104, 110, 0.75);
+  box-shadow: 0 4px 15px 0 rgba(1, 69, 18, 0.75);
 }
 
 .reader-buttons, .librarian-buttons {
@@ -218,7 +224,6 @@ button.btn {
   }
   .book-image {
     padding: 1rem;
-    height: 70vh;
   }
 }
 
@@ -248,4 +253,8 @@ button.btn {
   .book-carousel-item img {
     height: 20vh;
   }
+}
+
+.book-carousel-item {
+  margin: 1rem;
 }
