@@ -201,8 +201,8 @@ body{
     height: 400px;
     object-fit: cover;
     border-radius: 8px;
+    width: 100%;
 }
-
 @media (min-width: 1017px) {
     #whole-upper #upper {
       margin: 0 auto;

@@ -8,16 +8,20 @@
 } 
 
 :root {
-    --theme-color-peach: #FCEDDA; 
-    --theme-color-orange: #EE4E34;
-} 
+    --theme-color-white: #EEF0E5; 
+    --theme-color-light-green: #B6C4B6;
+    --theme-color-medium-green: #304D30;
+    --theme-color-heavy-green: #163020;
+    --theme-color-bright-green: #A8DF8E;
+    --theme-color-shadow: #5f5e5e73;
+  }
 
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    background-color: var(--theme-color-peach);
+    background-color: var(--theme-color-white);
 }
 
 /* Navigation */
@@ -41,7 +45,7 @@ nav {
 #logo {
     position: relative;
     font-weight: 700;
-    color: var(--theme-color-orange);
+    color: var(--theme-color-heavy-green);
     text-decoration: none;
     font-size: 2em;
     text-transform: uppercase;
@@ -51,7 +55,7 @@ nav {
 
 .sticky {
     padding: 5px 100px;
-    background: rgba(252, 237, 217, 0.85);
+    background: rgba(225, 244, 231, 0.85);
     backdrop-filter: blur(10px);
 }
 
@@ -86,7 +90,7 @@ nav #list li #create-librarians {
   top:85px;
   right: 70px;
   z-index: 50;
-  background-color: #fff;
+  background-color: var(--theme-color-white);
   color: #000;
   width: 250px;
   height: fit-content;
@@ -417,14 +421,14 @@ nav #list li button {
     grid-template-rows: repeat(auto-fit);
     grid-template-columns: repeat(auto-fit, minmax(300px, auto));
     gap: 10px;
-    background-color: var(--theme-color-orange);
+    background-color: var(--theme-color-heavy-green);
 }
 
 #librarians-container {
     width: auto;
     height: 450px;
-    border: 10px solid var(--theme-color-peach);
-    background-color: var(--theme-color-peach);
+    border: 10px solid var(--theme-color-heavy-green);
+    background-color: var(--theme-color-heavy-green);
     border-radius: 10px;
     overflow-y: scroll;
 }
@@ -432,10 +436,10 @@ nav #list li button {
 #verifying-container {
     width: auto;
     height: 450px;
-    border: 10px solid var(--theme-color-peach);
+    border: 10px solid var(--theme-color-heavy-green);
     overflow-y: scroll;
     border-radius: 10px;
-    background-color: var(--theme-color-peach);
+    background-color: var(--theme-color-heavy-green);
 }
 
 /*   Profile   */
@@ -664,9 +668,9 @@ nav #list li button {
     letter-spacing: 0.2px;
     line-height: 74px;
     padding: 2rem 1rem;
-    color: var(--theme-color-peach);
+    color: var(--theme-color-white);
     text-align: center;
-    background-color: var(--theme-color-orange);
+    background-color: var(--theme-color-heavy-green);
 }
 
 .lib-header {
@@ -675,9 +679,9 @@ nav #list li button {
     letter-spacing: 0.2px;
     line-height: 74px;
     padding: 1rem 1rem;
-    color: var(--theme-color-orange);
+    color: var(--theme-color-heavy-green);
     text-align: center;
-    background-color: var(--theme-color-peach);
+    background-color: var(--theme-color-white);
 }
 
 .people-container {
@@ -692,8 +696,8 @@ nav #list li button {
     justify-content: space-between;
     align-items: center;
     margin: 1rem;
-    background-color: var(--theme-color-orange);
-    color: var(--theme-color-peach);
+    background-color: var(--theme-color-heavy-green);
+    color: var(--theme-color-white);
     border-radius: 10px;
 }
 
@@ -704,8 +708,8 @@ nav #list li button {
 
 .information-container button {
     padding: 0.5rem;
-    background-color: var(--theme-color-peach);
-    color: var(--theme-color-orange);
+    background-color: var(--theme-color-heavy-green);
+    color: var(--theme-color-white);
     border-radius: 10px;
     margin-right: 1rem;
 }

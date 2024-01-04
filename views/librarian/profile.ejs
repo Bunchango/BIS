@@ -15,8 +15,6 @@
 <body id="librarian-profile">
     <%- include('./partials-librarian/nav-librarian.ejs')%>
 
-    <p><%= user.library.username %></p>
-
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center vh-100">
             <div class="col-12">
@@ -24,7 +22,7 @@
                     <img src="/<%= user.profilePicture %>" alt="Profile Picture" id="profile-image">
                     <div id="profile-info">
                         <h1><%= user.username %></h1>
-                        <p><b>Email:</b> <%= user.gmail %></p>
+                        <p><%= user.gmail %></p>
                         <button data-modal-target="#pop-up-edit" id="edit">Edit Profile</button>
                     </div>
                 </div>
@@ -48,7 +46,7 @@
             <button data-close-button class="close-modal">&times;</button>
         </div>
         <div class="edit-body">
-            <form id="edit-profile-form" action="/librarian/profile/edit-profile" method="POST" enctype="multipart/form-data">
+            <form id="edit-profile-form" action="/librarian/profile" method="POST" enctype="multipart/form-data">
                 <div class="errors-update">
 
                 </div>
@@ -63,7 +61,7 @@
                 
                 <div class="librarian-main-user-info">
                     <div class="username-input-box">
-                        <label for="username">User Name</label>
+                        <label for="username">New username</label>
                         <input type="text" id="username" name="username" >
                     </div>
                     
@@ -74,7 +72,7 @@
                         </div>
                         <div class="upload-button">
                             <span>Choose File</span>
-                            <input type="file" name="avatar" accept="image/*" id="avatar-pic">
+                            <input type="file" name="image" accept="image/*" id="image">
                         </div>
                     </div>
                     <div class="confirm-change-box">
