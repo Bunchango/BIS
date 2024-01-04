@@ -5,8 +5,12 @@
 }
 
 :root {
-  --theme-color-peach: #FCEDDA;
-  --theme-color-orange: #EE4E34;
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
 }
 
 body {
@@ -14,6 +18,7 @@ body {
   background-color: var(--theme-color-peach);
 
 }
+
 #main-section {
   margin-top: 80px;
 }
