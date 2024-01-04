@@ -16,6 +16,7 @@
 
 nav {
     background-color: var(--theme-color-white);
+    background-color: var(--theme-color-white);
 }
 
 nav div, nav a {
@@ -24,6 +25,7 @@ nav div, nav a {
 }
 
 main {
+    background-color: var(--theme-color-white);
     background-color: var(--theme-color-white);
 }
 
@@ -88,7 +90,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--theme-color-heavy-green);
+  background-color: var(--theme-color-white);
 }
 
 #profile-card {
