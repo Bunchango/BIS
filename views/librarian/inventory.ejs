@@ -17,9 +17,6 @@
     <section id="inventory-section" class="p-16 flex items-center justify-center flex-col">
         <h1 class="text-2xl font-bold mb-4" id="sect-header">Book Inventory</h1>
         <div class="add-book">
-            <button data-modal-target="#pop-up-addbook" id="add-book">
-                Add Book
-            </button>
             <div id="overlay"></div>
             <%- include('./partials-librarian/add_book.ejs')%>
         </div>
@@ -27,9 +24,11 @@
 
         <main class="table">
             <section class="table_header">
-                <h1><strong>Library's Books</strong></h1>
+                <button data-modal-target="#pop-up-addbook" id="add-book">
+                    Add Book
+                </button>
                 <div class="input-group">
-                    <input type="search" placeholder="Search Data...">
+                    <input type="search" placeholder="Search Book...">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
             </section>
