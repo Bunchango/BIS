@@ -1,26 +1,33 @@
 :root {
-    --theme-color-peach: #FCEDDA;
-    --theme-color-orange: #EE4E34;
-  }
-
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
+}
 
 #sect-header {
     font-size: 62px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      line-height: 74px;
-      padding-bottom: 0.5rem;
-      color: #ee4e34;
-      margin-bottom: 2rem;
-      text-align: center;
-  }
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 74px;
+    padding-bottom: 0.5rem;
+    color: var(--theme-color-heavy-green);
+    margin-bottom: 2rem;
+    text-align: center;
+}
 
 
 #inventory-section {
-    background-color: var(--theme-color-peach);
+    background-color: white;
 }
 
 #pagination-item {
-    background-color: var(--theme-color-orange);
-    color: var(--theme-color-peach);
+    background-color: var(--theme-color-medium-green);
+    color: var(--theme-color-white);
+}
+
+.pop-up-modal {
+  overflow-y: scroll;
 }
