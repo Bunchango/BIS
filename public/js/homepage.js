@@ -108,13 +108,18 @@ async function removeBookmark(event) {
   }
 }
 
+//// --------------------------
+
+// Open the pop up 
 openModalButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const modal = document.querySelector(button.dataset.modalTarget);
     updateBookmarkPopup().catch(console.error);
     openModal(modal);
+    
   });
 });
+
 
 overlay.addEventListener("click", () => {
   const modals = document.querySelectorAll(".pop-up-modal.active");
