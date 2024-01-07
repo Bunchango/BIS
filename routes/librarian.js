@@ -11,6 +11,7 @@ const { Librarian, Reader } = require("../models/user");
 const Notice = require("../models/notice");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
+const { render } = require("ejs");
 
 // TODO: book detail path, add modify path to notify
 
@@ -218,7 +219,39 @@ router.get("/customer", isLibrarian, async (req, res) => {
     const borrows = await Borrow.find({ library: req.user.library }).populate(
       "reader",
     );
-
+    if (requests) {
+      requests.forEach(request => {
+          request.joinedOnFormatted = request.createdOn.toLocaleDateString("en-US", {
+          weekday: 'long', // "Monday"
+          year: 'numeric', // "1999"
+          month: 'long', // "December"
+          day: 'numeric', // "2"
+        });
+      })
+    }
+    
+    if (pickups) {
+      pickups.forEach(pickup => {
+        pickup.joinedOnFormatted = pickup.createdOn.toLocaleDateString("en-US", {
+          weekday: 'long', // "Monday"
+          year: 'numeric', // "1999"
+          month: 'long', // "December"
+          day: 'numeric', // "2"
+        });
+      })
+    }
+    
+    if (borrows) {
+      borrows.forEach(borrow => {
+        borrow.joinedOnFormatted = borrow.createdOn.toLocaleDateString("en-US", {
+          weekday: 'long', // "Monday"
+          year: 'numeric', // "1999"
+          month: 'long', // "December"
+          day: 'numeric', // "2"
+        });
+      })
+    }
+    
     const data = {};
 
     if (requests.length > 0) {
@@ -237,6 +270,7 @@ router.get("/customer", isLibrarian, async (req, res) => {
 
     res.render("librarian/customer", { data: data, user: req.user });
   } catch (e) {
+    console.log(e)
     res.status(400).json({ errors: e });
   }
 });
@@ -612,7 +646,18 @@ router.get("/request/:id", isLibrarian, async (req, res) => {
       if (request.library.toString() !== req.user.library.toString()) {
         return res.redirect("/librarian/customer");
       }
-    res.render("librarian/request", { request: request, error: "", user: req.user});
+    
+    const booksBorrow = await Book.find({
+      reader: request.reader._id,
+      library: req.user.library
+    });
+    request.reader.joinedOnFormatted = request.reader.joinedOn.toLocaleDateString("en-US", {
+      weekday: 'long', // "Monday"
+      year: 'numeric', // "1999"
+      month: 'long', // "December"
+      day: 'numeric', // "2"
+    });
+    res.render("librarian/request", { request: request, error: "", user: req.user, booksBorrow: booksBorrow});
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -628,8 +673,8 @@ router.post("/request/accept/:id", async (req, res) => {
     .populate("library")
     .exec();
 
-    if (!approved) return res.render("librarian/request", { request: request, error: "At least 1 book must be approved to accept request" });
-    if (!takeDate) return res.render("librarian/request", { request: request, error: "Take date is required" });
+    if (!approved) return res.render("librarian/request", { request: request, error: "At least 1 book must be approved to accept request", user:req.user });
+    if (!takeDate) return res.render("librarian/request", { request: request, error: "Take date is required", user:req.user });
 
     // Change request status to accept
     await Request.findByIdAndUpdate(
@@ -677,7 +722,7 @@ router.post("/request/accept/:id", async (req, res) => {
     );    
 
     // Redirect to customer page
-    res.redirect("/librarian/customer");
+    res.redirect("/librarian/customer")
   } catch (e) {
     res.status(400).json({ errors: e });
   }

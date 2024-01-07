@@ -10,29 +10,7 @@
     <link rel="stylesheet" href="/styles/footer.css"/>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        
-        /* Styles for the pop-up forms */
-        .popup-form {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Style for the close button */
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-    </style>
+    
     <title>Pickup detail</title>
 </head>
 <body>
@@ -40,59 +18,138 @@
     <!-- Show information of the pickup -->
     <!-- Show buttons to complete, or cancel the pickup -->
     <!-- Using Canceling or completing pickup buttons will pop up a form to complete  -->
-    <div class="container">
+    <div id="pickup-title">
         <h1>Pickup Details</h1>
-        <p><strong>Reader:</strong> <%= pickup.reader.gmail %></p>
-        <p><strong>Books:</strong></p>
-        <ul>
-            <% pickup.books.forEach(book => { %>
-                <li><%= book.title %></li>
-            <% }); %>
-        </ul>
-        <p><strong>Created On:</strong> <%= pickup.createdOn %></p>
-        <p><strong>Take Date:</strong> <%= pickup.takeDate %></p>
+    </div>
+    
+    <div class="pickup-container">
+        <div id="pickup-ava">
+            <img src="/<%= pickup.reader.profilePicture %>" alt="<%= pickup.reader.username %>'s Profile Picture">
+        </div>
+        <div id="pickup-details">
+            <p><strong>Reader Name:</strong> <%= pickup.reader.username %></p>
+            <p><strong>Reader Gmail:</strong> <%= pickup.reader.gmail %></p>
+            <p><strong>List of Books:</strong></p>
+            <ul>
+                <% pickup.books.forEach(book => { %>
+                    <a class="book-tag" href="/librarian/book_detail/<%= book._id %>">
+                        <div>
+                            <img src="/<%= book.cover_1 %>" alt="<%= book.title %>'s image">
+                        </div>
+                        <div><%= book.title %></div>
+                    </a>
+                <% }); %>
+            </ul>
+            <p><strong>Created On:</strong> <%= pickup.createdOn %></p>
+            <p><strong>Take Date:</strong> <%= pickup.takeDate %></p>
 
-        <% if(pickup.status === 'Scheduled') { %>
-            <!-- Button display form to change date -->
-            <button onclick="showForm('changeDateForm')">Change Pickup Date</button> 
-        <% } %>
+            <% if(pickup.status === 'Scheduled') { %>
+                <!-- Button display form to change date -->
+                <button data-modal-target="#pop-up-changeDate" id="changeDate">Change Pickup Date</button> 
+            <% } %>
+            
+            <p><strong>Status:</strong> <%= pickup.status %></p>
+            <!-- Button to pop up the forms -->
+            <div class="btn-container">
+                <% if (pickup.status !== 'Completed') { %>
+                    <button data-modal-target="#pop-up-complete" id="mark-complete">Mark as Completed</button>
+                    <button data-modal-target="#pop-up-cancel" id="mark-cancel">Mark as Canceled</button>
+                <% } %>
+            </div> 
+        </div>
         
-        <p><strong>Status:</strong> <%= pickup.status %></p>
+          
+    </div>
+    
+   <!-- Complete button -->
+    <div class="pop-up-modal" id="pop-up-complete">
+        <div class="complete-header">
+            <div class="title">Complete</div>
+            <button data-close-button class="close-modal">&times;</button>
+        </div>
+        <div class="complete-body">
+            <form action="/librarian/pickup/complete/<%= pickup._id %>" method="POST" onsubmit="return validateDueDate('dueDate', '<%= pickup.takeDate %>')" class="bg-white shadow-md rounded px-8 pt-6 pb-8 ">
+                <div class="mb-4">
+                    <label for="dueDate" class="block text-gray-700 text-sm font-bold mb-2">Due Date:</label>
+                    <input type="date" name="dueDate" id="dueDate" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <!-- Button to pop up the forms -->
-    <div>
-        <% if (pickup.status !== 'Completed') { %>
-            <button onclick="showForm('completeForm')">Mark as Completed</button>
-            <button onclick="showForm('cancelForm')">Mark as Canceled</button>
-        <% } %>
+    <!-- Cancel button -->
+    <div class="pop-up-modal" id="pop-up-cancel">
+        <div class="cancel-header">
+            <div class="title">Cancel</div>
+            <button data-close-button class="close-modal">&times;</button>
+        </div>
+        <div class="cancel-body">
+            <form action="/librarian/pickup/cancel/<%= pickup._id %>" method="POST" class="bg-white rounded-lg shadow-xl p-6">
+                <div class="mb-4">
+                    <label for="cancelReason" class="block text-gray-700 text-lg font-semibold mb-2">Cancel Reason</label>
+                    <textarea name="cancelReason" id="cancelReason" class="form-textarea mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="4" required></textarea>
+                </div>
+                <div class="flex justify-end mt-4">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <!-- Change date -->
+    <div class="pop-up-modal" id="pop-up-changeDate">
+        <div class="changeDate-header">
+            <div class="title">Change Date</div>
+            <button data-close-button class="close-modal">&times;</button>
+        </div>
+        <div class="changeDate-body">
+            <form action="/librarian/pickup/update_date/<%= pickup._id %>" method="POST" onsubmit="return validateDate('takeDate')" class="bg-white rounded-lg shadow-xl p-6">
+                <div class="mb-4">
+                    <label for="takeDate" class="block text-sm font-medium text-gray-700"><strong>Take Date</strong></label>
+                    <input type="date" name="takeDate" id="takeDate" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="flex justify-end mt-4">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="overlay"></div>    
 
     <!-- Complete button -->
-    <div id="completeForm" class="popup-form">
+    <!-- <div id="completeForm" class="popup-form">
         <span class="close-button" onclick="hideForm('completeForm')">&times;</span>
         <form action="/librarian/pickup/complete/<%= pickup._id %>" method="POST" onsubmit="return validateDueDate('dueDate', '<%= pickup.takeDate %>')">
             <input type="date" name="dueDate" id="dueDate" required>
             <button type="submit">Confirm</button>
         </form>
-    </div>
+    </div> -->
 
     <!-- Cancel button -->
-    <div id="cancelForm" class="popup-form">
+    <!-- <div id="cancelForm" class="popup-form">
         <span class="close-button" onclick="hideForm('cancelForm')">&times;</span>
         <form action="/librarian/pickup/cancel/<%= pickup._id %>" method="POST">
             <textarea name="cancelReason" id="cancelReason" cols="30" rows="10" required></textarea>
             <button type="submit">Confirm</button>
         </form>
-    </div>
-
-    <div id="changeDateForm" class="popup-form">
+    </div> -->
+    
+    <!-- <div id="changeDateForm" class="popup-form">
         <span class="close-button" onclick="hideForm('changeDateForm')">&times;</span>
         <form action="/librarian/pickup/update_date/<%= pickup._id %>" method="POST" onsubmit="return validateDate('takeDate')">
             <input type="date" name="takeDate" id="takeDate" required>
             <button type="submit">Confirm</button>
         </form>
-    </div>
+    </div> -->
     <%- include("../partials_readers/footer.ejs") %>
     <script>
         // JavaScript function to show the specified form

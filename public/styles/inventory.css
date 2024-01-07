@@ -20,7 +20,7 @@
 
 
 #inventory-section {
-    background-color: white;
+    background-color: var(--theme-color-white);
 }
 
 #pagination-item {

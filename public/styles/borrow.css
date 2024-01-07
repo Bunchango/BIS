@@ -3,6 +3,15 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+:root {
+  --theme-color-white: #EEF0E5; 
+  --theme-color-light-green: #B6C4B6;
+  --theme-color-medium-green: #304D30;
+  --theme-color-heavy-green: #163020;
+  --theme-color-bright-green: #A8DF8E;
+  --theme-color-shadow: #5f5e5e73;
+}
 :root {
   --theme-color-peach: #FCEDDA;
   --theme-color-orange: #EE4E34;
@@ -19,19 +28,21 @@ padding-bottom: 2rem;
 .profile-image {
   border-radius: 50%;
   margin-right: 1rem;
-  height: 30rem;
-  padding: 2rem;
-  background-color: #EE4E34;
+  height:300px;
+  width: 300px;
+  
+  background-color: var(--theme-color-white);
+  box-shadow: 1px 1px 5px black;
 }
 body {
-background-color: var(--theme-color-peach);
+background-color: var(--theme-color-white);
 }
 .profile-details {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: var(--theme-color-orange);
+  color: var(--theme-color-heavy-green);
 }
 
 .profile-name {
@@ -134,31 +145,32 @@ font-size: 62px;
   letter-spacing: 0.2px;
   line-height: 74px;
   padding-bottom: 0.5rem;
-  color: #ee4e34;
+  color: var(--theme-color-heavy-green);
   margin-bottom: 2rem;
   text-align: center;
 }
+
 .sect-header2 {
-font-size: 62px;
+  font-size: 62px;
   font-weight: 700;
   letter-spacing: 0.2px;
   line-height: 74px;
   padding-bottom: 0.5rem;
-  color: var(--theme-color-peach);
+  color: var(--theme-color-white);
   margin-bottom: 2rem;
   text-align: center;
 }
 
 .extra-description {
-background-color: var(--theme-color-orange);
+background-color: var(--theme-color-heavy-green);
 }
 
 #extra-information {
-color: var(--theme-color-peach);
+color: var(--theme-color-white);
 }
 
 #extra-reader-info {
-color: var(--theme-color-orange);
+color: var(--theme-color-heavy-green);
 }
 
 .triangle-line {
@@ -173,14 +185,14 @@ width: 0;
 height: 0;
 border-left: 30px solid transparent;
 border-right: 30px solid transparent;
-border-bottom: 20px solid var(--theme-color-orange); /* Change color as needed */
+border-bottom: 20px solid var(--theme-color-heavy-green); /* Change color as needed */
 }
 .triangle-flip {
 width: 0;
 height: 0;
 border-left: 30px solid transparent;
 border-right: 30px solid transparent;
-border-top: 20px solid var(--theme-color-orange); /* Change color as needed */
+border-top: 20px solid var(--theme-color-heavy-green); /* Change color as needed */
 }
 
 .borrowing-cont {
@@ -193,19 +205,19 @@ justify-content: center;
 height: 20vh;
 }
 #accept {
-background-color: var(--theme-color-orange);
-color: var(--theme-color-peach);
+background-color: var(--theme-color-heavy-green);
+color: var(--theme-color-white);
 }
 
 #decline {
-background-color: var(--theme-color-peach);
+background-color: var(--theme-color-white);
 border: 2px solid;
-border-color: #EE4E34;
-color: var(--theme-color-orange);
+border-color: var(--theme-color-heavy-green);
+color: var(--theme-color-heavy-green);
 }
 
 .interact-buttons button {
-margin: 2rem;
+margin: 1rem;
 padding: 1rem;
 border-radius: 20px;
 }

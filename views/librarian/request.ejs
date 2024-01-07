@@ -12,19 +12,7 @@
     <link rel="stylesheet" href="/styles/borrow.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        #datePicker {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-        }
-    </style>
+    
     <title>Request page</title>
 </head>
 <body>
@@ -34,14 +22,15 @@
             <li><%= error %></li>
         </div>
     <% } %>
+    <h2 class="request-header">Borrow Details</h2>
     <div class="profile-section">
         <!-- Profile Image -->
-        <img src="<%= request.reader.profilePicture %>" alt="Profile Image" class="profile-image">
+        <img src="/<%= request.reader.profilePicture %>" alt="Profile Image" class="profile-image">
 
         <!-- Profile Details (2 Column) -->
         <div class="profile-details">
             <h1 class="profile-name"><%= request.reader.username %></h1>
-            <h1 class="profile-extra"><%= request.reader.gmail %></h1>
+            
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-10 pb-10">
               <!-- Card Holder 1 -->
@@ -49,163 +38,40 @@
                 <div class=" w-10 h-10 mx-auto mb-4">
                   <img src="/images/phone-solid.svg" alt="Image 1" class="w-full h-full">
                 </div>
-                <h3 class="text-xl font-bold mb-2 text-center">Contact number</h3>
-                <p class="text-center">0123456789</p>
+                <h3 class="text-xl font-bold mb-2 text-center">Email</h3>
+                <p class="text-center"><%= request.reader.gmail %></p>
               </div>
-              <div class="p-4 rounded-md" id="extra-reader-info">
+              <!-- <div class="p-4 rounded-md" id="extra-reader-info">
                 <div class=" w-10 h-10 mx-auto mb-4">
                   <img src="/images/cake-candles-solid.svg" alt="Image 1" class="w-full h-full">
                 </div>
                 <h3 class="text-xl font-bold mb-2 text-center">Date of birth</h3>
                 <p class="text-center">29/08/2004</p>
-              </div>
+              </div> -->
               <div class="p-4 rounded-md" id="extra-reader-info">
                 <div class=" w-10 h-10 mx-auto mb-4">
                   <img src="/images/right-to-bracket-solid.svg" alt="Image 1" class="w-full h-full">
                 </div>
                 <h3 class="text-xl font-bold mb-2 text-center">Member since</h3>
-                <p class="text-center">1/12/2023</p>
+                <p class="text-center"><%= request.reader.joinedOnFormatted %></p>
               </div>
               <div class="p-4 rounded-md" id="extra-reader-info">
                 <div class=" w-10 h-10 mx-auto mb-4">
                   <img src="/images/book-bookmark-solid.svg" alt="Image 1" class="w-full h-full">
                 </div>
                 <h3 class="text-xl font-bold mb-2 text-center">Books borrowed</h3>
-                <p class="text-center">63 books</p>
+                <% if (booksBorrow && booksBorrow.length > 0) {%>
+                <p class="text-center"><%=booksBorrow.length%></p>
+                <% } %>
+                <p class="text-center">0</p>
               </div>
               
             </div>
         </div>
     </div>
-    <div class="triangle-line">
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <!-- Add more triangles as needed -->
-  </div>
-    <!-- Extra Description Section -->
-    <div class="extra-description">
-        <h2 class="sect-header2">Borrow Details</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10 pb-10">
-          <!-- Card Holder 1 -->
-          <div class="p-4 rounded-md" id="extra-information">
-            <div class=" w-10 h-10 mx-auto mb-4">
-              <img src="/images/calendar-days-regular.svg" alt="Image 1" class="w-full h-full">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center">Pickup date</h3>
-            <p class="text-center">22/12/2023</p>
-          </div>
-          <div class="p-4 rounded-md" id="extra-information">
-            <div class=" w-10 h-10 mx-auto mb-4">
-              <img src="/images/calendar.svg" alt="Image 1" class="w-full h-full">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center">Pickup date</h3>
-            <p class="text-center">10/1/2024</p>
-          </div>
-          <div class="p-4 rounded-md" id="extra-information">
-            <div class=" w-10 h-10 mx-auto mb-4">
-              <img src="/images/clock-solid.svg" alt="Image 1" class="w-full h-full">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center">Duration</h3>
-            <p class="text-center">20 days</p>
-          </div>
-          <div class="p-4 rounded-md" id="extra-information">
-            <div class=" w-10 h-10 mx-auto mb-4">
-              <img src="/images/book-solid.svg" alt="Image 1" class="w-full h-full">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center">Books number</h3>
-            <p class="text-center">3 books total</p>
-          </div>
-          <div class="p-4 rounded-md" id="extra-information">
-            <div class=" w-10 h-10 mx-auto mb-4">
-              <img src="/images/map-location-dot-solid.svg" alt="Image 1" class="w-full h-full">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center">Pickup Location</h3>
-            <p class="text-center">Library 1</p>
-          </div>
-          <div class="p-4 rounded-md" id="extra-information">
-            <div class=" w-10 h-10 mx-auto mb-4">
-              <img src="/images/ellipsis-solid.svg" alt="Image 1" class="w-full h-full">
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-center">Borrow status</h3>
-            <p class="text-center">Waiting for approve</p>
-          </div>
-
-        </div>
-    </div>
-    <div class="triangle-line">
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <div class="triangle-flip"></div>
-      <!-- Add more triangles as needed -->
-  </div>
-<div class="borrowing-cont">
+    
+    
+  <div class="borrowing-cont">
   <h1 class="sect-header">Borrwing books</h1>
   <div class="container swiper">
     <div class="slide-container">
@@ -214,7 +80,7 @@
             <li class="card swiper-slide">
                 <label onclick="window.location.href='/librarian/book_detail/<%= book._id %>'">
                     <div class="image-box">
-                        <img src="/<%= book.cover_1 %>" alt="" />
+                        <img src="/<%= book.cover_1 %>" alt="<%= book.title %>" />
                       </div>
                       <div class="profile-details">
                         <h1><%= book.title %></h1>
@@ -226,59 +92,82 @@
         
       </div>
     </div>
-    <div class="swiper-button-next swiper-navBtn"></div>
-    <div class="swiper-button-prev swiper-navBtn"></div>
-    <div class="swiper-pagination"></div>
+      <div class="swiper-button-next swiper-navBtn"></div>
+      <div class="swiper-button-prev swiper-navBtn"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+  <div class="interact-buttons">
+      <% if (request.status === 'Pending') { %>
+            <button data-modal-target="#pop-up-accept" id="acceptBtn">
+              Accept
+            </button>
+
+            <button data-modal-target="#pop-up-decline" id="decline-pop-Btn">
+              Decline
+            </button>
+            <div id="overlay"></div>
+            <!-- popup for decline  -->
+            <div class="pop-up-modal" id="pop-up-decline">
+              <div class="decline-header">
+                <div class="title">Decline</div>
+                <button data-close-button class="close-modal">&times;</button>
+              </div>
+              <div class="decline-body">
+                <form action="/librarian/request/decline/<%= request._id %>" method="POST" class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+                  <div class="mb-4">
+                    <label for="declineReason" class="block text-sm font-medium text-gray-700"><strong>Reason for Decline</strong></label>
+                    <textarea name="declineReason" id="declineReason" rows="4" class="mt-1 block w-full p-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Please provide the reason for declining the request"></textarea>
+                  </div>
+                  <div >
+                    <button id="declineBtn" >Decline</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            
+            <!-- popup for accept -->
+            <div class="pop-up-modal" id="pop-up-accept">
+              <div class="accept-header">
+                <div class="title">Accept</div>
+                <button data-close-button class="close-modal">&times;</button>
+              </div>
+              <div class="accept-body">
+                <form action="/librarian/request/accept/<%= request._id %>" method="POST" id="datePicker" class="bg-white p-6 rounded-lg shadow-md">
+                  <div class="space-y-4">
+                      <% request.books.forEach(book => { %>
+                          <div class="flex items-center">
+                              <input type="checkbox" name="approved" id="approved-<%= book._id %>" value="<%= book._id %>" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                              <label for="approved-<%= book._id %>" class="ml-2 block text-sm text-gray-900 cursor-pointer mb-0">
+                                  Title: <%= book.title %>
+                              </label>
+                          </div>
+                      <% }); %>
+                  </div>
+                
+                  <div class="mt-4">
+                      <label for="takeDate" class="block text-sm font-medium text-gray-700"><strong>Choose a date:</strong></label>
+                      <input type="date" id="takeDate" name="takeDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                  </div>
+                
+                  <button id="confirmDateBtn" type="submit" >
+                      Confirm creation
+                  </button>
+              </form>
+              </div>
+            </div>
+            
+        <% } %>
+   
+
   </div>
 </div>
-<div class="interact-buttons">
-  <button id="decline">Decline this borrow</button>
-  <button id="accept">Accept this borrow</button>
-</div>
-</div>
     
-        <% if (request.status === 'Pending') { %>
-            <button id="acceptBtn" class="btn btn-success">Accept</button>
-            
-            <form action="/librarian/request/decline/<%= request._id %>" method="POST">
-                <textarea name="declineReason" id="declineReason" cols="30" rows="10"></textarea>
-                <button id="declineBtn" class="btn btn-danger">Decline</button>
-            </form>
         
-            <form action="/librarian/request/accept/<%= request._id %>" method="POST" id="datePicker">
-                <button type="button" id="closeBtn" style="float: right;">X</button>
-        
-                <ul>
-                    <% request.books.forEach(book => { %>
-                        <li>
-                            <input type="checkbox" name="approved" id="approved" value="<%= book._id %>">
-                            <p>Title: <%= book.title %></p>
-                        </li>
-                    <% }); %>
-                </ul>
-        
-                <label for="takeDate">Choose a date:</label>
-                <input type="date" id="takeDate" name="takeDate">
-                <button id="confirmDateBtn" class="btn btn-primary">Confirm creation</button>
-            </form>
-        <% } %>
     </div>
 
     <%- include("../partials_readers/footer.ejs") %>
-    <script>
-        document.getElementById("acceptBtn").addEventListener("click", function(event){
-            // Prevent the form from being submitted
-            event.preventDefault();
-
-            // Display the datePicker div
-            document.getElementById("datePicker").style.display = "block";
-        });
-
-        document.getElementById("closeBtn").addEventListener("click", function() {
-        // Hide the datePicker div
-            document.getElementById("datePicker").style.display = "none";
-        });
-    </script>
+    <script src="/js/librarian-role.js"></script>
     <script src="/js/swiper-bundle.min.js"></script>
     <script src="/js/general-slider.js"></script>
 </body>
