@@ -823,17 +823,21 @@ tbody tr .title:hover {
 
 #pickup-details ul {
   width: 100%;
-  padding: 10px;
+  padding: 20px 10px;
   overflow-y: scroll;
   height: 200px;
-  min-width: 400px;
+  min-width: 500px;
+  background-color: var(--theme-color-heavy-green);
+  border-radius: 5px;
 }
+
+
 
 #pickup-details .book-tag {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  
+  background-color: var(--theme-color-white);
   border-radius: 5px;
   align-items: center;
   padding: 5px;
@@ -841,7 +845,7 @@ tbody tr .title:hover {
 }
 
 #pickup-details .book-tag:hover{
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
   transition: 0.4s;
 }
 
