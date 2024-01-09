@@ -59,6 +59,8 @@ background-color: var(--theme-color-white);
 .profile-name {
   font-size: 2rem;
   font-weight: bold;
+  padding: 1rem;
+  margin: 1rem;
 }
 
 .extra-description {
@@ -206,21 +208,13 @@ background-color: #333;
   cursor: pointer;
 }
 
-#btn-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin: 20px;
-}
+
 
 #mark-Returned,
 #mark-Canceled,
 #mark-Overdue,
 #change-date-button {
-  width: 200px;
-  margin-left: 10px;
-  
+  min-width: 150px;
   color: var(--theme-color-heavy-green);
   background-color: var(--theme-color-white);
   height: 50px;
@@ -248,6 +242,7 @@ background-color: #333;
 #listOfBooks #title {
   color: var(--theme-color-white);
   margin-top: 30px;
+  font-size: 3rem;
 }
 
 #listOfBooks ul {
@@ -295,9 +290,13 @@ background-color: #333;
 }
 
 @media screen and (max-width: 768px) {
-.swiper-navBtn {
-  display: none;
-}
+  .swiper-navBtn {
+    display: none;
+  }
+  .profile-section{
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .sect-header {
