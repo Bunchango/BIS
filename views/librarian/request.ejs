@@ -22,7 +22,7 @@
             <li><%= error %></li>
         </div>
     <% } %>
-    <h2 class="request-header">Borrow Details</h2>
+    <h2 class="request-header">Request Details</h2>
     <div class="profile-section">
         <!-- Profile Image -->
         <img src="/<%= request.reader.profilePicture %>" alt="Profile Image" class="profile-image">
@@ -59,11 +59,11 @@
                 <div class=" w-10 h-10 mx-auto mb-4">
                   <img src="/images/book-bookmark-solid.svg" alt="Image 1" class="w-full h-full">
                 </div>
-                <h3 class="text-xl font-bold mb-2 text-center">Books borrowed</h3>
-                <% if (booksBorrow && booksBorrow.length > 0) {%>
-                <p class="text-center"><%=booksBorrow.length%></p>
+                <h3 class="text-xl font-bold mb-2 text-center">Books requesting</h3>
+                <% if (request.books) {%>
+                <p class="text-center"><%= request.books.length %></p>
                 <% } %>
-                <p class="text-center">0</p>
+                
               </div>
               
             </div>
@@ -72,7 +72,7 @@
     
     
   <div class="borrowing-cont">
-  <h1 class="sect-header">Borrwing books</h1>
+  <h1 class="sect-header">Requesting books</h1>
   <div class="container swiper">
     <div class="slide-container">
       <div class="card-wrapper swiper-wrapper">

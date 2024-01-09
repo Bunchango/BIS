@@ -18,7 +18,6 @@
 }
 
 main {
-  height: 50vh;
   background-color: var(--theme-color-heavy-green);
 }
 
@@ -145,6 +144,156 @@ font-size: 24px;
 background-color: #333;
 }
 
+/* Pop button */
+#pop-up-Returned .Returned-header,
+#pop-up-Canceled .Cancel-header,
+#pop-up-Overdue .Overdue-header,
+#pop-up-ChangeDate .ChangeDate-header {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+  background: var(--theme-color-medium-green);
+}
+
+
+#pop-up-Returned .title,
+#pop-up-Canceled .title,
+#pop-up-Overdue .title,
+#pop-up-ChangeDate .title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--theme-color-white);
+}
+
+#pop-up-Returned .close-modal,
+#pop-up-Canceled .close-modal,
+#pop-up-Overdue .close-modal,
+#pop-up-ChangeDate .close-modal {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--theme-color-white);
+}
+
+
+#pop-up-Returned #Returned-body,
+#pop-up-Canceled #Cancel-body,
+#pop-up-Overdue #Overdue-body,
+#pop-up-ChangeDate #ChangeDate-body {
+  padding: 15px ;
+}
+
+#pop-up-Returned #Returned-body {
+  overflow-y: scroll;
+  max-height: 500px;
+}
+
+#Overdue-body input,
+#Returned-body #submit-btn,
+#ChangeDate-body #submit-btn,
+#Cancel-body input{
+  width: 100%;
+  background-color: var(--theme-color-heavy-green);
+  height: 40px;
+  color: var(--theme-color-white);
+  font-weight: 400;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#btn-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 20px;
+}
+
+#mark-Returned,
+#mark-Canceled,
+#mark-Overdue,
+#change-date-button {
+  width: 200px;
+  margin-left: 10px;
+  
+  color: var(--theme-color-heavy-green);
+  background-color: var(--theme-color-white);
+  height: 50px;
+  font-weight:500;
+  border-radius: 7px;
+}
+
+#mark-Returned:hover,
+#mark-Canceled:hover,
+#mark-Overdue:hover,
+#change-date-button:hover {
+  box-shadow: 2px 1px 5px rgba(182, 196, 182, 0.6);
+}
+
+
+#listOfBooks {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#listOfBooks #title {
+  color: var(--theme-color-white);
+  margin-top: 30px;
+}
+
+#listOfBooks ul {
+  background-color: var(--theme-color-white);
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+  align-items: center;
+  padding: 30px 10px;
+  width: 800px;
+  overflow-y: scroll;
+}
+
+#listOfBooks ul li {
+  padding: 0 30px;
+  height: 50px;
+  width: 100%;
+  border: 1px solid var(--theme-color-heavy-green);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#listOfBooks ul a {
+  width: 100%;
+
+}
+
+#listOfBooks ul a:hover {
+  box-shadow: 1px 1px 5px rgba(22, 48, 32, 0.5);
+}
+
+#listOfBooks ul li img {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+#Returned-body li {
+  border: 1px solid var(--theme-color-heavy-green);
+  padding: 5px;
+  border-radius: 5px;
+}
+
 @media screen and (max-width: 768px) {
 .swiper-navBtn {
   display: none;
@@ -162,7 +311,7 @@ font-size: 62px;
   text-align: center;
 }
 
-.sect-header2 {
+.extra-description .borrow-header {
   font-size: 62px;
   font-weight: 700;
   letter-spacing: 0.2px;
@@ -186,19 +335,21 @@ color: var(--theme-color-heavy-green);
 }
 
 .triangle-line {
-display: flex;
-justify-content: center;
-align-items: center;
-overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  background-color: var(--theme-color-white);
 }
 
 .triangle {
-width: 0;
-height: 0;
-border-left: 30px solid transparent;
-border-right: 30px solid transparent;
-border-bottom: 20px solid var(--theme-color-heavy-green); /* Change color as needed */
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 20px solid var(--theme-color-heavy-green); /* Change color as needed */
 }
+
 .triangle-flip {
 width: 0;
 height: 0;

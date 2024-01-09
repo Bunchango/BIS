@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+  text-decoration: none;
 }
 
 :root {
@@ -502,13 +503,12 @@ table {
 }
 
 
-
-
 thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #d5d1defe;
+  background-color: var(--theme-color-heavy-green);
+  color: var(--theme-color-white);
 }
 
 main.table {
@@ -824,6 +824,7 @@ tbody tr .title:hover {
   padding: 10px;
   overflow-y: scroll;
   height: 200px;
+  min-width: 400px;
 }
 
 #pickup-details .book-tag {

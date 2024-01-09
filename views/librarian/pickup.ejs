@@ -40,8 +40,8 @@
                     </a>
                 <% }); %>
             </ul>
-            <p><strong>Created On:</strong> <%= pickup.createdOn %></p>
-            <p><strong>Take Date:</strong> <%= pickup.takeDate %></p>
+            <p><strong>Created On:</strong> <%= pickup.createdOnFormatted %></p>
+            <p><strong>Take Date:</strong> <%= pickup.takeDateFormatted %></p>
 
             <% if(pickup.status === 'Scheduled') { %>
                 <!-- Button display form to change date -->

@@ -268,10 +268,10 @@
                     <% if (loans && loans.length > 0) {%>
                         <% loans.forEach(loan => { %>
                         <li>
-                            <p><strong>Library:</strong> <%= loan.library.name %></p>
+                            <p><strong>Library:</strong> <%= loan.library.username %></p>
                             <ul>
                                 <% loan.books.forEach(book => { %>
-                                <li><%= book.title %></li>
+                                <li><%= book.book.title %></li>
                                 <% }); %>
                             </ul>
                         </li>

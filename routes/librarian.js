@@ -531,6 +531,20 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
       if (pickup.library.toString() !== req.user.library.toString()) {
         return res.redirect("/librarian/customer");
       }
+    if (pickup) {
+      pickup.takeDateFormatted = pickup.takeDate.toLocaleDateString("en-US", {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "1999"
+        month: 'long', // "December"
+        day: 'numeric', // "2"
+      });
+      pickup.createdOnFormatted = pickup.createdOn.toLocaleDateString("en-US", {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "1999"
+        month: 'long', // "December"
+        day: 'numeric', // "2"
+      });
+    }
     res.render("librarian/pickup", { pickup: pickup, user: req.user});
   } catch (e) {
     res.status(400).json({ errors: e });
