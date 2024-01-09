@@ -394,7 +394,7 @@ body {
   align-items: end;
 }
 
-#account-hovering {
+#account-container #account-hovering {
   transition: 0.6s;
   position: absolute;
   display: none;

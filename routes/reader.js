@@ -438,7 +438,17 @@ const fetchLoans = async (req, res, next) => {
     const loans = await Borrow.find({ reader: req.user._id })
       .populate("books.book")
       .populate("library");
-
+      if (loans) {
+        loans.forEach(loan => {
+          loan.dueDateFormatted = loan.dueDate.toLocaleDateString("en-US", {
+            weekday: 'long', // "Monday"
+            year: 'numeric', // "1999"
+            month: 'long', // "December"
+            day: 'numeric', // "2"
+          });
+          
+        })
+      }
     req.readerLoans = loans;
     next();
   } catch (err) {
@@ -465,6 +475,22 @@ const fetchPickups = async (req, res, next) => {
   try {
     const pickups = await Pickup.find({reader: req.user._id}).populate("books").exec();
 
+    if (pickups) {
+      pickups.forEach(pickup => {
+        pickup.takeDateFormatted = pickup.takeDate.toLocaleDateString("en-US", {
+          weekday: 'long', // "Monday"
+          year: 'numeric', // "1999"
+          month: 'long', // "December"
+          day: 'numeric', // "2"
+        });
+        pickup.createdOnFormatted = pickup.createdOn.toLocaleDateString("en-US", {
+          weekday: 'long', // "Monday"
+          year: 'numeric', // "1999"
+          month: 'long', // "December"
+          day: 'numeric', // "2"
+        });
+      })
+    }
     req.pickups = pickups;
 
     next();

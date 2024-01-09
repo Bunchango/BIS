@@ -106,7 +106,7 @@ header ul li a {
   top:85px;
   right: 70px;
   z-index: 50;
-  background-color: #fff;
+  background-color: var(--theme-color-white);
   color: #000;
   width: 250px;
   height: fit-content;

@@ -127,7 +127,7 @@
     <div class="whole-lower">
         <div class="lower">
             <!-- My cart -->
-            <div id="my-cart" class="tabcontent">
+            <div id="my-cart" class="tabcontent shadow-xl">
                 <% if (carts && carts.length > 0) { %>
                 <ul>
                     <% carts.forEach(cart => { %>
@@ -174,7 +174,7 @@
             </div>
 
             <!-- my request -->
-            <div id="my-requests" class="tabcontent">
+            <div id="my-requests" class="tabcontent shadow-xl">
                 <% if (formattedRequests && formattedRequests.length > 0) { %>
                     <ul>
                         <% formattedRequests.forEach(request => { %>
@@ -229,15 +229,15 @@
             </div>
 
             <!-- My Pickups -->
-            <div id="my-pickups" class="tabcontent">
+            <div id="my-pickups" class="tabcontent shadow-xl">
                 <ul>
                     <% if (pickups && pickups.length > 0) { %>
                         <% pickups.forEach(pickup => { %>
                             <li class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl">
                                <div class="flex-1 min-w-0">
                                    <p class="text-sm font-medium text-gray-900"><strong>Library</strong><%= pickup.library.username %></p>
-                                   <p class="text-sm text-gray-500"><strong>Created On: </strong><%= pickup.createdOn %></p>
-                                   <p class="text-sm text-gray-500"><strong>Take Date: </strong><%= pickup.takeDate %></p>
+                                   <p class="text-sm text-gray-500"><strong>Created On: </strong><%= pickup.createdOnFormatted %></p>
+                                   <p class="text-sm text-gray-500"><strong>Take Date: </strong><%= pickup.takeDateFormatted %></p>
              
                                    <% if (pickup.status === 'Scheduled') { %>
                                        <p><strong>Status:</strong>
@@ -263,15 +263,18 @@
              
 
             <!-- My Loan -->
-            <div id="my-loans" class="tabcontent">
+            <!-- <div id="my-loans" class="tabcontent">
                 <ul>
                     <% if (loans && loans.length > 0) {%>
                         <% loans.forEach(loan => { %>
                         <li>
                             <p><strong>Library:</strong> <%= loan.library.username %></p>
+                            <p></p>
                             <ul>
                                 <% loan.books.forEach(book => { %>
-                                <li><%= book.book.title %></li>
+                                <li>
+                                    <p><%= book.book.title %></p>
+                                </li>
                                 <% }); %>
                             </ul>
                         </li>
@@ -280,9 +283,73 @@
                         <div id="empty-container" >You have no loan</div>
                     <% } %>
                 </ul>
-            </div>
+            </div> -->
 
-            <div id="my-wishlist" class="tabcontent">
+            <main id="my-loans" class="tabcontent shadow-xl">
+                <section class="table_header">
+                    
+                    <div class="input-group">
+                        <input type="search" placeholder="Search Book...">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </section>
+                <section class="table_body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>library</th>
+                                <th>Location</th>
+                                <th>DueDate</th>
+                                <th>Status</th>
+                                <th>Books</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let counter = 0; %>
+                            <% if (loans && loans.length > 0) {%>
+                                <% loans.forEach(loan => { %>
+                                <tr> 
+                                    <td><%= ++counter %></td>
+                                    <td class="title"><img src="/<%= loan.library.profilePicture %>" alt="Library">
+                                        <p><a href="/reader/library-profile/<%= loan.library._id %>"> <%= loan.library.username %> </a></p>
+                                    </td>
+                                    <td>
+                                        <p><%= loan.library.location.formattedAddress %></p>
+                                    </td>
+                                    <td>
+                                        <p><%= loan.dueDateFormatted  %></p>
+                                    </td>
+                                    <td>
+                                        <% if (loan.status == "Returned") { %>
+                                        <p style="color: rgb(5, 235, 5);"><%= loan.status %></p>
+                                        <% } else if (loan.status == "Ongoing") { %>
+                                        <p style="color:rgb(59, 201, 206);"><%= loan.status %></p>
+                                        <% } else if (loan.status == "Overdue") { %>
+                                        <p style="color: rgb(248, 244, 7);"><%= loan.status %></p>
+                                        <% } else {%>
+                                        <p style="color: red;"><%= loan.status %></p>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <% loan.books.forEach(book => { %>
+                                            <li>
+                                                <p>- <a href="/reader/book_detail/<%= book._id %>"><%= book.book.title %></a></p>
+                                            </li>
+                                            <% }); %>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            <% }; %>
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+
+            <!-- My Wishlist -->
+            <div id="my-wishlist" class="tabcontent shadow-xl">
                 <ul>
                     <% if (wishList && wishList.length > 0) { %> 
                     <% wishList.forEach( book => { %>

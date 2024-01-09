@@ -27,7 +27,6 @@ nav div, nav a {
 
 main {
     background-color: var(--theme-color-white);
-    background-color: var(--theme-color-white);
 }
 
 #account_img {
@@ -654,7 +653,9 @@ tbody tr .title:hover {
 
 /* Book detail */
 
-
+#pop-up-editBook {
+  overflow-y: scroll;
+}
 #pop-up-editBook .editBook-header{
   padding: 10px 15px;
   display: flex;
@@ -682,6 +683,7 @@ tbody tr .title:hover {
 
 #pop-up-editBook .editBook-body {
   padding: 10px 15px;
+  
 }
  
 #saveBtn-editBook {
