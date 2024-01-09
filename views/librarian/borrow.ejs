@@ -38,9 +38,9 @@
     <% if(borrow.status !== 'Returned') { %>
         <!-- Button display form to change date -->
         <div>
-            <button class="return-button">Mark as Returned</button>
-            <button class="cancel-button">Mark as Canceled</button>
-            <button class="overdue-button">Mark as Overdue</button>
+            <button data-modal-target="#pop-up-Returned" id="mark-Returned">Mark as Returned</button>
+            <button data-modal-target="#pop-up-Canceled" id="mark-Canceled">Mark as Canceled</button>
+            <button data-modal-target="#pop-up-Overdue" id="mark-Overdue">Mark as Overdue</button>
         </div>
     <% } %>
 
@@ -89,7 +89,9 @@
         </form>
         <button id="closeButton">Close</button>
      </div>
-     <div class="triangle-line">
+     
+    <main>
+      <div class="triangle-line">
         <div class="triangle"></div>
         <div class="triangle"></div>
         <div class="triangle"></div>
@@ -138,45 +140,54 @@
               <img src="/images/calendar-days-regular.svg" alt="Image 1" class="w-full h-full">
             </div>
             <h3 class="text-xl font-bold mb-2 text-center">Pickup date</h3>
-            <p class="text-center">22/12/2023</p>
+            <p class="text-center"><%= borrow.takeDateFormatted %></p>
           </div>
           <div class="p-4 rounded-md" id="extra-information">
             <div class=" w-10 h-10 mx-auto mb-4">
               <img src="/images/calendar.svg" alt="Image 1" class="w-full h-full">
             </div>
-            <h3 class="text-xl font-bold mb-2 text-center">Pickup date</h3>
-            <p class="text-center">10/1/2024</p>
+            <h3 class="text-xl font-bold mb-2 text-center">End date</h3>
+            <p class="text-center"><%= borrow.dueDateFormatted %></p>
           </div>
           <div class="p-4 rounded-md" id="extra-information">
             <div class=" w-10 h-10 mx-auto mb-4">
               <img src="/images/clock-solid.svg" alt="Image 1" class="w-full h-full">
             </div>
             <h3 class="text-xl font-bold mb-2 text-center">Duration</h3>
-            <p class="text-center">20 days</p>
+            <% if (borrow.duration && borrow.duration > 1) { %>
+            <p class="text-center"><%= borrow.duration %> days</p>
+            <% } else { %> 
+            <p class="text-center"><%= borrow.duration %> day</p>
+              <% } %>
           </div>
           <div class="p-4 rounded-md" id="extra-information">
             <div class=" w-10 h-10 mx-auto mb-4">
               <img src="/images/book-solid.svg" alt="Image 1" class="w-full h-full">
             </div>
             <h3 class="text-xl font-bold mb-2 text-center">Books number</h3>
-            <p class="text-center">3 books total</p>
+            <% if (borrow.books && borrow.books.length > 1) { %>
+            <p class="text-center"><%= borrow.books.length %> Books</p>
+            <% } else { %> 
+            <p class="text-center"><%= borrow.books.length %> Book</p>
+            <% } %>
           </div>
           <div class="p-4 rounded-md" id="extra-information">
             <div class=" w-10 h-10 mx-auto mb-4">
               <img src="/images/map-location-dot-solid.svg" alt="Image 1" class="w-full h-full">
             </div>
             <h3 class="text-xl font-bold mb-2 text-center">Pickup Location</h3>
-            <p class="text-center">Library 1</p>
+            <p class="text-center"><% user.library.location %></p>
           </div>
           <div class="p-4 rounded-md" id="extra-information">
             <div class=" w-10 h-10 mx-auto mb-4">
               <img src="/images/ellipsis-solid.svg" alt="Image 1" class="w-full h-full">
             </div>
             <h3 class="text-xl font-bold mb-2 text-center">Borrow status</h3>
-            <p class="text-center">Waiting for approve</p>
+            <p class="text-center"><%= borrow.status %></p>
           </div>
 
         </div>
+
     </div>
     <div class="triangle-line">
       <div class="triangle-flip"></div>
@@ -215,11 +226,15 @@
       <div class="triangle-flip"></div>
       <div class="triangle-flip"></div>
       <div class="triangle-flip"></div>
+    
       <!-- Add more triangles as needed -->
   </div>
 
-     <%- include("../partials_readers/footer.ejs") %>
-     <script>
+    </main>
+     
+    <%- include("../partials_readers/footer.ejs") %>
+</body>
+<script>
         document.querySelector('.change-date-button').addEventListener('click', function() {
         document.getElementById('changeDateForm').style.display = 'block';
         });
@@ -281,6 +296,5 @@
         };
 
      </script>
-     <script src="/js/librarian-role.js"></script>
-</body>
+<script src="/js/librarian-role.js"></script>
 </html>

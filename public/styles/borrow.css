@@ -16,15 +16,27 @@
   --theme-color-peach: #FCEDDA;
   --theme-color-orange: #EE4E34;
 }
+
+main {
+  height: 50vh;
+  background-color: var(--theme-color-heavy-green);
+}
+
+main h2 {
+
+}
+
 .profile-section {
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 2.5rem;
 }
+
 .profile-extra{
-padding-bottom: 2rem;
+  padding-bottom: 2rem;
 }
+
 .profile-image {
   border-radius: 50%;
   margin-right: 1rem;
