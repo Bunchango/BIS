@@ -335,7 +335,7 @@
                                         <ul>
                                             <% loan.books.forEach(book => { %>
                                             <li>
-                                                <p>- <a href="/reader/book_detail/<%= book._id %>"><%= book.book.title %></a></p>
+                                                <p>- <a href="/reader/book_detail/<%= book.book._id %>"><%= book.book.title %></a></p>
                                             </li>
                                             <% }); %>
                                         </ul>
