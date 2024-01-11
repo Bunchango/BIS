@@ -201,10 +201,10 @@ button.btn:focus {
 button.btn {
   background-image: linear-gradient(
     to right,
-    --theme-color-heavy-green,
-    --theme-color-medium-green,
-    --theme-color-light-green,
-    --theme-color-bright-green
+    var(--theme-color-heavy-green),
+    var(--theme-color-medium-green),
+    var(--theme-color-light-green),
+    var(--theme-color-bright-green)
   );
   box-shadow: 0 4px 15px 0 rgba(1, 69, 18, 0.75);
 }

@@ -109,6 +109,27 @@ router.get("/profile", isLibraryAdmin, async (req, res) => {
     res.render("library/profile", { admin: req.user, errors_lib: [], librarians: librarians, errors: [], books: books});
 })
 
+// Book Detail Route
+router.get("/book_detail/:id", async (req, res) => {
+    try {
+      const book = await Book.findById(req.params.id).populate("library");
+  
+      if (!book) {
+        return res.status(404).json({ error: "Book not found" });
+      }
+      
+      res.render("library/book_detail", {
+            admin: req.user, 
+            errors_lib: [], 
+            book:book,
+            user: req.user
+        });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ errors: err });
+    }
+});
+
 // Upadte the Libray Profile
 router.post("/profile", upload.fields([{ name: "logo" }, { name: "banner" }]), validateUsername, validateDescription,  async (req, res) => {
     // TODO: Make location changable
@@ -181,5 +202,7 @@ router.post("/verifying_librarian/:id", async (req, res) => {
         res.status(400).json({errors: e});
     }
 })
+
+
 
 module.exports = router;

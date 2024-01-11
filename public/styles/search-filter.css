@@ -138,6 +138,7 @@ form {
 
 .search-result-display .card.swiper-slide .image-box img {
   object-fit: cover;
+  width: 100%;
 }
 
 .search-result-item {

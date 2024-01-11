@@ -138,7 +138,7 @@ nav #list li #create-librarians {
 .sticky .checkbtn,
 .sticky button,
 .sticky ul li a {
-    color: var(--theme-color-orange);
+    color: var(--theme-color-heavy-green);
 }
 
 .sticky #account-hovering {
@@ -190,7 +190,7 @@ nav #list li button {
     width: 100%;
     max-width: 650px;
     padding: 30px;
-    box-shadow: inset -2px 2px 2px var(--theme-color-peach);
+    box-shadow: inset -2px 2px 2px var(--theme-color-white);
 }
 
 .createLibrarians-header,
@@ -208,7 +208,7 @@ nav #list li button {
     font-weight: 600;
     text-align: center;
     padding-bottom: 6px;
-    color: var(--theme-color-orange);
+    color: var(--theme-color-heavy-green);
     text-shadow: 2px 2px 2px black;
     border-bottom: solid 1px white;
 }
@@ -248,7 +248,7 @@ nav #list li button {
 #create-librarians-body .user-input-box label,
 #update-body .user-input-box label{
     width: 95%;
-    color: var(--theme-color-orange);
+    color: var(--theme-color-heavy-green);
     font-size: 20px;
     font-weight: 400;
     margin: 5px 0;
@@ -279,12 +279,12 @@ nav #list li button {
     border:none;
     border-radius: 3px;
     color: rgb(209, 209, 209);
-    background: var(--theme-color-orange);
+    background: var(--theme-color-heavy-green);
 }
 
 #create-librarians-body .form-submit-btn input,
 #update-body .form-submit-btn input:hover{
-    background: #db260a;
+    background: var(--theme-color-heavy-green);
     color: rgb(255, 255, 255);
 }
 
@@ -311,7 +311,7 @@ nav #list li button {
     position: relative;
     overflow: hidden;
     display: inline-block;
-    background-color: var(--theme-color-orange);
+    background-color: var(--theme-color-heavy-green);
     color: #fff;
     padding: 5px 65px;
     border-radius: 4px;
@@ -328,14 +328,19 @@ nav #list li button {
     width: 100%;
     height: 100%;
     cursor: pointer;
+    color: var(--theme-color-white);
 }
   
 #update-body .upload-button:hover {
-    background-color: #e03217;
+    background-color: var(--theme-color-heavy-green);
 }
   
 #update-body .upload-button:active {
-    background-color: #bf1900;
+    background-color: var(--theme-color-heavy-green);
+}
+
+#update-body .upload-button span {
+    color: var(--theme-color-white);
 }
 
 @media (max-width: 600px) {
@@ -591,7 +596,7 @@ nav #list li button {
 }
 
 #whole-upper #upper .right-col .small-nav #update-btn{
-    background: var(--theme-color-orange);
+    background: var(--theme-color-heavy-green);
     color: #fff;
     border: none;
     padding: 10px 25px;
@@ -718,6 +723,7 @@ nav #list li button {
     height: 400px;
     object-fit: cover;
     border-radius: 8px;
+    width: 100%;
 }
 
 .book-card{

@@ -108,13 +108,22 @@ async function removeBookmark(event) {
   }
 }
 
-openModalButtons.forEach((button) => {
+//// --------------------------
+
+
+
+
+// Open the pop up 
+openModalButtons.forEach( (button) => {
   button.addEventListener("click", () => {
     const modal = document.querySelector(button.dataset.modalTarget);
     updateBookmarkPopup().catch(console.error);
     openModal(modal);
+    // TODO: call open map
+    
   });
 });
+
 
 overlay.addEventListener("click", () => {
   const modals = document.querySelectorAll(".pop-up-modal.active");

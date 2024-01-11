@@ -55,11 +55,13 @@
                 <% if (user && user.__t === "Reader") { %>
                 <!-- Reader-specific content -->
                 <div class="reader-buttons">
+                    <% if (book.available > 0) { %>
                     <div class="cart-btn">
                         <form class="form" action="/reader/add-cart/<%= book._id %>" method="POST">
                             <button class="btn" type="submit">Add to Cart</button>
                         </form>
                     </div>
+                    <% } %>
 
                     <div class="wishlist-btn">
                         <form class="form" action="/reader/wishlist/<%= book._id %>?action=add" method="POST">

@@ -7,10 +7,11 @@ const {
 } = require("../config/validator");
 const upload = require("./../config/multer");
 const { validationResult } = require("express-validator");
-const { Librarian, Reader } = require("../models/user");
+const { Librarian, Reader, User } = require("../models/user");
 const Notice = require("../models/notice");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
+const { render } = require("ejs");
 
 // TODO: book detail path, add modify path to notify
 
@@ -218,7 +219,39 @@ router.get("/customer", isLibrarian, async (req, res) => {
     const borrows = await Borrow.find({ library: req.user.library }).populate(
       "reader",
     );
-
+    if (requests) {
+      requests.forEach(request => {
+          request.joinedOnFormatted = request.createdOn.toLocaleDateString("en-US", {
+          weekday: 'long', // "Monday"
+          year: 'numeric', // "1999"
+          month: 'long', // "December"
+          day: 'numeric', // "2"
+        });
+      })
+    }
+    
+    if (pickups) {
+      pickups.forEach(pickup => {
+        pickup.joinedOnFormatted = pickup.createdOn.toLocaleDateString("en-US", {
+          weekday: 'long', // "Monday"
+          year: 'numeric', // "1999"
+          month: 'long', // "December"
+          day: 'numeric', // "2"
+        });
+      })
+    }
+    
+    if (borrows) {
+      borrows.forEach(borrow => {
+        borrow.joinedOnFormatted = borrow.createdOn.toLocaleDateString("en-US", {
+          weekday: 'long', // "Monday"
+          year: 'numeric', // "1999"
+          month: 'long', // "December"
+          day: 'numeric', // "2"
+        });
+      })
+    }
+    
     const data = {};
 
     if (requests.length > 0) {
@@ -237,6 +270,7 @@ router.get("/customer", isLibrarian, async (req, res) => {
 
     res.render("librarian/customer", { data: data, user: req.user });
   } catch (e) {
+    console.log(e)
     res.status(400).json({ errors: e });
   }
 });
@@ -259,15 +293,42 @@ router.get("/borrow-all", isLibrarian, async (req, res) => {
   }
 });
 
+function dateDiffInDays(a, b) {
+  const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+  // Discard the time and time-zone information.
+  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+}
+
 router.get("/borrow/:id", isLibrarian, async (req, res) => {
   // Display borrow information
   try {
-    const borrow = await Borrow.findById(req.params.id).populate("reader").populate("books.book");
+    const borrow = await Borrow.findById(req.params.id).populate("reader").populate("books.book").populate("pickup");
     if (borrow.library.toString() !== req.user.library.toString()) {
       return res.redirect("/librarian/customer");
     }
+    if (borrow) {
+      borrow.dueDateFormatted = borrow.dueDate.toLocaleDateString("en-US", {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "1999"
+        month: 'long', // "December"
+        day: 'numeric', // "2"
+      });
+      
+      borrow.takeDateFormatted = borrow.pickup.takeDate.toLocaleDateString("en-US", {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "1999"
+        month: 'long', // "December"
+        day: 'numeric', // "2"
+      });
+      // Calculate the duration in days between takeDate and dueDate
+      borrow.duration = dateDiffInDays(borrow.pickup.takeDate, borrow.dueDate);
+    }
+    const user = await User.findById(req.user._id).populate("library");
 
-    res.render("librarian/borrow", { borrow: borrow, user: req.user });
+    res.render("librarian/borrow", { borrow: borrow, user: user });
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -470,6 +531,20 @@ router.get("/pickup/:id", isLibrarian, async (req, res) => {
       if (pickup.library.toString() !== req.user.library.toString()) {
         return res.redirect("/librarian/customer");
       }
+    if (pickup) {
+      pickup.takeDateFormatted = pickup.takeDate.toLocaleDateString("en-US", {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "1999"
+        month: 'long', // "December"
+        day: 'numeric', // "2"
+      });
+      pickup.createdOnFormatted = pickup.createdOn.toLocaleDateString("en-US", {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "1999"
+        month: 'long', // "December"
+        day: 'numeric', // "2"
+      });
+    }
     res.render("librarian/pickup", { pickup: pickup, user: req.user});
   } catch (e) {
     res.status(400).json({ errors: e });
@@ -612,7 +687,18 @@ router.get("/request/:id", isLibrarian, async (req, res) => {
       if (request.library.toString() !== req.user.library.toString()) {
         return res.redirect("/librarian/customer");
       }
-    res.render("librarian/request", { request: request, error: "", user: req.user});
+    
+    const booksBorrow = await Book.find({
+      reader: request.reader._id,
+      library: req.user.library
+    });
+    request.reader.joinedOnFormatted = request.reader.joinedOn.toLocaleDateString("en-US", {
+      weekday: 'long', // "Monday"
+      year: 'numeric', // "1999"
+      month: 'long', // "December"
+      day: 'numeric', // "2"
+    });
+    res.render("librarian/request", { request: request, error: "", user: req.user, booksBorrow: booksBorrow});
   } catch (e) {
     res.status(400).json({ errors: e });
   }
@@ -628,8 +714,8 @@ router.post("/request/accept/:id", async (req, res) => {
     .populate("library")
     .exec();
 
-    if (!approved) return res.render("librarian/request", { request: request, error: "At least 1 book must be approved to accept request" });
-    if (!takeDate) return res.render("librarian/request", { request: request, error: "Take date is required" });
+    if (!approved) return res.render("librarian/request", { request: request, error: "At least 1 book must be approved to accept request", user:req.user });
+    if (!takeDate) return res.render("librarian/request", { request: request, error: "Take date is required", user:req.user });
 
     // Change request status to accept
     await Request.findByIdAndUpdate(
@@ -677,7 +763,7 @@ router.post("/request/accept/:id", async (req, res) => {
     );    
 
     // Redirect to customer page
-    res.redirect("/librarian/customer");
+    res.redirect("/librarian/customer")
   } catch (e) {
     res.status(400).json({ errors: e });
   }

@@ -27,7 +27,7 @@
                 <img src="/<%= request.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
               </div>
               <h3 class="text-xl font-bold mb-2 text-center"><%= request.reader.username %></h3>
-              <p class="text-center">Created On: <%= request.createdOn %></p>
+              <p class="text-center"><%= request.joinedOnFormatted %></p>
             </a>
         <% }); %>
     </ul>
@@ -51,7 +51,7 @@
                 <img src="/<%= pickup.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
               </div>
               <h3 class="text-xl font-bold mb-2 text-center"><%= pickup.reader.username %></h3>
-              <p class="text-center"><%= pickup.createdOn %></p>
+              <p class="text-center"><%= pickup.joinedOnFormatted %></p>
             </a>
           <% }); %>
           <%}%>
@@ -74,7 +74,7 @@
               <img src="/<%= borrow.reader.profilePicture %>" alt="Image 1" class="w-full h-full object-cover">
             </div>
             <h3 class="text-xl font-bold mb-2 text-center"><%= borrow.reader.username %></h3>
-            <p class="text-center">Created On: <%= borrow.createdOn %></p>
+            <p class="text-center"><%= borrow.joinedOnFormatted %></p>
           </a>
         <% }); %>
     </ul>
