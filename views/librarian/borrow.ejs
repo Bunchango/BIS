@@ -196,7 +196,7 @@
       <!-- Buttons to change status -->
       <% if(borrow.status !== 'Returned') { %>
         <!-- Button display form to change date -->
-        <div id="btn-container">
+        <div id="btn-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-10 px-10">
             <button data-modal-target="#pop-up-Returned" id="mark-Returned">Mark as Returned</button>
             <button data-modal-target="#pop-up-Canceled" id="mark-Canceled">Mark as Canceled</button>
             <button data-modal-target="#pop-up-Overdue" id="mark-Overdue">Mark as Overdue</button>
@@ -208,7 +208,7 @@
       <% } %>
       
       <div id="listOfBooks">
-        <h2 class="text-xl font-bold mb-2 text-center" id="title">List of Books:</h2>
+        <h2 class="font-bold mb-2 text-center" id="title">List of Books:</h2>
         <ul>
           <% borrow.books.forEach(book => { %>
             
