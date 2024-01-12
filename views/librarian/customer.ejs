@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="images/vxnhe-icon.png" type="image/x-icon">
+  <link rel="icon" href="/images/vxnhe-icon.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/styles/librarian-role.css">
   <link rel="stylesheet" href="/styles/footer.css"/>
@@ -18,7 +18,7 @@
   </section>
 
   <section id="borrow-section" class="p-16 pb-0">
-    <h2 class="text-2xl font-bold mb-4" id="sect-header">Requests</h2>
+    <h2 class="text-2xl font-bold mb-4" id="sect-header" >Requests</h2>
     <% if (data.requests && data.requests.length > 0) { %>
     <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
         <% data.requests.slice(-6).forEach(request => { %>
@@ -42,7 +42,7 @@
   </div>
 
   <section id="borrow-section2" class="p-16">
-    <h2 class="text-2xl font-bold mb-4" id="sect-header2">Pickups</h2>
+    <h2 class="text-2xl font-bold mb-4" id="sect-header2" style="color: #EEF0E5;">Pickups</h2>
       <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10" id="pagination-list">
         <% if( data.pickups && data.pickups.length > 0 ) { %>
           <% data.pickups.slice(-6).forEach( pickup => { %>
