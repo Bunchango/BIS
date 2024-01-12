@@ -15,9 +15,6 @@
 </head>
 <body>
     <%- include('./partials-librarian/nav-librarian.ejs')%>
-    <!-- Show information of the pickup -->
-    <!-- Show buttons to complete, or cancel the pickup -->
-    <!-- Using Canceling or completing pickup buttons will pop up a form to complete  -->
     <div id="pickup-title">
         <h1>Pickup Details</h1>
     </div>
@@ -27,9 +24,29 @@
             <img src="/<%= pickup.reader.profilePicture %>" alt="<%= pickup.reader.username %>'s Profile Picture">
         </div>
         <div id="pickup-details">
-            <p><strong>Reader Name:</strong> <%= pickup.reader.username %></p>
-            <p><strong>Reader Gmail:</strong> <%= pickup.reader.gmail %></p>
-            <p><strong>List of Books:</strong></p>
+            <h1 class="profile-name"><%= pickup.reader.username %></h1>
+            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-10 pb-10">
+                <!-- Card Holder 1 -->
+                <div class="p-4 rounded-md" id="extra-reader-info">
+                  <div class=" w-10 h-10 mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#163020" d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+                  </div>
+                  <h3 class="text-xl font-bold mb-2 text-center">Email</h3>
+                  <p class="text-center"><%= pickup.reader.gmail %></p>
+                </div>
+                <div class="p-4 rounded-md" id="extra-reader-info">
+                  <div class=" w-10 h-10 mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path opacity="1" fill="#163020" d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z"/></svg></div>
+                  <h3 class="text-xl font-bold mb-2 text-center">Created On</h3>
+                  <p class="text-center"><%= pickup.createdOnFormatted %></p>
+                </div>
+                <div class="p-4 rounded-md" id="extra-reader-info">
+                  <div class=" w-10 h-10 mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path opacity="1" fill="#163020" d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192h80v56H48V192zm0 104h80v64H48V296zm128 0h96v64H176V296zm144 0h80v64H320V296zm80-48H320V192h80v56zm0 160v40c0 8.8-7.2 16-16 16H320V408h80zm-128 0v56H176V408h96zm-144 0v56H64c-8.8 0-16-7.2-16-16V408h80zM272 248H176V192h96v56z"/></svg></div>
+                  <h3 class="text-xl font-bold mb-2 text-center">Take Date</h3>
+                  <p class="text-center"><%= pickup.takeDateFormatted %></p>
+                </div>
+              </div>
             <ul>
                 <% pickup.books.forEach(book => { %>
                     <a class="book-tag" href="/librarian/book_detail/<%= book._id %>">
@@ -40,9 +57,7 @@
                     </a>
                 <% }); %>
             </ul>
-            <p><strong>Created On:</strong> <%= pickup.createdOnFormatted %></p>
-            <p><strong>Take Date:</strong> <%= pickup.takeDateFormatted %></p>
-
+            
             <% if(pickup.status === 'Scheduled') { %>
                 <!-- Button display form to change date -->
                 <button data-modal-target="#pop-up-changeDate" id="changeDate">Change Pickup Date</button> 

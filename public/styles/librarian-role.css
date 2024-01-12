@@ -796,10 +796,15 @@ tbody tr .title:hover {
 
 /* Pickup details */
 .pickup-container {
-  height: 55vh;
   background-color: var(--theme-color-white);
 }
-
+.profile-name {
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 1rem;
+  margin: 1rem;
+  text-align: center;
+}
 #pickup-title { 
   font-size: 4rem;
   color: var(--theme-color-heavy-green);
