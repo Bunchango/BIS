@@ -834,6 +834,7 @@ tbody tr .title:hover {
   min-width: 500px;
   background-color: var(--theme-color-heavy-green);
   border-radius: 5px;
+  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.8);
 }
 
 
@@ -842,15 +843,16 @@ tbody tr .title:hover {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  background-color: var(--theme-color-white);
+  background-color: #f2f3ef;
   border-radius: 5px;
   align-items: center;
   padding: 5px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  margin: 10px 0;
 }
 
 #pickup-details .book-tag:hover{
-  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
   transition: 0.4s;
 }
 
