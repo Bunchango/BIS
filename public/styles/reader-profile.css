@@ -427,7 +427,7 @@
 }
 
 /* Borrow table */
-/* table for inventory */
+
 td img {
   width: 36px;
   height: 36px;
@@ -586,6 +586,7 @@ tbody tr.hiding td img {
 tbody tr .title {
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
 tbody tr .title:hover {
@@ -596,6 +597,10 @@ tbody tr .title:hover {
   padding: .4rem 0;
   border-radius: 2rem;
 }
+
+/* My pickup table */
+
+
 /* ------------------ */
 
 @media only screen and (max-width: 1000px) {

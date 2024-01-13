@@ -806,7 +806,8 @@ router.get("/dashboard", isLibrarian, async (req, res) => {
 
   if (notices) data.notices = notices;
   data.user = req.user;
-  res.render("librarian/dashboard", {data: data, user: req.user});
+  const user = await Librarian.findById(req.user._id).populate("library");
+  res.render("librarian/dashboard", {data: data, user: user});
 });
 
 // Add notification to the library
@@ -838,7 +839,7 @@ router.post("/notify/delete_notify/:id", async (req, res) => {
 
 // Librarian profile
 router.get("/profile", isLibrarian, async (req, res) => {
-    const user = await Librarian.findById(req.user._id).populate("library");
+  const user = await Librarian.findById(req.user._id).populate("library");
   res.render("librarian/profile", { user: user, errors: [] });
 });
 

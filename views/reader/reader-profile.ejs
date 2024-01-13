@@ -229,13 +229,13 @@
             </div>
 
             <!-- My Pickups -->
-            <div id="my-pickups" class="tabcontent shadow-xl">
+            <!-- <div id="my-pickups" class="tabcontent shadow-xl">
                 <ul>
                     <% if (pickups && pickups.length > 0) { %>
                         <% pickups.forEach(pickup => { %>
                             <li class="flex items-center space-x-4 p-4 border rounded-lg shadow-2xl">
                                <div class="flex-1 min-w-0">
-                                   <p class="text-sm font-medium text-gray-900"><strong>Library</strong><%= pickup.library.username %></p>
+                                   <p class="text-sm font-medium text-gray-900"><strong>Library: </strong><%= pickup.library.username %></p>
                                    <p class="text-sm text-gray-500"><strong>Created On: </strong><%= pickup.createdOnFormatted %></p>
                                    <p class="text-sm text-gray-500"><strong>Take Date: </strong><%= pickup.takeDateFormatted %></p>
              
@@ -259,37 +259,73 @@
                         <div id="empty-container" >You have no pickup</div>
                     <% } %> 
                 </ul>
-             </div>
+             </div> -->
+
+             
+            <!-- -------------- -------------- -->
+            <div id="my-pickups" class="tabcontent shadow-xl">
+                <section class="table_header">
+                    <div class="input-group-pickups">
+                        <input type="search" placeholder="Search Record...">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </section>
+                <section class="table_body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>library</th>
+                                <th>Created On</th>
+                                <th>Take Date</th>
+                                <th>Status</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody class="body-pickups">
+                            <% let counter_pickups = 0; %>
+                            <% if (pickups && pickups.length > 0) { %>
+                                <% pickups.forEach(pickup => { %>
+                                <tr class="tr-pickups"> 
+                                    <td><%= ++counter_pickups %></td>
+                                    <td>
+                                        <div class="title">
+                                        <img src="/<%= pickup.library.profilePicture %>" alt="Library">
+                                            <p><a href="/reader/library-profile/<%= pickup.library._id %>"> <%= pickup.library.username %> </a></p>
+                                        </div>
+                                        </td>
+                                    <td>
+                                        <p><%= pickup.createdOnFormatted %></p>
+                                    </td>
+                                    <td>
+                                        <p><%= pickup.takeDateFormatted %></p>
+                                    </td>
+                                    <td>
+                                        <% if (pickup.status == 'Scheduled') { %>
+                                        <p  class="text-blue-400"><%= pickup.status %></p>
+                                        <% } else if (pickup.status == 'Completed') { %>
+                                        <p class="text-green-600"><%= pickup.status %></p>
+                                        <% } else { %>
+                                        <p class="text-red-600"><%= loan.status %></p>
+                                        <% } %>
+                                    </td>
+                                    
+                                </tr>
+                                <% }) %>
+                            <% }; %>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            
              
 
             <!-- My Loan -->
-            <!-- <div id="my-loans" class="tabcontent">
-                <ul>
-                    <% if (loans && loans.length > 0) {%>
-                        <% loans.forEach(loan => { %>
-                        <li>
-                            <p><strong>Library:</strong> <%= loan.library.username %></p>
-                            <p></p>
-                            <ul>
-                                <% loan.books.forEach(book => { %>
-                                <li>
-                                    <p><%= book.book.title %></p>
-                                </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                        <% }); %>
-                    <% } else { %>
-                        <div id="empty-container" >You have no loan</div>
-                    <% } %>
-                </ul>
-            </div> -->
 
             <main id="my-loans" class="tabcontent shadow-xl">
                 <section class="table_header">
-                    
-                    <div class="input-group">
-                        <input type="search" placeholder="Search Book...">
+                    <div class="input-group-loan">
+                        <input type="search" placeholder="Search Record...">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                 </section>
@@ -305,15 +341,18 @@
                                 <th>Books</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="loan-body">
                             <% let counter = 0; %>
                             <% if (loans && loans.length > 0) {%>
                                 <% loans.forEach(loan => { %>
-                                <tr> 
+                                <tr class="tr-loan"> 
                                     <td><%= ++counter %></td>
-                                    <td class="title"><img src="/<%= loan.library.profilePicture %>" alt="Library">
-                                        <p><a href="/reader/library-profile/<%= loan.library._id %>"> <%= loan.library.username %> </a></p>
-                                    </td>
+                                    <td>
+                                        <div class="title">
+                                           <img src="/<%= loan.library.profilePicture %>" alt="Library">
+                                            <p><a href="/reader/library-profile/<%= loan.library._id %>"> <%= loan.library.username %> </a></p>
+                                        </div>
+                                        </td>
                                     <td>
                                         <p><%= loan.library.location.formattedAddress %></p>
                                     </td>

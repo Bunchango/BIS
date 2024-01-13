@@ -473,7 +473,7 @@ const fetchWishlist = async (req, res, next) => {
 
 const fetchPickups = async (req, res, next) => {
   try {
-    const pickups = await Pickup.find({reader: req.user._id}).populate("books").exec();
+    const pickups = await Pickup.find({reader: req.user._id}).populate("books").populate("library").exec();
 
     if (pickups) {
       pickups.forEach(pickup => {

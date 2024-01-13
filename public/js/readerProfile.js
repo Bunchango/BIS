@@ -115,19 +115,37 @@ document.querySelector('.pop-up-modal .submit-button').addEventListener('click',
 
 
 // Loan search
-const search = document.querySelector('.input-group input'),
-    table_rows= document.querySelectorAll('tbody tr');
+const search = document.querySelector('.input-group-loan input'),
+    table_rows= document.querySelectorAll('.loan-body .tr-loan');
 
-search.addEventListener('input', searchTable);
+search.addEventListener('input', searchTableLoan);
 
-function searchTable() {
+function searchTableLoan() {
     table_rows.forEach((row, i) => {
         let table_data = row.textContent.toLowerCase(),
             search_data = search.value.toLowerCase()
         row.classList.toggle('hiding', table_data.indexOf(search_data) < 0);
         row.style.setProperty('--delay', i/25 + 's')
     })
-    document.querySelectorAll('tbody tr:not(.hiding)').forEach((visible_row, i) => {
+    document.querySelectorAll('.loan-body .tr-loan:not(.hiding)').forEach((visible_row, i) => {
+        visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b'  
+    })
+}
+
+// Pickup 
+const searchPickup = document.querySelector('.input-group-pickups input'),
+    table_rows_pickups= document.querySelectorAll('.body-pickups .tr-pickups');
+
+searchPickup.addEventListener('input', searchTable);
+
+function searchTable() {
+    table_rows_pickups.forEach((row, i) => {
+        let table_data = row.textContent.toLowerCase(),
+            search_data = searchPickup.value.toLowerCase()
+        row.classList.toggle('hiding', table_data.indexOf(search_data) < 0);
+        row.style.setProperty('--delay', i/25 + 's')
+    })
+    document.querySelectorAll('.body-pickups .tr-pickups:not(.hiding)').forEach((visible_row, i) => {
         visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b'  
     })
 }
