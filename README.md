@@ -1,5 +1,5 @@
 1. How to run the code:
-- Use this command: node map.js
+- Use this command: node app.js
 - Make sure you are in the correct folder and nodejs is installed on your machine
 
 2. How to login
