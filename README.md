@@ -1,6 +1,6 @@
 1. How to run the code:
-Use this command: node map.js
-Make sure you are in the correct folder and nodejs is installed on your machine
+- Use this command: node map.js
+- Make sure you are in the correct folder and nodejs is installed on your machine
 
 2. How to login
 Use these email and password to login to your respective accounts from the login page
