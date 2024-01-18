@@ -1,6 +1,7 @@
 1. How to run the code:
 - Use this command: node app.js
 - Make sure you are in the correct folder and nodejs is installed on your machine
+- Open localhost:5000
 
 2. How to login
 Use these email and password to login to your respective accounts from the login page
